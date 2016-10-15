@@ -10,6 +10,8 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="ui-bootstrap-tpls-2.2.0.min.js"></script>
+<script src="genquizitive.js"></script>
 <style>
 	body {
 		background-image: url('home_background.jpg');
@@ -62,6 +64,44 @@
 		top: 0px;
 		margin-top: 68%;
 	}
+	#facebook {
+		position: absolute;
+		left: 0px;
+		margin-left: 10%;
+		width: 40%;
+		min-width: 100px;
+		top: 0px;
+		margin-top: 71%;
+		color: white;
+		font-size: 170%;
+	}
+	#button2 {
+		left: 0px;
+		margin-left: 7%;
+		width: 45%;
+		min-width: 140px;
+		top: 0px;
+		margin-top: 88%;
+	}
+	#familysearch {
+		position: absolute;
+		left: 0px;
+		margin-left: 10%;
+		width: 40%;
+		min-width: 100px;
+		top: 0px;
+		margin-top: 91%;
+		color: white;
+		font-size: 170%;
+	}
+	#startbutton {
+		left: 0px;
+		margin-left: 4%;
+		width: 45%;
+		min-width: 140px;
+		top: 0px;
+		margin-top: 70%;
+	}
 </style>
 <script>
 	$(document).ready(function() {
@@ -81,13 +121,41 @@
 	});
 </script>
 </head>
-<body>
-	<div class="text-center">
+<body ng-app="genquizitive">
+	<script>
+	  window.fbAsyncInit = function() {
+		FB.init({
+		  appId      : '117261595410072',
+		  xfbml      : true,
+		  version    : 'v2.8'
+		});
+		FB.AppEvents.logPageView();
+	  };
+
+	  (function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+	</script>
+	<div class="text-center" ng-controller="getstarted">
 		<div class="center-logo">
 			<img id="home_pole" src="pole1.png" />
 			<img id="home_arrows" src="home_arrow1.png" />
 			<img id="home_sign" src="home_sign.png" />
-			<img id="button1" src="button_blue_oval.png" />
+			<img id="button1" ng-if="!isLoggedIn" src="button_blue_oval.png" ng-click="play()" />
+			<div id="facebook" ng-if="!isLoggedIn" ng-click="play()">
+				Play Now!
+			</div>
+			<img id="startbutton" ng-if="isLoggedIn" src="button_start_new_game.png" ng-click="startGame()" />
+			<!--
+			<img id="button2" src="button_blue_oval.png" />
+			<div id="familysearch">
+				Sign in with<br/>FamilySearch
+			</div>
+			-->
 		</div>
 	</div>
 </body>
