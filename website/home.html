@@ -1,0 +1,94 @@
+<html>
+<head>
+	<title>GenQuizitive</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<style>
+	body {
+		background-image: url('home_background.jpg');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-position: left center;
+	}
+	.center-logo {
+		width: 50%;
+		height: 100%;
+		max-height: 100%;
+		max-width: 50%;
+		margin-bottom: 0px;
+		margin-left: auto;
+		position: relative;
+		min-width: 300px;
+	}
+	.center-logo img {
+		position: absolute;
+	}
+	
+	#home_sign {
+		top: 4%;
+		margin-top: 10%;
+		left: 0px;
+		width: 65%;
+		min-width: 200px;
+	}
+	#home_arrows {
+		top: 4%;
+		left: 0px;
+		margin-left: 10%;
+		width: 49%;
+		min-width: 150px;
+	}
+	#home_pole {
+		margin-left: 28%;
+		left: 0px;
+		top: 25%;
+		height: 75%;
+		width: 3%;
+		min-width: 10px;
+	}
+	#button1 {
+		left: 0px;
+		margin-left: 7%;
+		width: 45%;
+		min-width: 140px;
+		top: 0px;
+		margin-top: 68%;
+	}
+</style>
+<script>
+	$(document).ready(function() {
+		var arrow = 3;
+		var arrows = [];
+		arrows[0] = new Image();
+		arrows[0].src = 'home_arrow1.png';
+		arrows[1] = new Image();
+		arrows[1].src = 'home_arrow2.png';
+		arrows[2] = new Image();
+		arrows[2].src = 'home_arrow3.png';
+		window.setInterval(function() {
+			arrow--;
+			if (arrow < 0) arrow = 2;
+			$('#home_arrows').attr('src', arrows[arrow].src);
+		}, 400);
+	});
+</script>
+</head>
+<body>
+	<div class="text-center">
+		<div class="center-logo">
+			<img id="home_pole" src="pole1.png" />
+			<img id="home_arrows" src="home_arrow1.png" />
+			<img id="home_sign" src="home_sign.png" />
+			<img id="button1" src="button_blue_oval.png" />
+		</div>
+	</div>
+</body>
+</html>
