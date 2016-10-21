@@ -18,6 +18,10 @@ body {
 .center-logo img {
 	position: absolute;
 }
+.center-logo span {
+	color: #ece8be;
+	font-weight: bold;
+}
 
 #home_sign {
 	top: 4%;
@@ -48,6 +52,7 @@ body {
 	min-width: 140px;
 	top: 0px;
 	margin-top: 68%;
+	cursor: pointer;
 }
 #facebook {
 	position: absolute;
@@ -59,6 +64,7 @@ body {
 	margin-top: 71%;
 	color: white;
 	font-size: 170%;
+	cursor: pointer;
 }
 #button2 {
 	left: 0px;
@@ -67,6 +73,7 @@ body {
 	min-width: 140px;
 	top: 0px;
 	margin-top: 88%;
+	cursor: pointer;
 }
 #familysearch {
 	position: absolute;
@@ -78,12 +85,55 @@ body {
 	margin-top: 91%;
 	color: white;
 	font-size: 170%;
+	cursor: pointer;
 }
-#startbutton {
+#menubuttons {
+	position: absolute;
 	left: 0px;
-	margin-left: 4%;
+	margin-left: 7%;
 	width: 45%;
 	min-width: 140px;
 	top: 0px;
-	margin-top: 70%;
+	margin-top: 35%;
+	height: 50%;
+}
+.arrow-button {
+	position: relative;
+	margin-top: 10px;
+	width: 100%;
+	text-decoration: none;
+	font-size: 170%;
+	font-weight: bold;
+	color: #FAFAFA;
+	text-align: center;
+}
+.arrow-button:hover {
+	color: white;
+	text-decoration: none;
+}
+.arrow-button img {
+	position: relative;
+	width: 100%;
+}
+.arrow-button img.left {
+	left: -10px;
+}
+.arrow-button img.right {
+	left: 10px;
+}
+.arrow-button .button-text {
+	position: absolute;
+}
+.small-logo {
+	position: absolute;
+	top: 20px;
+	left: 200px;
+}
+.small-logo #home_sign {
+	position: absolute;
+	width: 150px;
+}
+.small-logo #home_arrows {
+	position: absolute;
+	width: 125px;
 }

@@ -1,6 +1,15 @@
 <div class="text-center" ng-controller="menuController">
 	<div class="center-logo">
 		<img id="home_pole" src="pole1.png" />
-		<img id="startbutton" src="button_start_new_game.png" ng-click="startGame()" />
+		<div id="menubuttons">
+			<a class="arrow-button" ng-repeat="menuItem in menuItems" href="#{{menuItem.route}}">
+				<img class="arrow-{{menuItem.button}}" src="button_sign_arrow_{{menuItem.button}}.png" />
+				<div class="button-text">{{menuItem.title}}</div>
+			</a>
+		</div>
+	</div>
+	<div class="small-logo">
+		<img id="home_arrows" src="home_arrow1.png" />
+		<img id="home_sign" src="home_sign.png" />
 	</div>
 </div>

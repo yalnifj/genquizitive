@@ -1,16 +1,14 @@
 angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
 .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
-      $locationProvider.hashPrefix('!');
-
       $routeProvider.
         when('/', {
           templateUrl: 'getting-started.html'
         }).
         when('/menu', {
-          template: 'menu.html'
+          templateUrl: 'menu.html'
         }).
-        otherwise('/');
+        otherwise({ redirectTo: '/' });
     }
 ])
 .service('facebookService', ['$q', function($q) {
@@ -150,5 +148,9 @@ angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
 	});
 })
 .controller('menuController', function($scope, $uibModal) {
+	$scope.menuItems = [
+		{route: '/practice', title: 'Practice Round', button: 'left'},
+		{route: '/challenge', title: 'Challenge a Friend', button: 'right'}
+	];
 })
 ;
