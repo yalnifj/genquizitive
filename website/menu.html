@@ -2,8 +2,8 @@
 	<div class="center-logo">
 		<img id="home_pole" src="pole1.png" />
 		<div id="menubuttons">
-			<a class="arrow-button" ng-repeat="menuItem in menuItems" href="#{{menuItem.route}}">
-				<img class="arrow-{{menuItem.button}}" src="button_sign_arrow_{{menuItem.button}}.png" />
+			<a class="arrow-button arrow-{{menuItem.button}}" ng-repeat="menuItem in menuItems" href="#{{menuItem.route}}">
+				<img src="button_sign_arrow_{{menuItem.button}}.png" />
 				<div class="button-text">{{menuItem.title}}</div>
 			</a>
 		</div>

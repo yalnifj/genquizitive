@@ -1,14 +1,21 @@
 angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
 .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
-      $routeProvider.
-        when('/', {
-          templateUrl: 'getting-started.html'
-        }).
-        when('/menu', {
-          templateUrl: 'menu.html'
-        }).
-        otherwise({ redirectTo: '/' });
+      $routeProvider
+		.when('/', {
+			templateUrl: 'getting-started.html'
+        })
+		.when('/:page', {
+			templateUrl: function($routeParams) {
+				return $routeParams.page +'.html';
+			}
+        })
+		.when('/question/:page', {
+			templateUrl: function($routeParams) {
+				return 'questions/'+$routeParams.page +'.html';
+			}
+        })
+		.otherwise({ redirectTo: '/' });
     }
 ])
 .service('facebookService', ['$q', function($q) {
@@ -53,6 +60,10 @@ angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
 			}
 		}, {scope: 'public_profile,email,user_friends,user_relationships'});
 		return deferred.promise;
+	};
+	
+	this.fbLogout = function() {
+		FB.logout();
 	};
 	
 	this.fbGetUser = function() {
@@ -124,6 +135,9 @@ angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
 	}
 	
 	$scope.fbLogin = function() {
+		if (facebookService.facebookUser) {
+			facebookService.fbLogout();
+		}
 		facebookService.fbLogin().then(function(fbUser) {
 			$scope.fbUserName = fbUser.name;
 			$scope.fbLoggedIn = true;
