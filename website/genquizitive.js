@@ -1,82 +1,154 @@
-angular.module('genquizitive', ['ui.bootstrap'])
-.controller('getstarted', function($scope, $uibModal) {
-	$scope.isLoggedIn = false;
+angular.module('genquizitive', ['ngRoute','ui.bootstrap'])
+.config(['$locationProvider', '$routeProvider',
+    function config($locationProvider, $routeProvider) {
+      $locationProvider.hashPrefix('!');
+
+      $routeProvider.
+        when('/', {
+          templateUrl: 'getting-started.html'
+        }).
+        when('/menu', {
+          template: 'menu.html'
+        }).
+        otherwise('/');
+    }
+])
+.service('facebookService', ['$q', function($q) {
+	this.facebookUser = null;
 	
-	$scope.fs = new FamilySearch({
+	this.fbLoginStatus = function() {
+		var deferred = $q.defer();
+		var temp = this;
+		FB.getLoginStatus(function(response) {
+			console.log(response.status);
+			if (response.status === 'connected') {
+				// Logged into your app and Facebook.
+				temp.fbGetUser().then(function() {
+					deferred.resolve(temp.facebookUser);
+				});
+			} else {
+				deferred.reject(response.body);
+			}
+		});
+		return deferred.promise;
+	};
+	
+	this.fbLogin = function() {
+		var deferred = $q.defer();
+		var temp = this;
+		FB.login(function(response) {
+			console.log(response.status);
+			if (response.status === 'connected') {
+				// Logged into your app and Facebook.
+				temp.fbGetUser().then(function() {
+					deferred.resolve(temp.facebookUser);
+				});
+			} else if (response.status === 'not_authorized') {
+				// The person is logged into Facebook, but not your app.
+				//alert('Facebook login failed');
+				deferred.reject(response.body);
+			} else {
+				// The person is not logged into Facebook, so we're not sure if
+				// they are logged into this app or not.
+				//alert('Facebook login failed');
+				deferred.reject(response.body);
+			}
+		}, {scope: 'public_profile,email,user_friends,user_relationships'});
+		return deferred.promise;
+	};
+	
+	this.fbGetUser = function() {
+		var deferred = $q.defer();
+		var temp = this;
+		FB.api('/me', function(response) {
+			temp.facebookUser = response;
+			deferred.resolve(temp.facebookUser);
+			console.log('Successful login for: ' + response.name);
+		});
+		return deferred.promise;
+	}
+}])
+.service('familysearchService', ['$q', function($q) {
+	this.fsUser = null;
+	
+	this.fs = new FamilySearch({
 	  //environment: 'production',
 	  environment: 'sandbox',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'http://genquizitive.com/fsoauth.php',
+	  redirectUri: 'http://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10
 	});
 	
-	$scope.fsLogin = function() {
-		$scope.fs.oauthRedirect();
+	this.fsLoginStatus = function() {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/tree/current-person', function(response){
+			if (response.statusCode==200) {
+				temp.fsUser = response.body;
+				deferred.resolve(temp.fsUser);
+			} else {
+				deferred.reject(response.body);
+			}
+		});
+		return deferred.promise;
 	};
 	
-	$scope.fsHandleOathResponse = function(response) {
-		if (response) {
-			console.log(response);
-			if (response.statusCode == 200) {
-				
-			}
-		}
+	this.fsLogin = function() {
+		window.open('fs-login.html', 'fs', 'width=600,height=500');
 	};
+}])
+.controller('getstarted', function($scope, familysearchService, facebookService) {
+	$scope.fsLoggedIn = false;
+	$scope.fsUserName = "";
+	$scope.fbLoggedIn = false;
+	$scope.fbUserName = "";
+	$scope.$on('fsLoginComplete', function() {
+		familysearchService.fsLoginStatus().then(function(fsUser) {
+			$scope.fsLoggedIn = true;
+			$scope.checkLogin();
+		});
+	});
+	
+	$scope.checkLogin = function() {
+		if (facebookService.facebookUser && familysearchService.fsUser) {
+			$location.path('/menu');
+		}
+	}
+	
+	$scope.fsLogin = function() {
+		familysearchService.fsLogin().then(function(fsUser) {
+			$scope.fsLoggedIn = true;
+			$scope.fsUserName = fsUser.name;
+			$scope.checkLogin();
+		});
+	}
 	
 	$scope.fbLogin = function() {
-		FB.login(function(response) {
-			console.log(response.status);
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
-			}
-		}, {scope: 'public_profile,email,user_friends,user_relationships'});
-	};
-	
-	$scope.play = function() {
-		
-		FB.getLoginStatus(function(response) {
-			console.log(response.status);
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				$scope.fsLogin();
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
-				$scope.fbLogin();
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
-				$scope.fbLogin();
-			}
+		facebookService.fbLogin().then(function(fbUser) {
+			$scope.fbUserName = fbUser.name;
+			$scope.fbLoggedIn = true;
+			$scope.checkLogin();
 		});
-
-	};
-	
-	$scope.FBok = function() {
-		$scope.modalInstance.dismiss();
-		$scope.showFS();
 	}
 	
-	$scope.FSok = function() {
-		$scope.modalInstance.dismiss();
-		$scope.isLoggedIn = true;
-	}
-	
-	$scope.cancel = function() {
-		$scope.modalInstance.dismiss();
-	}
-	
-	$scope.showFS = function() {
-		$scope.modalInstance = $uibModal.open({
-		  templateUrl: 'familysearch-modal.html',
-		  scope: $scope
+	familysearchService.fsLoginStatus().then(function(fsUser){
+		$scope.fsLoggedIn = true;
+		$scope.fsUserName = fsUser.name;
+		facebookService.fbLoginStatus().then(function(fbUser){
+			$scope.fbUserName = fbUser.name;
+			$scope.fbLoggedIn = true;
+			$scope.checkLogin();
 		});
-	};
+	}, function() {
+		facebookService.fbLoginStatus().then(function(fbUser){
+			$scope.fbLoggedIn = true;
+			$scope.fbUserName = fbUser.name;
+			$scope.checkLogin();
+		});
+	});
+})
+.controller('menuController', function($scope, $uibModal) {
 })
 ;

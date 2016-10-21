@@ -11,6 +11,7 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
 <script src="ui-bootstrap-tpls-2.2.0.min.js"></script>
 <script src="FamilySearch.js"></script>
 <script src="genquizitive.js"></script>
@@ -30,6 +31,11 @@
 			$('#home_arrows').attr('src', arrows[arrow].src);
 		}, 400);
 	});
+	
+	function fsLoginComplete() {
+		$scope = $('body').scope();
+		$scope.$broadcast('fsLoginComplete');
+	}
 </script>
 </head>
 <body ng-app="genquizitive">
@@ -51,23 +57,8 @@
 		 fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
 	</script>
-	<div class="text-center" ng-controller="getstarted">
-		<div class="center-logo">
-			<img id="home_pole" src="pole1.png" />
-			<img id="home_arrows" src="home_arrow1.png" />
-			<img id="home_sign" src="home_sign.png" />
-			<img id="button1" ng-if="!isLoggedIn" src="button_blue_oval.png" ng-click="play()" />
-			<div id="facebook" ng-if="!isLoggedIn" ng-click="play()">
-				Play Now!
-			</div>
-			<img id="startbutton" ng-if="isLoggedIn" src="button_start_new_game.png" ng-click="startGame()" />
-			<!--
-			<img id="button2" src="button_blue_oval.png" />
-			<div id="familysearch">
-				Sign in with<br/>FamilySearch
-			</div>
-			-->
-		</div>
-	</div>
+	
+	<div ng-view></div>
+
 </body>
 </html>
