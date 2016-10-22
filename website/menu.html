@@ -1,5 +1,8 @@
 <div class="text-center" ng-controller="menuController">
 	<div class="center-logo">
+		<div style="position: absolute; left: 280px; top: 125px;">
+			<div avatar-badge src="pictureUrl" class="avatar"></div>
+		</div>
 		<img id="home_pole" src="pole1.png" />
 		<div id="menubuttons">
 			<a class="arrow-button arrow-{{menuItem.button}}" ng-repeat="menuItem in menuItems" href="#{{menuItem.route}}">

@@ -7,11 +7,13 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <link rel="stylesheet" href="genquizitive.css">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.min.js"></script>
 <script src="ui-bootstrap-tpls-2.2.0.min.js"></script>
 <script src="FamilySearch.js"></script>
 <script src="genquizitive.js"></script>
@@ -32,13 +34,13 @@
 		}, 400);
 	});
 	
-	function fsLoginComplete() {
+	function fsLoginComplete(response) {
 		$scope = $('body').scope();
-		$scope.$broadcast('fsLoginComplete');
+		$scope.$broadcast('fsLoginComplete', response);
 	}
 </script>
 </head>
-<body ng-app="genquizitive">
+<body ng-app="genquizitive" backgrounds="">
 	<script>
 	  window.fbAsyncInit = function() {
 		FB.init({

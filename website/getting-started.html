@@ -7,6 +7,7 @@
 		<div id="facebook" class="sign-button" ng-click="fbLogin()">
 			<span ng-show="!fbLoggedIn">Connect to<br/>Facebook</span>
 			<span ng-show="fbLoggedIn">Welcome<br/>{{fbUserName}}</span>
+			<div avatar-badge ng-show="fbHasPicture" src="fbUser.picture.data.url" class="avatar"></div>
 		</div>
 		<img id="button2" class="sign-button" src="button_blue_oval.png" />
 		<div id="familysearch" ng-click="fsLogin()">

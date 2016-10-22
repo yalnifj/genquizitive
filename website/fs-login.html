@@ -27,8 +27,7 @@ var fscheck = fs.oauthResponse(function(response){
 	console.log(response);
 	
 	fs.get('/platform/tree/current-person', function(response){
-		console.log(response);
-		window.opener.fsLoginComplete();
+		window.opener.fsLoginComplete(response);
 	});
 });
 
