@@ -34,9 +34,11 @@ var fscheck = fs.oauthResponse(function(response){
 if (!fscheck) {
 	fs.oauthRedirect();
 }
+
 	</script>
 	<div>
 	<h3>Connecting to FamilySearch...</h3>
+	<a href="#" onclick="fs.oauthRedirect(); return false;">Login</a>
 	</div>
 </body>
 </html>

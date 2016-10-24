@@ -1,4 +1,4 @@
-angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
+angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.questions'])
 .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
       $routeProvider
@@ -34,41 +34,49 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 	this.fbLoginStatus = function() {
 		var deferred = $q.defer();
 		var temp = this;
-		FB.getLoginStatus(function(response) {
-			console.log(response.status);
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				temp.fbGetUser().then(function() {
-					deferred.resolve(temp.facebookUser);
-				});
-			} else {
-				deferred.reject(response.body);
-			}
-		});
+		if (!window.FB) {
+			deferred.reject("Could not communicate with Facebook");
+		} else {
+			FB.getLoginStatus(function(response) {
+				console.log(response.status);
+				if (response.status === 'connected') {
+					// Logged into your app and Facebook.
+					temp.fbGetUser().then(function() {
+						deferred.resolve(temp.facebookUser);
+					});
+				} else {
+					deferred.reject(response.body);
+				}
+			});
+		}
 		return deferred.promise;
 	};
 	
 	this.fbLogin = function() {
 		var deferred = $q.defer();
 		var temp = this;
-		FB.login(function(response) {
-			console.log(response.status);
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				temp.fbGetUser().then(function() {
-					deferred.resolve(temp.facebookUser);
-				});
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
-				//alert('Facebook login failed');
-				deferred.reject(response.body);
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
-				//alert('Facebook login failed');
-				deferred.reject(response.body);
-			}
-		}, {scope: 'public_profile,email,user_friends,user_relationships'});
+		if (!window.FB) {
+			deferred.reject("Could not communicate with Facebook");
+		} else {
+			FB.login(function(response) {
+				console.log(response.status);
+				if (response.status === 'connected') {
+					// Logged into your app and Facebook.
+					temp.fbGetUser().then(function() {
+						deferred.resolve(temp.facebookUser);
+					});
+				} else if (response.status === 'not_authorized') {
+					// The person is logged into Facebook, but not your app.
+					//alert('Facebook login failed');
+					deferred.reject(response.body);
+				} else {
+					// The person is not logged into Facebook, so we're not sure if
+					// they are logged into this app or not.
+					//alert('Facebook login failed');
+					deferred.reject(response.body);
+				}
+			}, {scope: 'public_profile,email,user_friends,user_relationships'});
+		}
 		return deferred.promise;
 	};
 	
@@ -117,7 +125,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 				temp.usedPeople[temp.fsUser.id] = true;
 				temp.getAncestorTree(temp.fsUser.id);
 				temp.getPersonPortrait(temp.fsUser.id);
-				this.startBackgroundQueue();
+				temp.startBackgroundQueue();
 				deferred.resolve(temp.fsUser);
 			} else {
 				deferred.reject(response.body);
@@ -281,21 +289,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 		};
 		
 		$scope.close = function() {
-			$scope.element.animate({top: '-500px'}, 1000).remove();
+			$scope.element.animate({top: '-500px'}, {duration: 800, complete: function() { $scope.element.remove(); } });
 		};
 		
 		return $scope;
 	};
-}])
-.service ('QuestionService', [function() {
-	this.question = [
-		{name: 'photo1', difficulty: 1}
-	];
-	
-	this.getRandomQuestion = function () {
-		var q = Msth.floor (Math.random () * this.question.length);
-		return this.questions [q];
-	}
 }])
 .directive('countdown', ['$interval', '$timeout', function($interval, $timeout) {
 	return {
@@ -344,28 +342,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 			if (!$scope.src && facebookService.facebookUser) {
 				$scope.src = facebookService.facebookUser.picture.data.url;
 			}
-		}
-	}
-}])
-.directive('question', ['QuestionService', '$compile', function (QuestionService, $compile) {
-	return {
-		scope: {
-			question: '='
-		},
-		link ($scope, $element, $attr) {
-			$scope.loadQuestion = function () {
-				$scope.$emit('changeBackground', 'questions/'+$scope.question.name+'/background.jpg');
-				
-				var templateUrl = 'questions/'+$scope.question.name+'/question.html';
-				var qel = $compile(templateUrl)($scope);
-				$element.append(qel);
-			}
-			
-			$scope.$watch('question', function (newval, oldval) {
-				if (newval && newval!=oldval) {
-					$scope.loadQuestion();
-				}
-			});
 		}
 	}
 }])
@@ -421,6 +397,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 			$scope.fbHasPicture = facebookService.hasPicture;
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
+		}, function(error) {
+			var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+			notif.show();
 		});
 	}, function() {
 		facebookService.fbLoginStatus().then(function(fbUser){
@@ -429,6 +408,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 			$scope.fbHasPicture = facebookService.hasPicture;
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
+		}, function(error) {
+			var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+			notif.show();
 		});
 	});
 })
@@ -439,7 +421,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 		{route: '/challenge', title: 'Challenge a Friend', button: 'right'}
 	];
 })
-.controller('practiceController', function($scope, notificationService, QuestionService) {
+.controller('practiceController', function($scope, notificationService, QuestionService, familysearchService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	
 	var notif = notificationService.showNotification({title: 'Practice Round', message: 'Answer the questions as quickly as you can.'});
@@ -447,7 +429,18 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap'])
 	
 	$scope.startRound = function() {
 		notif.close();
+		/*
 		var question = QuestionService.getRandomQuestion();
+		familysearchService.getRandomPersonWithPortrait().then(function(person) {
+			$scope.person = person;
+		});
+		*/
 	}
+})
+.controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
+	$scope.$emit('changeBackground', 'home_background.jpg');
+	
+	$scope.questions = QuestionService.questions;
+	$scope.question = $scope.questions[0];
 })
 ;

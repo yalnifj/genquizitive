@@ -1,0 +1,5 @@
+<div class="text-center" ng-controller="testQuestionController">
+	Question: <select name="question" ng-model="question" ng-options="question.name for question in questions">
+	</select>
+	<div ng-if="question" question="question" style="height: 97%"></div>
+</div>
