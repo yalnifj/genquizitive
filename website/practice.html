@@ -1,3 +1,4 @@
 <div class="text-center" ng-controller="practiceController">
-	<div class="countdown" callback="startRound()" remove="true" delay-start="1000" style="position: relative; top: 350px;"></div>
+	<div class="countdown" ng-if="!question" callback="startRound()" remove="true" delay-start="1000" style="position: relative; top: 350px;"></div>
+	<div ng-if="question" question="question"></div>
 </div>
