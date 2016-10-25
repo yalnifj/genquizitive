@@ -1,7 +1,18 @@
 angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 .service ('QuestionService', ['familysearchService', '$http', '$sce', '$q', '$templateCache', function(familysearchService, $http, $sce, $q, $templateCache) {
 	this.questions = [
-		{name: 'photo1', difficulty: 1}
+		{
+			name: 'photo1', 
+			difficulty: 1, 
+			setup: function() {
+				var question = this;
+				familysearchService.getRandomPersonWithPortrait().then(function(person) {
+					question.person = person;
+				}, function(error){
+					console.log(error);
+				});
+			}
+		}
 	];
 	
 	/**

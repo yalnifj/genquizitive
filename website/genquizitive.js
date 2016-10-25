@@ -184,6 +184,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		return deferred.promise;
 	};
 	
+	this.getPersonRelatives = function(personId, noCache) {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+			var persons = [];
+			for(var p=0; p < response.data.persons.length; p++) {
+				var pid = response.data.persons[p].id;
+				if (temp.people[pid]) {
+					persons.push(temp.people[pid]);
+				} else {
+					
+				}
+			}
+		});
+		return deferred.promise;
+	};
+	
 	this.getPersonPortrait = function(personId) {
 		var deferred = $q.defer();
 		if (this.people[personId] && this.people[personId].portrait) {
@@ -461,12 +478,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	familysearchService.fsLoginStatus().then(function() {
 		familysearchService.usedPeople = {};
-		familysearchService.getRandomPersonWithPortrait().then(function(person) {
-			$scope.person = person;
-			$scope.question.person = person;
-		}, function(error){
-			console.log(error);
-		});
+		$scope.question.setup();
 	});
 	
 	$scope.$watch('question', function(newval, oldval) {
