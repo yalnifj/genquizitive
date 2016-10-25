@@ -59,5 +59,29 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 }])
 .controller('photo1Controller', function($scope, familysearchService) {
 	console.log($scope.question);
+	
+	$scope.questionText = 'Who is shown in this picture?';
+	
+	$scope.$watch('question.person', function() {
+		if ($scope.question && $scope.question.person) {
+			$scope.picture = $scope.question.person.portrait;
+		}
+	});
+	
+	$scope.guess1 = function() {
+		console.log("guess 1 clicked");
+	};
+	
+	$scope.guess2 = function() {
+		console.log("guess 2 clicked");
+	};
+	
+	$scope.guess3 = function() {
+		console.log("guess 3 clicked");
+	};
+	
+	$scope.guess4 = function() {
+		console.log("guess 4 clicked");
+	};
 })
 ;

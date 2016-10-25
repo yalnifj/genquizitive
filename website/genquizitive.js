@@ -45,7 +45,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 						deferred.resolve(temp.facebookUser);
 					});
 				} else {
-					deferred.reject(response.body);
+					if (response.status !== 'unknown') {
+						deferred.reject(response.body);
+					}
 				}
 			});
 		}
@@ -122,6 +124,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		this.fs.get('/platform/tree/current-person', function(response){
 			if (response.statusCode==200) {
 				temp.fsUser = response.data.persons[0];
+				temp.people[temp.fsUser.id] = temp.fsUser;
 				temp.usedPeople[temp.fsUser.id] = true;
 				temp.getAncestorTree(temp.fsUser.id);
 				temp.getPersonPortrait(temp.fsUser.id);
@@ -205,41 +208,45 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	this.getRandomPersonWithPortrait = function() {
 		var deferred = $q.defer();
-		if (this.portraitPeople.length > 0) {
+		if (Object.keys(this.portraitPeople).length > 0) {
 			var count = 0;
 			var person = null;
 			while(count < 5 && person == null) {
 				var keys = Object.keys(this.portraitPeople);
 				var rand = Math.floor(Math.random() * keys.length);
 				var randomId = keys[rand];
-				if (!usedPeople[randomId]) {
+				if (!this.usedPeople[randomId]) {
 					person = randomId;
 				}
+				count++;
 			}
 			if (person != null) {
-				deferred.resolve(person);
+				deferred.resolve(this.people[person]);
 				return deferred.promise;
 			}
 		}
-		if (this.people.length > 0) {
+		if (Object.keys(this.people).length > 0) {
 			var count = 0;
 			var person = null;
 			while(count < 5 && person == null) {
 				var keys = Object.keys(this.people);
 				var rand = Math.floor(Math.random() * keys.length);
 				var randomId = keys[rand];
-				if (!usedPeople[randomId]) {
+				if (!this.usedPeople[randomId]) {
 					person = randomId;
 				}
+				count++;
 			}
 			if (person != null) {
+				var temp = this;
 				this.getPersonPortrait(person).then(function() {
-						deferred.resolve(person);
+						deferred.resolve(temp.people[person]);
 					}, function(error) {
 						deferred.reject('No portrait for '+person);
 					});
+			} else {
+				deferred.reject('No people available');
 			}
-			deferred.reject('No people available');
 		} else {
 			deferred.reject('No people loaded');
 		}
@@ -261,7 +268,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				}
 			}
 			if (person != null) {
-				deferred.resolve(person);
+				deferred.resolve(this.people[person]);
 			} else {
 				deferred.reject ('No people available')
 			}
@@ -343,6 +350,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				$scope.src = facebookService.facebookUser.picture.data.url;
 			}
 		}
+	}
+}])
+.directive('answerButton', [function() {
+	return {
+		scope: {
+			label: '=',
+			background: '@'
+		},
+		template: '<div class="answer-button" style="background-image: url(\'{{background}}\');">{{label}}</div>'
 	}
 }])
 .controller('getstarted', function($scope, familysearchService, facebookService, $location, $timeout, notificationService) {
@@ -442,5 +458,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.questions = QuestionService.questions;
 	$scope.question = $scope.questions[0];
+	
+	familysearchService.fsLoginStatus().then(function() {
+		familysearchService.usedPeople = {};
+		familysearchService.getRandomPersonWithPortrait().then(function(person) {
+			$scope.person = person;
+			$scope.question.person = person;
+		}, function(error){
+			console.log(error);
+		});
+	});
+	
+	$scope.$watch('question', function(newval, oldval) {
+		if (newval != oldval) {
+			if (oldval) oldval.person = null;
+			if (newval) newval.person = $scope.person;
+		}
+	});
 })
 ;

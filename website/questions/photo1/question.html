@@ -2,7 +2,29 @@
 	<img style="position: absolute; top: 40px; left: 345px; width: 8px; height: 100px;" src="pole1.png" />
 	<img style="position: absolute; top: 0px; left: 300px;" src="questions/photo1/star.png" />
 	<img style="position: absolute; top: 200px; left: 340px; width: 20px; height: 70%;" src="pole1.png" />
-	<img style="position: absolute; top: 80px; left: 150px;" src="questions/photo1/back.png" />
-	<div class="rounded-red" style="position: absolute; top: 140px; left: 250px; width: 200px; height: 200px;">
+	<img style="position: absolute; top: 70px; left: 150px;" src="questions/photo1/back.png" />
+	<div class="rounded-red" style="position: absolute; top: 130px; left: 250px; width: 200px; height: 200px;">
+		<img src="{{picture}}" style="position: absolute; top: 10px; left: 10px; width: 180px; height: 180px;" />
+	</div>
+	<img style="position: absolute; top: 540px; left: 245px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 540px; left: 360px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 625px; left: 245px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 625px; left: 360px; width: 100px; height: 8px;" src="pole2.png" />
+	
+	<div answer-button="" label="person1.display.name" background="button_red_oval.png" ng-click="guess1()" 
+		style="position:absolute; width:215px; height: 79px; top: 505px; left: 100px;">
+	</div>
+	<div answer-button="" label="person2.display.name" background="button_red_oval.png" ng-click="guess2()" 
+		style="position:absolute; width:215px; height: 79px; top: 590px; left: 100px;">
+	</div>
+	<div answer-button="" label="person3.display.name" background="button_red_oval.png" ng-click="guess3()" 
+		style="position:absolute; width:215px; height: 79px; top: 505px; left: 390px;">
+	</div>
+	<div answer-button="" label="person4.display.name" background="button_red_oval.png" ng-click="guess4()" 
+		style="position:absolute; width:215px; height: 79px; top: 590px; left: 390px;">
+	</div>
+	
+	<div class="question-block" style="position: absolute; top: 335px; left: 220px; width: 250px; height: 150px;">
+		{{questionText}}
 	</div>
 </div>
