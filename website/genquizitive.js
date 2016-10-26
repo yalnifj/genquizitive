@@ -100,7 +100,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		return deferred.promise;
 	}
 }])
-.service('familysearchService', ['$q','$cookies', '$interval', function($q, $cookies, $interval) {
+.service('familysearchService', ['$q','$cookies', '$interval', '$http', '$sce', function($q, $cookies, $interval, $http, $sce) {
 	this.fsUser = null;
 	
 	this.people = {};
@@ -129,7 +129,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				temp.getAncestorTree(temp.fsUser.id);
 				temp.getPersonPortrait(temp.fsUser.id);
 				temp.startBackgroundQueue();
+				$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': temp.fs.tokenCookie});
+				//$http.defaults.headers.common['Authorization'] = "Bearer "+temp.fs.tokenCookie; 
 				deferred.resolve(temp.fsUser);
+			} else if (response.statusCode==401) {
+				//-- delete any old cookies
+				document.cookie = 'FS_AUTH_TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+				this.fs.setAccessToken('');
+				deferred.reject(response.body);
 			} else {
 				deferred.reject(response.body);
 			}
@@ -145,6 +152,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	this.fsLoginComplete = function(response) {
 		var token = $cookies.get(this.fs.tokenCookie);
 		this.fs.setAccessToken(token);
+		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': temp.fs.tokenCookie});
+		//$http.defaults.headers.common['Authorization'] = "Bearer "+temp.fs.tokenCookie; 
 		this.startBackgroundQueue();
 		this.loginWin.close();
 	};
@@ -209,13 +218,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 		
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/portrait', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/portrait', {headers: {'X-Expect-Override':'200-ok'}}, function(response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
+				var src = response.effectiveUrl;
 				if (temp.people[personId]) {
-					temp.people[personId].portrait = response.getHeader('Content-Location');
+					temp.people[personId].portrait = src;
 				}
 				temp.portraitPeople[personId] = true;
-				deferred.resolve(response.getHeader('Content-Location'));
+				deferred.resolve(src);
 			} else {
 				deferred.reject(response.data);
 			}
@@ -377,6 +387,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			background: '@'
 		},
 		template: '<div class="answer-button" style="background-image: url(\'{{background}}\');">{{label}}</div>'
+	}
+}])
+.directive('proxyImg', [function() {
+	return {
+		scope: {
+			src: '@'
+		},
+		link: function($scope, $element, $attr) {
+			$scope.setProxyUrl = function() {
+				var src = "/fs-proxy.php?url=" + encodeURIComponent($scope.src);
+				$element.attr('src', src);
+			}
+			$scope.setProxyUrl();
+			$scope.$watch('src', function() {
+				$scope.setProxyUrl();
+			});
+		}
 	}
 }])
 .controller('getstarted', function($scope, familysearchService, facebookService, $location, $timeout, notificationService) {
