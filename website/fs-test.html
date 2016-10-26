@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>FamilySearch Test</title>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="FamilySearch.js"></script>
+</head>
+<body ng-app="genquizitive">
+	<script>
+var fs = new FamilySearch({
+  environment: 'sandbox',
+  appKey: 'a02j000000JERmSAAX',
+  redirectUri: 'http://www.genquizitive.com/fs-login.html',
+  saveAccessToken: true,
+  tokenCookie: 'FS_AUTH_TOKEN',
+  maxThrottledRetries: 10
+});
+
+fs.get('/platform/tree/current-person', function(response){
+	var personId = response.data.persons[0].id;
+	$('#personid').text(personId);
+	fs.get('/platform/tree/persons/'+personId+'/portrait', function(response) {
+		if (response.statusCode==200 || response.statusCode == 307) {
+			//$('#photo').attr('src', response.getHeader('Content-Location')+'?ctx=ArtCtxPublic');
+			//$("#photo").attr("src","data:image/jpeg;base64," + btoa(response.body));
+			var blob = new Blob([response.body], { type: response.getHeader('Content-Type') });
+			var imgUrl = window.URL.createObjectURL(blob);
+			$('#photo').attr('src', imgUrl);
+		} else {
+			alert('no picture found for '+personId);
+		}
+	});
+});
+	</script>
+	<div>
+	<h3>Portrait for <span id="personid"></span></h3>
+	<img id="photo" src="" />
+	</div>
+</body>
+</html>

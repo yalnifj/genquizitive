@@ -27,12 +27,12 @@ var fscheck = fs.oauthResponse(function(response){
 	console.log(response);
 	
 	fs.get('/platform/tree/current-person', function(response){
-		window.opener.fsLoginComplete(response);
+		window.location = '/home.html';
 	});
 });
 
 if (!fscheck) {
-	fs.oauthRedirect();
+	window.location = '/home.html';
 }
 
 	</script>

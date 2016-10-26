@@ -138,7 +138,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	this.fsLogin = function() {
-		this.loginWin = window.open('fs-login.html', 'fs', 'width=600,height=500');
+		//this.loginWin = window.open('fs-login.html', 'fs', 'width=600,height=500');
+		this.fs.oauthRedirect();
 	};
 	
 	this.fsLoginComplete = function(response) {
@@ -483,8 +484,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.$watch('question', function(newval, oldval) {
 		if (newval != oldval) {
-			if (oldval) oldval.person = null;
-			if (newval) newval.person = $scope.person;
+			$scope.question.setup();
 		}
 	});
 })
