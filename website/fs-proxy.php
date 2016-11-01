@@ -13,23 +13,26 @@ if (!empty($_POST['FS_AUTH_TOKEN'])) {
 	}
 	else {
 		$url = $_REQUEST['url'];
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		//curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,$vars);  //Post Fields
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		if (!preg_match('/^https:\/\/\w+\.familysearch.org/', $url)) {
+			http_response_code(404);
+			print('invalid domain');
+		} else {
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-		$headers = [
-			'Authorization: Bearer '.$_SESSION['FS_AUTH_TOKEN']
-		];
+			$headers = [
+				'Authorization: Bearer '.$_SESSION['FS_AUTH_TOKEN'],
+				'Origin: http://www.genquizitive.com',
+				'Accept: */*'
+			];
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			$server_output = curl_exec ($ch);
+			curl_close ($ch);
 
-		$server_output = curl_exec ($ch);
-
-		curl_close ($ch);
-
-		print  $server_output ;
+			print  $server_output ;
+		}
 	}
 }
 ?>

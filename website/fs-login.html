@@ -24,8 +24,6 @@ var fs = new FamilySearch({
 });
 
 var fscheck = fs.oauthResponse(function(response){
-	console.log(response);
-	
 	fs.get('/platform/tree/current-person', function(response){
 		window.location = '/home.html';
 	});

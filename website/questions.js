@@ -3,14 +3,29 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	this.questions = [
 		{
 			name: 'photo1', 
-			difficulty: 1, 
+			difficulty: 1,
+			error: null,
 			setup: function() {
 				var question = this;
 				familysearchService.getRandomPersonWithPortrait().then(function(person) {
 					question.person = person;
+					
+					familysearchService.getRandomPeopleNear(person, 3).then(function(people) {
+						question.randomPeople = people;
+					}, function(error) {
+						console.log(error);
+						question.error = error;
+					});
 				}, function(error){
 					console.log(error);
+					question.error = error;
 				});
+			},
+			checkAnswer: function(answer) {
+				if (answer.id == this.person.id) {
+					return true;
+				}
+				return false;
 			}
 		}
 	];
@@ -69,30 +84,79 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	}
 }])
 .controller('photo1Controller', function($scope, familysearchService) {
-	console.log($scope.question);
 	
 	$scope.questionText = 'Who is shown in this picture?';
 	
-	$scope.$watch('question.person', function() {
-		if ($scope.question && $scope.question.person) {
-			$scope.picture = $scope.question.person.portrait;
+	$scope.$watch('question.person', function(newval, oldval) {
+		if (newval && newval!=oldval) {
+			if ($scope.question && $scope.question.person) {
+				$scope.picture = $scope.question.person.portrait;
+			}
+		}
+	});
+	
+	$scope.answerPeople = [];
+	
+	$scope.$watchCollection('question.randomPeople', function() {
+		if ($scope.question.randomPeople && $scope.question.randomPeople.length > 0) {
+			$scope.answerPeople = [];
+			$scope.answerPeople.push($scope.question.person);
+			for(var p=0; p<$scope.question.randomPeople.length; p++) {
+				$scope.answerPeople.push($scope.question.randomPeople[p]);
+			}
 		}
 	});
 	
 	$scope.guess1 = function() {
 		console.log("guess 1 clicked");
+		if ($scope.answerPeople.length < 1) {
+			console.log("Incorrect!");
+			return;
+		}
+		if ($scope.question.checkAnswer($scope.answerPeople[0])) {
+			console.log("Correct!");	
+		} else {
+			console.log("Incorrect!");	
+		}
 	};
 	
 	$scope.guess2 = function() {
 		console.log("guess 2 clicked");
+		if ($scope.answerPeople.length < 2) {
+			console.log("Incorrect!");
+			return;
+		}
+		if ($scope.question.checkAnswer($scope.answerPeople[1])) {
+			console.log("Correct!");	
+		} else {
+			console.log("Incorrect!");	
+		}
 	};
 	
 	$scope.guess3 = function() {
 		console.log("guess 3 clicked");
+		if ($scope.answerPeople.length < 3) {
+			console.log("Incorrect!");
+			return;
+		}
+		if ($scope.question.checkAnswer($scope.answerPeople[2])) {
+			console.log("Correct!");	
+		} else {
+			console.log("Incorrect!");	
+		}
 	};
 	
 	$scope.guess4 = function() {
 		console.log("guess 4 clicked");
+		if ($scope.answerPeople.length < 4) {
+			console.log("Incorrect!");
+			return;
+		}
+		if ($scope.question.checkAnswer($scope.answerPeople[3])) {
+			console.log("Correct!");	
+		} else {
+			console.log("Incorrect!");	
+		}
 	};
 })
 ;

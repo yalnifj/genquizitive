@@ -129,13 +129,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				temp.getAncestorTree(temp.fsUser.id);
 				temp.getPersonPortrait(temp.fsUser.id);
 				temp.startBackgroundQueue();
-				$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': temp.fs.tokenCookie});
+				var token = $cookies.get(temp.fs.tokenCookie);
+				$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
 				//$http.defaults.headers.common['Authorization'] = "Bearer "+temp.fs.tokenCookie; 
 				deferred.resolve(temp.fsUser);
 			} else if (response.statusCode==401) {
 				//-- delete any old cookies
 				document.cookie = 'FS_AUTH_TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-				this.fs.setAccessToken('');
+				temp.fs.setAccessToken('');
 				deferred.reject(response.body);
 			} else {
 				deferred.reject(response.body);
@@ -145,15 +146,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	this.fsLogin = function() {
-		//this.loginWin = window.open('fs-login.html', 'fs', 'width=600,height=500');
 		this.fs.oauthRedirect();
 	};
 	
 	this.fsLoginComplete = function(response) {
 		var token = $cookies.get(this.fs.tokenCookie);
 		this.fs.setAccessToken(token);
-		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': temp.fs.tokenCookie});
-		//$http.defaults.headers.common['Authorization'] = "Bearer "+temp.fs.tokenCookie; 
+		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
 		this.startBackgroundQueue();
 		this.loginWin.close();
 	};
@@ -168,7 +167,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				var func = temp.backgroundQueue.shift();
 				func();
 			}
-		}, 1000);
+		}, 1500);
 	};
 	
 	this.stopBackgroundQueue = function() {
@@ -178,8 +177,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		this.interval = null;
 	};
 	
+	this.ancestorPromises = {};
 	this.getAncestorTree = function(personId, noCache) {
 		var deferred = $q.defer();
+		if (this.ancestorPromises[personId]) {
+			this.ancestorPromises[personId].push(deferred);
+			return deferred.promise;
+		}
 		var temp = this;
 		this.fs.get('/platform/tree/ancestry?person='+personId+'&generations=6&personDetails=', function(response) {
 			if (!noCache) {
@@ -189,23 +193,64 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
 				}
 			}
-			deferred.resolve(response.data);
+			for(var p=0; p<temp.ancestorPromises[personId].length; p++) {
+				var def = temp.ancestorPromises[personId][p];
+				def.resolve(response.data);
+			}
+			delete(temp.ancestorPromises[personId]);
+			//deferred.resolve(response.data);
 		});
+		this.ancestorPromises[personId] = [];
+		this.ancestorPromises[personId].push(deferred);
 		return deferred.promise;
 	};
 	
-	this.getPersonRelatives = function(personId, noCache) {
+	this.getPersonById = function(personId) {
+		var deferred = $q.defer();
+		var temp = this;
+		if (personId) {
+			this.fs.get('/platform/tree/persons/'+personId, function(response) {
+				for(var p=0; p < response.data.persons.length; p++) {
+					var person = response.data.persons[p];
+					temp.people[person.id] = person;
+				}
+				deferred.resolve(temp.people[personId]);
+			});
+		} else {
+			deferred.reject('invalid personId '+personId);
+		}
+		return deferred.promise;
+	};
+	
+	this.getPersonRelatives = function(personId) {
 		var deferred = $q.defer();
 		var temp = this;
 		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+			if (response.statusCode!=200) {
+				deferred.reject(response);
+				return;
+			}
 			var persons = [];
+			var promises = [];
 			for(var p=0; p < response.data.persons.length; p++) {
 				var pid = response.data.persons[p].id;
 				if (temp.people[pid]) {
 					persons.push(temp.people[pid]);
 				} else {
-					
+					var p = temp.getPersonById(pid).then(function(person) {
+						persons.push(person);
+					});
+					promises.push(p);
 				}
+			}
+			if (promises.length > 0) {
+				$q.all(promises).then(function() {
+					deferred.resolve(persons);
+				}, function() {
+					deferred.resolve(persons);
+				});
+			} else {
+				deferred.resolve(persons);
 			}
 		});
 		return deferred.promise;
@@ -227,7 +272,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				temp.portraitPeople[personId] = true;
 				deferred.resolve(src);
 			} else {
-				deferred.reject(response.data);
+				deferred.reject(response.body);
 			}
 		});
 		
@@ -283,28 +328,55 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	this.getRandomPerson = function() {
-		var deferred = $q.defer();
-		if (this.people.length > 0) {
+		var keys = Object.keys(this.people);
+		if (keys.length > 0) {
 			var count = 0;
 			var person = null;
 			while(count < 5 && person == null) {
-				var keys = Object.keys(this.people);
 				var rand = Math.floor(Math.random() * keys.length);
 				var randomId = keys[rand];
-				if (!usedPeople[randomId]) {
+				if (!this.usedPeople[randomId]) {
 					person = randomId;
 				}
 			}
 			if (person != null) {
-				deferred.resolve(this.people[person]);
-			} else {
-				deferred.reject ('No people available')
+				return this.people[person];
 			}
-		} else {
-			deferred.reject('No people loaded');
 		}
+		return null;
+	};
+	
+	this.getRandomPeopleNear = function(person, num) {
+		var deferred = $q.defer();
+		var persons = [];
+		var temp = this;
+		this.getPersonRelatives(person.id).then(function(relatives) {
+			var personCount = 0;
+			var loopCount = 0;
+			while(loopCount < num-1) {
+				var rand = Math.floor(Math.random() * relatives.length);
+				var rPerson = relatives[rand];
+				if (rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
+					persons.push(rPerson);
+					personCount++;
+				}
+				loopCount++;
+			}
+			
+			while(personCount < num && loopCount < num * 4) {
+				var rPerson = temp.getRandomPerson();
+				if (rPerson && rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
+					persons.push(rPerson);
+					personCount++;
+				}
+				loopCount++;
+			}
+			deferred.resolve(persons);
+		}, function(error) {
+			deferred.reject(error);
+		});
 		return deferred.promise;
-	}
+	};
 }])
 .service('notificationService', ['$rootScope', '$compile', function($rootScope, $compile){
 	this.showNotification = function(options) {
@@ -396,8 +468,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		},
 		link: function($scope, $element, $attr) {
 			$scope.setProxyUrl = function() {
-				var src = "/fs-proxy.php?url=" + encodeURIComponent($scope.src);
-				$element.attr('src', src);
+				if ($scope.src) {
+					var src = "/fs-proxy.php?url=" + encodeURIComponent($scope.src);
+					$element.attr('src', src);
+				}
 			}
 			$scope.setProxyUrl();
 			$scope.$watch('src', function() {
@@ -490,12 +564,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.startRound = function() {
 		notif.close();
-		/*
+		
 		var question = QuestionService.getRandomQuestion();
-		familysearchService.getRandomPersonWithPortrait().then(function(person) {
-			$scope.person = person;
-		});
-		*/
+		
+		
 	}
 })
 .controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
@@ -504,13 +576,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.questions = QuestionService.questions;
 	$scope.question = $scope.questions[0];
 	
-	familysearchService.fsLoginStatus().then(function() {
+	familysearchService.fsLoginStatus().then(function(fsUser) {
 		familysearchService.usedPeople = {};
-		$scope.question.setup();
+		familysearchService.getAncestorTree(fsUser.id).then(function() {
+			$scope.question.setup();
+		});
 	});
 	
 	$scope.$watch('question', function(newval, oldval) {
-		if (newval != oldval) {
+		$scope.question.setup();
+	});
+	
+	$scope.tries = 0;
+	$scope.$watch('question.error', function(newval, oldval) {
+		if (newval && newval!=oldval) {
+			$scope.tries++;
+			console.log('trying question setup again '+$scope.tries);
+			$scope.question.error = null;
 			$scope.question.setup();
 		}
 	});
