@@ -199,6 +199,9 @@ body {
 	width: 100%;
     height: 100%;
 }
+.yellow_answer_button .answer-button {
+	color: #333333;
+}
 .question-block {
 	background-color: #ebe9d5;
 	border-radius: 20px;
