@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="VPh-u7-5xc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pole1.png" translatesAutoresizingMaskIntoConstraints="NO" id="5B0-7f-R59">
+                                <rect key="frame" x="177" y="215" width="20" height="412.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="apQ-Rk-U5X"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="home_arrow1.png" translatesAutoresizingMaskIntoConstraints="NO" id="DOY-fZ-I25">
+                                <rect key="frame" x="74" y="41" width="271" height="274"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="274" id="Cbr-rn-Uef"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="271" id="fLq-Lw-sRU"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_sign.png" translatesAutoresizingMaskIntoConstraints="NO" id="g73-Zn-cm1">
+                                <rect key="frame" x="16" y="52" width="343" height="259"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="Dy6-bF-nLT"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="259" id="FjE-GW-ByO"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yft_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="uPf-4x-j0I">
+                                <rect key="frame" x="47" y="425" width="280" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="hSQ-nL-xms"/>
+                                    <constraint firstAttribute="height" constant="128" id="uEV-kM-Mb7"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="uPf-4x-j0I" firstAttribute="top" secondItem="DOY-fZ-I25" secondAttribute="bottom" constant="110" id="4IX-Eo-IC2"/>
+                            <constraint firstItem="5B0-7f-R59" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="195" id="Bvo-jp-AQv"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="5B0-7f-R59" secondAttribute="centerX" id="Njd-0y-obe"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="uPf-4x-j0I" secondAttribute="centerX" id="RTH-aK-UuH"/>
+                            <constraint firstAttribute="trailing" secondItem="VPh-u7-5xc" secondAttribute="trailing" id="SkM-FS-GWF"/>
+                            <constraint firstItem="g73-Zn-cm1" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="32" id="U3y-sO-ddV"/>
+                            <constraint firstItem="5B0-7f-R59" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UIX-wd-8iN"/>
+                            <constraint firstItem="g73-Zn-cm1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="YsF-SZ-hsE"/>
+                            <constraint firstItem="DOY-fZ-I25" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="21" id="a8U-Tr-9HI"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5B0-7f-R59" secondAttribute="bottom" multiplier="1.05" constant="8" id="b0f-4j-3Sy"/>
+                            <constraint firstItem="DOY-fZ-I25" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="18" id="bi8-a0-oCX"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="eUs-mg-cOA"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="mMU-IF-k9X"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="qeE-aW-n25"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="g73-Zn-cm1" secondAttribute="centerX" id="tZN-bN-Vi7"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="home_arrow1.png" width="199" height="244"/>
+        <image name="home_background.jpg" width="743" height="640"/>
+        <image name="home_sign.png" width="309" height="200"/>
+        <image name="pole1.png" width="32" height="324"/>
+        <image name="yft_logo.png" width="280" height="209"/>
+    </resources>
+</document>
