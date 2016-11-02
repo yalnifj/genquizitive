@@ -1,0 +1,25 @@
+<div class="question-holder" ng-controller="multi2Controller">
+	<img style="position: absolute; top: 200px; left: 340px; width: 25px; height: 75%;" src="pole1.png" />
+	<img style="position: absolute; top: 10px; left: 80px;" src="questions/multi2/back.png" />
+	<img style="position: absolute; top: 580px; left: 125px; width: 220px; height: 10px;" src="pole2.png" />
+	<img style="position: absolute; top: 540px; left: 360px; width: 210px; height: 10px;" src="pole2.png" />
+	<img style="position: absolute; top: 685px; left: 125px; width: 220px; height: 10px;" src="pole2.png" />
+	<img style="position: absolute; top: 645px; left: 360px; width: 210px; height: 10px;" src="pole2.png" />
+	
+	<div answer-button="" label="answerPeople[0].display.name" background="button_yellow_rect.png" ng-click="guess1()" 
+		style="position:absolute; width:215px; height: 97px; top: 580px; left: 100px; line-height: 90px;">
+	</div>
+	<div answer-button="" label="answerPeople[1].display.name" background="button_yellow_rect.png" ng-click="guess2()" 
+		style="position:absolute; width:215px; height: 97px; top: 685px; left: 100px; line-height: 90px;">
+	</div>
+	<div answer-button="" label="answerPeople[2].display.name" background="button_yellow_rect.png" ng-click="guess3()" 
+		style="position:absolute; width:215px; height: 97px; top: 540px; left: 390px; line-height: 90px;">
+	</div>
+	<div answer-button="" label="answerPeople[3].display.name" background="button_yellow_rect.png" ng-click="guess4()" 
+		style="position:absolute; width:215px; height: 97px; top: 645px; left: 390px; line-height: 90px;">
+	</div>
+	
+	<div class="question-block" style="position: absolute; top: 270px; left: 190px; width: 310px; height:200px;">
+		{{questionText}}
+	</div>
+</div>

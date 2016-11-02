@@ -77,7 +77,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					//alert('Facebook login failed');
 					deferred.reject(response.body);
 				}
-			}, {scope: 'public_profile,email,user_friends,user_relationships'});
+			}, {scope: 'public_profile,email,user_friends'});
 		}
 		return deferred.promise;
 	};
@@ -95,7 +95,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				temp.hasPicture = true;
 			}
 			deferred.resolve(temp.facebookUser);
-			console.log('Successful login for: ' + response.name);
+			console.log('Successful facebook login for: ' + response.name);
 		});
 		return deferred.promise;
 	}
@@ -377,6 +377,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		});
 		return deferred.promise;
 	};
+	
+	this.shortenName = function(name) {
+		var arr = name.split(" ");
+		var shortName = arr[0];
+		if (arr.length > 1) {
+			shortName = shortName + " " + arr[arr.length-1].substr(0,1);
+		}
+		return shortName;
+	};
 }])
 .service('notificationService', ['$rootScope', '$compile', function($rootScope, $compile){
 	this.showNotification = function(options) {
@@ -491,7 +500,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$timeout(function() {
 			familysearchService.fsLoginStatus().then(function(fsUser) {
 				$scope.fsLoggedIn = true;
-				$scope.fsUserName = fsUser.display.name;
+				$scope.fsUserName = familysearchService.shortenName(fsUser.display.name);
 				$scope.checkLogin();
 			}, function(error) {
 				var notif = notificationService.showNotification({title: 'FamilySearch Error',message: 'Unable to authenticate with FamilySearch.', closable: true});
@@ -516,7 +525,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 		facebookService.fbLogin().then(function(fbUser) {
 			$scope.fbLoggedIn = true;
-			$scope.fbUserName = fbUser.name;
+			$scope.fbUserName = familysearchService.shortenName(fbUser.name);
 			$scope.fbHasPicture = facebookService.hasPicture;
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
@@ -527,7 +536,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.fsLoggedIn = true;
 		$scope.fsUserName = fsUser.display.name;
 		facebookService.fbLoginStatus().then(function(fbUser){
-			$scope.fbUserName = fbUser.name;
+			$scope.fbUserName = familysearchService.shortenName(fbUser.name);
 			$scope.fbLoggedIn = true;
 			$scope.fbHasPicture = facebookService.hasPicture;
 			$scope.fbUser = fbUser;
@@ -539,7 +548,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}, function() {
 		facebookService.fbLoginStatus().then(function(fbUser){
 			$scope.fbLoggedIn = true;
-			$scope.fbUserName = fbUser.name;
+			$scope.fbUserName = familysearchService.shortenName(fbUser.name);
 			$scope.fbHasPicture = facebookService.hasPicture;
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
