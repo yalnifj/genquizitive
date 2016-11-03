@@ -1,5 +1,5 @@
 angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
-.service ('QuestionService', ['familysearchService', '$http', '$sce', '$q', '$templateCache', function(familysearchService, $http, $sce, $q, $templateCache) {
+.service ('QuestionService', ['familysearchService', 'languageService', '$http', '$sce', '$q', '$templateCache', function(familysearchService, languageService, $http, $sce, $q, $templateCache) {
 	this.questions = [
 		{
 			name: 'photo1', 
@@ -13,6 +13,63 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					
 					familysearchService.getRandomPeopleNear(person, 3).then(function(people) {
 						question.randomPeople = people;
+
+						var found = false;
+						var count = 0;
+						while(!found && count < 10) {
+							var r = Math.floor(Math.random() * person.facts.length);
+							question.fact = question.person.facts[r];
+							if (languageService.facts[question.fact.type]) {
+								found = true;
+								//-- check for a matching fact
+								for(var p=0; p<question.randomPeople.length; p++) {
+									for(var f=0; f<question.randomPeople[p].facts.length; f++) {
+										var ofact = question.randomPeople[p].facts[f];
+										if (ofact.type==question.fact.type) {
+											var yearMatch = false;
+											var placeMatch = false;
+											if (!ofact.date && !question.fact.date) {
+												yearMatch = true;
+											} else if (ofact.date && question.fact.date) {
+												if (familySearchService.getDateYear(ofact.date.original)==familySearchService.getDateYear(question.fact.date.original)) {
+													yearMatch = true;
+												}
+											}
+											if (yearMatch) {
+												if (!ofac.place && !question.fact.place) {
+													placeMatch = true;
+												} else if (ofact.place && question.fact.place) {
+													if (ofact.place.original == question.fact.place.original) {
+														placeMatch = true;
+													}
+												}
+											}
+											if (yearMatch && placeMatch) {
+												found = false;
+												break;
+											}
+										}
+									}
+									if (!found) break;
+								}
+								count++;
+							}
+						}
+
+						if (question.fact) {
+							var factLang = languageService.facts[question.fact.type];
+							question.questionText = "Who "+factLang.pastVerb;
+							if (factLang.expectValue && question.fact.value) {
+								question.questionText += " "+question.fact.value;
+							}
+							if (question.fact.place && question.fact.place.original) {
+								question.questionText += " at "+question.fact.place.original;
+							}
+							if (question.fact.date && question.fact.date.original) {
+								question.questionText += " on "+question.fact.date.original;
+							}
+							question.questionText += "?";
+						}
 					}, function(error) {
 						console.log(error);
 						question.error = error;
@@ -31,7 +88,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		},
 		{
 			name: 'multi2',
-			background: 'questions/photo1/background.jpg',
+			background: 'questions/multi2/background.jpg',
 			difficulty: 1,
 			error: null,
 			setup: function() {
@@ -196,7 +253,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 })
 .controller('multi2Controller', function($scope, familysearchService, QuestionService) {
 	
-	$scope.questionText = 'Who is shown in this picture?';
+	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function(newval, oldval) {
 		if (newval && newval!=oldval) {
@@ -216,6 +273,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				$scope.answerPeople.push($scope.question.randomPeople[p]);
 			}
 			$scope.answerPeople = QuestionService.shuffleArray($scope.answerPeople);
+
+			$scope.questionText = question.questionText;
 		}
 	});
 	
