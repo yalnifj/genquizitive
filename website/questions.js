@@ -84,7 +84,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 												if (!ofact.date && !question.fact.date) {
 													yearMatch = true;
 												} else if (ofact.date && question.fact.date) {
-													if (familysearchService.getDateYear(ofact.date.original)==familysearchService.getDateYear(question.fact.date.original)) {
+													if (languageService.getDateYear(ofact.date.original)==languageService.getDateYear(question.fact.date.original)) {
 														yearMatch = true;
 													}
 												}
