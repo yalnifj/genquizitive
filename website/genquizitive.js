@@ -308,10 +308,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		var deferred = $q.defer();
 		var temp = this;
 		if (ids) {
-			this.fs.get('/platform/tree/persons?pids='+id, function(response) {
+			this.fs.get('/platform/tree/persons?pids='+ids, function(response) {
 				var people = [];
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
+					if (temp.people[person.id] && temp.people[person.id].portrait) {
+						person.portrait = temp.people[person.id].portrait
+					}
 					temp.people[person.id] = person;
 					people.push(person);
 				}

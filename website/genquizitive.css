@@ -202,6 +202,9 @@ body {
 .yellow_answer_button .answer-button {
 	color: #333333;
 }
+.trap1 .answer-button {
+	padding-right: 20px;
+}
 .question-block {
 	background-color: #ebe9d5;
 	border-radius: 20px;
@@ -212,6 +215,13 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 	line-height: 150%;
+}
+.nobackground {
+	background: none;
+	box-shadow: none;
+}
+.noborder {
+	border: none;
 }
 @media (max-width: 767px) {
 	.center-logo {
