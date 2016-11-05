@@ -1,5 +1,6 @@
 angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
-.service ('QuestionService', ['familysearchService', 'languageService', '$http', '$sce', '$q', '$templateCache', function(familysearchService, languageService, $http, $sce, $q, $templateCache) {
+.service ('QuestionService', ['familysearchService', 'languageService', 'relationshipService', '$http', '$sce', '$q', '$templateCache', 
+		function(familysearchService, languageService, relationshipService, $http, $sce, $q, $templateCache) {
 	this.questions = [
 		{
 			name: 'photo1', 
@@ -37,14 +38,39 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			error: null,
 			setup: function() {
 				var question = this;
-				question.person = familysearchService.getRandomPerson();
+				
+				question.startPerson = familysearchService.fsUser;
+				
+				var length = 4 + Math.floor(Math.random()*3)
+				relationshipService.getRandomRelationshipPath(question.startPerson.id, length).then(function(path) {
+					question.path = path;
 					
-				familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
-					question.randomPeople = people;
+					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathText) {
+						question.questionText = 'Who is your ' + pathText + '?';
+					});
 					
-					question.questionText = 'Who is your great grand father?';
+					var lastRel = path[path.length-1];
+					question.person = null;
+					var lastPersonId = null;
+					if (lastRel.person1.resourceId != question.startPerson.id) {
+						lastPersonId = lastRel.person1.resourceId;
+					} else {
+						lastPersonId = lastRel.person2.resourceId;
+					}
+					familysearchService.getPersonById(lastPersonId).then(function(lastPerson) {
+						question.person = lastPerson;
+						familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
+							question.randomPeople = people;
 
-				}, function(error) {
+						}, function(error) {
+							console.log(error);
+							question.error = error;
+						});
+					}, function(error){
+						console.log(error);
+						question.error = error;
+					});
+				}, function(error){
 					console.log(error);
 					question.error = error;
 				});
@@ -64,6 +90,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setup: function() {
 				var question = this;
 				question.person = familysearchService.getRandomPerson();
+				//-- make sure we have a person with facts
+				while(!question.person.facts || question.person.facts.length==0) {
+					question.person = familysearchService.getRandomPerson();
+				}
 				familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
 					question.randomPeople = people;
 					var found = false;
@@ -135,6 +165,29 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				return false;
 			}
+		},
+		{
+			name: 'tree', 
+			background: 'questions/tree/background.jpg',
+			difficulty: 2,
+			error: null,
+			setup: function() {
+				var question = this;
+				question.questionText = 'Complete the family tree.'
+				
+				question.person = familysearchService.getRandomPerson();
+				familysearchService.getAncestorTree(question.person.id, 2, false, 'UNKNOWN', true).then(function(tree) {
+					if (tree.persons.length<3) {
+						console.log('Not enough people. Trying setup again.');
+						question.setup();
+					} else {
+						question.people = tree.persons;
+					}
+				});
+			},
+			checkAnswer: function(answer) {
+				
+			}
 		}
 	];
 	
@@ -202,7 +255,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 	}
 }])
-.controller('photo1Controller', function($scope, familysearchService, QuestionService) {
+.controller('photo1Controller', function($scope, QuestionService) {
 	
 	$scope.questionText = 'Who is shown in this picture?';
 	
@@ -271,17 +324,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 	};
 })
-.controller('multi2Controller', function($scope, familysearchService, QuestionService) {
+.controller('multi2Controller', function($scope, QuestionService) {
 	
 	$scope.questionText = '';
-	
-	$scope.$watch('question.person', function(newval, oldval) {
-		if (newval && newval!=oldval) {
-			if ($scope.question && $scope.question.person) {
-				$scope.picture = $scope.question.person.portrait;
-			}
-		}
-	});
 	
 	$scope.answerPeople = [];
 	
@@ -349,5 +394,53 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			console.log("Incorrect!");	
 		}
 	};
+})
+.directive('treePerson', [function() {
+	return {
+		link: function($scope, $element, $attr) {
+			$element.draggable({revert: "invalid", containment: 'body', zIndex: 101 });
+		}
+	};
+}])
+.directive('treeSpot', [function() {
+	return {
+		link: function($scope, $element, $attr) {
+			$element.droppable({
+				drop: function(event, ui) {
+					ui.draggable.css('top', $element.position().top+'px');
+					ui.draggable.css('left', ($element.position().left+15)+'px');
+				}
+			});
+		}
+	};
+}])
+.controller('treeController', function($scope, QuestionService, familysearchService) {
+	$scope.questionText = '';
+	
+	$scope.$watchCollection('question.people', function() {
+		if ($scope.question.people && $scope.question.people.length > 0) {
+			$scope.people = [];
+			var x = 45;
+			var y = 120;
+			var count = 0;
+			var hash = {};
+			for(var p=0; p<$scope.question.people.length; p++) {
+				hash[$scope.question.people[p].id] = $scope.question.people[p];
+				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+					hash[res.id].portrait = "fs-proxy.php?url="+encodeURIComponent(res.src);
+				});
+				$scope.people.push({person: $scope.question.people[p], position: {x: x, y: y}});
+				x += 105;
+				count++;
+				if (count>3) {
+					x = 45;
+					y += 110;
+					count = 0;
+				}
+			}
+			$scope.people = QuestionService.shuffleArray($scope.people);
+			$scope.questionText = $scope.question.questionText;
+		}
+	});
 })
 ;

@@ -161,18 +161,38 @@ body {
 	margin-left: auto;
     margin-right: auto;
 }
+.movable {
+	cursor: move;
+}
 .avatar {
+	position: relative;
 	width: 100px;
 	height: 90px;
 	background-image: url('avatar_badge.png');
+	margin: 0px;
 }
 .avatar img {
 	position: relative;
+	display: block;
     top: 8px;
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    left: 1px;
+    left: 15px;
+}
+.avatar .avatar-label {
+	position: absolute;
+	top: 70px;
+	width: 100%;
+	display: block;
+	text-align: center;
+	background-color: #ebe9d5;
+	border: solid black 1px;
+	border-radius: 5px;
+	font-size: 10pt;
+	color: #333;
+	padding: 2px;
+	line-height: 100%;
 }
 .question-holder {
 	position: relative;
@@ -210,10 +230,10 @@ body {
 	border-radius: 20px;
 	border: solid black 1px;
 	box-shadow: -7px 7px 3px #222;
-	padding: 15px;
+	padding: 10px;
 	font-size: 200%;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: hidden;
 	line-height: 150%;
 }
 .nobackground {
@@ -222,6 +242,18 @@ body {
 }
 .noborder {
 	border: none;
+}
+.green-question-block {
+	background-color: #076240;
+	border-radius: 20px;
+	border: solid #dad9d9 6px;
+	box-shadow: -5px 5px 3px #222;
+	padding: 15px;
+	font-size: 200%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	line-height: 150%;
+	color: white;
 }
 @media (max-width: 767px) {
 	.center-logo {

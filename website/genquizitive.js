@@ -127,25 +127,158 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 }])
 .service('relationshipService', ['$q', 'familysearchService', function($q, familysearchService) {
 
-	this.recursive = function(personId, path, length) {
+	this.recursivePath = function(personId, path, length) {
 		var deferred = $q.defer();
 		if (path.length >= length) {
 			deferred.resolve(path);
 		} else {
-			familysearchService.getPersonRelationships(personId).then(function(relationships) {
+			var temp = this;
+			
+			var promise;
+			if (path.length > 1) promise = familysearchService.getPersonRelationships(personId);
+			else {
+				var sr = Math.random();
+				if (sr < 0.5) promise = familysearchService.getPersonParents(personId, true);
+				else promise = familysearchService.getPersonSpouses(personId, true);
+			}
+			
+			promise.then(function(relationships) {
 				//-- TODO - limit to non living for shared game
+				if (relationships.length<=1) {
+					deferred.resolve(path);
+				}
 				var r = Math.floor(Math.random() * relationships.length);
-				var rel = relationships;
+				var startr = r;
+				var rel = relationships[r];
+				var count = 0;
+				var lastRel = path[path.length-1];
+				if (!lastRel) {
+					lastRel = { person1:{}, person2:{}};
+				}
+				//-- loop until we find a new relationship
+				while(count < relationships.length
+						&& (rel.person1.resourceId==lastRel.person1.resourceId || rel.person1.resourceId==lastRel.person2.resourceId) 
+						&& (rel.person2.resourceId==lastRel.person1.resourceId || rel.person2.resourceId==lastRel.person2.resourceId)) {
+					r++;
+					if (r>=relationships.length) r=0;
+					rel = relationships[r];
+					count++;
+				}
+				
+				path.push(rel);
+				var nextPerson = rel.person1.resourceId;
+				if (nextPerson == personId) {
+					nextPerson = rel.person2.resourceId;
+				}
+				temp.recursivePath(nextPerson, path, length).then(function(path) {
+					if (path.length < length && count < relationships.length) {
+						while(count < relationships.length
+								&& (rel.person1.resourceId==lastRel.person1.resourceId || rel.person1.resourceId==lastRel.person2.resourceId) 
+								&& (rel.person2.resourceId==lastRel.person1.resourceId || rel.person2.resourceId==lastRel.person2.resourceId) ) {
+							r++;
+							if (r>=relationships.length) r=0;
+							rel = relationships[r];
+							count++;
+						}
+						if (r==startr) {
+							deferred.resolve(path);
+						} else {
+							temp.recursivePath(nextPerson, path, length).then(function(path2) {
+								if (path2.length > path.length) deferred.resolve(path2);
+								else deferred.resolve(path);
+							});
+						}
+					} else {
+						deferred.resolve(path);
+					}
+				}, function(error) { 
+					while(count < relationships.length
+							&& (rel.person1.resourceId==lastRel.person1.resourceId || rel.person1.resourceId==lastRel.person2.resourceId) 
+							&& (rel.person2.resourceId==lastRel.person1.resourceId || rel.person2.resourceId==lastRel.person2.resourceId) ) {
+						r++;
+						if (r>=relationships.length) r=0;
+						rel = relationships[r];
+						count++;
+					}
+					if (r==startr) {
+						deferred.resolve(path);
+					} else {
+						temp.recursivePath(nextPerson, path, length).then(function(path2) {
+							if (path2.length > path.length) deferred.resolve(path2);
+							else deferred.resolve(path);
+						});
+					}
+				});
 			}, function(error) { deferred.reject(error); });
 		}
 		return deferred.promise;
 	};
 
-	this.getRandomRelationshipPath = function(startPerson, length) {
+	this.getRandomRelationshipPath = function(personId, length) {
 		var path = [];
 		var deferred = $q.defer();
-		path.push(startPerson.id);
 		
+		this.recursivePath(personId, path, length).then(function(path) {
+			deferred.resolve(path);
+		}, function(error) { deferred.reject(error); });
+		
+		return deferred.promise;
+	};
+	
+	this.verbalizePath = function(startPerson, path) {
+		var deferred = $q.defer();
+		var pathText = '';
+		
+		var pids = '';
+		var lastId = startPerson.id;
+		for(var p=0; p<path.length; p++) {
+			if (p>0) pids += ',';
+			var pid = path[p].person1.resourceId;
+			if (pid==lastId) pid = path[p].person2.resourceId;
+			lastId = pid;
+			pids += pid
+		}
+		familysearchService.getPeopleById(pids).then(function(people) {
+			var currentPerson = startPerson;
+			for(var p=0; p<path.length; p++) {
+				var pid = path[p].person1.resourceId;
+				var isPerson1 = true;
+				if (pid==currentPerson.id) {
+					pid = path[p].person2.resourceId;
+					isPerson1 = false;
+				}
+				var person = familysearchService.people[pid];
+				if (path[p].type=="http://gedcomx.org/ParentChild") {
+					if (isPerson1) {
+						if (person.gender.type=="http://gedcomx.org/Male") {
+							pathText += "father";
+						} else {
+							pathText += "mother";
+						}
+					} else {
+						if (person.gender.type=="http://gedcomx.org/Male") {
+							pathText += "son";
+						} else {
+							pathText += "daughter";
+						}
+					}
+				} else if (path[p].type=="http://gedcomx.org/Couple") {
+					if (person.gender.type=="http://gedcomx.org/Male") {
+						pathText += "husband";
+					} else {
+						pathText += "wife";
+					}
+				} else {
+					if (person.gender.type=="http://gedcomx.org/Male") {
+						pathText += "brother";
+					} else {
+						pathText += "sister";
+					}
+				}
+				if (p < path.length-1) pathText += "'s ";
+			}
+			deferred.resolve(pathText);
+		});
 		return deferred.promise;
 	};
 }])
@@ -232,7 +365,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	this.fs = new FamilySearch({
 	  //environment: 'production',
-	  environment: 'sandbox',
+	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: 'http://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
@@ -248,7 +381,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				temp.fsUser = response.data.persons[0];
 				temp.people[temp.fsUser.id] = temp.fsUser;
 				temp.usedPeople[temp.fsUser.id] = true;
-				temp.getAncestorTree(temp.fsUser.id);
+				temp.getAncestorTree(temp.fsUser.id, 6, true);
 				temp.getPersonPortrait(temp.fsUser.id);
 				temp.startBackgroundQueue();
 				var token = $cookies.get(temp.fs.tokenCookie);
@@ -288,7 +421,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				var func = temp.backgroundQueue.shift();
 				func();
 			}
-		}, 1500);
+		}, 1000);
 	};
 	
 	this.stopBackgroundQueue = function() {
@@ -299,14 +432,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	this.ancestorPromises = {};
-	this.getAncestorTree = function(personId, noCache) {
+	this.getAncestorTree = function(personId, generations, details, spouse, noCache) {
 		var deferred = $q.defer();
 		if (this.ancestorPromises[personId]) {
 			this.ancestorPromises[personId].push(deferred);
 			return deferred.promise;
 		}
 		var temp = this;
-		this.fs.get('/platform/tree/ancestry?person='+personId+'&generations=6&personDetails=', function(response) {
+		var url = '/platform/tree/ancestry?person='+personId+'&generations='+generations;
+		if (spouse) url += '&spouse='+spouse;
+		if (details) url += '&personDetails='
+		this.fs.get(url, function(response) {
 			if (!noCache) {
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
@@ -334,6 +470,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
 					temp.people[person.id] = person;
+					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
 				}
 				deferred.resolve(temp.people[personId]);
 			});
@@ -353,6 +490,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					var person = response.data.persons[p];
 					if (temp.people[person.id] && temp.people[person.id].portrait) {
 						person.portrait = temp.people[person.id].portrait
+					} else {
+						temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
 					}
 					temp.people[person.id] = person;
 					people.push(person);
@@ -367,11 +506,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	this.getPersonRelatives = function(personId) {
 		var deferred = $q.defer();
+		
 		var temp = this;
 		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
 			if (response.statusCode!=200) {
 				deferred.reject(response);
 				return;
+			}
+			if (temp.people[personId] && response.data.relationships) {
+				temp.people[personId].relationships = response.data.relationships;
 			}
 			var persons = [];
 			var pids = '';
@@ -398,18 +541,76 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				deferred.resolve(persons);
 			}
 		});
+		
 		return deferred.promise;
 	};
 
 	this.getPersonRelationships = function(personId) {
 		var deferred = $q.defer();
+		if (this.people[personId] && this.people[personId].relationships) {
+			deferred.resolve(this.people[personId].relationships);
+		} else {
+			var temp = this;
+			this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+				if (response.statusCode!=200) {
+					deferred.reject(response);
+					return;
+				}
+				temp.people[personId].relationships = response.data.relationships;
+				deferred.resolve(response.data.relationships);
+			});
+		}
+		return deferred.promise;
+	};
+	
+	this.getPersonParents = function(personId, relationships) {
+		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/parents', function(response) {
 			if (response.statusCode!=200) {
 				deferred.reject(response);
 				return;
 			}
-			deferred.resolve(response.data.relationships);
+			for(var p=0; p < response.data.persons.length; p++) {
+				var person = response.data.persons[p];
+				if (temp.people[person.id] && temp.people[person.id].portrait) {
+					person.portrait = temp.people[person.id].portrait
+				} else {
+					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+				}
+				temp.people[person.id] = person;
+			}
+			if (relationships) {
+				deferred.resolve(response.data.relationships);
+			} else {
+				deferred.resolve(response.data.persons);
+			}
+		});
+		return deferred.promise;
+	};
+	
+	this.getPersonSpouses = function(personId, relationships) {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/tree/persons/'+personId+'/spouses', function(response) {
+			if (response.statusCode!=200) {
+				deferred.reject(response);
+				return;
+			}
+			for(var p=0; p < response.data.persons.length; p++) {
+				var person = response.data.persons[p];
+				if (temp.people[person.id] && temp.people[person.id].portrait) {
+					person.portrait = temp.people[person.id].portrait
+				} else {
+					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+				}
+				temp.people[person.id] = person;
+			}
+			if (relationships) {
+				deferred.resolve(response.data.relationships);
+			} else {
+				deferred.resolve(response.data.persons);
+			}
 		});
 		return deferred.promise;
 	};
@@ -426,9 +627,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				var src = response.effectiveUrl;
 				if (temp.people[personId]) {
 					temp.people[personId].portrait = "fs-proxy.php?url="+encodeURIComponent(src);
+					temp.portraitPeople[personId] = true;
 				}
-				temp.portraitPeople[personId] = true;
-				deferred.resolve(src);
+				deferred.resolve({id: personId, src: src});
 			} else {
 				deferred.reject(response.body);
 			}
@@ -531,7 +732,21 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			}
 			deferred.resolve(persons);
 		}, function(error) {
-			deferred.reject(error);
+			var keys = Object.keys(temp.people);
+			if (keys.length > 0) {
+				var count = 0;
+				while(count < num) {
+					var rand = Math.floor(Math.random() * keys.length);
+					var randomId = keys[rand];
+					if (randomId != person.id && temp.people[randomId].gender.type == person.gender.type) {
+						persons.push(temp.people[randomId]);
+						count++;
+					}
+				}
+				deferred.resolve(persons);
+			} else {
+				deferred.reject(error);
+			}
 		});
 		return deferred.promise;
 	};
@@ -599,15 +814,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 .directive('avatarBadge', ['facebookService', function(facebookService) {
 	return {
 		scope: {
-			src: '='
+			src: '=',
+			label: '='
 		},
-		template: '<img src="{{src}}" />',
-		replace: false,
-		link: function($scope, $element, $attr) {
-			if (!$scope.src && facebookService.facebookUser) {
-				$scope.src = facebookService.facebookUser.picture.data.url;
-			}
-		}
+		template: '<img src="{{src}}" ng-if="src" /><div class="avatar-label" ng-if="label">{{label}}</div>',
+		replace: false
 	}
 }])
 .directive('answerButton', [function() {
@@ -707,12 +918,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		});
 	});
 })
-.controller('menuController', function($scope, $uibModal) {
+.controller('menuController', function($scope, $uibModal, facebookService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	$scope.menuItems = [
 		{route: '/practice', title: 'Practice Round', button: 'left'},
 		{route: '/challenge', title: 'Challenge a Friend', button: 'right'}
 	];
+	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
+		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+	}
 })
 .controller('practiceController', function($scope, notificationService, QuestionService, familysearchService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
@@ -736,7 +950,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	familysearchService.fsLoginStatus().then(function(fsUser) {
 		familysearchService.usedPeople = {};
-		familysearchService.getAncestorTree(fsUser.id).then(function() {
+		familysearchService.getAncestorTree(fsUser.id, 6, true).then(function() {
 			$scope.question.setup();
 		});
 	});

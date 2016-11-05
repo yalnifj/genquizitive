@@ -1,0 +1,36 @@
+<div class="question-holder" ng-controller="treeController">
+
+	<img style="position: absolute; top: 10px; left: 80px;" src="lamp.png" />
+	<img style="position: absolute; top: 10px; left: 210px;" src="lamp.png" />
+	<img style="position: absolute; top: 10px; left: 340px;" src="lamp.png" />
+	<img style="position: absolute; top: 150px; left: 0px; width: 20px; height: 370px;" src="pole1.png" />
+	<img style="position: absolute; top: 150px; left: 500px; width: 20px; height: 370px;" src="pole1.png" />
+	<img style="position: absolute; top: 150px; left: 0px; width: 40px; height: 15px;" src="pole2.png" />
+	<img style="position: absolute; top: 150px; left: 460px; width: 60px; height: 15px;" src="pole2.png" />
+	
+	<div class="green-question-block" style="position: absolute; left: 35px; top: 60px; width: 450px; height: 300px;">
+		{{questionText}}
+	</div>
+	<div avatar-badge class="avatar movable" src="item.person.portrait" label="item.person.display.name" tree-person=""
+			style="position: absolute; top: {{item.position.y}}px; left: {{item.position.x}}px; z-index: 100;" 
+			ng-repeat="item in people"></div>
+	
+	<img style="position: absolute; top: 470px; left: 30px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 440px; left: -30px;" src="button_green_rect.png" tree-spot="" />
+	<img style="position: absolute; top: 470px; left: 160px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 440px; left: 100px;" src="button_green_rect.png" tree-spot="" />
+	
+	<img style="position: absolute; top: 470px; left: 350px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 440px; left: 290px;" src="button_green_rect.png" tree-spot="" />
+	<img style="position: absolute; top: 470px; left: 480px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 440px; left: 420px;" src="button_green_rect.png" tree-spot="" />
+	
+	<img style="position: absolute; top: 600px; left: 95px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 570px; left: 35px;" src="button_green_rect.png" tree-spot="" />
+	
+	<img style="position: absolute; top: 600px; left: 415px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 570px; left: 355px;" src="button_green_rect.png" tree-spot="" />
+	
+	<img style="position: absolute; top: 670px; left: 255px; width: 10px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 640px; left: 195px;" src="button_green_rect.png" tree-spot="" />
+</div>
