@@ -397,8 +397,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 })
 .directive('treePerson', [function() {
 	return {
+		scope: {
+			treePerson: '='
+		},
 		link: function($scope, $element, $attr) {
-			$element.draggable({revert: "invalid", containment: 'body', zIndex: 101 });
+			$element.draggable({revert: "invalid", containment: 'body', zIndex: 101 })
+				.data('person', $scope.treePerson);
 		}
 	};
 }])
@@ -409,6 +413,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				drop: function(event, ui) {
 					ui.draggable.css('top', $element.position().top+'px');
 					ui.draggable.css('left', ($element.position().left+15)+'px');
+					var person = ui.draggable.data('person');
+					if (person.display.ascendancyNumber == $attr.number) {
+						person.display.inPlace = true;
+					} else {
+						person.display.inPlace = false;
+					}
+					$scope.checkTree();
 				}
 			});
 		}
@@ -427,7 +438,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			for(var p=0; p<$scope.question.people.length; p++) {
 				hash[$scope.question.people[p].id] = $scope.question.people[p];
 				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
-					hash[res.id].portrait = "fs-proxy.php?url="+encodeURIComponent(res.src);
+					if (hash[res.id]) {
+						hash[res.id].portrait = res.src;
+					}
 				});
 				$scope.people.push({person: $scope.question.people[p], position: {x: x, y: y}});
 				x += 105;
@@ -442,5 +455,16 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.questionText = $scope.question.questionText;
 		}
 	});
+	
+	$scope.checkTree = function() {
+		var correct = true;
+		for (var p=0; p<$scope.people.length; p++) {
+			if (!$scope.people[p].person.display.inPlace) {
+				correct = false;
+				break;
+			}
+		}
+		console.log("Tree is complete "+correct);
+	}
 })
 ;

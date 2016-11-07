@@ -618,22 +618,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	this.getPersonPortrait = function(personId) {
 		var deferred = $q.defer();
 		if (this.people[personId] && this.people[personId].portrait) {
-			deferred.resolve(this.people[personId].portrait);
-		}
-		
-		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/portrait', {headers: {'X-Expect-Override':'200-ok'}}, function(response) {
-			if (response.statusCode==200 || response.statusCode == 307) {
-				var src = response.effectiveUrl;
-				if (temp.people[personId]) {
-					temp.people[personId].portrait = "fs-proxy.php?url="+encodeURIComponent(src);
-					temp.portraitPeople[personId] = true;
+			deferred.resolve({id: personId, src: this.people[personId].portrait});
+		} else {		
+			var temp = this;
+			this.fs.get('/platform/tree/persons/'+personId+'/portrait', {headers: {'X-Expect-Override':'200-ok'}}, function(response) {
+				if (response.statusCode==200 || response.statusCode == 307) {
+					var src = response.effectiveUrl;
+					if (temp.people[personId]) {
+						temp.people[personId].portrait = "fs-proxy.php?url="+encodeURIComponent(src);
+						temp.portraitPeople[personId] = true;
+					}
+					deferred.resolve({id: personId, src: temp.people[personId].portrait});
+				} else {
+					deferred.reject(response.body);
 				}
-				deferred.resolve({id: personId, src: src});
-			} else {
-				deferred.reject(response.body);
-			}
-		});
+			});
+		}
 		
 		return deferred.promise;
 	};
