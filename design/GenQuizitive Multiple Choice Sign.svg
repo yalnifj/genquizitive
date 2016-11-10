@@ -1028,15 +1028,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="407.80631"
-     inkscape:cy="268.1352"
+     inkscape:cx="591.5948"
+     inkscape:cy="833.08792"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="961"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="1272"
+     inkscape:window-y="245"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata6778">
@@ -1101,21 +1101,30 @@
        id="path4140-6-3-3"
        inkscape:path-effect="#path-effect4142-7-5-1"
        inkscape:original-d="m 568.81834,96.610197 -358.27449,74.387493 110.82221,309.69487 170.02856,-1.5181 z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:1;fill:#7ed5bc;fill-opacity:0.99215686;fill-rule:evenodd;stroke:#640606;stroke-width:0.67361629;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 558.43685,96.251187 204.24507,169.791 313.80441,475.95672 481.8954,474.45592 558.43685,96.251187 Z"
        id="path4140-6-5"
        inkscape:path-effect="#path-effect4142-7-6"
        inkscape:original-d="M 558.43685,96.251187 204.24507,169.791 313.80441,475.95672 481.8954,474.45592 Z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:0.594;fill:#008080;fill-opacity:1;fill-rule:evenodd;stroke:#640606;stroke-width:0.67361629;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 536.17047,123.36574 -321.17488,66.68461 99.34647,277.62573 152.42198,-1.36091 69.40643,-342.94943 z"
        id="path4140-2"
        inkscape:path-effect="#path-effect4142-76"
        inkscape:original-d="m 536.17047,123.36574 -321.17488,66.68461 99.34647,277.62573 152.42198,-1.36091 z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:0.756;fill:#1a1a1a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 494.76163,496.50628 -181.00107,0 -119.76013,-329.34034 300.7612,-63.96279 6.80455,25.8573 39.46641,-59.880053 -62.60188,-12.24819 6.80455,24.49638 -319.81396,66.684623 133.36924,371.52856 200.05383,-2.72184 -4.08274,-20.41365 z"
@@ -1123,7 +1132,10 @@
        inkscape:path-effect="#path-effect4282-2"
        inkscape:original-d="m 494.76163,496.50628 -181.00107,0 -119.76013,-329.34034 300.7612,-63.96279 6.80455,25.8573 39.46641,-59.880053 -62.60188,-12.24819 6.80455,24.49638 -319.81396,66.684623 133.36924,371.52856 200.05383,-2.72184 z"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccccc" />
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#aa1313;stroke-width:1.34723258px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 489.77664,491.24753 -181.00109,0 -119.76011,-329.34033 300.7612,-63.962793 6.80455,25.857303 39.46641,-59.880063 -62.60188,-12.2482 6.80455,24.49639 -319.81396,66.684613 133.36923,371.52857 200.05384,-2.72184 -4.08274,-20.41365 z"
@@ -1131,10 +1143,16 @@
        inkscape:path-effect="#path-effect4282"
        inkscape:original-d="m 489.77664,491.24753 -181.00109,0 -119.76011,-329.34033 300.7612,-63.962793 6.80455,25.857303 39.46641,-59.880063 -62.60188,-12.2482 6.80455,24.49639 -319.81396,66.684613 133.36923,371.52857 200.05384,-2.72184 z"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccccc" />
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,200.02893,4.7188081)"
-       id="g4324-3">
+       id="g4324-3"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1186,7 +1204,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,178.42509,5.3821671)"
-       id="g4324-4">
+       id="g4324-4"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1238,7 +1259,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,156.01013,6.1622681)"
-       id="g4324-48">
+       id="g4324-48"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1290,7 +1314,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,111.92954,6.4028441)"
-       id="g4324-5">
+       id="g4324-5"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1342,7 +1369,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,88.064273,6.4028441)"
-       id="g4324-1">
+       id="g4324-1"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1394,7 +1424,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,64.064923,7.0833041)"
-       id="g4324-8">
+       id="g4324-8"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1446,7 +1479,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,38.505349,7.6538571)"
-       id="g4324-32">
+       id="g4324-32"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1498,7 +1534,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,134.3445,6.4028441)"
-       id="g4324-0">
+       id="g4324-0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1550,7 +1589,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,18.874257,-0.62200586)"
-       id="g4324-56">
+       id="g4324-56"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1602,7 +1644,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,10.694615,-20.830495)"
-       id="g4324-50">
+       id="g4324-50"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1654,7 +1699,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,2.5150139,-43.637219)"
-       id="g4324-39">
+       id="g4324-39"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1706,7 +1754,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-12.400764,-85.208968)"
-       id="g4324-35">
+       id="g4324-35"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1758,7 +1809,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-20.099269,-106.37978)"
-       id="g4324-36">
+       id="g4324-36"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1810,7 +1864,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-27.316583,-127.55058)"
-       id="g4324-7">
+       id="g4324-7"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1862,7 +1919,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-35.496198,-149.20256)"
-       id="g4324-6">
+       id="g4324-6"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1914,7 +1974,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-43.194716,-170.37339)"
-       id="g4324-74">
+       id="g4324-74"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -1966,7 +2029,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-51.855442,-191.83281)"
-       id="g4324-2">
+       id="g4324-2"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2018,7 +2084,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-58.591645,-212.71492)"
-       id="g4324-43">
+       id="g4324-43"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2070,7 +2139,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-66.290123,-234.84813)"
-       id="g4324-63">
+       id="g4324-63"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2122,7 +2194,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-74.964563,-257.65474)"
-       id="g4324-44">
+       id="g4324-44"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2174,7 +2249,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-83.481201,-279.87081)"
-       id="g4324-46">
+       id="g4324-46"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2226,7 +2304,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-90.24474,-300.38126)"
-       id="g4324-18">
+       id="g4324-18"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2278,7 +2359,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-105.25677,-342.70916)"
-       id="g4324-86">
+       id="g4324-86"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2330,7 +2414,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-81.687038,-347.40395)"
-       id="g4324-484">
+       id="g4324-484"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2382,7 +2469,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-55.512222,-351.96103)"
-       id="g4324-9">
+       id="g4324-9"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2434,7 +2524,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-27.605268,-357.91365)"
-       id="g4324-92">
+       id="g4324-92"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2486,7 +2579,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-0.96983214,-364.16182)"
-       id="g4324-364">
+       id="g4324-364"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2538,7 +2634,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,26.65528,-369.48874)"
-       id="g4324-75">
+       id="g4324-75"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2590,7 +2689,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,54.280393,-375.42768)"
-       id="g4324-11">
+       id="g4324-11"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2642,7 +2744,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,81.273413,-381.20153)"
-       id="g4324-45">
+       id="g4324-45"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2694,7 +2799,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,108.49991,-387.2089)"
-       id="g4324-567">
+       id="g4324-567"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2746,7 +2854,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,135.95991,-392.74924)"
-       id="g4324-98">
+       id="g4324-98"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2798,7 +2909,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,164.27914,-398.12448)"
-       id="g4324-31">
+       id="g4324-31"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2850,7 +2964,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,192.05568,-404.5788)"
-       id="g4324-49">
+       id="g4324-49"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2902,7 +3019,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,221.72215,-402.37233)"
-       id="g4324-361">
+       id="g4324-361"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -2954,7 +3074,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,213.22649,-428.75329)"
-       id="g4324-09">
+       id="g4324-09"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -3006,7 +3129,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,234.96099,-421.6185)"
-       id="g4324-59">
+       id="g4324-59"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -3058,7 +3184,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-5.1834511,-63.845708)"
-       id="g4324-32-2">
+       id="g4324-32-2"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -3110,7 +3239,10 @@
     </g>
     <g
        transform="matrix(-1.3472326,0,0,1.3472326,-97.599337,-320.3522)"
-       id="g4324-32-7">
+       id="g4324-32-7"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <path
          d="m -204.82085,370.25964 a 2.6224647,2.525336 0 0 1 -3.14794,1.88378 2.6224647,2.525336 0 0 1 -1.96042,-3.02884 2.6224647,2.525336 0 0 1 3.14272,-1.89184 2.6224647,2.525336 0 0 1 1.96878,3.02381"
          sodipodi:open="true"
@@ -3166,7 +3298,10 @@
        id="path4140-2-9"
        inkscape:path-effect="#path-effect4142-76-9"
        inkscape:original-d="m 527.96583,131.29158 -307.86645,63.9214 95.22988,266.12184 146.10612,-1.30453 z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <g
        transform="matrix(0.77581077,0,0,0.63462672,-3.2443792,-48.656582)"
        id="g7811-9-5"
@@ -3372,7 +3507,10 @@
        d="m 974.28578,-401.92348 c -52.35742,-52.35742 11.80081,-291.7992 83.32242,-310.96334 71.5215,-19.16415 246.8051,156.1194 227.6409,227.64097 -19.1641,71.52157 -258.6059,135.6798 -310.96332,83.32237 z"
        inkscape:transform-center-x="-1.2309927"
        inkscape:transform-center-y="77.262171"
-       transform="matrix(1.195673,-1.0444578,1.1439509,1.0916814,484.64939,2067.225)" />
+       transform="matrix(1.195673,-1.0444578,1.1439509,1.0916814,484.64939,2067.225)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi2\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <g
        id="g6520-9"
        transform="matrix(-1.1898882,0,0,1.1898882,1689.0874,-100.42724)">
@@ -3410,13 +3548,16 @@
        d="m 974.28578,-401.92348 c -52.35742,-52.35742 11.80081,-291.7992 83.32242,-310.96334 71.5215,-19.16415 246.8051,156.1194 227.6409,227.64097 -19.1641,71.52157 -258.6059,135.6798 -310.96332,83.32237 z"
        inkscape:transform-center-x="-1.1403708"
        inkscape:transform-center-y="71.944542"
-       transform="matrix(1.1077848,-0.97257265,1.0598646,1.0165461,526.89888,1938.3476)" />
+       transform="matrix(1.1077848,-0.97257265,1.0598646,1.0165461,528.89888,1938.3476)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi2\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <rect
        style="opacity:0.756;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.705127;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.99215686"
        id="rect7911-1-6"
        width="366.49942"
        height="200.45013"
-       x="1006.5695"
+       x="1008.5695"
        y="360.38388"
        rx="25.316828" />
     <rect
@@ -3424,23 +3565,23 @@
        id="rect7911-9"
        width="366.49942"
        height="200.45013"
-       x="999.23938"
+       x="1001.2394"
        y="353.58896"
        rx="25.316828" />
     <path
        style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#800000;stroke-width:1.23504245px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1015.7319,417.46118 330.832,10e-4"
+       d="m 1017.7319,417.46118 330.832,10e-4"
        id="path7913-0"
        inkscape:path-effect="#path-effect7915-14"
-       inkscape:original-d="m 1015.7319,417.46118 330.832,10e-4"
+       inkscape:original-d="m 1017.7319,417.46118 330.832,10e-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#800000;stroke-width:1.23504245px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1014.9586,487.12809 330.8321,0.001"
+       d="m 1016.9586,487.12809 330.8321,0.001"
        id="path7913-4-4"
        inkscape:path-effect="#path-effect7915-1-8"
-       inkscape:original-d="m 1014.9586,487.12809 330.8321,0.001"
+       inkscape:original-d="m 1016.9586,487.12809 330.8321,0.001"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <g
@@ -3531,7 +3672,10 @@
        style="fill:url(#SVGID_1_-0)" />
     <g
        id="g4791-4-5"
-       transform="matrix(1.3925446,0,0,1.1895162,1630.9567,372.06839)">
+       transform="matrix(1.3925446,0,0,1.1895162,1638.9567,372.06839)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_yellow_rect.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002">
       <g
          style="opacity:0.756;fill:#070404;fill-opacity:1;stroke:none;stroke-opacity:1"
          id="g7811-9-5-8-4-1"
@@ -3865,21 +4009,30 @@
        id="path4140-6-5-5-0"
        inkscape:path-effect="#path-effect4142-7-6-3-5"
        inkscape:original-d="M 711.44382,262.41805 33.718202,292.34862 243.35371,416.95747 564.98616,416.34665 Z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:1;fill:#bab476;fill-opacity:1;fill-rule:evenodd;stroke:#640606;stroke-width:0.59445155;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 703.60155,255.68686 25.875936,285.61742 235.51144,410.22628 557.14389,409.61546 703.60155,255.68686 Z"
        id="path4140-6-5-5"
        inkscape:path-effect="#path-effect4142-7-6-3"
        inkscape:original-d="M 703.60155,255.68686 25.875936,285.61742 235.51144,410.22628 557.14389,409.61546 Z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:0.77399998;fill:#ece8be;fill-opacity:1;fill-rule:evenodd;stroke:#640606;stroke-width:0.57970488;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 692.68176,258.56063 31.768588,287.74872 236.20364,409.26638 549.8573,408.67071 692.68176,258.56063 Z"
        id="path4140-6-5-5-9"
        inkscape:path-effect="#path-effect4142-7-6-3-1"
        inkscape:original-d="M 692.68176,258.56063 31.768588,287.74872 236.20364,409.26638 549.8573,408.67071 Z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002" />
     <path
        style="opacity:0.756;fill:#1a1a1a;fill-opacity:1;fill-rule:evenodd;stroke:#070404;stroke-width:1.20161939;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 436.90813,653.49279 251.94067,14.82252 -50.27667,-87.66383 -171.6276,0.32593 -30.0364,72.51538 z"
@@ -3887,7 +4040,10 @@
        inkscape:path-effect="#path-effect4142-7-6-3-1-7-40"
        inkscape:original-d="m 436.90813,653.49279 251.94067,14.82252 -50.27667,-87.66383 -171.6276,0.32593 z"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_yellow_trap1.png"
+       inkscape:export-xdpi="94.736221"
+       inkscape:export-ydpi="94.736221" />
     <path
        style="opacity:1;fill:#e0d884;fill-opacity:1;fill-rule:evenodd;stroke:#070404;stroke-width:1.20161939;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 430.55992,650.27253 251.94068,14.82252 -50.27667,-87.66384 -171.6276,0.32594 -30.03641,72.51538 z"
@@ -3895,7 +4051,10 @@
        inkscape:path-effect="#path-effect4142-7-6-3-1-7"
        inkscape:original-d="m 430.55992,650.27253 251.94068,14.82252 -50.27667,-87.66384 -171.6276,0.32594 z"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_yellow_trap1.png"
+       inkscape:export-xdpi="94.736221"
+       inkscape:export-ydpi="94.736221" />
     <path
        style="opacity:0.756;fill:#1a1a1a;fill-opacity:1;fill-rule:evenodd;stroke:#070404;stroke-width:1.20161939;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 123.19539,662.89919 375.13607,648.07667 324.8594,735.7405 153.2318,735.41457 123.19539,662.89919 Z"
@@ -3975,7 +4134,10 @@
        y="298.23901"
        id="text4790"
        sodipodi:linespacing="125%"
-       transform="matrix(0.98016765,-0.19817007,0.19817007,0.98016765,0,0)"><tspan
+       transform="matrix(0.98016765,-0.19817007,0.19817007,0.98016765,0,0)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002"><tspan
          sodipodi:role="line"
          id="tspan4792"
          x="196.36011"
@@ -3987,7 +4149,10 @@
        y="287.65714"
        id="text4790-5"
        sodipodi:linespacing="125%"
-       transform="matrix(0.98016765,-0.19817007,0.19817007,0.98016765,0,0)"><tspan
+       transform="matrix(0.98016765,-0.19817007,0.19817007,0.98016765,0,0)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi1\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002"><tspan
          sodipodi:role="line"
          id="tspan4792-1"
          x="192.99352"
@@ -3995,57 +4160,63 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:110.23771667px;line-height:125%;font-family:'Cherry Cream Soda';-inkscape-font-specification:'Cherry Cream Soda, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.76099997;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="1190.0895"
+       x="1192.0895"
        y="200.13321"
        id="text4866-5"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4868-2"
-         x="1190.0895"
+         x="1192.0895"
          y="200.13321" /><tspan
          sodipodi:role="line"
-         x="1190.0895"
+         x="1192.0895"
          y="337.93036"
          id="tspan4870-8">Motel</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:110.23771667px;line-height:125%;font-family:'Cherry Cream Soda';-inkscape-font-specification:'Cherry Cream Soda, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#bab476;fill-opacity:1;stroke:#e0d884;stroke-width:2.08871007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="1184.4879"
+       x="1186.4879"
        y="197.51453"
        id="text4866"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi2\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002"><tspan
          sodipodi:role="line"
          id="tspan4868"
-         x="1184.4879"
+         x="1186.4879"
          y="197.51453"
          style="stroke-width:2.08871007" /><tspan
          sodipodi:role="line"
-         x="1184.4879"
+         x="1186.4879"
          y="335.31168"
          id="tspan4870"
          style="stroke-width:2.08871007">Motel</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:89.11607361px;line-height:125%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1477.7587"
+       x="1480.601"
        y="165.78113"
        id="text4880"
        sodipodi:linespacing="125%"
        transform="scale(0.70361673,1.4212283)"><tspan
          sodipodi:role="line"
-         x="1477.7587"
+         x="1480.601"
          y="165.78113"
          id="tspan4884">White Sands</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:89.11607361px;line-height:125%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#aa1313;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1474.3275"
+       x="1477.1698"
        y="166.48686"
        id="text4880-9"
        sodipodi:linespacing="125%"
-       transform="scale(0.70361673,1.4212283)"><tspan
+       transform="scale(0.70361673,1.4212283)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\questions\multi2\back.png"
+       inkscape:export-xdpi="91.940002"
+       inkscape:export-ydpi="91.940002"><tspan
          sodipodi:role="line"
-         x="1474.3275"
+         x="1477.1698"
          y="166.48686"
          id="tspan4884-3">White Sands</tspan></text>
     <path

@@ -876,6 +876,294 @@
          stdDeviation="6.9543975"
          id="feGaussianBlur6265" />
     </filter>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       fy="223.0883"
+       fx="941.0343"
+       r="74.628899"
+       cy="224.04761"
+       cx="970.34149"
+       id="SVGID_1_-0"
+       gradientTransform="matrix(0.27492571,0,0,0.27492571,1132.6992,947.62336)">
+      <stop
+         id="stop6788-9"
+         style="stop-color:#FFFFFF"
+         offset="0" />
+      <stop
+         id="stop6790-6"
+         style="stop-color:#F4F4F4"
+         offset="0.045" />
+      <stop
+         id="stop6792-0"
+         style="stop-color:#9F9F9F"
+         offset="0.3957" />
+      <stop
+         id="stop6794-3"
+         style="stop-color:#606060"
+         offset="0.6825" />
+      <stop
+         id="stop6796-0"
+         style="stop-color:#3A3A3A"
+         offset="0.891" />
+      <stop
+         id="stop6798-2"
+         style="stop-color:#2B2B2B"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       r="36.631802"
+       cy="545.70453"
+       cx="939.69397"
+       id="SVGID_4_">
+      <stop
+         id="stop6869"
+         style="stop-color:#E5E2DF"
+         offset="0" />
+      <stop
+         id="stop6871"
+         style="stop-color:#F1EFEE"
+         offset="0" />
+      <stop
+         id="stop6873"
+         style="stop-color:#FFFFFF"
+         offset="0" />
+      <stop
+         id="stop6875"
+         style="stop-color:#F0F0F1"
+         offset="0.1259" />
+      <stop
+         id="stop6877"
+         style="stop-color:#C9CACB"
+         offset="0.3664" />
+      <stop
+         id="stop6879"
+         style="stop-color:#ADAEB0"
+         offset="0.5225" />
+      <stop
+         id="stop6881"
+         style="stop-color:#A3A5A7"
+         offset="0.6029" />
+      <stop
+         id="stop6883"
+         style="stop-color:#898D90"
+         offset="0.7382" />
+      <stop
+         id="stop6885"
+         style="stop-color:#5F6769"
+         offset="0.9108" />
+      <stop
+         id="stop6887"
+         style="stop-color:#465053"
+         offset="1" />
+    </radialGradient>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       r="36.631802"
+       cy="1308.7045"
+       cx="939.69397"
+       id="SVGID_5_">
+      <stop
+         id="stop6892"
+         style="stop-color:#E5E2DF"
+         offset="0" />
+      <stop
+         id="stop6894"
+         style="stop-color:#F1EFEE"
+         offset="0" />
+      <stop
+         id="stop6896"
+         style="stop-color:#FFFFFF"
+         offset="0" />
+      <stop
+         id="stop6898"
+         style="stop-color:#F0F0F1"
+         offset="0.1259" />
+      <stop
+         id="stop6900"
+         style="stop-color:#C9CACB"
+         offset="0.3664" />
+      <stop
+         id="stop6902"
+         style="stop-color:#ADAEB0"
+         offset="0.5225" />
+      <stop
+         id="stop6904"
+         style="stop-color:#A3A5A7"
+         offset="0.6029" />
+      <stop
+         id="stop6906"
+         style="stop-color:#898D90"
+         offset="0.7382" />
+      <stop
+         id="stop6908"
+         style="stop-color:#5F6769"
+         offset="0.9108" />
+      <stop
+         id="stop6910"
+         style="stop-color:#465053"
+         offset="1" />
+    </radialGradient>
+    <linearGradient
+       id="SVGID_3_"
+       gradientUnits="userSpaceOnUse"
+       x1="162.8416"
+       y1="935.79633"
+       x2="1692.8416"
+       y2="935.79633"
+       gradientTransform="matrix(0.33436377,0,0,0.33436377,1079.7333,923.86956)">
+      <stop
+         offset="0"
+         style="stop-color:#E5E2DF"
+         id="stop6826" />
+      <stop
+         offset="0"
+         style="stop-color:#D6D7D7"
+         id="stop6828" />
+      <stop
+         offset="0"
+         style="stop-color:#D1D3D4"
+         id="stop6830" />
+      <stop
+         offset="0.0676"
+         style="stop-color:#EDEEEE"
+         id="stop6832" />
+      <stop
+         offset="0.1067"
+         style="stop-color:#FFFFFF"
+         id="stop6834" />
+      <stop
+         offset="0.1185"
+         style="stop-color:#F2F2F2"
+         id="stop6836" />
+      <stop
+         offset="0.1574"
+         style="stop-color:#CBCCCD"
+         id="stop6838" />
+      <stop
+         offset="0.1931"
+         style="stop-color:#AEB0B2"
+         id="stop6840" />
+      <stop
+         offset="0.2242"
+         style="stop-color:#9D9FA2"
+         id="stop6842" />
+      <stop
+         offset="0.2472"
+         style="stop-color:#97999C"
+         id="stop6844" />
+      <stop
+         offset="0.5922"
+         style="stop-color:#D1D3D4"
+         id="stop6846" />
+      <stop
+         offset="0.6818"
+         style="stop-color:#DBDCDD"
+         id="stop6848" />
+      <stop
+         offset="0.8321"
+         style="stop-color:#F5F5F5"
+         id="stop6850" />
+      <stop
+         offset="0.882"
+         style="stop-color:#FFFFFF"
+         id="stop6852" />
+      <stop
+         offset="0.8972"
+         style="stop-color:#EAEBEC"
+         id="stop6854" />
+      <stop
+         offset="0.9214"
+         style="stop-color:#D0D2D3"
+         id="stop6856" />
+      <stop
+         offset="0.9463"
+         style="stop-color:#BEBFC2"
+         id="stop6858" />
+      <stop
+         offset="0.972"
+         style="stop-color:#B3B5B7"
+         id="stop6860" />
+      <stop
+         offset="1"
+         style="stop-color:#AFB1B4"
+         id="stop6862" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#SVGID_3_"
+       id="linearGradient4651"
+       x1="1149.5537"
+       y1="13.925369"
+       x2="1985.96"
+       y2="13.925369"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99766142,0,0,1.2706381,-2.0473064,51.273377)" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4730"
+       x="-0.019096446"
+       width="1.0381929"
+       y="-0.31350009"
+       height="1.6270002">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5834145"
+         id="feGaussianBlur4732" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4742"
+       x="-0.019096446"
+       width="1.0381929"
+       y="-0.31350009"
+       height="1.6270002">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5834145"
+         id="feGaussianBlur4744" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4754"
+       x="-0.019096446"
+       width="1.0381929"
+       y="-0.31350016"
+       height="1.6270003">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5834145"
+         id="feGaussianBlur4756" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4766"
+       x="-0.019096446"
+       width="1.0381929"
+       y="-0.31350009"
+       height="1.6270002">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5834145"
+         id="feGaussianBlur4768" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4778"
+       x="-0.019096446"
+       width="1.0381929"
+       y="-0.31350009"
+       height="1.6270002">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5834145"
+         id="feGaussianBlur4780" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -884,16 +1172,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.24748737"
-     inkscape:cx="440.97162"
-     inkscape:cy="743.13634"
+     inkscape:zoom="0.49497474"
+     inkscape:cx="636.14628"
+     inkscape:cy="705.94307"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="705"
      inkscape:window-x="1272"
-     inkscape:window-y="49"
+     inkscape:window-y="245"
      inkscape:window-maximized="1"
      showguides="false" />
   <metadata
@@ -1097,7 +1385,10 @@
        height="126.90472"
        x="562.03998"
        y="556.95038"
-       ry="9.8563728" />
+       ry="9.8563728"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_green_rect.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412" />
     <g
        id="g6520-9-2-3"
        transform="matrix(-0.55727832,0,0,0.55727832,881.03682,312.12876)">
@@ -1255,7 +1546,10 @@
     </g>
     <g
        transform="translate(354.54816,1.277948)"
-       id="g4456-0">
+       id="g4456-0"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\lamp.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412">
       <g
          inkscape:transform-center-y="-45.987993"
          inkscape:transform-center-x="54.285718"
@@ -1775,22 +2069,34 @@
        inkscape:connector-curvature="0"
        id="path4384-32"
        d="m 731.63699,674.94114 -158.03516,0 c -3.02189,0 -5.48039,-2.94564 -5.48039,-6.63544 l 0,-100.77111 c 0,-3.65875 2.4585,-6.63538 5.48039,-6.63538 l 158.03516,0 c 3.02196,0 5.48048,2.97663 5.48048,6.63538 l 0,100.77111 c 0,3.6898 -2.45852,6.63544 -5.48048,6.63544 z"
-       style="fill:#076240;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+       style="fill:#076240;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_green_rect.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412" />
     <path
        inkscape:connector-curvature="0"
        id="path4386-1"
        d="m 731.63699,560.89921 c 3.02196,0 5.48048,2.97663 5.48048,6.63538 l 0,100.77111 c 0,3.6898 -2.45852,6.63544 -5.48048,6.63544 l -158.03516,0 c -3.02189,0 -5.48039,-2.94564 -5.48039,-6.63544 l 0,-100.77111 c 0,-3.65875 2.4585,-6.63538 5.48039,-6.63538 l 158.03516,0 m 0,-3.44172 -158.03516,0 c -4.58406,0 -8.32303,4.52695 -8.32303,10.0771 l 0,100.77111 c 0,5.58121 3.73897,10.10819 8.32303,10.10819 l 158.03516,0 c 4.58406,0 8.32314,-4.52698 8.32314,-10.10819 l 0,-100.77111 c 0,-5.55015 -3.73908,-10.0771 -8.32314,-10.0771 l 0,0 z"
-       style="fill:#cac9c9;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+       style="fill:#cac9c9;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_green_rect.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412" />
     <path
        inkscape:connector-curvature="0"
        id="path4388-6"
        d="m 655.37247,565.0851 c 0,1.82936 -1.22926,3.31769 -2.74022,3.31769 -1.53657,0 -2.74023,-1.48833 -2.74023,-3.31769 0,-1.82939 1.20366,-3.31771 2.74023,-3.31771 1.51096,0 2.74022,1.48832 2.74022,3.31771 z"
-       style="fill:#959999;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+       style="fill:#959999;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_green_rect.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412" />
     <path
        inkscape:connector-curvature="0"
        id="path4390-7"
        d="m 655.37247,670.53818 c 0,1.8294 -1.22926,3.31772 -2.74022,3.31772 -1.53657,0 -2.74023,-1.48832 -2.74023,-3.31772 0,-1.82939 1.20366,-3.31771 2.74023,-3.31771 1.51096,0 2.74022,1.48832 2.74022,3.31771 z"
-       style="fill:#959999;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+       style="fill:#959999;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\button_green_rect.png"
+       inkscape:export-xdpi="63.827412"
+       inkscape:export-ydpi="63.827412" />
     <path
        inkscape:connector-curvature="0"
        id="path4384-35"
@@ -1970,5 +2276,203 @@
            inkscape:connector-curvature="0" />
       </g>
     </g>
+    <rect
+       style="opacity:0.8479996;fill:#070404;fill-opacity:1;stroke:none;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4464"
+       width="847.88165"
+       height="515.89447"
+       x="1145.6328"
+       y="-178.16743"
+       rx="18.95656"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <rect
+       style="opacity:1;fill:#153d76;fill-opacity:1;stroke:url(#linearGradient4651);stroke-width:16.88860512;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4464-6"
+       width="834.45032"
+       height="508.28119"
+       x="1144.8181"
+       y="-185.17313"
+       rx="18.656267"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <path
+       style="fill:#076240"
+       inkscape:connector-curvature="0"
+       d="m 1621.3496,1374.6911 -462.7594,0 c -8.8639,0 -16.0495,-7.1856 -16.0495,-16.0495 l 0,-243.7512 c 0,-8.8638 7.1856,-16.0494 16.0495,-16.0494 l 462.7594,0 c 8.8639,0 16.0495,7.1856 16.0495,16.0494 l 0,243.7512 c 0,8.8639 -7.1856,16.0495 -16.0495,16.0495 z"
+       id="path6823" />
+    <path
+       style="fill:url(#SVGID_3_)"
+       inkscape:connector-curvature="0"
+       d="m 1621.3496,1098.8409 c 8.864,0 16.0495,7.1856 16.0495,16.0495 l 0,243.7512 c 0,8.8639 -7.1855,16.0495 -16.0495,16.0495 l -462.7594,0 c -8.8639,0 -16.0495,-7.1856 -16.0495,-16.0495 l 0,-243.7512 c 0,-8.8639 7.1856,-16.0495 16.0495,-16.0495 l 462.7594,0 m 0,-8.359 -462.7594,0 c -13.4589,0 -24.4086,10.9496 -24.4086,24.4085 l 0,243.7512 c 0,13.4589 10.9497,24.4086 24.4086,24.4086 l 462.7594,0 c 13.4589,0 24.4086,-10.9497 24.4086,-24.4086 l 0,-243.7512 c 0,-13.4589 -10.9497,-24.4085 -24.4086,-24.4085 l 0,0 z"
+       id="path6864" />
+    <g
+       id="g6866"
+       transform="matrix(0.33436377,0,0,0.33436377,1079.7333,923.86956)">
+      <radialGradient
+         gradientUnits="userSpaceOnUse"
+         r="36.631802"
+         cy="545.70453"
+         cx="939.69397"
+         id="radialGradient8294">
+        <stop
+           id="stop8296"
+           style="stop-color:#E5E2DF"
+           offset="0" />
+        <stop
+           id="stop8298"
+           style="stop-color:#F1EFEE"
+           offset="0" />
+        <stop
+           id="stop8300"
+           style="stop-color:#FFFFFF"
+           offset="0" />
+        <stop
+           id="stop8302"
+           style="stop-color:#F0F0F1"
+           offset="0.1259" />
+        <stop
+           id="stop8304"
+           style="stop-color:#C9CACB"
+           offset="0.3664" />
+        <stop
+           id="stop8306"
+           style="stop-color:#ADAEB0"
+           offset="0.5225" />
+        <stop
+           id="stop8308"
+           style="stop-color:#A3A5A7"
+           offset="0.6029" />
+        <stop
+           id="stop8310"
+           style="stop-color:#898D90"
+           offset="0.7382" />
+        <stop
+           id="stop8312"
+           style="stop-color:#5F6769"
+           offset="0.9108" />
+        <stop
+           id="stop8314"
+           style="stop-color:#465053"
+           offset="1" />
+      </radialGradient>
+      <circle
+         id="circle6889"
+         r="24"
+         cy="553.40863"
+         cx="927.84161"
+         style="fill:url(#SVGID_4_)" />
+      <radialGradient
+         gradientUnits="userSpaceOnUse"
+         r="36.631802"
+         cy="1308.7045"
+         cx="939.69397"
+         id="radialGradient8317">
+        <stop
+           id="stop8319"
+           style="stop-color:#E5E2DF"
+           offset="0" />
+        <stop
+           id="stop8321"
+           style="stop-color:#F1EFEE"
+           offset="0" />
+        <stop
+           id="stop8323"
+           style="stop-color:#FFFFFF"
+           offset="0" />
+        <stop
+           id="stop8325"
+           style="stop-color:#F0F0F1"
+           offset="0.1259" />
+        <stop
+           id="stop8327"
+           style="stop-color:#C9CACB"
+           offset="0.3664" />
+        <stop
+           id="stop8329"
+           style="stop-color:#ADAEB0"
+           offset="0.5225" />
+        <stop
+           id="stop8331"
+           style="stop-color:#A3A5A7"
+           offset="0.6029" />
+        <stop
+           id="stop8333"
+           style="stop-color:#898D90"
+           offset="0.7382" />
+        <stop
+           id="stop8335"
+           style="stop-color:#5F6769"
+           offset="0.9108" />
+        <stop
+           id="stop8337"
+           style="stop-color:#465053"
+           offset="1" />
+      </radialGradient>
+      <circle
+         id="circle6912"
+         r="24"
+         cy="1316.4086"
+         cx="927.84161"
+         style="fill:url(#SVGID_5_)" />
+    </g>
+    <circle
+       id="circle6800-6"
+       r="29.004663"
+       cy="1025.4404"
+       cx="1387.6493"
+       style="fill:url(#SVGID_1_-0)" />
+    <path
+       style="opacity:0.98000004;fill:#edc833;fill-opacity:1;fill-rule:evenodd;stroke:#f2db7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4742)"
+       d="m 1113.2722,-162.33138 199.0001,1.01015 -1.0102,10.10153 -196.9797,1.01015 z"
+       id="path4653"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(1.6343181,0,0,0.96418547,-704.40523,-5.2127312)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <path
+       style="opacity:0.98000004;fill:#edc833;fill-opacity:1;fill-rule:evenodd;stroke:#f2db7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4730)"
+       d="m 1112.9141,-141.63637 199.0001,1.01015 -1.0102,10.10153 -196.9797,1.01015 z"
+       id="path4653-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(1.6343181,0,0,0.96418547,-704.40523,-5.2127312)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <path
+       style="opacity:0.98000004;fill:#edc833;fill-opacity:1;fill-rule:evenodd;stroke:#f2db7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4766)"
+       d="m 1113.2607,-122.73573 199.0001,1.01015 -1.0102,10.10153 -196.9797,1.01015 z"
+       id="path4653-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(1.6343181,0,0,0.96418547,-704.40523,-5.2127312)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <path
+       style="opacity:0.98000004;fill:#edc833;fill-opacity:1;fill-rule:evenodd;stroke:#f2db7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4754)"
+       d="m 1112.4239,-104.15198 199.0001,1.01015 -1.0102,10.101527 -196.9797,1.01015 z"
+       id="path4653-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(1.6343181,0,0,0.96418547,-704.40523,-5.2127312)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
+    <path
+       style="opacity:0.98000004;fill:#edc833;fill-opacity:1;fill-rule:evenodd;stroke:#f2db7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4778)"
+       d="m 1112.2505,-85.914867 199.0001,1.01015 -1.0102,10.10153 -196.9797,1.01015 z"
+       id="path4653-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(1.6343181,0,0,0.96418547,-704.40523,-5.2127312)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\notification_background.png"
+       inkscape:export-xdpi="50.77"
+       inkscape:export-ydpi="50.77" />
   </g>
 </svg>

@@ -1,3 +1,9 @@
+if (!window.console) {
+	window.console = {};
+}
+if (!window.console.log) {
+	window.console.log = function() { };
+}
 angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.questions'])
 .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
@@ -928,19 +934,73 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
 	}
 })
-.controller('practiceController', function($scope, notificationService, QuestionService, familysearchService) {
+.controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
+	
+	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
+		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+	}
 	
 	var notif = notificationService.showNotification({title: 'Practice Round', message: 'Answer the questions as quickly as you can.'});
 	notif.show();
 	
+	$scope.questions = [];
+	$scope.currentQuestion = 0;
+	$scope.ready = false;
+	
+	$scope.minute = 0;
+	$scope.second = 0;
+	$scope.interval = $interval(function() {
+		if ($scope.startTime) {
+			var d = new Date();
+			var diff = d.getTime() - $scope.startTime.getTime();
+			$scope.minute = Math.floor(diff / (1000*60));
+			$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
+		}
+	}, 1000);
+	
+	$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
+	$scope.questions[$scope.currentQuestion].setup();
+	
 	$scope.startRound = function() {
 		notif.close();
+		$scope.ready = true;
+		$scope.startTime = new Date();
 		
-		var question = QuestionService.getRandomQuestion();
+		$scope.question = $scope.questions[$scope.currentQuestion];
 		
-		
+		$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
+		$scope.questions[$scope.currentQuestion+1].setup();
 	}
+	
+	$scope.nextQuestion = function() {
+		$scope.question.completeTime = new Date();
+		
+		if ($scope.currentQuestion>4) {
+			$scope.complete = true;
+			$interval.cancel($scope.interval);
+		} else {		
+			$scope.currentQuestion++;
+			$scope.question = $scope.questions[$scope.currentQuestion];
+			
+			$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
+			$scope.questions[$scope.currentQuestion+1].setup();
+		}
+	}
+	
+	$scope.$on('questionCorrect', function(event, question) {
+		$scope.nextQuestion();
+	});
+	
+	$scope.tries = 0;
+	$scope.$watch('question.error', function(newval, oldval) {
+		if (newval && newval!=oldval) {
+			$scope.tries++;
+			console.log('trying question setup again '+$scope.tries);
+			$scope.question.error = null;
+			$scope.question.setup();
+		}
+	});
 })
 .controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');

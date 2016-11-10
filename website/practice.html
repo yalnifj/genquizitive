@@ -1,4 +1,10 @@
 <div class="text-center" ng-controller="practiceController">
 	<div class="countdown" ng-if="!question" callback="startRound()" remove="true" delay-start="1000" style="position: relative; top: 350px;"></div>
-	<div ng-if="question" question="question"></div>
+	<div ng-if="ready">
+		
+		<div question="question"></div>
+		
+		<div class="timer"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
+		<div avatar-badge src="pictureUrl" class="avatar" style="position: absolute; top:10px; right: 50px;"></div>
+	</div>
 </div>

@@ -211,7 +211,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	};
 	
 	this.getRandomQuestion = function () {
-		var q = Msth.floor (Math.random () * this.questions.length);
+		var q = Math.floor (Math.random () * this.questions.length);
 		return this.questions[q];
 	};
 	
@@ -279,9 +279,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[0])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");	
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -292,9 +294,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[1])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -305,9 +309,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[2])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -318,9 +324,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[3])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 })
@@ -350,9 +358,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[0])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");	
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -364,8 +374,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[1])) {
 			console.log("Correct!");	
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -377,8 +389,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[2])) {
 			console.log("Correct!");	
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 	
@@ -389,9 +403,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			return;
 		}
 		if ($scope.question.checkAnswer($scope.answerPeople[3])) {
-			console.log("Correct!");	
+			console.log("Correct!");
+			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
+			console.log("Incorrect!");
+			$scope.$emit('questionIncorrect', $scope.question);
 		}
 	};
 })
@@ -465,6 +481,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			}
 		}
 		console.log("Tree is complete "+correct);
+		if (correct) {
+			$scope.$emit('questionCorrect', $scope.question);
+		}
 	}
 })
 ;
