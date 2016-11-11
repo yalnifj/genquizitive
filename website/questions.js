@@ -176,12 +176,17 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.questionText = 'Complete the family tree.'
 				
 				question.person = familysearchService.getRandomPerson();
-				familysearchService.getAncestorTree(question.person.id, 2, false, 'UNKNOWN', true).then(function(tree) {
+				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if (tree.persons.length<3) {
 						console.log('Not enough people. Trying setup again.');
 						question.setup();
 					} else {
-						question.people = tree.persons;
+						question.people = [];
+						for(var p=0; p<tree.persons.length; p++){
+							if (tree.persons[p].display.ascendancyNumber.indexOf("S")<0) {
+								question.people.push(tree.persons[p]);
+							}
+						}
 					}
 				});
 			},
@@ -417,8 +422,15 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			treePerson: '='
 		},
 		link: function($scope, $element, $attr) {
-			$element.draggable({revert: "invalid", containment: 'body', zIndex: 101 })
-				.data('person', $scope.treePerson);
+			$element.draggable({
+				revert: "invalid", 
+				containment: 'body', 
+				zIndex: 101,
+				start: function(event, ui) {
+					$scope.treePerson.originalPosition = ui.position;
+				}
+			})
+			.data('person', $scope.treePerson);
 		}
 	};
 }])
@@ -427,19 +439,50 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		link: function($scope, $element, $attr) {
 			$element.droppable({
 				drop: function(event, ui) {
+					var person = ui.draggable.data('person');
+					var dropper = $element.data('dropper');
+					if (dropper) {
+						var oldperson = dropper.data('person');
+						if (person.originalPosition) {
+							dropper.animate({top: person.originalPosition.top, left: person.originalPosition.left });
+						}
+					}
 					ui.draggable.css('top', $element.position().top+'px');
 					ui.draggable.css('left', ($element.position().left+15)+'px');
-					var person = ui.draggable.data('person');
 					if (person.display.ascendancyNumber == $attr.number) {
 						person.display.inPlace = true;
+						$element.droppable( "option", "disabled", true );
+						ui.draggable.draggable("option", "disabled", true);
 					} else {
 						person.display.inPlace = false;
 					}
+					$element.data('dropper', ui.draggable);
+					$element.data('person', person);
 					$scope.checkTree();
+				},
+				out: function(event, ui) {
+					var person1 = ui.draggable.data('person');
+					var person2 = $element.data('dropper').data('person');
+					if (person1==person2) {
+						$element.data('dropper', null);
+						$element.droppable( "option", "disabled", false );
+					}
 				}
 			});
 		}
 	};
+}])
+.directive('treeSign', [function() {
+	return {
+		link: function($scope, $element, $attr) {
+			$element.droppable({
+				drop: function(event, ui) {
+					var person = ui.draggable.data('person');
+					person.display.inPlace = false;
+				}
+			});
+		}
+	}
 }])
 .controller('treeController', function($scope, QuestionService, familysearchService) {
 	$scope.questionText = '';

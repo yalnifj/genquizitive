@@ -384,15 +384,19 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		var temp = this;
 		this.fs.get('/platform/tree/current-person', function(response){
 			if (response.statusCode==200) {
-				temp.fsUser = response.data.persons[0];
-				temp.people[temp.fsUser.id] = temp.fsUser;
-				temp.usedPeople[temp.fsUser.id] = true;
-				temp.getAncestorTree(temp.fsUser.id, 6, true);
-				temp.getPersonPortrait(temp.fsUser.id);
-				temp.startBackgroundQueue();
-				var token = $cookies.get(temp.fs.tokenCookie);
-				$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
-				deferred.resolve(temp.fsUser);
+				if (response.data) {
+					temp.fsUser = response.data.persons[0];
+					temp.people[temp.fsUser.id] = temp.fsUser;
+					temp.usedPeople[temp.fsUser.id] = true;
+					temp.getAncestorTree(temp.fsUser.id, 6, true);
+					temp.getPersonPortrait(temp.fsUser.id);
+					temp.startBackgroundQueue();
+					var token = $cookies.get(temp.fs.tokenCookie);
+					$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
+					deferred.resolve(temp.fsUser);
+				} else {
+					this.fsLoginStatus().then(function(data) { deferred.resolve(data); });
+				}
 			} else if (response.statusCode==401) {
 				//-- delete any old cookies
 				document.cookie = 'FS_AUTH_TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
