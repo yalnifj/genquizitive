@@ -122,6 +122,27 @@ body {
 	width: 165px;
 	left: 60px;
 }
+
+.smaller-logo {
+	position: absolute;
+	top: 10px;
+	left: 20%;
+	width: 150px;
+	height: 150px;
+}
+.smaller-logo #home_sign {
+	position: absolute;
+	width: 125px;
+	top: 35px;
+	left: 0px;
+}
+.smaller-logo #home_arrows {
+	position: absolute;
+	width: 82px;
+	left: 30px;
+	top: 25px;
+}
+
 .notification {
 	position: absolute;
 	top: -500px;
@@ -257,8 +278,8 @@ body {
 }
 .timer {
 	position: absolute;
-	left: 150px;
-	top: 10px;
+	left: 25px;
+	top: 5px;
 	width: 150px;
 	height: 87px;
 	background-image: url('timer.png');
@@ -267,6 +288,51 @@ body {
 	line-height: 87px;
 	font-size: 50px;
 	font-family: fixed;
+}
+.active-tree-spot {
+	border: solid 2px #edc833;
+	border-radius: 10px;
+}
+.inactive-tree-spot {
+	border: solid 2px #800000;
+	border-radius: 10px;
+}
+.guage {
+	position: relative;
+	width: 98px;
+	height: 98px;
+	background-image: url('guage_back.png');
+}
+.guage img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.guage .guage-label {
+	position: absolute;
+    color: black;
+    font-size: 8px;
+    text-align: center;
+    bottom: 18px;
+    width: 100%;
+}
+.dashboard {
+	position: relative;
+	background-color: #dee3e6;
+    border-radius: 15px;
+    border: ridge 7px #3471ca;
+    box-shadow: -5px 5px 3px #333;
+}
+
+.friend-holder {
+	position: absolute;
+	background-color: 066c46;
+	width: 392px;
+	height: 500px;
+	left: 33%;
+	top: 100px;
+	padding: 20px;
+	border: solid #f2db7f 20px;
 }
 
 @media (max-width: 767px) {

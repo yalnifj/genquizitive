@@ -4,7 +4,16 @@
 		
 		<div question="question"></div>
 		
-		<div class="timer"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
+		<div class="" style="position: absolute; left: 120px; top: 10px; width: 200px; height: 250px;">
+			<div class="timer"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
+			<div class="guage" style="position: absolute; left: 50px; top: 110px;" guage=""
+				min="0" max="maxQuestions" value="currentQuestion" label="Questions"></div>
+			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 40px;"></div>
+			<div light="" color="red" on="missedQuestions > 0" style="position: absolute; top: 205px; left: 60px;"></div>
+			<div light="" color="red" on="missedQuestions > 1" style="position: absolute; top: 210px; left: 90px;"></div>
+			<div light="" color="red" on="missedQuestions > 2" style="position: absolute; top: 205px; left: 120px;"></div>
+			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" style="position: absolute; top: 185px; left: 140px;"></div>
+		</div>
 		<div avatar-badge src="pictureUrl" class="avatar" style="position: absolute; top:10px; right: 50px;"></div>
 	</div>
 </div>

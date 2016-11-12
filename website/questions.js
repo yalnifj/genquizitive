@@ -265,6 +265,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	$scope.questionText = 'Who is shown in this picture?';
 	
 	$scope.answerPeople = [];
+	$scope.incorrectAnswers = {};
 	
 	$scope.$watchCollection('question.randomPeople', function() {
 		if ($scope.question.randomPeople && $scope.question.randomPeople.length > 0) {
@@ -287,8 +288,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			console.log("Correct!");
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
-			$scope.$emit('questionIncorrect', $scope.question);
+			console.log("Incorrect!");
+			if (!$scope.incorrectAnswers[0]) {
+				$scope.incorrectAnswers[0] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -303,7 +307,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[1]) {
+				$scope.incorrectAnswers[1] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -318,7 +325,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[2]) {
+				$scope.incorrectAnswers[2] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -333,7 +343,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[3]) {
+				$scope.incorrectAnswers[3] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 })
@@ -342,6 +355,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	$scope.questionText = '';
 	
 	$scope.answerPeople = [];
+	$scope.incorrectAnswers = {};
 	
 	$scope.$watchCollection('question.randomPeople', function() {
 		if ($scope.question.randomPeople && $scope.question.randomPeople.length > 0) {
@@ -366,8 +380,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			console.log("Correct!");
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
-			console.log("Incorrect!");	
-			$scope.$emit('questionIncorrect', $scope.question);
+			console.log("Incorrect!");
+			if (!$scope.incorrectAnswers[0]) {
+				$scope.incorrectAnswers[0] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -382,7 +399,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[1]) {
+				$scope.incorrectAnswers[1] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -397,7 +417,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[2]) {
+				$scope.incorrectAnswers[2] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 	
@@ -412,7 +435,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		} else {
 			console.log("Incorrect!");
-			$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.incorrectAnswers[3]) {
+				$scope.incorrectAnswers[3] = true;
+				$scope.$emit('questionIncorrect', $scope.question);
+			}
 		}
 	};
 })
@@ -453,19 +479,25 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						person.display.inPlace = true;
 						$element.droppable( "option", "disabled", true );
 						ui.draggable.draggable("option", "disabled", true);
+						ui.draggable.removeClass("movable");
+						$element.addClass('active-tree-spot');
 					} else {
 						person.display.inPlace = false;
+						$element.addClass('inactive-tree-spot');
 					}
 					$element.data('dropper', ui.draggable);
 					$element.data('person', person);
 					$scope.checkTree();
 				},
 				out: function(event, ui) {
-					var person1 = ui.draggable.data('person');
-					var person2 = $element.data('dropper').data('person');
-					if (person1==person2) {
-						$element.data('dropper', null);
-						$element.droppable( "option", "disabled", false );
+					if ($element.data('dropper')) {
+						var person1 = ui.draggable.data('person');
+						var person2 = $element.data('dropper').data('person');
+						if (person1==person2) {
+							$element.removeClass('inactive-tree-spot');
+							$element.data('dropper', null);
+							$element.droppable( "option", "disabled", false );
+						}
 					}
 				}
 			});

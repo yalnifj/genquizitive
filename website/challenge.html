@@ -1,0 +1,20 @@
+<div class="text-center" ng-controller="challengeController">
+	
+	<img style="position: absolute; top: 500px; left: 37%; width: 20px; height: 270px;" src="pole1.png" />
+	<img style="position: absolute; top: 500px; right: 40%; width: 20px; height: 270px;" src="pole1.png" />
+	<div class="friend-holder">
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: -18px;" />
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: 46px;" />
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: 112px;" />
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: 176px;" />
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: 240px;" />
+		<img src="lights2.png" class="hlights" style="position: absolute; top: -18px; left: 304px;" />
+		<div avatar-badge src="friend.picture.data.url" class="avatar" label="friend.shortName"
+			style="margin: 10px;" ng-repeat="friend in friends" ng-click="chooseFriend(friend);"></div>
+	</div>
+	
+	<div class="smaller-logo" style="left: 28%;">
+		<img id="home_arrows" src="home_arrow1.png" />
+		<img id="home_sign" src="home_sign.png" />
+	</div>
+</div>
