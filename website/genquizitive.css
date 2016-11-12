@@ -191,6 +191,7 @@ body {
 	height: 90px;
 	background-image: url('avatar_badge.png');
 	margin: 0px;
+	display: inline-block;
 }
 .avatar img {
 	position: relative;
@@ -327,11 +328,11 @@ body {
 .friend-holder {
 	position: absolute;
 	background-color: 066c46;
-	width: 392px;
-	height: 500px;
+	width: 456px;
+	height: 566px;
 	left: 33%;
 	top: 100px;
-	padding: 20px;
+	padding: 10px;
 	border: solid #f2db7f 20px;
 }
 

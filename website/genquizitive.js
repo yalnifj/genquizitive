@@ -404,7 +404,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
 					deferred.resolve(temp.fsUser);
 				} else {
-					this.fsLoginStatus().then(function(data) { deferred.resolve(data); });
+					temp.fsLoginStatus().then(function(data) { deferred.resolve(data); });
 				}
 			} else if (response.statusCode==401) {
 				//-- delete any old cookies
@@ -1021,12 +1021,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
 	}
 })
-.controller('challengeController', function($scope, facebookService, notificationService, languageService) {
+.controller('challengeController', function($scope, facebookService, notificationService, languageService, $interval) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
 	
 	$scope.chooseFriend = function(friend) {
 		
 	};
+	
+	$scope.hnum = 2;
+	$scope.vnum = 1;
+	$interval(function() {
+		$scope.hnum++;
+		if ($scope.hnum>3) $scope.hnum = 1;
+		$scope.vnum++;
+		if ($scope.vnum>3) $scope.vnum = 1;
+		$('.hlights').attr('src', 'lights'+$scope.hnum+'.png');
+		$('.vlights').attr('src', 'lightsv'+$scope.vnum+'.png');
+	}, 400);
 	
 	facebookService.getGenquizitiveFriends().then(function(response) {
 		if (response && response.data) {
@@ -1035,6 +1046,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				var friend = $scope.friends[f];
 				friend.shortName = languageService.shortenName(friend['first_name']+' '+friend['last_name']);
 			}
+			/*
+			for(var h=$scope.friends.length; h<11; h++) {
+				$scope.friends.push(angular.copy($scope.friends[0]));
+			}
+			*/
 		}
 		//TODO - paging
 	}, function(error) {
