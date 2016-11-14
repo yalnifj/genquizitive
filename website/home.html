@@ -43,7 +43,22 @@
 	}
 </script>
 </head>
-<body ng-app="genquizitive" backgrounds="">
+<body ng-app="genquizitive" backgrounds="">	
+	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase-database.js"></script>
+
+	<script>
+	  // Initialize Firebase
+	  var config = {
+		apiKey: "AIzaSyD9l_MoNk9f-Rhf8GrCQpfH_wDsPcspjUA",
+		authDomain: "genquizitive.firebaseapp.com",
+		databaseURL: "https://genquizitive.firebaseio.com",
+		storageBucket: "genquizitive.appspot.com",
+		messagingSenderId: "509941425403"
+	  };
+	  firebase.initializeApp(config);
+	</script>
 	<script>
 	  window.fbAsyncInit = function() {
 		FB.init({

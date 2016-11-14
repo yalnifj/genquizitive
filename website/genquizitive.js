@@ -288,6 +288,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		return deferred.promise;
 	};
 }])
+.service('firebaseService', ['$q', function($q) {
+	
+}])
 .service('facebookService', ['$q', function($q) {
 	this.facebookUser = null;
 	this.hasPicture = false;
