@@ -1,0 +1,10 @@
+User: {
+	id: auto,
+	tokens: 100
+}
+
+Round: {
+	id: auto,
+	from: userId,
+	to: userId
+}

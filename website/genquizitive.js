@@ -288,12 +288,59 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		return deferred.promise;
 	};
 }])
-.service('firebaseService', ['$q', function($q) {
+.service('firebaseService', ['$q', 'facebookService', function($q, facebookService) {
 	
+	this.authenticate = function() {
+		var deferred = $q.defer();
+		if (facebookService.facebookUser!=null) {
+			var temp = this;
+			var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+				unsubscribe();
+				// Check if we are already signed-in Firebase with the correct user.
+				if (!temp.isUserEqual(facebookService.facebookUser, firebaseUser)) {
+					// Build Firebase credential with the Facebook auth token.
+					var credential = firebase.auth.FacebookAuthProvider.credential(
+						facebookService.accessToken);
+					// Sign in with the credential from the Facebook user.
+					firebase.auth().signInWithCredential(credential).catch(function(error) {
+					  // Handle Errors here.
+					  var errorCode = error.code;
+					  var errorMessage = error.message;
+					  // The email of the user's account used.
+					  var email = error.email;
+					  // The firebase.auth.AuthCredential type that was used.
+					  var credential = error.credential;
+					  deferred.reject(errorMessage);
+					  // ...
+					});
+				} else {
+					// User is already signed-in Firebase with the correct user.
+				}
+			});
+		} else {
+			firebase.auth().signOut();
+			deferred.reject("not authenticated with facebook");
+		}
+		return deferred.promise;
+	};
+	
+	this.isUserEqual = function(facebookUser, firebaseUser) {
+	  if (firebaseUser && facebookUser) {
+		var providerData = firebaseUser.providerData;
+		for (var i = 0; i < providerData.length; i++) {
+		  if (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
+			  providerData[i].uid === facebookUser.userID) {
+			  return true;
+		  }
+		}
+	  }
+	  return false;
+	}
 }])
 .service('facebookService', ['$q', function($q) {
 	this.facebookUser = null;
 	this.hasPicture = false;
+	this.accessToken = null;
 	
 	this.fbLoginStatus = function() {
 		var deferred = $q.defer();
@@ -304,6 +351,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			FB.getLoginStatus(function(response) {
 				console.log(response.status);
 				if (response.status === 'connected') {
+					temp.accessToken = response.authResponse.accessToken;
 					// Logged into your app and Facebook.
 					temp.fbGetUser().then(function() {
 						deferred.resolve(temp.facebookUser);
@@ -327,6 +375,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			FB.login(function(response) {
 				console.log(response.status);
 				if (response.status === 'connected') {
+					temp.accessToken = response.authResponse.accessToken;
 					// Logged into your app and Facebook.
 					temp.fbGetUser().then(function() {
 						deferred.resolve(temp.facebookUser);
