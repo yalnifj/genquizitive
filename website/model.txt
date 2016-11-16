@@ -1,10 +1,18 @@
 User: {
 	id: auto,
-	tokens: 100
+	authType: 'facebook',
+	remoteId: '',
+	remoteTreeId: '',
+	practiceRounds: 0,
+	challengeRounds: 0
 }
 
 Round: {
 	id: auto,
 	from: userId,
-	to: userId
+	to: userId,
+	questions: [{
+		name: 'photo1',
+		//unique question props
+	}]
 }

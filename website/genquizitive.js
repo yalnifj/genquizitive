@@ -16,11 +16,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				return $routeParams.page +'.html';
 			}
         })
-		.when('/question/:page', {
-			templateUrl: function($routeParams) {
-				return 'questions/'+$routeParams.page +'.html';
-			}
-        })
 		.otherwise({ redirectTo: '/' });
     }
 ])
@@ -302,7 +297,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					var credential = firebase.auth.FacebookAuthProvider.credential(
 						facebookService.accessToken);
 					// Sign in with the credential from the Facebook user.
-					firebase.auth().signInWithCredential(credential).catch(function(error) {
+					firebase.auth().signInWithCredential(credential).then(function(value) {
+						deferred.resolve(value);
+					}, function(error) {
 					  // Handle Errors here.
 					  var errorCode = error.code;
 					  var errorMessage = error.message;
@@ -311,7 +308,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					  // The firebase.auth.AuthCredential type that was used.
 					  var credential = error.credential;
 					  deferred.reject(errorMessage);
-					  // ...
 					});
 				} else {
 					// User is already signed-in Firebase with the correct user.
