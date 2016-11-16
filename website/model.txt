@@ -1,10 +1,11 @@
 User: {
-	id: auto,
+	userId: facebookId,
 	authType: 'facebook',
-	remoteId: '',
 	remoteTreeId: '',
 	practiceRounds: 0,
-	challengeRounds: 0
+	challengeRounds: 0,
+	practiceHighScore: 0,
+	challengeHighScore: 0
 }
 
 Round: {
@@ -15,4 +16,8 @@ Round: {
 		name: 'photo1',
 		//unique question props
 	}]
+}
+
+stats: {
+	
 }
