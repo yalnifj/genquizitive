@@ -61,13 +61,28 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			delayStart: '='
 		},
 		link: function($scope, $element, $attr) {
-			$scope.numberElement = $('<div style="position: absolute;top: 40px;left: 150px;width: 100px;height: 110px;"></div>');
+			$scope.numberElement = $('<div style="position: absolute;top: 40px;left: 150px;width: 100px;height: 110px; color: white; font-size: 30px;"></div>');
 			$element.append($scope.numberElement);
 			$scope.number = 4;
 			if (!$scope.delayStart) {
 				$scope.delayStart = 1000;
 			}
-			$scope.timeout = $timeout(function() {
+			
+			if ($scope.delayStart < 0) {
+				$scope.timeout = $timeout(function() {
+					$scope.start();
+				}, $scope.delayStart);
+			} else {
+				$scope.numberElement.text('Start');
+				$scope.element.on('click', function() {
+					if (!$scope.timer) {
+						$scope.start();
+					}
+				});
+			}
+			
+			$scope.start = function() {
+				$scope.numberElement.text('');
 				$scope.timer = $interval(function() {
 					$scope.number--;
 					if ($scope.number>0) {
@@ -79,7 +94,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 						$scope.callback();
 					}
 				}, 1000);
-			}, $scope.delayStart);
+			};
 			
 			$element.on('$destroy', function() {
 				$timeout.cancel($scope.timeout);
@@ -221,7 +236,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	});
 	
 	$scope.checkLogin = function() {
-		if (facebookService.facebookUser && familysearchService.fsUser) {
+		if (facebookService.facebookUser || familysearchService.fsUser) {
 			$location.path('/menu');
 		}
 	}
@@ -253,8 +268,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
 		}, function(error) {
-			var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
-			notif.show();
+			//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+			//notif.show();
+			$scope.checkLogin();
 		});
 	}, function() {
 		facebookService.fbLoginStatus().then(function(fbUser){
@@ -264,48 +280,108 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
 		}, function(error) {
-			var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
-			notif.show();
+			//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+			//notif.show();
+			$scope.checkLogin();
 		});
 	});
 })
-.controller('menuController', function($scope, facebookService, familysearchService, firebaseService) {
+.controller('menuController', function($scope, facebookService, familysearchService, firebaseService, $location) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
-	$scope.menuItems = [];
-	if (familysearchService.fsUser) {
-		$scope.menuItems.push({route: '/practice', title: 'Practice Round', button: 'left'});
+	
+	$scope.fsLogin = function() {
+		familysearchService.fsLogin();
 	}
-	if (facebookService.facebookUser) {
-		$scope.menuItems.push({route: '/challenge', title: 'Challenge a Friend', button: 'right'});
-		if (facebookService.facebookUser.picture) {
-			$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
-		}
-		firebaseService.authenticate().then(function(fireUser) {
-			$scope.fireUser = fireUser;
-			//-- get firebase user
-			firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
-				if (user) {
-					$scope.gameUser = user;
-				} else {
-					//--- create firebase user if not exist
-					$scope.gameUser = firebaseService.createUserFromFacebookUser(facebookService.facebookUser);
-				}
-				//-- check for active rounds
-				firebaseService.getUserRounds($scope.gameUser.userId).then(function(rounds) {
-					//--- add menu item to continue rounds
-					if (rounds && rounds.length > 0) {
-						$scope.menuItems.push({route: '/continue', title: 'Continue GenQuiz', button: 'Left'});
+	
+	$scope.checkFacebook = function() {
+		if (facebookService.facebookUser) {
+			$scope.hasFacebook = true;
+			if (facebookService.facebookUser.picture) {
+				$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+			}
+			firebaseService.authenticate().then(function(fireUser) {
+				$scope.fireUser = fireUser;
+				//-- get firebase user
+				firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+					if (user) {
+						$scope.gameUser = user;
+					} else {
+						//--- create firebase user if not exist
+						$scope.gameUser = firebaseService.createUserFromFacebookUser(facebookService.facebookUser);
 					}
 				});
 			});
+		}
+	};
+	
+	$scope.fbLogin = function() {
+		if (facebookService.facebookUser) {
+			facebookService.fbLogout();
+		}
+		facebookService.fbLogin().then(function(fbUser) {
+			$scope.checkFacebook();
 		});
 	}
+	
+	$scope.launghPractice = function() {
+		if (familysearchService.fsUser) {
+			$location.path('/practice');
+		} else {
+			var notif = notificationService.showNotification({title: 'Family Tree Required', 
+				message: 'This feature requires a connection to a Family Tree.', 
+				closable: true});
+			notif.show();
+		}
+	};
+	
+	$scope.launghChallenge = function() {
+		if (facebookService.facebookUser) {
+			$location.path('/practice');
+		} else {
+			var notif = notificationService.showNotification({title: 'Facebook Required', 
+				message: 'This feature requires a connection to Facebook.', 
+				closable: true});
+			notif.show();
+		}
+	};
+	
+	$scope.launghContinue = function() {
+		if (facebookService.facebookUser) {
+			$location.path('/continue');
+		} else {
+			var notif = notificationService.showNotification({title: 'Facebook Required', 
+				message: 'This feature requires a connection to Facebook.', 
+				closable: true});
+			notif.show();
+		}
+	};
+	
+	if (familysearchService.fsUser) {
+		$scope.hasFamilyTree = true;
+	}
+	
+	
 })
-.controller('challengeController', function($scope, facebookService, firebaseService, notificationService, languageService, $interval) {
+.controller('challengeController', function($scope, facebookService, firebaseService, notificationService, languageService, $interval, $location) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
 	
 	$scope.chooseFriend = function(friend) {
-		
+		var round = {
+			from: facebookService.facebookUser.id,
+			to: friend.id,
+			questions: []
+		};
+		//-- generate questions
+		firebaseService.writeRound(round);
+		//-- send facebook event
+		//-- move to play round
+		firebaseService.currentRound = round;
+		//$location.search({round: round.id});
+		//$location.path('/challengeRound');
+	};
+	
+	$scope.invite = function() {
+		//-- load facebook invite window
 	};
 	
 	$scope.hnum = 2;

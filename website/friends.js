@@ -82,7 +82,11 @@ angular.module('genquiz.friends', ['genquizitive'])
 	};
 	
 	this.writeRound = function(round) {
-		firebase.database().ref('rounds').push().set(round);
+		var ref = firebase.database().ref('rounds').push();
+		ref.once('value', function(snapshot) {
+			round.id = snapshot.key();
+			ref.set(round);
+		});
 	};
 	
 	this.getUserRounds = function(userId) {

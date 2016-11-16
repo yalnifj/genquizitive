@@ -2,9 +2,17 @@
 	<div class="center-logo">
 		<img id="home_pole" src="pole1.png" />
 		<div id="menubuttons">
-			<a class="arrow-button arrow-{{menuItem.button}}" ng-repeat="menuItem in menuItems" href="#{{menuItem.route}}">
-				<img src="button_sign_arrow_{{menuItem.button}}.png" />
-				<div class="button-text">{{menuItem.title}}</div>
+			<a class="arrow-button arrow-left" ng-click="launchPractice()">
+				<img src="button_sign_arrow_left.png" />
+				<div class="button-text">Practice Round</div>
+			</a>
+			<a class="arrow-button arrow-right" ng-click="launchChallenge()">
+				<img src="button_sign_arrow_right.png" />
+				<div class="button-text">Challenge a Friend</div>
+			</a>
+			<a class="arrow-button arrow-left" ng-click="launchContinue()">
+				<img src="button_sign_arrow_left.png" />
+				<div class="button-text">Continue GenQuiz</div>
 			</a>
 		</div>
 	</div>
@@ -13,6 +21,12 @@
 		<img id="home_sign" src="home_sign.png" />
 		<div style="position: absolute; left: 70px; top: 260px;">
 			<div avatar-badge src="pictureUrl" class="avatar"></div>
+		</div>
+		<div ng-if="!hasFacebook" class="text-center" ng-click="fbLogin()" style="position: absolute; top: 330px; left: 0px; width: 200px; height: 81px; font-size: 20px; line-height: 50px; background-image: url('button_blue_oval.png');">
+			Connect to Facebook
+		</div>
+		<div ng-if="!hasFamilyTree" class="text-center" ng-click="fsLogin()" style="position: absolute; top: 330px; left: 0px; width: 200px; height: 81px; font-size: 20px; line-height: 50px; background-image: url('button_blue_oval.png');">
+			Connect to FamilySearch
 		</div>
 	</div>
 </div>
