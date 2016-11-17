@@ -7,7 +7,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/photo1/background.jpg',
 			difficulty: 1,
 			error: null,
-			setup: function(difficulty) {
+			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
@@ -40,8 +40,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id
-					
+					questionText: this.questionText,
+					answers: [],
 				};
+				for(var p=0; p<this.randomPeople.length; p++) {
+					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
+				}
 				return q;
 			}
 		},
@@ -50,7 +54,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi1/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function(difficulty) {
+			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
@@ -99,6 +103,19 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					return true;
 				}
 				return false;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id
+					questionText: this.questionText,
+					answers: [],
+				};
+				for(var p=0; p<this.randomPeople.length; p++) {
+					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
+				}
+				return q;
 			}
 		},
 		{
@@ -106,7 +123,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function(difficulty) {
+			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
@@ -188,6 +205,19 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					return true;
 				}
 				return false;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id
+					questionText: this.questionText,
+					answers: [],
+				};
+				for(var p=0; p<this.randomPeople.length; p++) {
+					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
+				}
+				return q;
 			}
 		},
 		{
@@ -195,7 +225,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function(difficulty) {
+			tryCount: 0,
+			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
@@ -203,11 +234,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				
 				question.person = familysearchService.getRandomPerson();
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
-					if (tree.persons.length<3) {
+					if (tree.persons.length<3 && question.tryCount < 5) {
 						console.log('Not enough people. Trying setup again.');
+						question.tryCount++;
 						question.setup().then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });
 					} else {
 						question.people = [];
+						question.tryCount = 0;
 						for(var p=0; p<tree.persons.length; p++){
 							if (tree.persons[p].display.ascendancyNumber.indexOf("S")<0) {
 								question.people.push(tree.persons[p]);
@@ -220,6 +253,19 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			},
 			checkAnswer: function(answer) {
 				
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id
+					questionText: this.questionText,
+					answers: [],
+				};
+				for(var p=0; p<this.randomPeople.length; p++) {
+					q.answers.push({id: this.people[p].id, display: { name: this.people[p].display.name}});
+				}
+				return q;
 			}
 		}
 	];
