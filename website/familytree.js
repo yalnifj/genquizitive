@@ -254,7 +254,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 }])
-.service('familysearchService', ['$q','$cookies', '$interval', '$http', '$sce', function($q, $cookies, $interval, $http, $sce) {
+.service('familysearchService', ['$q','$cookies', '$interval', '$http', '$sce', '$filter', function($q, $cookies, $interval, $http, $sce, $filter) {
 	this.fsUser = null;
 	
 	this.people = {};
@@ -281,7 +281,15 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					temp.fsUser = response.data.persons[0];
 					temp.people[temp.fsUser.id] = temp.fsUser;
 					temp.usedPeople[temp.fsUser.id] = true;
-					temp.getAncestorTree(temp.fsUser.id, 6, true);
+					temp.getAncestorTree(temp.fsUser.id, 8, true).then(function(data) {
+						var count = 0;
+						angular.forEach(data.persons.reverse(), function(person) {
+							if (count < data.persons.length<2) {
+								temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, 2, true); });
+							}
+							count++;
+						});
+					});
 					temp.getPersonPortrait(temp.fsUser.id);
 					temp.startBackgroundQueue();
 					var token = $cookies.get(temp.fs.tokenCookie);
@@ -341,17 +349,17 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			this.ancestorPromises[personId].push(deferred);
 			return deferred.promise;
 		}
+		if (generations>8) generations = 8;
 		var temp = this;
 		var url = '/platform/tree/ancestry?person='+personId+'&generations='+generations;
 		if (spouse) url += '&spouse='+spouse;
 		if (details) url += '&personDetails='
 		this.fs.get(url, function(response) {
 			if (!noCache) {
-				for(var p=0; p < response.data.persons.length; p++) {
-					var person = response.data.persons[p];
+				angular.forEach(response.data.persons, function(person) {
 					temp.people[person.id] = person;
 					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
-				}
+				});
 			}
 			for(var p=0; p<temp.ancestorPromises[personId].length; p++) {
 				var def = temp.ancestorPromises[personId][p];
@@ -359,6 +367,29 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			delete(temp.ancestorPromises[personId]);
 			//deferred.resolve(response.data);
+		});
+		this.ancestorPromises[personId] = [];
+		this.ancestorPromises[personId].push(deferred);
+		return deferred.promise;
+	};
+	
+	this.getDescendancyTree = function(personId, generations, details, spouse, noCache) {
+		var deferred = $q.defer();
+		var temp = this;
+		if (generations>2) generations = 2;
+		var url = '/platform/tree/descendancy?person='+personId+'&generations='+generations;
+		if (spouse) url += '&spouse='+spouse;
+		if (details) url += '&personDetails='
+		this.fs.get(url, function(response) {
+			if (!noCache) {
+				angular.forEach(response.data.persons, function(person) {
+					if (!temp.people[person.id]) {
+						temp.people[person.id] = person;
+						temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+					}
+				});
+			}
+			deferred.resolve(response.data);
 		});
 		this.ancestorPromises[personId] = [];
 		this.ancestorPromises[personId].push(deferred);

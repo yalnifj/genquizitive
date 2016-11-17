@@ -314,6 +314,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 	};
 	
+	$scope.checkFacebook();
+	
 	$scope.fbLogin = function() {
 		if (facebookService.facebookUser) {
 			facebookService.fbLogout();

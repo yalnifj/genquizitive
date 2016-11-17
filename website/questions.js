@@ -7,28 +7,42 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/photo1/background.jpg',
 			difficulty: 1,
 			error: null,
-			setup: function() {
+			setup: function(difficulty) {
+				var deferred = $q.defer();
 				var question = this;
+				this.difficulty = difficulty;
 				familysearchService.getRandomPersonWithPortrait().then(function(person) {
 					question.person = person;
 					
 					familysearchService.getRandomPeopleNear(person, 3).then(function(people) {
 						question.randomPeople = people;
-
+						deferred.resolve(question);
 					}, function(error) {
 						console.log(error);
 						question.error = error;
+						deferred.reject(question);
 					});
 				}, function(error){
 					console.log(error);
 					question.error = error;
+					deferred.reject(question);
 				});
+				return deferred.promise;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
 					return true;
 				}
 				return false;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id
+					
+				};
+				return q;
 			}
 		},
 		{
@@ -36,9 +50,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi1/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function() {
+			setup: function(difficulty) {
+				var deferred = $q.defer();
 				var question = this;
-				
+				this.difficulty = difficulty;
 				question.startPerson = familysearchService.fsUser;
 				
 				var length = 4 + Math.floor(Math.random()*3)
@@ -61,19 +76,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						question.person = lastPerson;
 						familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
 							question.randomPeople = people;
-
+							deferred.resolve(question);
 						}, function(error) {
 							console.log(error);
 							question.error = error;
+							deferred.reject(question);
 						});
 					}, function(error){
 						console.log(error);
 						question.error = error;
+						deferred.reject(question);
 					});
 				}, function(error){
 					console.log(error);
 					question.error = error;
+					deferred.reject(question);
 				});
+				return deferred.promise;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -87,8 +106,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function() {
+			setup: function(difficulty) {
+				var deferred = $q.defer();
 				var question = this;
+				this.difficulty = difficulty;
 				question.person = familysearchService.getRandomPerson();
 				//-- make sure we have a person with facts
 				while(!question.person.facts || question.person.facts.length==0) {
@@ -97,67 +118,70 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
 					question.randomPeople = people;
 					var found = false;
-						var count = 0;
-						while(!found && count < 10) {
-							var r = Math.floor(Math.random() * question.person.facts.length);
-							question.fact = question.person.facts[r];
-							if (languageService.facts[question.fact.type]) {
-								found = true;
-								//-- check for a matching fact
-								for(var p=0; p<question.randomPeople.length; p++) {
-									if (question.randomPeople[p].facts) {
-										for(var f=0; f<question.randomPeople[p].facts.length; f++) {
-											var ofact = question.randomPeople[p].facts[f];
-											if (ofact.type==question.fact.type) {
-												var yearMatch = false;
-												var placeMatch = false;
-												if (!ofact.date && !question.fact.date) {
+					var count = 0;
+					while(!found && count < 10) {
+						var r = Math.floor(Math.random() * question.person.facts.length);
+						question.fact = question.person.facts[r];
+						if (languageService.facts[question.fact.type]) {
+							found = true;
+							//-- check for a matching fact
+							for(var p=0; p<question.randomPeople.length; p++) {
+								if (question.randomPeople[p].facts) {
+									for(var f=0; f<question.randomPeople[p].facts.length; f++) {
+										var ofact = question.randomPeople[p].facts[f];
+										if (ofact.type==question.fact.type) {
+											var yearMatch = false;
+											var placeMatch = false;
+											if (!ofact.date && !question.fact.date) {
+												yearMatch = true;
+											} else if (ofact.date && question.fact.date) {
+												if (languageService.getDateYear(ofact.date.original)==languageService.getDateYear(question.fact.date.original)) {
 													yearMatch = true;
-												} else if (ofact.date && question.fact.date) {
-													if (languageService.getDateYear(ofact.date.original)==languageService.getDateYear(question.fact.date.original)) {
-														yearMatch = true;
-													}
 												}
-												if (yearMatch) {
-													if (!ofact.place && !question.fact.place) {
+											}
+											if (yearMatch) {
+												if (!ofact.place && !question.fact.place) {
+													placeMatch = true;
+												} else if (ofact.place && question.fact.place) {
+													if (ofact.place.original == question.fact.place.original) {
 														placeMatch = true;
-													} else if (ofact.place && question.fact.place) {
-														if (ofact.place.original == question.fact.place.original) {
-															placeMatch = true;
-														}
 													}
 												}
-												if (yearMatch && placeMatch) {
-													found = false;
-													break;
-												}
+											}
+											if (yearMatch && placeMatch) {
+												found = false;
+												break;
 											}
 										}
 									}
-									if (!found) break;
 								}
-								count++;
+								if (!found) break;
 							}
+							count++;
 						}
+					}
 
-						if (question.fact) {
-							var factLang = languageService.facts[question.fact.type];
-							question.questionText = "Who "+factLang.pastVerb;
-							if (factLang.expectValue && question.fact.value) {
-								question.questionText += " "+question.fact.value;
-							}
-							if (question.fact.place && question.fact.place.original) {
-								question.questionText += " in "+question.fact.place.original;
-							}
-							if (question.fact.date && question.fact.date.original) {
-								question.questionText += " on "+question.fact.date.original;
-							}
-							question.questionText += "?";
+					if (question.fact) {
+						var factLang = languageService.facts[question.fact.type];
+						question.questionText = "Who "+factLang.pastVerb;
+						if (factLang.expectValue && question.fact.value) {
+							question.questionText += " "+question.fact.value;
 						}
+						if (question.fact.place && question.fact.place.original) {
+							question.questionText += " in "+question.fact.place.original;
+						}
+						if (question.fact.date && question.fact.date.original) {
+							question.questionText += " on "+question.fact.date.original;
+						}
+						question.questionText += "?";
+					}
+					deferred.resolve(question);
 				}, function(error) {
 					console.log(error);
 					question.error = error;
+					deferred.reject(question);
 				});
+				return deferred.promise;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -171,15 +195,17 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
-			setup: function() {
+			setup: function(difficulty) {
+				var deferred = $q.defer();
 				var question = this;
+				this.difficulty = difficulty;
 				question.questionText = 'Complete the family tree.'
 				
 				question.person = familysearchService.getRandomPerson();
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if (tree.persons.length<3) {
 						console.log('Not enough people. Trying setup again.');
-						question.setup();
+						question.setup().then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });
 					} else {
 						question.people = [];
 						for(var p=0; p<tree.persons.length; p++){
@@ -187,8 +213,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 								question.people.push(tree.persons[p]);
 							}
 						}
+						deferred.resolve(question);
 					}
 				});
+				return deferred.promise;
 			},
 			checkAnswer: function(answer) {
 				
