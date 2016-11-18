@@ -113,6 +113,14 @@ angular.module('genquiz.friends', ['genquizitive'])
 		});
 		return deferred.promise;
 	};
+	
+	this.getRoundById = function(roundId) {
+		var deferred = $q.defer();
+		firebase.database().ref('rounds/'+roundId).once('value').then(function(snapshot) {
+			deferred.resolve(snapshot.val());
+		});
+		return deferred.promise;
+	};
 }])
 .service('facebookService', ['$q', function($q) {
 	this.facebookUser = null;
@@ -195,6 +203,19 @@ angular.module('genquiz.friends', ['genquizitive'])
 		var temp = this;
 		FB.api('/me/friends', {fields: "id,picture,first_name,last_name"}, function(response) {
 			deferred.resolve(response);
+		});
+		return deferred.promise;
+	};
+	
+	this.sendGenQuiz = function(toId) {
+		var deferred = $q.defer();
+		FB.ui({method: 'apprequests',
+		  message: 'Just challenged you to a GenQuiz!',
+		  to: toId,
+		  action_type:'turn'
+		}, function(response){
+		  console.log(response);
+		  defer.resolve(response);
 		});
 		return deferred.promise;
 	};

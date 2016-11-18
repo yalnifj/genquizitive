@@ -391,7 +391,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			
 			firebaseService.writeRound(round).then(function(round) {
 				//-- move to play round
-				$location.search({round: round.id});
+				$location.search({roundId: round.id});
 				$location.path('/challengeRound');
 			});
 		});
@@ -431,8 +431,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		notif.show();
 	});
 })
-.controller('challengeRoundController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService) {
+.controller('challengeRoundController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
+	
+	var roundId = $location.search().roundId;
+	if (!roundId) {
+		$location.search({});
+		$location.path("/menu");
+		return;
+	}
 	
 	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
 		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
@@ -440,6 +447,18 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	var notif = notificationService.showNotification({title: 'Practice Round', message: 'Answer the questions as quickly as you can.'});
 	notif.show();
+	
+	firebaseService.getRoundById(roundId).then(function(round) {
+		$scope.round = round;
+		
+		if (facebookService.facebookUser.id==$scope.round.from) {
+			$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
+			$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, $scope.round.friendTree).then(function(question) {
+				$scope.round.questions[$scope.currentQuestion] = $scope.questions[$scope.currentQuestion].getPersistence();
+			});
+		} else {
+		}
+	});
 	
 	$scope.questions = [];
 	$scope.currentQuestion = 0;
@@ -462,9 +481,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.missedQuestions = 0;
 	
-	$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
-	$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, true);
-	
 	$scope.startRound = function() {
 		notif.close();
 		$scope.ready = true;
@@ -477,14 +493,25 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			nextQ = QuestionService.getRandomQuestion();
 		}
 		$scope.questions[$scope.currentQuestion+1] = nextQ;
-		$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, true);
+		$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, $scope.round.friendTree).then(function(question) {
+			$scope.round.questions[$scope.currentQuestion+1] = $scope.questions[$scope.currentQuestion+1].getPersistence();
+		});
 	}
 	
 	$scope.completeRound = function() {
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
+		$scope.round.fromStats = {
+			time: $scope.endTime,
+			missed: $scope.missedQuestions
+		};
+		
 		//-- send facebook event
+		facebookService.sendGenQuiz(round.to).then(function(response) {
+			round.requestId = response.request;
+			firebaseService.writeRound(round);
+		});
 	};
 	
 	$scope.nextQuestion = function() {
@@ -497,7 +524,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.question = $scope.questions[$scope.currentQuestion];
 			
 			$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
-			$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, true);
+			$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, $scope.round.friendTree).then(function(question) {
+				$scope.round.questions[$scope.currentQuestion+1] = $scope.questions[$scope.currentQuestion+1].getPersistence();
+			});
 		}
 	}
 	
@@ -515,7 +544,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.tries++;
 			console.log('trying question setup again '+$scope.tries);
 			$scope.question.error = null;
-			$scope.question.setup($scope.question.difficulty, true);
+			$scope.question.setup($scope.question.difficulty, $scope.round.friendTree).then(function(question) {
+				$scope.round.questions[$scope.currentQuestion] = $scope.questions[$scope.currentQuestion].getPersistence();
+			});
 		}
 	});
 })
