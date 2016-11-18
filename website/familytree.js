@@ -99,10 +99,27 @@ angular.module('genquiz.familytree', ['genquizitive'])
 }])
 .service('relationshipService', ['$q', 'familysearchService', function($q, familysearchService) {
 
-	this.recursivePath = function(personId, path, length) {
+	this.recursivePath = function(personId, path, length, useLiving) {
 		var deferred = $q.defer();
 		if (path.length >= length) {
-			deferred.resolve(path);
+			if (!useLiving) {
+				var rel = path[path.length-1];
+				var nextPerson = rel.person1.resourceId;
+				if (nextPerson == personId) {
+					nextPerson = rel.person2.resourceId;
+				}
+				familysearchService.getPersonById(nextPerson).then(function(person) {
+					if (person.living) {
+						deferred.reject("living");
+					} else {
+						deferred.resolve(path);
+					}
+				}, function(error) {
+					deferred.reject(error);
+				});
+			} else {
+				deferred.resolve(path);
+			}
 		} else {
 			var temp = this;
 			
@@ -115,7 +132,6 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			
 			promise.then(function(relationships) {
-				//-- TODO - limit to non living for shared game
 				if (relationships.length<=1) {
 					deferred.resolve(path);
 				}
@@ -142,8 +158,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				if (nextPerson == personId) {
 					nextPerson = rel.person2.resourceId;
 				}
-				temp.recursivePath(nextPerson, path, length).then(function(path) {
-					if (path.length < length && count < relationships.length) {
+				temp.recursivePath(nextPerson, path, length, useLiving).then(function(newpath) {
+					if (newpath.length < length && count < relationships.length) {
 						while(count < relationships.length
 								&& (rel.person1.resourceId==lastRel.person1.resourceId || rel.person1.resourceId==lastRel.person2.resourceId) 
 								&& (rel.person2.resourceId==lastRel.person1.resourceId || rel.person2.resourceId==lastRel.person2.resourceId) ) {
@@ -153,15 +169,17 @@ angular.module('genquiz.familytree', ['genquizitive'])
 							count++;
 						}
 						if (r==startr) {
-							deferred.resolve(path);
+							deferred.resolve(newpath);
 						} else {
-							temp.recursivePath(nextPerson, path, length).then(function(path2) {
-								if (path2.length > path.length) deferred.resolve(path2);
-								else deferred.resolve(path);
+							var pathcopy = newpath.slice();
+							pathcopy.pop();
+							temp.recursivePath(nextPerson, pathcopy, length, useLiving).then(function(path2) {
+								if (path2.length > newpath.length) deferred.resolve(path2);
+								else deferred.resolve(newpath);
 							});
 						}
 					} else {
-						deferred.resolve(path);
+						deferred.resolve(newpath);
 					}
 				}, function(error) { 
 					while(count < relationships.length
@@ -173,11 +191,22 @@ angular.module('genquiz.familytree', ['genquizitive'])
 						count++;
 					}
 					if (r==startr) {
-						deferred.resolve(path);
+						if (path.length>1) {
+							deferred.reject(path);
+						} else {
+							deferred.resolve(path);
+						}
 					} else {
-						temp.recursivePath(nextPerson, path, length).then(function(path2) {
-							if (path2.length > path.length) deferred.resolve(path2);
-							else deferred.resolve(path);
+						if (path.length>0) path.pop();
+						path.push(rel);
+						var nextPerson = rel.person1.resourceId;
+						if (nextPerson == personId) {
+							nextPerson = rel.person2.resourceId;
+						}
+						var pathcopy = newpath.slice();
+						temp.recursivePath(nextPerson, pathcopy, length, useLiving).then(function(path2) {
+							if (path2.length > pathcopy.length) deferred.resolve(path2);
+							else deferred.resolve(pathcopy);
 						});
 					}
 				});
@@ -186,11 +215,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 
-	this.getRandomRelationshipPath = function(personId, length) {
+	this.getRandomRelationshipPath = function(personId, length, useLiving) {
 		var path = [];
 		var deferred = $q.defer();
 		
-		this.recursivePath(personId, path, length).then(function(path) {
+		this.recursivePath(personId, path, length, useLiving).then(function(path) {
 			deferred.resolve(path);
 		}, function(error) { deferred.reject(error); });
 		
@@ -572,7 +601,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getRandomPersonWithPortrait = function() {
+	this.getRandomPersonWithPortrait = function(useLiving) {
 		var deferred = $q.defer();
 		if (Object.keys(this.portraitPeople).length > 0) {
 			var count = 0;
@@ -583,6 +612,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;
+					if (!useLiving && this.people[person] && this.people[person].living) {
+						person = null;
+					}
 				}
 				count++;
 			}
@@ -600,6 +632,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;
+					if (!useLiving && this.people[person] && this.people[person].living) {
+						person = null;
+					}
 				}
 				count++;
 			}
@@ -620,7 +655,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getRandomPerson = function() {
+	this.getRandomPerson = function(useLiving) {
 		var keys = Object.keys(this.people);
 		if (keys.length > 0) {
 			var count = 0;
@@ -630,6 +665,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;
+					if (!useLiving && this.people[person] && this.people[person].living) {
+						person = null;
+					}
 				}
 			}
 			if (person != null) {
@@ -639,7 +677,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return null;
 	};
 	
-	this.getRandomPeopleNear = function(person, num) {
+	this.getRandomPeopleNear = function(person, num, useLiving) {
 		var deferred = $q.defer();
 		var persons = [];
 		var temp = this;
@@ -649,7 +687,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			while(loopCount < num-1) {
 				var rand = Math.floor(Math.random() * relatives.length);
 				var rPerson = relatives[rand];
-				if (rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
+				if (rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1 && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -657,7 +695,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			
 			while(personCount < num && loopCount < num * 4) {
-				var rPerson = temp.getRandomPerson();
+				var rPerson = temp.getRandomPerson(useLiving);
 				if (rPerson && rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
 					persons.push(rPerson);
 					personCount++;
@@ -672,7 +710,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				while(count < num) {
 					var rand = Math.floor(Math.random() * keys.length);
 					var randomId = keys[rand];
-					if (randomId != person.id && temp.people[randomId].gender.type == person.gender.type) {
+					if (randomId != person.id && temp.people[randomId].gender.type == person.gender.type && (useLiving || !rPerson.living)) {
 						persons.push(temp.people[randomId]);
 						count++;
 					}

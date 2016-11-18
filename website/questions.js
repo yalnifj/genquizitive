@@ -11,10 +11,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
-				familysearchService.getRandomPersonWithPortrait().then(function(person) {
+				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
 					question.person = person;
 					
-					familysearchService.getRandomPeopleNear(person, 3).then(function(people) {
+					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
 						question.randomPeople = people;
 						deferred.resolve(question);
 					}, function(error) {
@@ -61,7 +61,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.startPerson = familysearchService.fsUser;
 				
 				var length = 4 + Math.floor(Math.random()*3)
-				relationshipService.getRandomRelationshipPath(question.startPerson.id, length).then(function(path) {
+				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					question.path = path;
 					
 					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathText) {
@@ -78,7 +78,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					}
 					familysearchService.getPersonById(lastPersonId).then(function(lastPerson) {
 						question.person = lastPerson;
-						familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
+						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 							question.randomPeople = people;
 							deferred.resolve(question);
 						}, function(error) {
@@ -127,12 +127,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
-				question.person = familysearchService.getRandomPerson();
+				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
 				while(!question.person.facts || question.person.facts.length==0) {
-					question.person = familysearchService.getRandomPerson();
+					question.person = familysearchService.getRandomPerson(useLiving);
 				}
-				familysearchService.getRandomPeopleNear(question.person, 3).then(function(people) {
+				familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 					question.randomPeople = people;
 					var found = false;
 					var count = 0;
@@ -232,7 +232,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.difficulty = difficulty;
 				question.questionText = 'Complete the family tree.'
 				
-				question.person = familysearchService.getRandomPerson();
+				question.person = familysearchService.getRandomPerson(useLiving);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if (tree.persons.length<3 && question.tryCount < 5) {
 						console.log('Not enough people. Trying setup again.');

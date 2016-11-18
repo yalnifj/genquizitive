@@ -64,14 +64,15 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.createUserFromFacebookUser = function(facebookUser) {
+	this.createUserFromFacebookUser = function(facebookUser, hasFamilyTree) {
 		var user = {
 			userId: facebookUser.id,
 			authType: 'facebook',
 			practiceRounds: 0,
 			challengeRounds: 0,
 			practiceHighScore: 0,
-			challengeHighScore: 0
+			challengeHighScore: 0,
+			hasFamilyTree: hasFamilyTree
 		};
 		this.writeUser(user);
 		return user;
@@ -81,12 +82,28 @@ angular.module('genquiz.friends', ['genquizitive'])
 		firebase.database().ref('users/' + user.userId).set(user);
 	};
 	
+	this.getUserProperty = function(userId, property) {
+		var deferred = $q.defer();
+		firebase.database().ref('users/' + user.userId+"/"+property).once('value').then(function(snapshot) {
+			if (!snapshot) deferred.resolve(null);
+			else deferred.resolve(snapshot.val());
+		});
+		return deferred.promise;
+	};
+	
+	this.writeUserProperty = function(userId, property, value) {
+		firebase.database().ref('users/' + userId+"/"+property).set(value);
+	};
+	
 	this.writeRound = function(round) {
+		var deferred = $q.defer();
 		var ref = firebase.database().ref('rounds').push();
 		ref.once('value', function(snapshot) {
 			round.id = snapshot.key();
 			ref.set(round);
+			deferred.resolve(round);
 		});
+		return deferred.promise;
 	};
 	
 	this.getUserRounds = function(userId) {
