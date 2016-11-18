@@ -1,4 +1,15 @@
 <div class="text-center" ng-controller="menuController">
+	<style>
+		.connect-button {
+			width: 200px; 
+			height: 81px; 
+			font-size: 20px; 
+			padding-top: 9px; 
+			cursor: pointer; 
+			color: white; 
+			background-image: url('button_blue_oval.png');
+		}
+	</style>
 	<div class="center-logo">
 		<img id="home_pole" src="pole1.png" />
 		<div id="menubuttons">
@@ -22,10 +33,10 @@
 		<div style="position: absolute; left: 70px; top: 260px;">
 			<div avatar-badge src="pictureUrl" class="avatar"></div>
 		</div>
-		<div ng-if="!hasFacebook" class="text-center" ng-click="fbLogin()" style="position: absolute; top: 350px; left: 20px; width: 200px; height: 81px; font-size: 24px; line-height: 60px; color: white; background-image: url('button_blue_oval.png');">
-			Connect to Facebook
+		<div ng-if="!hasFacebook" class="text-center connect-button" ng-click="fbLogin()" style="position: absolute; top: 350px; left: 20px;">
+			Connect to<br/>Facebook
 		</div>
-		<div ng-if="!hasFamilyTree" class="text-center" ng-click="fsLogin()" style="position: absolute; top: 350px; left: 20px; width: 200px; height: 81px; font-size: 24px; line-height: 60px; color: white; background-image: url('button_blue_oval.png');">
+		<div ng-if="!hasFamilyTree" class="text-center connect-button" ng-click="fsLogin()" style="position: absolute; top: 350px; left: 20px;">
 			Connect to FamilySearch
 		</div>
 	</div>
