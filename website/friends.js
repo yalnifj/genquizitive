@@ -121,6 +121,14 @@ angular.module('genquiz.friends', ['genquizitive'])
 		});
 		return deferred.promise;
 	};
+	
+	this.getRoundByRequestId = function(requestId) {
+		var deferred = $q.defer();
+		firebase.database().ref('rounds').orderByChild("requestId").equalTo(requestId).once('value').then(function(snapshot) {
+			deferred.resolve(spanshot.val());
+		});
+		return deferred.promise;
+	};
 }])
 .service('facebookService', ['$q', function($q) {
 	this.facebookUser = null;
@@ -218,6 +226,12 @@ angular.module('genquiz.friends', ['genquizitive'])
 		  defer.resolve(response);
 		});
 		return deferred.promise;
+	};
+	
+	this.removeGenQuizRequest(requestId) {
+		FB.api(requestId, 'delete', function(response) {
+			console.log(response);
+		});
 	};
 }])
 ;

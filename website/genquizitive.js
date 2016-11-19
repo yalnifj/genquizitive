@@ -215,29 +215,41 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 	}
 }])
-.controller('getstarted', function($scope, familysearchService, facebookService, languageService, $location, $timeout, notificationService) {
+.controller('getstarted', function($scope, familysearchService, facebookService, firebaseService, languageService, $location, $timeout, notificationService, $cookies) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	$scope.fsLoggedIn = false;
 	$scope.fsUserName = "";
 	$scope.fbLoggedIn = false;
 	$scope.fbUserName = "";
-	$scope.$on('fsLoginComplete', function(event, data) {
-		familysearchService.fsLoginComplete(data);
-		$timeout(function() {
-			familysearchService.fsLoginStatus().then(function(fsUser) {
-				$scope.fsLoggedIn = true;
-				$scope.fsUserName = languageService.shortenName(fsUser.display.name);
-				$scope.checkLogin();
-			}, function(error) {
-				var notif = notificationService.showNotification({title: 'FamilySearch Error',message: 'Unable to authenticate with FamilySearch.', closable: true});
-				notif.show();
-			});
-		}, 500);
-	});
 	
 	$scope.checkLogin = function() {
 		if (facebookService.facebookUser || familysearchService.fsUser) {
-			$location.path('/menu');
+			//-- from facebook notification
+			if ($scope.requestId) {
+				if (facebookService.facebookUser) {
+					facebookService.removeGenQuizRequest($scope.requestId);
+				}
+				if (firebaseService.authenticated) {
+					firebaseService.getRoundByRequestId($scope.requestId).then(function(round) {
+						if (round.hasFamilyTree && !familysearchService.fsUser) {
+							$cookies.put('roundId', round.id);
+							$scope.fsLogin();
+						} else {
+							$location.path('/challengeRound');
+						}
+					});
+				} else {
+					$location.path('/menu');
+				}
+			//-- return from familysearch login
+			} else if ($cookies.get('roundId')) {
+				var roundId = $cookies.get('roundId');
+				$cookies.remove('roundId');
+				$location.search({roundId: roundId});
+				$location.path('/challengeRound');
+			} else {
+				$location.path('/menu');
+			}
 		}
 	}
 	
@@ -256,6 +268,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.fbUser = fbUser;
 			$scope.checkLogin();
 		});
+	};
+	
+	var search = $location.search();
+	if (search && search["request_ids"]) {
+		$scope.requestId = search["request_ids"];
 	}
 	
 	familysearchService.fsLoginStatus().then(function(fsUser){
@@ -434,11 +451,27 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 .controller('challengeRoundController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	
-	var roundId = $location.search().roundId;
+	var search = $location.search();
+	var roundId = search.roundId;
 	if (!roundId) {
 		$location.search({});
 		$location.path("/menu");
 		return;
+	} else {
+		firebaseService.getRoundById(roundId).then(function(round) {
+			$scope.round = round;
+			
+			if ($scope.round.hasFamilyTree || facebookService.facebookUser.id==$scope.round.from) {
+				$scope.fromPersistence = false;
+				$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
+				$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, $scope.round.friendTree).then(function(question) {
+					$scope.round.questions[$scope.currentQuestion] = $scope.questions[$scope.currentQuestion].getPersistence();
+				});
+			} else {
+				//-- setup from persistence
+				$scope.fromPersistence = true;
+			}
+		});
 	}
 	
 	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
@@ -447,18 +480,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	var notif = notificationService.showNotification({title: 'Practice Round', message: 'Answer the questions as quickly as you can.'});
 	notif.show();
-	
-	firebaseService.getRoundById(roundId).then(function(round) {
-		$scope.round = round;
-		
-		if (facebookService.facebookUser.id==$scope.round.from) {
-			$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
-			$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, $scope.round.friendTree).then(function(question) {
-				$scope.round.questions[$scope.currentQuestion] = $scope.questions[$scope.currentQuestion].getPersistence();
-			});
-		} else {
-		}
-	});
 	
 	$scope.questions = [];
 	$scope.currentQuestion = 0;

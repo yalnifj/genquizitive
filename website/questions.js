@@ -29,6 +29,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				});
 				return deferred.promise;
 			},
+			setupFromPersistence: function(round, roundQuestion) {
+				return this.setup(roundQuestion.difficulty, true);
+			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
 					return true;
@@ -103,6 +106,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					return true;
 				}
 				return false;
+			},
+			setupFromPersistence: function(round, roundQuestion) {
+				
 			},
 			getPersistence: function() {
 				var q = {
@@ -292,6 +298,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	this.getRandomQuestion = function () {
 		var q = Math.floor (Math.random () * this.questions.length);
 		return this.questions[q];
+	};
+	
+	this.getQuestionByName = function(name) {
+		for(var q=0; q<this.questions.length; q++) {
+			if (this.questions[q].name==name) return this.questions[q];
+		}
+		return null;
 	};
 	
 	this.shuffleArray = function(array) {

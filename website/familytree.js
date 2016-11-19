@@ -295,7 +295,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  //environment: 'production',
 	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'http://www.genquizitive.com/fs-login.html',
+	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10
@@ -341,14 +341,6 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	
 	this.fsLogin = function() {
 		this.fs.oauthRedirect();
-	};
-	
-	this.fsLoginComplete = function(response) {
-		var token = $cookies.get(this.fs.tokenCookie);
-		this.fs.setAccessToken(token);
-		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
-		this.startBackgroundQueue();
-		this.loginWin.close();
 	};
 	
 	this.startBackgroundQueue = function() {

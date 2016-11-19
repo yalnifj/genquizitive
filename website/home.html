@@ -38,11 +38,6 @@
 			$('#home_arrows').attr('src', arrows[arrow].src);
 		}, 400);
 	});
-	
-	function fsLoginComplete(response) {
-		$scope = $('body').scope();
-		$scope.$broadcast('fsLoginComplete', response);
-	}
 </script>
 </head>
 <body ng-app="genquizitive" backgrounds="">	
