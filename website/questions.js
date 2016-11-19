@@ -29,7 +29,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				});
 				return deferred.promise;
 			},
-			setupFromPersistence: function(round, roundQuestion) {
+			setupFromPersistence: function(roundQuestion) {
 				return this.setup(roundQuestion.difficulty, true);
 			},
 			checkAnswer: function(answer) {
@@ -45,6 +45,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					personId: this.person.id
 					questionText: this.questionText,
 					answers: [],
+					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -107,16 +108,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				return false;
 			},
-			setupFromPersistence: function(round, roundQuestion) {
-				
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.answers = roundQuestion.answers;
+				this.difficulty = roundQuestion.difficulty;
 			},
 			getPersistence: function() {
+				var questionText = this.questionText;
+				if (this.person) {
+					questionText = questionText.replace("your", languageService.shortenName(this.person.display.name)+"'s"),
+				}
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id
-					questionText: this.questionText,
+					questionText: questionText,
 					answers: [],
+					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -212,6 +220,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				return false;
 			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.answers = roundQuestion.answers;
+				this.difficulty = roundQuestion.difficulty;
+			},
 			getPersistence: function() {
 				var q = {
 					name: this.name,
@@ -219,6 +232,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					personId: this.person.id
 					questionText: this.questionText,
 					answers: [],
+					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -260,16 +274,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			checkAnswer: function(answer) {
 				
 			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.person = roundQuestion.person;
+				this.people = roundQuestion.people;
+				this.difficulty = roundQuestion.difficulty;
+			},
 			getPersistence: function() {
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id
+					person: {id: this.person.id, display: {name: this.people[p].display.name}},
 					questionText: this.questionText,
-					answers: [],
+					people: [],
+					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
-					q.answers.push({id: this.people[p].id, display: { name: this.people[p].display.name}});
+					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name}});
 				}
 				return q;
 			}

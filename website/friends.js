@@ -228,6 +228,19 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
+	this.sendGenQuizComplete = function(toId) {
+		var deferred = $q.defer();
+		FB.ui({method: 'apprequests',
+		  message: 'Just completed a GenQuiz with you! Click to see who won!',
+		  to: toId,
+		  action_type:'turn'
+		}, function(response){
+		  console.log(response);
+		  defer.resolve(response);
+		});
+		return deferred.promise;
+	};
+	
 	this.removeGenQuizRequest(requestId) {
 		FB.api(requestId, 'delete', function(response) {
 			console.log(response);
