@@ -1,11 +1,36 @@
 <div class="text-center" ng-controller="challengeRoundReviewController">
+	<div class="title-holder">
+		<img src="genquiz_score.png" />
+		<div class="smaller-logo" style="left: -60px; top: -30px;">
+			<img id="home_arrows" src="home_arrow1.png" />
+			<img id="home_sign" src="home_sign.png" />
+		</div>
+	</div>
 	
-
-	<div class="small-logo">
-		<img id="home_arrows" src="home_arrow1.png" />
-		<img id="home_sign" src="home_sign.png" />
-		<div style="position: absolute; left: 70px; top: 260px;">
-			<div avatar-badge src="pictureUrl" class="avatar"></div>
+	<div class="center-div">
+		<div avatar-badge src="me.picture.data.url" label="me.shortName" class="avatar"></div>
+		<div class="timer" animated-timer="" time="{{myScore}}"></div>
+		<div style="position: absolute; left: 20px; top: 80px;">
+			<div light="" color="red" on="myMissed > 0" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 1" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 2" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 3" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 4" style="margin: 5px;"></div>
+		</div>
+		<img src="vs.png" style="position: relative; left: -34px;" />
+		<div class="timer" animated-timer="" time="{{friendScore}}" style="position: relative; left: -68px;"></div>
+		<div style="position: absolute; left: 200px; top: 80px;">
+			<div light="" color="red" on="friendMissed > 0" style="margin: 5px;"></div>
+			<div light="" color="red" on="friendMissed > 1" style="margin: 5px;"></div>
+			<div light="" color="red" on="friendMissed > 2" style="margin: 5px;"></div>
+			<div light="" color="red" on="friendMissed > 3" style="margin: 5px;"></div>
+			<div light="" color="red" on="friendMissed > 4" style="margin: 5px;"></div>
+		</div>
+		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar"></div>
+	</div>
+	
+	<div class="center-div" style="width: 500px;">
+		<div ng-repeat="display in questionDisplays">
 		</div>
 	</div>
 </div>

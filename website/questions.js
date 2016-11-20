@@ -30,7 +30,25 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				return deferred.promise;
 			},
 			setupFromPersistence: function(roundQuestion) {
-				return this.setup(roundQuestion.difficulty, true);
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					var deferred = $q.defer();
+					this.difficulty = roundQuestion.difficulty;
+					this.person = person;
+					this.questionText = roundQuestion.questionText;
+					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
+						question.randomPeople = people;
+						deferred.resolve(question);
+					}, function(error) {
+						console.log(error);
+						question.error = error;
+						deferred.reject(question);
+					});
+					return deferred.promise;
+				} else {
+					return this.setup(roundQuestion.difficulty, true);
+				}
+				
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -42,7 +60,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id
+					personId: this.person.id,
 					questionText: this.questionText,
 					answers: [],
 					completeTime: this.completeTime
@@ -116,12 +134,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			getPersistence: function() {
 				var questionText = this.questionText;
 				if (this.person) {
-					questionText = questionText.replace("your", languageService.shortenName(this.person.display.name)+"'s"),
+					questionText = questionText.replace("your", languageService.shortenName(this.person.display.name)+"'s");
 				}
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id
+					personId: this.person.id,
 					questionText: questionText,
 					answers: [],
 					completeTime: this.completeTime
@@ -229,7 +247,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id
+					personId: this.person.id,
 					questionText: this.questionText,
 					answers: [],
 					completeTime: this.completeTime
@@ -254,7 +272,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				
 				question.person = familysearchService.getRandomPerson(useLiving);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
-					if (tree.persons.length<3 && question.tryCount < 5) {
+					if (tree.persons && tree.persons.length<3 && question.tryCount < 5) {
 						console.log('Not enough people. Trying setup again.');
 						question.tryCount++;
 						question.setup().then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });
@@ -284,6 +302,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
+					personId: this.person.id,
 					person: {id: this.person.id, display: {name: this.people[p].display.name}},
 					questionText: this.questionText,
 					people: [],

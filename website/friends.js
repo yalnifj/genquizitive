@@ -84,7 +84,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 	
 	this.getUserProperty = function(userId, property) {
 		var deferred = $q.defer();
-		firebase.database().ref('users/' + user.userId+"/"+property).once('value').then(function(snapshot) {
+		firebase.database().ref('users/' + userId+"/"+property).once('value').then(function(snapshot) {
 			if (!snapshot) deferred.resolve(null);
 			else deferred.resolve(snapshot.val());
 		});
@@ -98,11 +98,9 @@ angular.module('genquiz.friends', ['genquizitive'])
 	this.writeRound = function(round) {
 		var deferred = $q.defer();
 		var ref = firebase.database().ref('rounds').push();
-		ref.once('value', function(snapshot) {
-			round.id = snapshot.key();
-			ref.set(round);
-			deferred.resolve(round);
-		});
+		round.id = ref.key;
+		ref.set(round);
+		deferred.resolve(round);
 		return deferred.promise;
 	};
 	
@@ -215,6 +213,15 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
+	this.fbGetUserById = function(id) {
+		var deferred = $q.defer();
+		var temp = this;
+		FB.api('/'+id, {fields: "id,picture,first_name,last_name"}, function(response) {
+			deferred.resolve(response);
+		});
+		return deferred.promise;
+	};
+	
 	this.sendGenQuiz = function(toId) {
 		var deferred = $q.defer();
 		FB.ui({method: 'apprequests',
@@ -241,7 +248,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.removeGenQuizRequest(requestId) {
+	this.removeGenQuizRequest = function(requestId) {
 		FB.api(requestId, 'delete', function(response) {
 			console.log(response);
 		});

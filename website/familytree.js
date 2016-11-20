@@ -295,7 +295,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  //environment: 'production',
 	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
+	  redirectUri: 'http://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10
@@ -421,6 +421,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var temp = this;
 		if (personId) {
+			//TODO - check cache and download time
 			this.fs.get('/platform/tree/persons/'+personId, function(response) {
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
@@ -433,6 +434,13 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			deferred.reject('invalid personId '+personId);
 		}
 		return deferred.promise;
+	};
+	
+	this.getLocalPersonById = function(personId) {
+		if (this.people[personId]) {
+			return this.people[personId];
+		}
+		return null;
 	};
 
 	this.getPeopleById = function(ids) {
@@ -679,7 +687,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			while(loopCount < num-1) {
 				var rand = Math.floor(Math.random() * relatives.length);
 				var rPerson = relatives[rand];
-				if (rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1 && (useLiving || !rPerson.living)) {
+				if (rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1 && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -688,7 +696,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			
 			while(personCount < num && loopCount < num * 4) {
 				var rPerson = temp.getRandomPerson(useLiving);
-				if (rPerson && rPerson.id != person.id && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
+				if (rPerson && rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -702,7 +710,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				while(count < num) {
 					var rand = Math.floor(Math.random() * keys.length);
 					var randomId = keys[rand];
-					if (randomId != person.id && temp.people[randomId].gender.type == person.gender.type && (useLiving || !rPerson.living)) {
+					if (randomId != person.id && temp.people[randomId].gender && temp.people[randomId].gender.type == person.gender.type && (useLiving || !rPerson.living)) {
 						persons.push(temp.people[randomId]);
 						count++;
 					}

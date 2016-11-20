@@ -15,7 +15,7 @@
 <body ng-app="genquizitive">
 	<script>
 var fs = new FamilySearch({
-  environment: 'sandbox',
+  environment: 'integration',
   appKey: 'a02j000000JERmSAAX',
   redirectUri: 'http://www.genquizitive.com/fs-login.html',
   saveAccessToken: true,
@@ -25,7 +25,7 @@ var fs = new FamilySearch({
 
 var fscheck = fs.oauthResponse(function(response){
 	fs.get('/platform/tree/current-person', function(response){
-		window.location = '/home.html';
+		window.location = 'https://www.genquizitive.com/home.html';
 	});
 });
 
