@@ -11,11 +11,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
+				this.isReady = false;
 				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
 					question.person = person;
 					
 					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
 						question.randomPeople = people;
+						question.isReady = true;
 						deferred.resolve(question);
 					}, function(error) {
 						console.log(error);
@@ -30,6 +32,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				return deferred.promise;
 			},
 			setupFromPersistence: function(roundQuestion) {
+				this.isReady = false;
 				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
 				if (person) {
 					var deferred = $q.defer();
@@ -38,6 +41,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					this.questionText = roundQuestion.questionText;
 					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
 						question.randomPeople = people;
+						question.isReady = true;
 						deferred.resolve(question);
 					}, function(error) {
 						console.log(error);
@@ -79,6 +83,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
+				question.isReady = false;
 				this.difficulty = difficulty;
 				question.startPerson = familysearchService.fsUser;
 				
@@ -102,6 +107,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						question.person = lastPerson;
 						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 							question.randomPeople = people;
+							question.isReady = true;
 							deferred.resolve(question);
 						}, function(error) {
 							console.log(error);
@@ -130,6 +136,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.questionText = roundQuestion.questionText;
 				this.answers = roundQuestion.answers;
 				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
 			},
 			getPersistence: function() {
 				var questionText = this.questionText;
@@ -158,6 +165,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
+				question.isReady = false;
 				this.difficulty = difficulty;
 				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
@@ -224,6 +232,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						}
 						question.questionText += "?";
 					}
+					question.isReady = true;
 					deferred.resolve(question);
 				}, function(error) {
 					console.log(error);
@@ -242,6 +251,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.questionText = roundQuestion.questionText;
 				this.answers = roundQuestion.answers;
 				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
 			},
 			getPersistence: function() {
 				var q = {
@@ -267,6 +277,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
+				question.isReady = false;
 				this.difficulty = difficulty;
 				question.questionText = 'Complete the family tree.'
 				
@@ -284,6 +295,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 								question.people.push(tree.persons[p]);
 							}
 						}
+						question.isReady = true;
 						deferred.resolve(question);
 					}
 				});
@@ -297,6 +309,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.person = roundQuestion.person;
 				this.people = roundQuestion.people;
 				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
 			},
 			getPersistence: function() {
 				var q = {

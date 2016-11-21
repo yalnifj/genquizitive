@@ -68,7 +68,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				$scope.delayStart = 1000;
 			}
 			
-			if ($scope.delayStart < 0) {
+			if ($scope.delayStart > 0) {
 				$scope.timeout = $timeout(function() {
 					$scope.start();
 				}, $scope.delayStart);
@@ -683,9 +683,18 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.$watch('question.error', function(newval, oldval) {
 		if (newval && newval!=oldval) {
 			$scope.tries++;
-			console.log('trying question setup again '+$scope.tries);
-			$scope.question.error = null;
-			$scope.question.setup($scope.question.difficulty, $scope.round.friendTree);
+			if ($scope.tries < 5) {
+				console.log('trying question setup again '+$scope.tries);
+				$scope.question.error = null;
+				$scope.question.setup($scope.question.difficulty, $scope.round.friendTree);
+			} else {
+				console.log('too many fails try a new question');
+				$scope.tries = 0;
+				$scope.question.error = null;
+				$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
+				$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, $scope.round.friendTree);
+				$scope.question = $scope.questions[$scope.currentQuestion];
+			}
 		}
 	});
 })

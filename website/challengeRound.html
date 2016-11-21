@@ -2,7 +2,7 @@
 	<div class="countdown" ng-if="!question" callback="startRound()" remove="true" delay-start="-1" style="position: relative; top: 350px; cursor: pointer;"></div>
 	<div ng-if="ready">
 		
-		<div question="question"></div>
+		<div ng-show="question.isReady" question="question"></div>
 		
 		<div class="" style="position: absolute; left: 120px; top: 10px; width: 200px; height: 250px;">
 			<div class="timer"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
