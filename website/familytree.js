@@ -696,7 +696,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			
 			while(personCount < num && loopCount < num * 4) {
 				var rPerson = temp.getRandomPerson(useLiving);
-				if (rPerson && rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1) {
+				if (rPerson && rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && persons.indexOf(rPerson)==-1 && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -710,7 +710,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				while(count < num) {
 					var rand = Math.floor(Math.random() * keys.length);
 					var randomId = keys[rand];
-					if (randomId != person.id && temp.people[randomId].gender && temp.people[randomId].gender.type == person.gender.type && (useLiving || !rPerson.living)) {
+					var rPerson = temp.people[randomId];
+					if (randomId != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && (useLiving || !rPerson.living)) {
 						persons.push(temp.people[randomId]);
 						count++;
 					}

@@ -509,7 +509,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	var search = $location.search();
 	var roundId = search.roundId;
-	if (!roundId) {
+	if (!roundId || !facebookService.facebookUser) {
 		$location.search({});
 		$location.path("/menu");
 		return;
