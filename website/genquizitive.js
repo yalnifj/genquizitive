@@ -481,11 +481,24 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		return;
 	}
 	
+	$scope.launchReview = function(round) {
+		
+	};
+	
+	$scope.launchRound = function(round) {
+		
+	};
+	
+	$scope.friends = {};
 	$scope.completeGames = [];
 	$scope.myTurnGames = [];
 	$scope.theirTurnGames = [];
+	
 	firebaseService.getUserFromRounds().then(function(rounds) {
 		angular.forEach(rounds, function(round) {
+			facebookService.fbGetUserById(round.to).then(function(fbu) {
+				$scope.friends[round.id] = fbu;
+			});
 			if (round.complete) {
 				$scope.completeGames.push(round);
 			} else if (round.fromStats) {
@@ -495,8 +508,12 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			}
 		});
 	});
+	
 	firebaseService.getUserToRounds().then(function(rounds) {
 		angular.forEach(rounds, function(round) {
+			facebookService.fbGetUserById(round.from).then(function(fbu) {
+				$scope.friends[round.id] = fbu;
+			});
 			if (round.complete) {
 				$scope.completeGames.push(round);
 			} else {

@@ -8,8 +8,26 @@
 	</div>
 	
 	<div class="center-div">
-		<div ng-repeat="genquiz in games">
-			
+		<div ng-repeat="round in completeGames" class="clickable" ng-click="launchReview(round)">
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div class="round-summary">
+				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				See who won!
+			</div>
+		</div>
+		<div ng-repeat="round in myTurnGames" class="clickable" ng-click="launchRound(round)">
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div class="round-summary">
+				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				It's Your Turn! Play Now!
+			</div>
+		</div>
+		<div ng-repeat="round in theirTurnGames">
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div class="round-summary">
+				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				It's Your Turn! Play Now!
+			</div>
 		</div>
 	</div>
 </div>
