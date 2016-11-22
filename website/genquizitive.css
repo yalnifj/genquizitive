@@ -352,6 +352,13 @@ body {
 	margin-right: auto;
 }
 
+.loading-sign {
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: contain;
+	background-position: center;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		left: 22%;

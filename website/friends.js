@@ -104,9 +104,17 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getUserRounds = function(userId) {
+	this.getUserToRounds = function(userId) {
 		var deferred = $q.defer();
-		firebase.database().ref('rounds').orderByChild("to").equalTo(userId).once('value').then(function(snapshot) {
+		firebase.database().ref('rounds').orderByChild("to").equalTo(userId).orderByChild('startTime').once('value').then(function(snapshot) {
+			deferred.resolve(spanshot.val());
+		});
+		return deferred.promise;
+	};
+	
+	this.getUserFromRounds = function(userId) {
+		var deferred = $q.defer();
+		firebase.database().ref('rounds').orderByChild("from").equalTo(userId).orderByChild('startTime').once('value').then(function(snapshot) {
 			deferred.resolve(spanshot.val());
 		});
 		return deferred.promise;

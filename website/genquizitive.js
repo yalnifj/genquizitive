@@ -260,6 +260,36 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 	}
 }])
+.directive('loadingSign', ['$interval', function($interval) {
+	return {
+		link: function($scope, $element, $attr) {
+			$scope.count = 1;
+			$scope.step = 1;
+			
+			$scope.setBackground = function() {
+				$element.css('background-image', 'url("loading'+$scope.count+'.png")');
+			};
+			
+			$scope.setBackground();
+			$scope.interval = $interval(function() {
+				$scope.count+=$scope.step;
+				if ($scope.count > 3) {
+					$scope.count = 2;
+					$scope.step = -1;
+				}
+				if ($scope.count < 1) {
+					$scope.count = 2;
+					$scope.step = 1;
+				}
+				$scope.setBackground();
+			}, 300);
+			
+			$scope.$on('$destroy', function() {
+				$interval.cancel($scope.interval);
+			});
+		}
+	}
+}])
 .controller('getstarted', function($scope, familysearchService, facebookService, firebaseService, languageService, $location, $timeout, notificationService, $cookies) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	$scope.fsLoggedIn = false;
@@ -442,6 +472,39 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 })
+.controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location) {
+	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
+	
+	if (!facebookService.facebookUser) {
+		//-- go back to home screen if not authed to anything
+		$location.path('/');
+		return;
+	}
+	
+	$scope.completeGames = [];
+	$scope.myTurnGames = [];
+	$scope.theirTurnGames = [];
+	firebaseService.getUserFromRounds().then(function(rounds) {
+		angular.forEach(rounds, function(round) {
+			if (round.complete) {
+				$scope.completeGames.push(round);
+			} else if (round.fromStats) {
+				$scope.theirTurnGames.push(round);
+			} else {
+				$scope.myTurnGames.push(round);
+			}
+		});
+	});
+	firebaseService.getUserToRounds().then(function(rounds) {
+		angular.forEach(rounds, function(round) {
+			if (round.complete) {
+				$scope.completeGames.push(round);
+			} else {
+				$scope.myTurnGames.push(round);
+			}
+		});
+	});
+})
 .controller('challengeController', function($scope, facebookService, firebaseService, notificationService, languageService, $interval, $location) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
 	
@@ -456,6 +519,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			from: facebookService.facebookUser.id,
 			to: friend.id,
 			friendTree: false,
+			startTime: new Date(),
 			questions: []
 		};
 		//-- check if friend has familytree

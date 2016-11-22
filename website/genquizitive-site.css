@@ -2,9 +2,46 @@
     line-height: 48px;
     padding-top: 0px;
 }
-.page-top {
-	background-image: url("home_background.jpg");
+#page-top {
+	margin-top: 60px;
 }
 .howto {
-	padding-top: 50px;
+	margin-top: 50px;
+}
+.embed-responsive {
+	margin-bottom: 8%;
+	margin-top: 8%;
+}
+#top-sign {
+	margin-left: 10%;
+    margin-right: 10%;
+    width: 80%
+}
+.container {
+	margin-bottom: 50px;
+	margin-top: 50px;
+}
+#sign-text {
+	position: absolute;
+	white-space: wrap;
+	margin-left: 13%;
+	margin-right: 15%;
+	color: white;
+	text-align: center;
+}
+.socialbuttons {
+    position: absolute;
+    right: 10px;
+    top: -5px;
+}
+
+.socialmedia {
+    font-size: 40px;
+}
+.mainNave .socialmedia {
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-bottom: 0px;
+    font-size: 35px;
+    line-height: 40px;
 }

@@ -3,6 +3,7 @@
 	<div ng-if="ready">
 		
 		<div ng-show="question.isReady" question="question"></div>
+		<div ng-show="!question.isReady" loading-sign="" class="loading-sign" style="position: relative; top: 350px; width:300px; height: 200px;"></div>
 		
 		<div class="" style="position: absolute; left: 120px; top: 10px; width: 200px; height: 250px;">
 			<div class="timer" style="position: absolute; left: 25px; top: 5px;"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
