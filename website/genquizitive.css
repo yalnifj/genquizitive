@@ -252,7 +252,12 @@ body {
 	color: #333333;
 }
 .trap1 .answer-button {
-	padding-right: 20px;
+	padding-right: 30px;
+    padding-left: 20px;
+    vertical-align: middle;
+    display: table-cell;
+    height: 97px;
+	width: 270px;
 }
 .question-block {
 	background-color: #ebe9d5;

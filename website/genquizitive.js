@@ -394,7 +394,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		});
 	});
 })
-.controller('menuController', function($scope, facebookService, familysearchService, firebaseService, $location) {
+.controller('menuController', function($scope, facebookService, familysearchService, firebaseService, $location, notificationService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	
 	$scope.fsLogin = function() {
@@ -434,6 +434,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			if (!familysearchService.fsUser) {
 				//-- go back to home screen if not authed to anything
 				$location.path('/');
+			} else {
+				familysearchService.getPersonPortrait(familysearchService.fsUser.id).then(function(data) {
+					$scope.pictureUrl = data.src;
+				});
 			}
 		}
 	};
@@ -563,8 +567,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			from: facebookService.facebookUser.id,
 			to: friend.id,
 			friendTree: false,
-			startTime: new Date(),
-			questions: []
+			startTime: new Date()
 		};
 		//-- check if friend has familytree
 		firebaseService.getUserProperty(friend.id, "hasFamilyTree").then(function(hasFamilyTree) {
@@ -580,6 +583,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.invite = function() {
 		//-- load facebook invite window
+		facebookService.inviteFriends().then(function(response) {
+			if (reponse && response.request && response.to && response.to.length>0) {
+				var round = {
+					from: facebookService.facebookUser.id,
+					to: response.to[0],
+					friendTree: false,
+					startTime: new Date(),
+					requestId: response.request
+				};
+				firebaseService.writeRound(round).then(function(round) {
+					//-- move to play round
+					$location.search({roundId: round.id});
+					$location.path('/challengeRound');
+				});
+			}
+		});
 	};
 	
 	$scope.hnum = 2;
@@ -656,13 +675,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.questions = [];
 	$scope.currentQuestion = 0;
-	$scope.maxQuestions = 4;
+	$scope.maxQuestions = 5;
 	$scope.ready = false;
 	
 	$scope.minute = 0;
 	$scope.second = 0;
 	$scope.interval = $interval(function() {
-		if ($scope.startTime && $scope.currentQuestion < 4) {
+		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
 			var d = new Date();
 			var diff = d.getTime() - $scope.startTime.getTime();
 			$scope.minute = Math.floor(diff / (1000*60));
@@ -714,7 +733,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				missed: $scope.missedQuestions,
 				questions: []
 			};
-			for(var q=0; q<4; q++) {
+			for(var q=0; q<$scope.maxQuestions; q++) {
 				if (q < $scope.questions.length) {
 					$scope.round.fromStats.questions[q] = $scope.questions[q].getPersistence();
 				} else {
@@ -722,18 +741,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				}
 			}
 			
-			//-- send facebook event
-			facebookService.sendGenQuiz(round.to).then(function(response) {
-				round.requestId = response.request;
-				firebaseService.writeRound(round);
-			});
+			if (!$scope.round.requestId) {
+				//-- send facebook event
+				facebookService.sendGenQuiz($scope.round.to).then(function(response) {
+					$scope.round.requestId = response.request;
+					firebaseService.writeRound($scope.round);
+				});
+			} else {
+				firebaseService.writeRound($scope.round);
+			}
 		} else {
 			$scope.round.toStats = {
 				time: $scope.endTime,
 				missed: $scope.missedQuestions,
 				questions: []
 			};
-			for(var q=0; q<4; q++) {
+			for(var q=0; q<$scope.maxQuestions; q++) {
 				if (q < $scope.questions.length) {
 					$scope.round.toStats.questions[q] = $scope.questions[q].getPersistence();
 				} else {
@@ -742,9 +765,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			}
 			$scope.round.complete = true;
 			//-- send facebook event
-			facebookService.sendGenQuizComplete(round.from).then(function(response) {
-				round.requestId = response.request;
-				firebaseService.writeRound(round);
+			facebookService.sendGenQuizComplete($scope.round.from).then(function(response) {
+				$scope.round.requestId = response.request;
+				firebaseService.writeRound($scope.round);
 			});
 		}
 		firebaseService.lastRound = $scope.round;
@@ -754,7 +777,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.nextQuestion = function() {
 		$scope.question.completeTime = new Date();
 		
-		if ($scope.currentQuestion >= 4) {
+		if ($scope.currentQuestion >= $scope.maxQuestions) {
 			$scope.completeRound();
 		} else {		
 			$scope.currentQuestion++;
@@ -822,16 +845,24 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	*/
 	
 	$scope.launchMenu = function() {
-		notif.close();
+		if (notif) {
+			notif.close();
+		}
 		$location.path("/menu");
 	};
+	
+	$scope.$on('$destroy', function() {
+		if (notif) {
+			notif.close();
+		}
+	});
 })
 .controller('challengeRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService, languageService) {
 	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
 	
 	$scope.round = firebaseService.lastRound;
 	
-	if ($scope.round || !facebookService.facebookUser) {
+	if (!$scope.round || !facebookService.facebookUser) {
 		$location.path("/");
 		return;
 	}
@@ -846,6 +877,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
 	
+	$scope.maxQuestions = 5;
 	$scope.myScore = 0;
 	$scope.myMissed = 0;
 	$scope.friendScore = 0;
@@ -862,7 +894,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.friendStats = $scope.round.fromStats;
 	}
 	
-	for(var q=0; q<4; q++) {
+	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {};
 		if (familysearchService.fsUser && myStats.personId) {
 			familysearchService.getPersonById(myStats.personId).then(function(person) {
@@ -872,6 +904,65 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		
 		display.myTime = $scope.myStats.questions[q].time;
 		display.friendTime = $scope.friendStats.questions[q].time;
+		switch($scope.myStats.questions[q].name) {
+			case 'multi1':
+				display.letter = 'R';
+				break;
+			case 'multi2':
+				display.letter = 'F';
+				break;
+			case 'tree':
+				display.letter = 'T';
+				break;
+			default:
+				display.letter = 'P';
+				break;
+		}
+		$scope.questionDisplays[q] = display;
+	}
+	
+})
+.controller('practiceRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService, languageService) {
+	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
+	
+	$scope.round = firebaseService.lastRound;
+	
+	if (!$scope.round) {
+		$location.path("/");
+		return;
+	}
+	
+	if (facebookService.facebookUser) {
+		$scope.me = {};
+		$scope.me.shortName = languageService.shortenName(facebookService.facebookUser['first_name']+' '+facebookService.facebookUser['last_name']);
+		if (facebookService.facebookUser.picture && facebookService.facebookUser.picture.data) {
+			$scope.me.photoUrl = facebookService.facebookUser.picture.data.url;
+		}
+	} else {
+		if (familysearchService.fsUser) {
+			$scope.me = {};
+			$scope.me.shortName = languageService.shortenName(familysearchService.fsUser.display.name);
+			$scope.me.photoUrl = familysearchService.fsUser.portrait;
+		}
+	}
+	
+	$scope.maxQuestions = 5;
+	$scope.myScore = 0;
+	$scope.myMissed = 0;
+	
+	$scope.questionDisplays = [];
+	$scope.myStats = null;
+	$scope.myStats = $scope.round.fromStats;
+	
+	for(var q=0; q<$scope.maxQuestions; q++) {
+		var display = {};
+		if (familysearchService.fsUser && myStats.personId) {
+			familysearchService.getPersonById(myStats.personId).then(function(person) {
+				display.person = person;
+			});
+		}
+		
+		display.myTime = $scope.myStats.questions[q].time;
 		switch($scope.myStats.questions[q].name) {
 			case 'multi1':
 				display.letter = 'R';
@@ -900,6 +991,12 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
 		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+	} else {
+		if (familysearchService.fsUser) {
+			familysearchService.getPersonPortrait(familysearchService.fsUser.id).then(function(data) {
+				$scope.pictureUrl = data.src;
+			});
+		}
 	}
 	
 	var notif = notificationService.showNotification({title: 'Practice GenQuiz', message: 'Practice a GenQuiz on your family tree then challenge your family and friends. Answer the questions as quickly as you can.  Try not to make any mistakes or you will receive a time penalty.'});
@@ -907,13 +1004,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.questions = [];
 	$scope.currentQuestion = 0;
-	$scope.maxQuestions = 4;
+	$scope.maxQuestions = 5;
 	$scope.ready = false;
 	
 	$scope.minute = 0;
 	$scope.second = 0;
 	$scope.interval = $interval(function() {
-		if ($scope.startTime && $scope.currentQuestion < 4) {
+		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
 			var d = new Date();
 			var diff = d.getTime() - $scope.startTime.getTime();
 			$scope.minute = Math.floor(diff / (1000*60));
@@ -929,14 +1026,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.setupQuestion = function(num) {
 		$scope.tries++;
 		if ($scope.tries < 5) {
-			console.log('trying question setup again '+$scope.tries);
+			console.log('trying question '+$scope.questions[num].name+' setup again '+$scope.tries);
 			$scope.questions[num].error = null;
 			$scope.questions[num].setup(num+1, true).then(function() {
 			}, function(error) {
 				$scope.setupQuestion(num);
 			});
 		} else {
-			console.log('too many fails try a new question');
+			console.log('too many fails on '+$scope.questions[num].name+' try a new question');
 			$scope.tries = 0;
 			$scope.questions[num].error = null;
 			$scope.questions[num] = QuestionService.getRandomQuestion();
@@ -972,15 +1069,36 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
+		
+		$scope.round = {
+			startTime: $scope.startTime
+		};
+		
+		$scope.round.fromStats = {
+			time: $scope.endTime,
+			missed: $scope.missedQuestions,
+			questions: []
+		};
+		for(var q=0; q<$scope.maxQuestions; q++) {
+			if (q < $scope.questions.length) {
+				$scope.round.fromStats.questions[q] = $scope.questions[q].getPersistence();
+			} else {
+				$scope.round.fromStats.questions[q] = {};
+			}
+		}
+		
+		firebaseService.lastRound = $scope.round;
+		$location.path('/practiceRoundReview');
 	};
 	
 	$scope.nextQuestion = function() {
+		$scope.tries = 0;
 		$scope.question.completeTime = new Date();
 		
-		if ($scope.currentQuestion >= 4) {
+		$scope.currentQuestion++;
+		if ($scope.currentQuestion >= $scope.maxQuestions) {
 			$scope.completeRound();
 		} else {		
-			$scope.currentQuestion++;
 			$scope.question = $scope.questions[$scope.currentQuestion];
 			
 			$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
@@ -1009,9 +1127,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	*/
 	
 	$scope.launchMenu = function() {
-		notif.close();
+		if (notif) {
+			notif.close();
+		}
 		$location.path("/menu");
 	};
+	
+	$scope.$on('$destroy', function() {
+		if (notif) {
+			notif.close();
+		}
+	});
 })
 .controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');

@@ -1,0 +1,30 @@
+<div class="text-center" ng-controller="practiceRoundReviewController">
+	<div class="title-holder">
+		<img src="genquiz_score.png" />
+		<div class="smaller-logo" style="left: -60px; top: -30px;">
+			<img id="home_arrows" src="home_arrow1.png" />
+			<img id="home_sign" src="home_sign.png" />
+		</div>
+	</div>
+	
+	<div class="center-div">
+		<div avatar-badge src="me.photoUrl" label="me.shortName" class="avatar"></div>
+		<div class="timer" animated-timer="" time="{{myScore}}"></div>
+		<div style="position: absolute; left: 20px; top: 80px;">
+			<div light="" color="red" on="myMissed > 0" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 1" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 2" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 3" style="margin: 5px;"></div>
+			<div light="" color="red" on="myMissed > 4" style="margin: 5px;"></div>
+		</div>
+	</div>
+	
+	<div class="center-div" style="width: 500px;">
+		<div ng-repeat="display in questionDisplays">
+			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
+			{{display.myTime}}
+			<div class="letter">{{display.letter}}</div>
+			{{display.friendTime}}
+		</div>
+	</div>
+</div>

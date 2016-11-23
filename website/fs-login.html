@@ -17,7 +17,7 @@
 var fs = new FamilySearch({
   environment: 'integration',
   appKey: 'a02j000000JERmSAAX',
-  redirectUri: 'http://www.genquizitive.com/fs-login.html',
+  redirectUri: 'https://www.genquizitive.com/fs-login.html',
   saveAccessToken: true,
   tokenCookie: 'FS_AUTH_TOKEN',
   maxThrottledRetries: 10
@@ -34,9 +34,10 @@ if (!fscheck) {
 }
 
 	</script>
-	<div>
+	<div class="center-div">
 	<h3>Connecting to FamilySearch...</h3>
-	<a href="#" onclick="fs.oauthRedirect(); return false;">Login</a>
+	<br /><br /><br />
+	<img src="loading1.png" />
 	</div>
 </body>
 </html>

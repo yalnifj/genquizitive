@@ -254,7 +254,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 		  action_type:'turn'
 		}, function(response){
 		  console.log(response);
-		  defer.resolve(response);
+		  deferred.resolve(response);
 		});
 		return deferred.promise;
 	};
@@ -267,7 +267,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 		  action_type:'turn'
 		}, function(response){
 		  console.log(response);
-		  defer.resolve(response);
+		  deferred.resolve(response);
 		});
 		return deferred.promise;
 	};
@@ -276,6 +276,19 @@ angular.module('genquiz.friends', ['genquizitive'])
 		FB.api(requestId, 'delete', function(response) {
 			console.log(response);
 		});
+	};
+	
+	this.inviteFriends = function() {
+		var deferred = $q.defer();
+		FB.ui({method: 'apprequests',
+			filters: ['app_non_users'],
+			max_recipients: 1,
+			message: 'Just challenged you to a GenQuiz on GenQuizitive!'
+		}, function(response) {
+			console.log(response);
+			deferred.resolve(response);
+		});
+		return deferred.promise;
 	};
 }])
 ;

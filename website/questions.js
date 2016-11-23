@@ -93,6 +93,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					
 					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathText) {
 						question.questionText = 'Who is your ' + pathText + '?';
+					}, function(error) {
+						console.log(error);
+						question.questionText = 'Who is your relative?';
 					});
 					
 					var lastRel = path[path.length-1];
@@ -228,7 +231,11 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 							question.questionText += " in "+question.fact.place.original;
 						}
 						if (question.fact.date && question.fact.date.original) {
-							question.questionText += " on "+question.fact.date.original;
+							if (question.fact.date.original.length > 4) {
+								question.questionText += " on "+question.fact.date.original;
+							} else {
+								question.questionText += " in "+question.fact.date.original;
+							}
 						}
 						question.questionText += "?";
 					}
@@ -286,7 +293,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					if (!tree.persons || tree.persons.length<3 || question.tryCount > 4) {
 						console.log('Not enough people. Trying setup again.');
 						question.tryCount++;
-						question.setup().then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });
+						question.setup(difficulty, useLiving).then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });
+						return;
 					} else {
 						question.people = [];
 						question.tryCount = 0;
@@ -298,6 +306,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						question.isReady = true;
 						deferred.resolve(question);
 					}
+				}, function(error) {
+					console.log(error);
+					deferred.reject(error);
 				});
 				return deferred.promise;
 			},
@@ -316,7 +327,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: {name: this.people[p].display.name}},
+					person: {id: this.person.id, display: {name: this.person.display.name}},
 					questionText: this.questionText,
 					people: [],
 					completeTime: this.completeTime
@@ -350,12 +361,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	
 	this.getRandomQuestion = function () {
 		var q = Math.floor (Math.random () * this.questions.length);
-		return this.questions[q];
+		return angular.copy(this.questions[q]);
 	};
 	
 	this.getQuestionByName = function(name) {
 		for(var q=0; q<this.questions.length; q++) {
-			if (this.questions[q].name==name) return this.questions[q];
+			if (this.questions[q].name==name) return angular.copy(this.questions[q]);
 		}
 		return null;
 	};

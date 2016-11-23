@@ -127,7 +127,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			if (path.length > 1) promise = familysearchService.getPersonRelationships(personId);
 			else {
 				var sr = Math.random();
-				if (sr < 0.5) promise = familysearchService.getPersonParents(personId, true);
+				if (sr < 0.7) promise = familysearchService.getPersonParents(personId, true);
 				else promise = familysearchService.getPersonSpouses(personId, true);
 			}
 			
@@ -205,6 +205,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 						}
 						var pathcopy = newpath.slice();
 						temp.recursivePath(nextPerson, pathcopy, length, useLiving).then(function(path2) {
+							if (path2.length > pathcopy.length) deferred.resolve(path2);
+							else deferred.resolve(pathcopy);
+						},function(path2) {
 							if (path2.length > pathcopy.length) deferred.resolve(path2);
 							else deferred.resolve(pathcopy);
 						});
@@ -295,7 +298,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  //environment: 'production',
 	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'http://www.genquizitive.com/fs-login.html',
+	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10
@@ -313,13 +316,20 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					temp.getAncestorTree(temp.fsUser.id, 8, true).then(function(data) {
 						var count = 0;
 						angular.forEach(data.persons.reverse(), function(person) {
-							if (count < data.persons.length<2) {
+							if (count < data.persons.length/2) {
 								temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, 2, true); });
 							}
 							count++;
 						});
 					});
 					temp.getPersonPortrait(temp.fsUser.id);
+					temp.getPersonSpouses(temp.fsUser.id).then(function(spouses) {
+						if (spouses) {
+							angular.forEach(spouses, function(spouse) {
+								temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, 6, true); });
+							});
+						}
+					});
 					temp.startBackgroundQueue();
 					var token = $cookies.get(temp.fs.tokenCookie);
 					$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
@@ -515,7 +525,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		} else {
 			var temp = this;
 			this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
-				if (response.statusCode!=200) {
+				if (response.statusCode!=200 || !response.data) {
 					deferred.reject(response);
 					return;
 				}
