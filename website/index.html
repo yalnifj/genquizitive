@@ -58,9 +58,11 @@
 
 <section id="page-top">
 	<div class="container">
-		<div class="col-sm-6">
-			<h3 id="sign-text">Bello!</h3>
+		<div class="row">
+			<img id="top-logo" src="logo-large.png">
+			<p id="sign-text">The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?</p>
 			<img id="top-sign" src="roadsign.png">
+			<!--img id="play-button" src="play-online.png"-->
 		</div>
 	</div>
 </section>
@@ -96,14 +98,240 @@
 
 
 <!-- Partners -->
-<div id="partners">
-	
-</div>
+<section class="bg-primary" id="partners">
+    <a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">Partners</h2>
+            </div>
+        </div>
+        <div class="row">
+			<div class="col col-sm-6 text-center">
+                <h3>Social Accounts We Support</h3>
+                <img href="">
+                <p>&nbsp;</p>
+            </div>
+            <div class="col col-sm-6 text-center">
+                <h3>Online Family Trees We Support</h3>
+                <ul class="partner-list">
+                    <li>
+                        <a target="_blank" href="https://familysearch.org/apps/product/littlefamilytree/android">
+                            <img class="fsicon small-margin" src="FS-Certified.png" border="0"/><br />
+                        </a>
+                        <a href="familysearch.html">
+                            <h4>Learn more about our FamilySearch
+                            integration.</h4>
+                        </a>
+                        <p>&nbsp;</p>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://www.phpgedview.net"><img src="pgv_logo.png"/> </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- About -->
-<div>
-	
+<section id="howto" style="line-height: 27px;" >
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				
+			</div>
+		</div>
+	</div>
+</section>
+<section id="about">
+    <a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">About GenQuizitive</h2>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="contact-section col-lg-3 col-lg-offset-2 col-sm-4 text-left">
+			<p>&nbsp;</p>
+                <button type="button" onclick="showContactForm(); return false;" class="btn btn-primary">Contact Us!</button>
+            </div>
+
+            <div class="contact-section col-lg-3 col-sm-4 text-center">
+                <div class="socialbuttons">
+					<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+				</div>
+            </div>
+
+            <div class="contact-section col-lg-3 col-sm-4 text-center">
+                <p>
+                    <img src="large_logo.png" border="0" height="120" />
+                </p>
+                <p>&nbsp;</p>
+                <address><a href="http://www.yellowforktech.com">Yellow Fork Technologies LLC</a>
+                <br />5526 W. 13400 S. #448
+                <br />Herriman, UT  84096</address>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <p>Your privacy is extremely important to us.  We promise not to share your personal information.
+                    <br /><a href="privacy.html">Read our full privacy policy.</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <p>&nbsp;</p>
+                <p>
+                    <img src="logo-small.png" border="0" height="120" />
+                </p>
+                <p>&nbsp;</p>
+                <p>&copy; 2016 Yellow Fork Technologies LLC</p>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="contactFormModal" class="modal fade bs-example-modal-sm"
+    tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="$('#contactFormModal').modal('hide'); return false;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Contact GenQuizitive</h4>
+      </div>
+      <div class="modal-body">
+		<p>We would love to hear from you! Please submit the form below
+		  to contact us.
+		</p>
+        <form >
+		  <div id="nameGroup" class="form-group">
+            <label for="name">Your name</label>
+            <input type="text" class="form-control" id="name" placeholder="Name" onchange="validateName();" />
+          </div>
+		  <div id="emailGroup" class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Email" onchange="validateEmail();"/>
+          </div>
+            <div class="row">
+             <div class="form-group col col-sm-5" style="margin-left: 5px;">
+                <label>Experience with family history</label>
+                <br />
+                <label class="radio-inline">
+                    <input type="radio" name="fhLevel" id="fhLevel1" value="Beginner" /> Beginner
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fhLevel" id="fhLevel2" value="Intermediate" checked="checked" /> Intermediate
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fhLevel" id="fhLevel3" value="Expert" /> Expert
+                </label>
+            </div>
+            <div class="form-group col col-sm-4">
+                <label>Social Connection</label>
+                <br />
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel1" value="Facebook"> Facebook
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel2" value="Blank" checked="checked" /> Blank
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel3" value="Blank" /> Blank
+                </label>
+            </div>
+			<div class="form-group col col-sm-4">
+                <label>Tree Connection</label>
+                <br />
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel1" value="FamilySearch"> FamilySearch
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel2" value="Blank" checked="checked" /> Blank
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="fsLevel" id="fsLevel3" value="Blank" /> Blank
+                </label>
+            </div>
+          </div>
+            <div class="row">
+            <div class="form-group col col-sm-5" style="margin-left: 5px;">
+                <label>Platform</label>
+                <br />
+                <label class="radio-inline">
+                    <input type="radio" name="platform" id="platform1" value="Android" /> Android
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="platform" id="platform2" value="iOS" /> iPhone/iPad
+                </label>
+            </div>
+                <div class="form-group col col-sm-6">
+                    <label for="deviceDetails">Device model</label>
+                    <input type="text" class="form-control" id="deviceDetails" placeholder="iPhone 5s / Galaxy S3 / etc." />
+                </div>
+            </div>
+                  <div class="form-group">
+                    <label for="reasoning">Reason for contacting us:</label>
+                    <select name="reasoning" class="form-control" id="reasoning">
+                      <option>I need help</option>
+                      <option>I have some feedback to share</option>
+                      <option>I found a bug</option>
+                      <option>Kudos!</option>
+                      <option>Complaint</option>
+                    </select>
+                  </div>
+
+		  <div id="messageGroup" class="form-group">
+            <label for="message">Message</label>
+            <textarea rows="6" class="form-control" name="message" id="message" placeholder="Enter your message"></textarea>
+          </div>
+            <div id="ajaxError" class="form-group has-error bg-danger" style="display: none;">
+                There was an error.
+            </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="$('#contactFormModal').modal('hide'); return false;">Close</button>
+        <button type="button" class="btn btn-primary" onclick="sendContactForm(); return false;">Send</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div id="thankYouModal" class="modal fade bs-example-modal-sm"
+     tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="$('#thankYouModal').modal('hide'); return false;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Thank You!</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Thank you for contacting us.
+                </p>
+                <p>
+                    You will receive a copy of the message that was sent
+                    to the email address that you provided.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="$('#thankYouModal').modal('hide'); return false;">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="jquery.easing.min.js"></script>
 
 </body>
 	

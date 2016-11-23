@@ -31,6 +31,10 @@
 	
 	<div class="center-div" style="width: 500px;">
 		<div ng-repeat="display in questionDisplays">
+			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
+			{{display.myTime}}
+			<div class="letter">{{display.letter}}</div>
+			{{display.friendTime}}
 		</div>
 	</div>
 </div>

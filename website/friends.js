@@ -60,6 +60,8 @@ angular.module('genquiz.friends', ['genquizitive'])
 		//var userId = firebase.auth().currentUser.uid;
 		firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
 		  deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};
@@ -87,6 +89,8 @@ angular.module('genquiz.friends', ['genquizitive'])
 		firebase.database().ref('users/' + userId+"/"+property).once('value').then(function(snapshot) {
 			if (!snapshot) deferred.resolve(null);
 			else deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};
@@ -106,16 +110,22 @@ angular.module('genquiz.friends', ['genquizitive'])
 	
 	this.getUserToRounds = function(userId) {
 		var deferred = $q.defer();
-		firebase.database().ref('rounds').orderByChild("to").equalTo(userId).orderByChild('startTime').once('value').then(function(snapshot) {
-			deferred.resolve(spanshot.val());
+		firebase.database().ref('rounds').orderByChild("to").equalTo(userId).once('value').then(function(snapshot) {
+			if (!snapshot) deferred.resolve(null);
+			else deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};
 	
 	this.getUserFromRounds = function(userId) {
 		var deferred = $q.defer();
-		firebase.database().ref('rounds').orderByChild("from").equalTo(userId).orderByChild('startTime').once('value').then(function(snapshot) {
-			deferred.resolve(spanshot.val());
+		firebase.database().ref('rounds').orderByChild("from").equalTo(userId).once('value').then(function(snapshot) {
+			if (!snapshot) deferred.resolve(null);
+			else deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};
@@ -123,7 +133,10 @@ angular.module('genquiz.friends', ['genquizitive'])
 	this.getRoundById = function(roundId) {
 		var deferred = $q.defer();
 		firebase.database().ref('rounds/'+roundId).once('value').then(function(snapshot) {
-			deferred.resolve(snapshot.val());
+			if (!snapshot) deferred.resolve(null);
+			else deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};
@@ -131,7 +144,10 @@ angular.module('genquiz.friends', ['genquizitive'])
 	this.getRoundByRequestId = function(requestId) {
 		var deferred = $q.defer();
 		firebase.database().ref('rounds').orderByChild("requestId").equalTo(requestId).once('value').then(function(snapshot) {
-			deferred.resolve(spanshot.val());
+			if (!snapshot) deferred.resolve(null);
+			else deferred.resolve(snapshot.val());
+		}, function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};

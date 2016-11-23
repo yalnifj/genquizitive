@@ -1,31 +1,35 @@
-<div class="text-center" ng-controller="challengeRoundReviewController">
+<div class="text-center" ng-controller="continueController">
 	<div class="title-holder">
 		<img src="continue_game.png" />
-		<div class="smaller-logo" style="left: -60px; top: -30px;">
+		<div class="smaller-logo" style="left: -80px; top: -80px;">
 			<img id="home_arrows" src="home_arrow1.png" />
 			<img id="home_sign" src="home_sign.png" />
 		</div>
 	</div>
 	
+	<div ng-if="!loading && gameCount==0" class="question-block center-div" style="width: 400px; height: 200px;padding: 20px;">
+		Sorry. No GenQuiz rounds were found.<br/><a href="#/challenge">Challenge a friend now!</a>
+	</div>
+	
 	<div class="center-div">
 		<div ng-repeat="round in completeGames" class="clickable" ng-click="launchReview(round)">
-			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar" style="top: 15px;z-index: 1;"></div>
 			<div class="round-summary">
-				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				<span class="genquiz-with">GenQuiz with {{friends[round.id].shortName}}</span><br />
 				See who won!
 			</div>
 		</div>
 		<div ng-repeat="round in myTurnGames" class="clickable" ng-click="launchRound(round)">
-			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar" style="top: 15px;z-index: 1;"></div>
 			<div class="round-summary">
-				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				<span class="genquiz-with">GenQuiz with {{friends[round.id].shortName}}</span><br />
 				It's Your Turn! Play Now!
 			</div>
 		</div>
 		<div ng-repeat="round in theirTurnGames">
-			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar"></div>
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar" style="top: 15px;z-index: 1;"></div>
 			<div class="round-summary">
-				<span class="genquiz-with">GenQuiz with {{friends[round.id][first_name]}}</span><br />
+				<span class="genquiz-with">GenQuiz with {{friends[round.id].shortName}}</span><br />
 				It's Your Turn! Play Now!
 			</div>
 		</div>

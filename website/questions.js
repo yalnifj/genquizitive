@@ -283,7 +283,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				
 				question.person = familysearchService.getRandomPerson(useLiving);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
-					if (tree.persons && tree.persons.length<3 && question.tryCount < 5) {
+					if (!tree.persons || tree.persons.length<3 || question.tryCount > 4) {
 						console.log('Not enough people. Trying setup again.');
 						question.tryCount++;
 						question.setup().then(function(q) { deferred.resolve(q); }, function(q) { deferred.reject(q); });

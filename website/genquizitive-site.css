@@ -5,6 +5,15 @@
 #page-top {
 	margin-top: 60px;
 }
+#top-logo {
+	width: 30vw;
+	margin-left: 25vw;
+}
+#play-button {
+	width: 10vw;
+	position: absolute;
+	float: left;
+}
 .howto {
 	margin-top: 50px;
 }
@@ -13,9 +22,7 @@
 	margin-top: 8%;
 }
 #top-sign {
-	margin-left: 10%;
-    margin-right: 10%;
-    width: 80%
+    width: 80vw
 }
 .container {
 	margin-bottom: 50px;
@@ -24,10 +31,12 @@
 #sign-text {
 	position: absolute;
 	white-space: wrap;
-	margin-left: 13%;
-	margin-right: 15%;
+	margin-left: 4vw;
+	margin-right: 14vw;
 	color: white;
 	text-align: center;
+	margin-top: 8%;
+	font-size: 4vw;
 }
 .socialbuttons {
     position: absolute;
@@ -44,4 +53,46 @@
     margin-bottom: 0px;
     font-size: 35px;
     line-height: 40px;
+}
+header {
+	margin-top: 0px;
+	background: url(wood_back.png) no-repeat center center scroll;
+	background-size: cover;
+	color: #DDDDDD;
+}
+header .header-content, section .container, section .container-fluid{
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.header-content {
+    margin-top: 50px;
+    padding: 20px;
+    margin-bottom: 50px;
+}
+.main-icon {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+.logo-text-img {
+	margin-top: 25%;
+	width: 100%;
+	max-width: 600px;
+}
+.subtitle {
+    margin-top: 60px;
+    margin-bottom: 30px;
+    line-height: 50px;
+}
+.small-title h3 {
+    line-height: 35px;
+    margin-bottom: 20px;
+}
+.small-title {
+	display: none;
+}
+
+.fb-page.small {
+	display: none;
 }

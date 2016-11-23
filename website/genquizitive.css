@@ -343,11 +343,14 @@ body {
 
 .title-holder {
 	position: relative;
-	background-color: 066c46;
-	padding: 10px;
-	border: sold #d1d3d4 3px;
-	margin-left: auto;
-	margin-right: auto;
+    background-color: 066c46;
+    padding: 20px 30px 10px 30px;
+    border: solid #d1d3d4 3px;
+	margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+	margin-bottom: 40px;
+    display: inline-block;
 }
 
 .center-div {
@@ -357,26 +360,34 @@ body {
 
 .loading-sign {
 	background-repeat: no-repeat;
-	background-attachment: fixed;
 	background-size: contain;
 	background-position: center;
 }
 
 .round-summary {
 	position: relative;
-	left: -10px;
-	background-color: #ebe9d5;
-	border-radius: 50% / 50%;
-	border: solid d1d3d4 2px;
-	box-shadow: -7px 7px 3px #222;
-	padding: 10px;
-	width: 300px;
-	height: 50px;
-	font-size: 150%;
+    display: inline-block;
+    left: -45px;
+	top: -10px;
+    background-color: #ebe9d5;
+    border-radius: 50% / 50%;
+    border: solid #d1d3d4 3px;
+    box-shadow: 7px 7px 3px #222;
+    padding: 15px 10px 10px 10px;
+    width: 350px;
+    height: 90px;
+    font-size: 100%;
 }
 
 .round-summary .genquiz-with {
-	font-size: 200%;
+	font-size: 170%;
+}
+
+.letter {
+	background: url('button_yellow_circle.png');
+	width: 74px;
+	height: 74px;
+	display: inline-block;
 }
 
 @media (max-width: 767px) {

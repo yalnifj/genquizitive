@@ -61,7 +61,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			delayStart: '='
 		},
 		link: function($scope, $element, $attr) {
-			$scope.numberElement = $('<div style="position: absolute;top: 40px;left: 150px;width: 100px;height: 110px; color: white; font-size: 30px;"></div>');
+			$scope.numberElement = $('<div style="position: absolute;top: 40px;left: 150px;width: 100px;height: 110px; color: white; font-size: 35px; font-family: monospace; line-height: 110px;"></div>');
 			$element.append($scope.numberElement);
 			$scope.number = 4;
 			if (!$scope.delayStart) {
@@ -70,18 +70,18 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			
 			if ($scope.delayStart > 0) {
 				$scope.timeout = $timeout(function() {
-					$scope.start();
+					$scope.start($scope.delayStart);
 				}, $scope.delayStart);
 			} else {
-				$scope.numberElement.text('Start');
-				$scope.element.on('click', function() {
+				$scope.numberElement.text('START');
+				$scope.numberElement.on('click', function() {
 					if (!$scope.timer) {
-						$scope.start();
+						$scope.start(0);
 					}
 				});
 			}
 			
-			$scope.start = function() {
+			$scope.start = function(delay) {
 				$scope.numberElement.text('');
 				$scope.timer = $interval(function() {
 					$scope.number--;
@@ -93,7 +93,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 						}
 						$scope.callback();
 					}
-				}, 1000);
+				}, delay);
 			};
 			
 			$element.on('$destroy', function() {
@@ -266,6 +266,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.count = 1;
 			$scope.step = 1;
 			
+			$scope.images = [];
+			var img = new Image();
+			img.src = "loading1.png";
+			$scope.images.push(img);
+			img = new Image();
+			img.src = "loading2.png";
+			$scope.images.push(img);
+			img = new Image();
+			img.src = "loading3.png";
+			$scope.images.push(img);
+			
 			$scope.setBackground = function() {
 				$element.css('background-image', 'url("loading'+$scope.count+'.png")');
 			};
@@ -282,7 +293,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					$scope.step = 1;
 				}
 				$scope.setBackground();
-			}, 300);
+			}, 750);
 			
 			$scope.$on('$destroy', function() {
 				$interval.cancel($scope.interval);
@@ -472,7 +483,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 })
-.controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location) {
+.controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location, languageService) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
 	
 	if (!facebookService.facebookUser) {
@@ -482,21 +493,28 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.launchReview = function(round) {
-		
+		firebaseService.lastRound = $scope.round;
+		$location.path('/challengeRoundReview');
 	};
 	
 	$scope.launchRound = function(round) {
-		
+		$location.search({roundId: round.id});
+		$location.path('/challengeRound');
 	};
 	
 	$scope.friends = {};
 	$scope.completeGames = [];
 	$scope.myTurnGames = [];
 	$scope.theirTurnGames = [];
+	$scope.gameCount = 0;
+	$scope.loading = true;
 	
-	firebaseService.getUserFromRounds().then(function(rounds) {
+	firebaseService.getUserFromRounds(facebookService.facebookUser.id).then(function(rounds) {
+		$scope.loading = false;
 		angular.forEach(rounds, function(round) {
+			$scope.gameCount++;
 			facebookService.fbGetUserById(round.to).then(function(fbu) {
+				fbu.shortName = languageService.shortenName(fbu['first_name']+" "+fbu['last_name']);
 				$scope.friends[round.id] = fbu;
 			});
 			if (round.complete) {
@@ -507,11 +525,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				$scope.myTurnGames.push(round);
 			}
 		});
+	}, function(error) {
+		console.log(error);
+		$scope.loading = false;
 	});
 	
-	firebaseService.getUserToRounds().then(function(rounds) {
+	firebaseService.getUserToRounds(facebookService.facebookUser.id).then(function(rounds) {
+		$scope.loading = false;
 		angular.forEach(rounds, function(round) {
+			$scope.gameCount++;
 			facebookService.fbGetUserById(round.from).then(function(fbu) {
+				fbu.shortName = languageService.shortenName(fbu['first_name']+" "+fbu['last_name']);
 				$scope.friends[round.id] = fbu;
 			});
 			if (round.complete) {
@@ -520,6 +544,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				$scope.myTurnGames.push(round);
 			}
 		});
+	}, function(error) {
+		console.log(error);
+		$scope.loading = false;
 	});
 })
 .controller('challengeController', function($scope, facebookService, firebaseService, notificationService, languageService, $interval, $location) {
@@ -779,7 +806,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 	});
 })
-.controller('challengeRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService) {
+.controller('challengeRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService, languageService) {
 	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
 	
 	$scope.round = firebaseService.lastRound;
@@ -843,8 +870,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 })
-.controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService) {
+.controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
+	
+	if (!familysearchService.fsUser) {
+		$location.path('/');
+		return;
+	}
 	
 	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
 		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
