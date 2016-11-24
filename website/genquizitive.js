@@ -1144,6 +1144,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.questions = QuestionService.questions;
 	$scope.question = $scope.questions[0];
+	$scope.difficulty = 1;
+	$scope.useLiving = true;
 	
 	familysearchService.fsLoginStatus().then(function(fsUser) {
 		familysearchService.usedPeople = {};
@@ -1153,8 +1155,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	});
 	
 	$scope.$watch('question', function(newval, oldval) {
-		$scope.question.setup();
+		$scope.question.setup($scope.difficulty, $scope.useLiving);
 	});
+
+	$scope.$watch('difficulty', function(newval, oldval) {
+		$scope.question.setup($scope.difficulty, $scope.useLiving);
+	});
+
+	$scope.$watch('useLiving', function(newval, oldval) {
+		$scope.question.setup($scope.difficulty, $scope.useLiving);
+	});
+
 	
 	$scope.tries = 0;
 	$scope.$watch('question.error', function(newval, oldval) {

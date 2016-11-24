@@ -4,8 +4,8 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-<link rel="stylesheet" href="genquizitive.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!--link rel="stylesheet" href="genquizitive.css"-->
 <link rel="stylesheet" href="genquizitive-site.css">
 <title>Genquizitive</title>
 
@@ -59,9 +59,9 @@
 <section id="page-top">
 	<div class="container">
 		<div class="row">
-			<img id="top-logo" src="logo-large.png">
+			<img id="top-sign" src="roadsign.png" alt="">
 			<p id="sign-text">The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?</p>
-			<img id="top-sign" src="roadsign.png">
+			<img id="top-logo" src="logo-small.png">
 			<!--img id="play-button" src="play-online.png"-->
 		</div>
 	</div>
@@ -76,9 +76,13 @@
 				<div class="small-show">
 					<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
 				</div>
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" <iframe width="560" height="315" src="https://www.youtube.com/embed/nSe72kCHhes" frameborder="0" allowfullscreen></iframe>  
+				<div id="tv-div">
+					<img id="tv" src="old-tv.png">
 				</div>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe id="video" class="embed-responsive-item" <iframe width="560" height="315" src="https://www.youtube.com/embed/nSe72kCHhes" frameborder="0" allowfullscreen></iframe>
+				</div>
+				
 			</div>
 
 		</div>
@@ -159,7 +163,7 @@
                 <button type="button" onclick="showContactForm(); return false;" class="btn btn-primary">Contact Us!</button>
             </div>
 
-            <div class="contact-section col-lg-3 col-sm-4 text-center">
+            <div class="contact-section col-sm-4 text-left" id="facebook-button">
                 <div class="socialbuttons">
 					<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
 				</div>

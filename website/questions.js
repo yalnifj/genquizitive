@@ -78,7 +78,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		{
 			name: 'multi1', 
 			background: 'questions/multi1/background.jpg',
-			difficulty: 2,
+			difficulty: 1,
 			error: null,
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
@@ -87,7 +87,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.difficulty = difficulty;
 				question.startPerson = familysearchService.fsUser;
 				
-				var length = 4 + Math.floor(Math.random()*3)
+				var length = 1 + difficulty + Math.round(Math.random());
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					question.path = path;
 					

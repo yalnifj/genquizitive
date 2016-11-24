@@ -1,5 +1,8 @@
 <div class="text-center" ng-controller="testQuestionController">
 	Question: <select name="question" ng-model="question" ng-options="question.name for question in questions">
-	</select>
-	<div ng-if="question" question="question" style="height: 97%"></div>
+	</select> 
+	Difficulty: <input type="number" ng-model="difficulty" style="width: 30px;" /> 
+	Use Living: <input type="checkbox" ng-model="useLiving" />
+	<div ng-if="question.isReady" question="question" style="height: 97%"></div>
+	<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
 </div>

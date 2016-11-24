@@ -245,17 +245,18 @@ body {
 	text-align: center;
 	color: white;
 	font-size: 150%;
-	width: 100%;
-    height: 100%;
+	vertical-align: middle;
+    display: table-cell;
+	width: 215px;
+    height: 79px;
 }
 .yellow_answer_button .answer-button {
 	color: #333333;
+	height: 97px;
 }
 .trap1 .answer-button {
 	padding-right: 30px;
     padding-left: 20px;
-    vertical-align: middle;
-    display: table-cell;
     height: 97px;
 	width: 270px;
 }
