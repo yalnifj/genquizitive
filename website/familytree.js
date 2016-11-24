@@ -101,6 +101,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 
 	this.checkRelationships = function(rel, lastRel) {
 		if (rel.type == "http://gedcomx.org/Couple" && rel.type==lastRel.type) return false;
+		if (!rel.person2 || !rel.person1) return false;
 		if (rel.type == "http://gedcomx.org/ParentChild" 
 				&& rel.type==lastRel.type 
 				&& rel.person2.resourceId==lastRel.person2.resourceId 
@@ -112,6 +113,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	this.processRelationships = function(deferred, relationships, personId, path, length, useLiving) {
 		if (relationships.length<=0) {
 			deferred.reject(path);
+			return;
 		}
 		var r = Math.floor(Math.random() * relationships.length);
 		var rel = relationships[r];
@@ -152,23 +154,30 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
 			}
 		}, function(newpath) {
-			if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
-			if (maxPath.length >= length) {
-				deferred.resolve(maxPath);
-			}
-			else if (relationships.length==0) {
-				deferred.reject(maxPath);
-			}
-			else {
+			var lastRel = newpath[newpath.length-1];
+			if (lastRel && lastRel.living) {
 				newpath.pop();
+				if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
 				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
+			} else {
+				if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
+				if (maxPath.length >= length) {
+					deferred.resolve(maxPath);
+				}
+				else if (relationships.length==0) {
+					deferred.reject(maxPath);
+				}
+				else {
+					newpath.pop();
+					temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
+				}
 			}
 		});
 	}
 
 	this.recursivePath = function(personId, path, length, useLiving) {
 		var pathstr = "[";
-		for(var p=0; p<path.length; p++) pathstr += path[p].person1.resourceId+"-"+path[p].type+"-"+path[p].person2.resourceId+"->";
+		for(var p=0; p<path.length; p++) pathstr += path[p].person1.resourceId+"="+path[p].type.substring(19)+"="+path[p].person2.resourceId+" -> ";
 		pathstr += "]";
 		console.log("recursivePath: "+personId+" "+length+" "+pathstr);
 		var deferred = $q.defer();
@@ -181,7 +190,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				}
 				familysearchService.getPersonById(nextPerson).then(function(person) {
 					if (person.living) {
-						deferred.reject("living");
+						rel.living==true;
+						deferred.reject(path);
 					} else {
 						deferred.resolve(path);
 					}
@@ -226,20 +236,24 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var pathText = '';
 		
-		var pids = '';
+		var pids = {};
+		var pidstr = '';
 		var lastId = startPerson.id;
 		for(var p=0; p<path.length; p++) {
-			if (p>0) pids += ',';
-			var pid = path[p].person1.resourceId;
-			if (pid==lastId) pid = path[p].person2.resourceId;
-			lastId = pid;
-			pids += pid
+			if (path[p].person1) pids[path[p].person1.resourceId] = true;
+			if (path[p].person2) pids[path[p].person2.resourceId] = true;
 		}
-		familysearchService.getPeopleById(pids).then(function(people) {
+		var keys = Object.keys(pids);
+		for(var o=0; o<keys.length; o++) {
+			pidstr += keys[o]+",";
+		}
+		familysearchService.getPeopleById(pidstr).then(function(people) {
 			var currentPerson = startPerson;
 			for(var p=0; p<path.length; p++) {
-				var pid = path[p].person1.resourceId;
+				var pid = null;
 				var isPerson1 = true;
+				if (path[p].person1) pid = path[p].person1.resourceId;
+				else isPerson1 = false;
 				if (pid==currentPerson.id) {
 					pid = path[p].person2.resourceId;
 					isPerson1 = false;
@@ -365,14 +379,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		}
 		this.interval = null;
 	};
-	
-	this.ancestorPromises = {};
+
 	this.getAncestorTree = function(personId, generations, details, spouse, noCache) {
 		var deferred = $q.defer();
-		if (this.ancestorPromises[personId]) {
-			this.ancestorPromises[personId].push(deferred);
-			return deferred.promise;
-		}
 		if (generations>8) generations = 8;
 		var temp = this;
 		var url = '/platform/tree/ancestry?person='+personId+'&generations='+generations;
@@ -381,19 +390,14 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		this.fs.get(url, function(response) {
 			if (!noCache) {
 				angular.forEach(response.data.persons, function(person) {
-					temp.people[person.id] = person;
-					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+					if (details && !temp.people[person.id]) {
+						temp.people[person.id] = person;
+						temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+					}
 				});
 			}
-			for(var p=0; p<temp.ancestorPromises[personId].length; p++) {
-				var def = temp.ancestorPromises[personId][p];
-				def.resolve(response.data);
-			}
-			delete(temp.ancestorPromises[personId]);
-			//deferred.resolve(response.data);
+			deferred.resolve(response.data);
 		});
-		this.ancestorPromises[personId] = [];
-		this.ancestorPromises[personId].push(deferred);
 		return deferred.promise;
 	};
 	
@@ -407,7 +411,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		this.fs.get(url, function(response) {
 			if (!noCache) {
 				angular.forEach(response.data.persons, function(person) {
-					if (!temp.people[person.id]) {
+					if (details && !temp.people[person.id]) {
 						temp.people[person.id] = person;
 						temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
 					}
@@ -415,8 +419,6 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			deferred.resolve(response.data);
 		});
-		this.ancestorPromises[personId] = [];
-		this.ancestorPromises[personId].push(deferred);
 		return deferred.promise;
 	};
 	
@@ -475,7 +477,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		
 		var temp = this;
 		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
-			if (response.statusCode!=200) {
+			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
 			}
@@ -549,7 +551,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var temp = this;
 		this.fs.get('/platform/tree/persons/'+personId+'/parents', function(response) {
-			if (response.statusCode!=200) {
+			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
 			}

@@ -686,7 +686,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			var diff = d.getTime() - $scope.startTime.getTime();
 			$scope.minute = Math.floor(diff / (1000*60));
 			$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
-			if ($scope.minute >= 30) {
+			if ($scope.minute >= 15) {
 				$scope.completeRound();
 			}
 		}
@@ -1015,7 +1015,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			var diff = d.getTime() - $scope.startTime.getTime();
 			$scope.minute = Math.floor(diff / (1000*60));
 			$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
-			if ($scope.minute >= 30) {
+			if ($scope.minute >= 15) {
 				$scope.completeRound();
 			}
 		}
@@ -1153,28 +1153,31 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.question.setup(1, true);
 		});
 	});
+
+	$scope.tries = 0;
+	$scope.setupQuestion = function() {
+		$scope.tries++;
+		console.log('trying question '+$scope.question.name+' setup again '+$scope.tries);
+		$scope.question.error = null;
+		$scope.question.setup($scope.difficulty, $scope.useLiving).then(function() {
+		}, function(error) {
+			window.setTimeout(function() {
+				$scope.setupQuestion();
+			}, 1500);
+		});
+
+	};
 	
 	$scope.$watch('question', function(newval, oldval) {
-		$scope.question.setup($scope.difficulty, $scope.useLiving);
+		$scope.setupQuestion();
 	});
 
 	$scope.$watch('difficulty', function(newval, oldval) {
-		$scope.question.setup($scope.difficulty, $scope.useLiving);
+		$scope.setupQuestion();
 	});
 
 	$scope.$watch('useLiving', function(newval, oldval) {
-		$scope.question.setup($scope.difficulty, $scope.useLiving);
-	});
-
-	
-	$scope.tries = 0;
-	$scope.$watch('question.error', function(newval, oldval) {
-		if (newval && newval!=oldval) {
-			$scope.tries++;
-			console.log('trying question setup again '+$scope.tries);
-			$scope.question.error = null;
-			$scope.question.setup($scope.question.difficulty, true);
-		}
+		$scope.setupQuestion();
 	});
 })
 ;
