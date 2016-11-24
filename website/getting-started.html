@@ -3,14 +3,17 @@
 		<img id="home_pole" src="pole1.png" />
 		<img id="home_arrows" src="home_arrow1.png" />
 		<img id="home_sign" src="home_sign.png" />
-		<img id="button1" src="button_blue_oval.png" />
-		<div id="facebook" class="sign-button" ng-click="fbLogin()">
+
+		<div ng-show="loading" loading-sign="" class="loading-sign" style="position: relative; top: 400px; left: 25px; width:250px; height: 170px;"></div>
+
+		<img ng-show="!loading" id="button1" src="button_blue_oval.png" />
+		<div ng-show="!loading" id="facebook" class="sign-button" ng-click="fbLogin()">
 			<span ng-show="!fbLoggedIn">Connect to<br/>Facebook</span>
 			<span ng-show="fbLoggedIn">Welcome<br/>{{fbUserName}}</span>
 			<div avatar-badge ng-show="fbHasPicture" src="fbUser.picture.data.url" class="avatar"></div>
 		</div>
-		<img id="button2" class="sign-button" src="button_blue_oval.png" />
-		<div id="familysearch" ng-click="fsLogin()">
+		<img ng-show="!loading" id="button2" class="sign-button" src="button_blue_oval.png" />
+		<div ng-show="!loading" id="familysearch" ng-click="fsLogin()">
 			<span ng-show="!fsLoggedIn">Connect to<br/>FamilySearch</span>
 			<span ng-show="fsLoggedIn">Welcome<br/>{{fsUserName}}</span>
 		</div>

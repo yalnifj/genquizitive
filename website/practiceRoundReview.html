@@ -1,30 +1,33 @@
 <div class="text-center" ng-controller="practiceRoundReviewController">
 	<div class="title-holder">
 		<img src="genquiz_score.png" />
-		<div class="smaller-logo" style="left: -60px; top: -30px;">
+		<div class="smaller-logo" style="left: -80px; top: -80px;">
 			<img id="home_arrows" src="home_arrow1.png" />
 			<img id="home_sign" src="home_sign.png" />
 		</div>
 	</div>
 	
-	<div class="center-div">
-		<div avatar-badge src="me.photoUrl" label="me.shortName" class="avatar"></div>
-		<div class="timer" animated-timer="" time="{{myScore}}"></div>
-		<div style="position: absolute; left: 20px; top: 80px;">
-			<div light="" color="red" on="myMissed > 0" style="margin: 5px;"></div>
-			<div light="" color="red" on="myMissed > 1" style="margin: 5px;"></div>
-			<div light="" color="red" on="myMissed > 2" style="margin: 5px;"></div>
-			<div light="" color="red" on="myMissed > 3" style="margin: 5px;"></div>
-			<div light="" color="red" on="myMissed > 4" style="margin: 5px;"></div>
+	<div class="center-div" style="width: 300px; height: 120px; position: relative;">
+		<div avatar-badge src="me.photoUrl" label="me.shortName" class="avatar" style="float: left; margin-right:10px;"></div>
+		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;"></div>
+		<div style="position: absolute; left: 110px; top: 90px;">
+			<div light="" color="red" on="myMissed > 0" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="myMissed > 1" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="myMissed > 2" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="myMissed > 3" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="myMissed > 4" style="margin: 5px; display: inline-block;"></div>
 		</div>
 	</div>
 	
-	<div class="center-div" style="width: 500px;">
-		<div ng-repeat="display in questionDisplays">
+	<div class="center-div" style="width: 340px; margin-top: 10px;">
+		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
-			{{display.myTime}}
+			<div>{{display.myTime}}</div>
 			<div class="letter">{{display.letter}}</div>
-			{{display.friendTime}}
 		</div>
+		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
+			<img src="button_sign_arrow_left.png" />
+			<div class="button-text">Back to Menu</div>
+		</a>
 	</div>
 </div>

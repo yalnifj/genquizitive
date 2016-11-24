@@ -87,7 +87,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.difficulty = difficulty;
 				question.startPerson = familysearchService.fsUser;
 				
-				var length = 2 + difficulty;
+				var length = 1 + difficulty;
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					var lastRel = path[path.length-1];
 					if (!lastRel.person1 || !lastRel.person2) {
