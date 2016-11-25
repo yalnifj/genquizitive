@@ -172,9 +172,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 						deferred.resolve(temp.facebookUser);
 					});
 				} else {
-					if (response.status !== 'unknown') {
-						deferred.reject(response.body);
-					}
+					deferred.reject(response);
 				}
 			});
 		}

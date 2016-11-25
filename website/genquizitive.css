@@ -192,7 +192,7 @@ body {
 .avatar {
 	position: relative;
 	width: 100px;
-	height: 90px;
+	height: 89px;
 	background-image: url('avatar_badge.png');
 	margin: 0px;
 	display: inline-block;
@@ -216,8 +216,8 @@ body {
 	display: block;
 	text-align: center;
 	background-color: #ebe9d5;
-	border: solid black 1px;
-	border-radius: 5px;
+	border: solid #bbb9a5 1px;
+	border-radius: 30% / 50%;
 	font-size: 10pt;
 	color: #333;
 	padding: 2px;
@@ -341,7 +341,7 @@ body {
 	background-color: 066c46;
 	width: 456px;
 	height: 566px;
-	left: 33%;
+	left: 0px;
 	top: 100px;
 	padding: 10px;
 	border: solid #f2db7f 20px;
@@ -398,15 +398,18 @@ body {
 
 .score-row > div {
 	float: left;
-    font-size: 40px;
-    color: white;
 	margin-top: 5px;
     margin-left: 10px;
 	margin-right: 10px;
-    line-height: 100px;
 }
 
-.score-row > div.letter {
+.score-row > div.time {
+	font-size: 40px;
+    color: white;
+	line-height: 100px;
+}
+
+.letter {
 	background: url(button_yellow_circle.png);
     width: 72px;
     height: 74px;
@@ -418,8 +421,12 @@ body {
     line-height: 80px;
     padding-left: 5px;
     font-family: monospace;
+}
+
+.score-row > div.letter {
 	margin-top: 15px;
 }
+
 
 @media (max-width: 767px) {
 	.center-logo {

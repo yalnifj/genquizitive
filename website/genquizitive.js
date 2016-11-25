@@ -1,9 +1,3 @@
-if (!window.console) {
-	window.console = {};
-}
-if (!window.console.log) {
-	window.console.log = function() { };
-}
 angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.questions', 'genquiz.familytree','genquiz.friends'])
 .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
@@ -251,7 +245,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 						$interval.cancel($scope.interval);
 						$scope.interval = null;
 					}
-				}, 70);
+				}, 50);
 			};
 			$scope.animate();
 			
@@ -301,6 +295,20 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.$on('$destroy', function() {
 				$interval.cancel($scope.interval);
 			});
+		}
+	}
+}])
+.directive('zoomToFit', [function() {
+	return {
+		link: function($scope, $element, $attr) {
+			var h = $attr.zoomMaxHeight;
+			if (h && h>0) {
+				var wh = $(window).height();
+				if (h > wh) {
+					var zoom=wh/h;
+					$element.css('zoom', zoom);
+				}
+			}
 		}
 	}
 }])
@@ -372,33 +380,39 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.loading = true;
-	familysearchService.fsLoginStatus().then(function(fsUser){
-		$scope.fsLoggedIn = true;
-		$scope.fsUserName = fsUser.display.name;
-		facebookService.fbLoginStatus().then(function(fbUser){
-			$scope.fbUserName = languageService.shortenName(fbUser.name);
-			$scope.fbLoggedIn = true;
-			$scope.fbHasPicture = facebookService.hasPicture;
-			$scope.fbUser = fbUser;
-			$scope.checkLogin();
-		}, function(error) {
-			//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
-			//notif.show();
-			$scope.checkLogin();
+	$timeout(function() {
+		familysearchService.fsLoginStatus().then(function(fsUser){
+			if (fsUser.display) {
+				$scope.fsLoggedIn = true;
+				$scope.fsUserName = fsUser.display.name;
+				facebookService.fbLoginStatus().then(function(fbUser){
+					$scope.fbUserName = languageService.shortenName(fbUser.name);
+					$scope.fbLoggedIn = true;
+					$scope.fbHasPicture = facebookService.hasPicture;
+					$scope.fbUser = fbUser;
+					$scope.checkLogin();
+				}, function(error) {
+					//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+					//notif.show();
+					$scope.checkLogin();
+				});
+			} else {
+				//location.reload();
+			}
+		}, function() {
+			facebookService.fbLoginStatus().then(function(fbUser){
+				$scope.fbLoggedIn = true;
+				$scope.fbUserName = languageService.shortenName(fbUser.name);
+				$scope.fbHasPicture = facebookService.hasPicture;
+				$scope.fbUser = fbUser;
+				$scope.checkLogin();
+			}, function(error) {
+				//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
+				//notif.show();
+				$scope.checkLogin();
+			});
 		});
-	}, function() {
-		facebookService.fbLoginStatus().then(function(fbUser){
-			$scope.fbLoggedIn = true;
-			$scope.fbUserName = languageService.shortenName(fbUser.name);
-			$scope.fbHasPicture = facebookService.hasPicture;
-			$scope.fbUser = fbUser;
-			$scope.checkLogin();
-		}, function(error) {
-			//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
-			//notif.show();
-			$scope.checkLogin();
-		});
-	});
+	}, 1000);
 })
 .controller('menuController', function($scope, facebookService, familysearchService, firebaseService, $location, notificationService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
@@ -886,10 +900,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
 	
 	$scope.maxQuestions = 5;
-	$scope.myScore = 0;
-	$scope.myMissed = 0;
-	$scope.friendScore = 0;
-	$scope.friendMissed = 0;
+	$scope.myMissed = $scope.myStats.missed;
+	$scope.myScore = $scope.myMissed * 60;
+	$scope.friendMissed = $scope.friendStats.missed;
+	$scope.friendScore = $scope.friendMissed * 60;
 	
 	$scope.questionDisplays = [];
 	$scope.myStats = null;
@@ -902,33 +916,58 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.friendStats = $scope.round.fromStats;
 	}
 	
+	var displayHash = {};
+	var myLastTime = $scope.myStats.startTime;
+	var friendLastTime = $scope.friendStats.startTime;
 	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {};
-		if (familysearchService.fsUser && myStats.personId) {
-			familysearchService.getPersonById(myStats.personId).then(function(person) {
-				display.person = person;
+		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
+			displayHash[$scope.myStats.questions[q].personId] = display;
+			familysearchService.getPersonById($scope.myStats.questions[q].personId).then(function(person) {
+				displayHash[person.id].person = person;
 			});
 		}
 		
-		display.myTime = $scope.myStats.questions[q].time;
-		display.friendTime = $scope.friendStats.questions[q].time;
-		switch($scope.myStats.questions[q].name) {
-			case 'multi1':
-				display.letter = 'R';
-				break;
-			case 'multi2':
-				display.letter = 'F';
-				break;
-			case 'tree':
-				display.letter = 'T';
-				break;
-			default:
-				display.letter = 'P';
-				break;
+		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime.getTime() - myLastTime.getTime())/1000);
+		myLastTime = $scope.myStats.questions[q].completeTime;
+		$scope.myScore += display.mySeconds;
+		display.myTime = "";
+		var minutes = Math.floor(display.mySeconds / 60.0);
+		if (minutes < 10) {
+			display.myTime = "0";
 		}
+		display.myTime += minutes + ":";
+		var seconds = display.mySeconds - (minutes * 60);
+		if (seconds < 10) display.myTime += "0";
+		display.myTime += seconds;
+
+		display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime.getTime() - friendLastTime.getTime())/1000);
+		frienLastTime = $scope.friendStats.questions[q].completeTime;
+		$scope.friendScore += display.friendSeconds;
+		display.friendTime = "";
+		var minutes = Math.floor(display.friendSeconds / 60.0);
+		if (minutes < 10) {
+			display.friendTime = "0";
+		}
+		display.friendTime += minutes + ":";
+		var seconds = display.friendSeconds - (minutes * 60);
+		if (seconds < 10) display.friendTime += "0";
+		display.friendTime += seconds;
+
+		display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
+		display.letterTooltip = QuestionService.friendlyNames[display.letter];
 		$scope.questionDisplays[q] = display;
 	}
 	
+	if (facebookService.facebookUser && $scope.myScore > 0) {
+		firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+			user.challengeRounds++;
+			if (user.challengeHighScore==0 || user.challengeHighScore > $scope.myScore) {
+				user.challengeHighScore = $scope.myScore;
+			}
+			firebaseService.writeUser(user);
+		});
+	}
 })
 .controller('practiceRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService, languageService) {
 	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
@@ -964,45 +1003,45 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.myMissed = $scope.myStats.missed;
 	$scope.myScore = $scope.myMissed * 60;
 
-	var lastTime = $scope.myStats.startTime;
+	var displayHash = {};
+	var myLastTime = $scope.myStats.startTime;
 	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {};
 		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
+			displayHash[$scope.myStats.questions[q].personId] = display;
 			familysearchService.getPersonById($scope.myStats.questions[q].personId).then(function(person) {
-				display.person = person;
+				displayHash[person.id].person = person;
 			});
 		}
 		
-		display.seconds = Math.round(($scope.myStats.questions[q].completeTime.getTime() - lastTime.getTime())/1000);
-		lastTime = $scope.myStats.questions[q].completeTime;
-		$scope.myScore += display.seconds;
+		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime.getTime() - myLastTime.getTime())/1000);
+		myLastTime = $scope.myStats.questions[q].completeTime;
+		$scope.myScore += display.mySeconds;
 		display.myTime = "";
-		var minutes = Math.floor(display.seconds / 60.0);
+		var minutes = Math.floor(display.mySeconds / 60.0);
 		if (minutes < 10) {
 			display.myTime = "0";
 		}
 		display.myTime += minutes + ":";
-		var seconds = display.seconds - (minutes * 60);
+		var seconds = display.mySeconds - (minutes * 60);
 		if (seconds < 10) display.myTime += "0";
 		display.myTime += seconds;
 
-		switch($scope.myStats.questions[q].name) {
-			case 'multi1':
-				display.letter = 'R';
-				break;
-			case 'multi2':
-				display.letter = 'F';
-				break;
-			case 'tree':
-				display.letter = 'T';
-				break;
-			default:
-				display.letter = 'P';
-				break;
-		}
+		display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
+		display.letterTooltip = QuestionService.friendlyNames[display.letter];
+
 		$scope.questionDisplays[q] = display;
 	}
-	
+
+	if (facebookService.facebookUser && $scope.myScore > 0) {
+		firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+			user.practiceRounds++;
+			if (user.practiceHighScore==0 || user.practiceHighScore > $scope.myScore) {
+				user.practiceHighScore = $scope.myScore;
+			}
+			firebaseService.writeUser(user);
+		});
+	}
 })
 .controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, facebookService, $location, firebaseService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
@@ -1069,7 +1108,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
-	//$scope.questions[$scope.currentQuestion].setup($scope.currentQuestion + 1, true);
 	$scope.setupQuestion($scope.currentQuestion);
 	
 	$scope.startRound = function() {
@@ -1078,13 +1116,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.startTime = new Date();
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
+		$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 		
 		var nextQ = QuestionService.getRandomQuestion();
 		while(nextQ.name==$scope.question.name) {
 			nextQ = QuestionService.getRandomQuestion();
 		}
 		$scope.questions[$scope.currentQuestion+1] = nextQ;
-		//$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, true);
 		$scope.setupQuestion($scope.currentQuestion+1);
 	}
 	
@@ -1123,9 +1161,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.completeRound();
 		} else {		
 			$scope.question = $scope.questions[$scope.currentQuestion];
+			$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 			
 			$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
-			//$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, true);
 			$scope.setupQuestion($scope.currentQuestion+1);
 		}
 	}
@@ -1137,17 +1175,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.$on('questionIncorrect', function(event, question) {
 		$scope.missedQuestions++;
 	});
-	
-	/*
-	$scope.$watch('question.error', function(newval, oldval) {
-		if (newval && newval!=oldval) {
-			$scope.tries++;
-			console.log('trying question setup again '+$scope.tries);
-			$scope.question.error = null;
-			$scope.question.setup($scope.question.difficulty, true);
-		}
-	});
-	*/
 	
 	$scope.launchMenu = function() {
 		if (notif) {

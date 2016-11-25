@@ -310,11 +310,27 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10
 	});
+
+	if (!this.fs.getAccessToken()) {
+		var token = $cookies.get(this.fs.tokenCookie);
+		if (token) {
+			alert('set access token from cookie');
+			this.fs.setAccessToken(token);
+		} else {
+			$.get('/fs-proxy.php?getToken=true', function(data){
+				if (data) {
+					token = data.trim();
+					alert('set access token from session '+token);
+					this.fs.setAccessToken(token);
+				}
+			});
+		}
+	}
 	
 	this.fsLoginStatus = function() {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/current-person', function(response){
+		this.fs.get('/platform/tree/current-person', { headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache'}}, function(response){
 			if (response.statusCode==200) {
 				if (response.data) {
 					temp.fsUser = response.data.persons[0];
@@ -342,11 +358,16 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
 					deferred.resolve(temp.fsUser);
 				} else {
-					temp.fsLoginStatus().then(function(data) { deferred.resolve(data); });
+					//-- retry in 1 second
+					/*
+					window.setTimeout(function() {
+						alert('trying again');
+						temp.fsLoginStatus().then(function(r) { deferred.resolve(r);}, function(r) {deferred.reject(r);});
+					}, 1000);
+					*/
+					deferred.reject('no content');
 				}
 			} else if (response.statusCode==401) {
-				//-- delete any old cookies
-				document.cookie = 'FS_AUTH_TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 				temp.fs.setAccessToken('');
 				deferred.reject(response.body);
 			} else {

@@ -22,8 +22,8 @@
 	<div class="center-div" style="width: 340px; margin-top: 10px;">
 		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
-			<div>{{display.myTime}}</div>
-			<div class="letter">{{display.letter}}</div>
+			<div class="time">{{display.myTime}}</div>
+			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
 		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
 			<img src="button_sign_arrow_left.png" />

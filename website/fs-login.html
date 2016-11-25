@@ -24,13 +24,23 @@ var fs = new FamilySearch({
 });
 
 var fscheck = fs.oauthResponse(function(response){
-	fs.get('/platform/tree/current-person', function(response){
+	if (response.data) {
+		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': response.data['access_token']});
+		document.cookie = 'FS_AUTH_TOKEN='+response.data['access_token']+';';
+		fs.setAccessToken(response.data['access_token']);
+		//alert(response.data['access_token']);
+		//alert(document.cookie);
+		fs.get('/platform/tree/current-person', function(response){
+			//alert(response.body);
+			window.location = 'https://www.genquizitive.com/home.html';
+		});
+	} else {
 		window.location = 'https://www.genquizitive.com/home.html';
-	});
+	}
 });
 
 if (!fscheck) {
-	window.location = '/home.html';
+	window.location = 'https://www.genquizitive.com/home.html';
 }
 
 	</script>

@@ -4,6 +4,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	this.questions = [
 		{
 			name: 'photo1', 
+			letter: 'P',
 			background: 'questions/photo1/background.jpg',
 			difficulty: 1,
 			error: null,
@@ -77,6 +78,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		},
 		{
 			name: 'multi1', 
+			letter: 'R',
 			background: 'questions/multi1/background.jpg',
 			difficulty: 1,
 			error: null,
@@ -90,7 +92,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var length = 1 + difficulty;
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					var lastRel = path[path.length-1];
-					if (!lastRel.person1 || !lastRel.person2) {
+					if (!lastRel || !lastRel.person1 || !lastRel.person2) {
 						console.log('relationship missing person');
 						deferred.reject(question);
 						return;
@@ -168,6 +170,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		},
 		{
 			name: 'multi2',
+			letter: 'F',
 			background: 'questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
@@ -188,7 +191,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					while(!found && count < 10) {
 						var r = Math.floor(Math.random() * question.person.facts.length);
 						question.fact = question.person.facts[r];
-						if (languageService.facts[question.fact.type]) {
+						var good = true;
+						if (question.fact.type=='http://gedcomx.org/Birth' || question.fact.type=='http://gedcomx.org/Death') {
+							if (!question.fact.date && !question.fact.place) {
+								good = false;
+								count++;
+							}
+						}
+						if (good && languageService.facts[question.fact.type]) {
 							found = true;
 							//-- check for a matching fact
 							for(var p=0; p<question.randomPeople.length; p++) {
@@ -244,9 +254,15 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 							}
 						}
 						question.questionText += "?";
+
+						question.isReady = true;
+						deferred.resolve(question);
+					} else {
+						console.log('not enough facts for person');
+						question.error = 'not enough facts for person';
+						deferred.reject(question);
 					}
-					question.isReady = true;
-					deferred.resolve(question);
+					
 				}, function(error) {
 					console.log(error);
 					question.error = error;
@@ -283,6 +299,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		},
 		{
 			name: 'tree', 
+			letter: 'T',
 			background: 'questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
@@ -379,6 +396,20 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			if (this.questions[q].name==name) return angular.copy(this.questions[q]);
 		}
 		return null;
+	};
+
+	this.getQuestionLetter = function(name) {
+		for(var q=0; q<this.questions.length; q++) {
+			if (this.questions[q].name==name) return this.questions[q].letter;
+		}
+		return 'Q';
+	};
+
+	this.friendlyNames = {
+		R: 'Relationship Mulitple Choice Question',
+		T: 'Complete the Tree Question',
+		P: 'Picture Mulitple Choice Question',
+		F: 'Fact Mulitple Choice Question'
 	};
 	
 	this.shuffleArray = function(array) {
@@ -612,7 +643,6 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			if (!$scope.treePerson.display.inPlace) {
 				$element.draggable({
 					revert: "invalid", 
-					containment: 'body', 
 					zIndex: 101,
 					start: function(event, ui) {
 						$scope.treePerson.originalPosition = ui.position;
@@ -709,7 +739,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				$scope.question.people[p].display.inPlace = false;
 			}
 			if ($scope.question.people.length>1) {
-				var perc = (5 - $scope.question.difficulty) / 5.0;
+				var perc = (5 - $scope.question.difficulty) / 7.0;
 				var num = Math.floor($scope.question.people.length * perc);
 				if (num > $scope.question.people.length/2) {
 					num = Math.floor($scope.question.people.length/2);

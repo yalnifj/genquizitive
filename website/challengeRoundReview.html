@@ -20,20 +20,20 @@
 		<img src="vs.png" style="position: relative; left: -34px; float: left;" />
 		<div class="timer" animated-timer="" time="friendScore" style="position: relative; left: -68px; float: left;"></div>
 		<div style="position: absolute; left: 210px; top: 90px;">
-			<div light="" color="red" on="myMissed > 0" style="margin: 5px; display: inline-block;"></div>
-			<div light="" color="red" on="myMissed > 1" style="margin: 5px; display: inline-block;"></div>
-			<div light="" color="red" on="myMissed > 2" style="margin: 5px; display: inline-block;"></div>
-			<div light="" color="red" on="myMissed > 3" style="margin: 5px; display: inline-block;"></div>
-			<div light="" color="red" on="myMissed > 4" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="friendMissed > 0" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="friendMissed > 1" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="friendMissed > 2" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="friendMissed > 3" style="margin: 5px; display: inline-block;"></div>
+			<div light="" color="red" on="friendMissed > 4" style="margin: 5px; display: inline-block;"></div>
 		</div>
-		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar" style="float: left; margin-right:10px;"></div>
+		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar" style="float: left; margin-left:10px;"></div>
 	</div>
 	
-	<div class="center-div" style="width: 420px;">
+	<div class="center-div" style="width: 420px; margin-top: 10px;">
 		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
 			<div>{{display.myTime}}</div>
-			<div class="letter">{{display.letter}}</div>
+			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
 			<div>{{display.friendTime}}</div>
 		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">

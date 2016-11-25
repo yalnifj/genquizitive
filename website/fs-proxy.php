@@ -2,6 +2,8 @@
 session_start();
 if (!empty($_POST['FS_AUTH_TOKEN'])) {
 	$_SESSION['FS_AUTH_TOKEN'] = $_POST['FS_AUTH_TOKEN'];
+} else if (!empty($_REQUEST['getToken'])) {
+	print $_SESSION['FS_AUTH_TOKEN'];
 } else {
 	if (empty($_REQUEST['url'])) {
 		http_response_code(404);
