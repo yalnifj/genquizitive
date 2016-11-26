@@ -608,7 +608,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var temp = this;
 		this.fs.get('/platform/tree/persons/'+personId+'/spouses', function(response) {
-			if (response.statusCode!=200) {
+			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
 			}

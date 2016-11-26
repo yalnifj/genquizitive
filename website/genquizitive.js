@@ -767,6 +767,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				facebookService.sendGenQuiz($scope.round.to).then(function(response) {
 					$scope.round.requestId = response.request;
 					firebaseService.writeRound($scope.round);
+				}, function(response) {
+					firebaseService.writeRound($scope.round);
 				});
 			} else {
 				firebaseService.writeRound($scope.round);
@@ -890,7 +892,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.me = facebookService.facebookUser;
-	$scope.me.shortName = languageService.shortenName(me['first_name']+' '+me['last_name']);
+	$scope.me.shortName = languageService.shortenName($scope.me.name);
 	
 	if (facebookService.facebookUser.id==$scope.round.from) {
 		$scope.friend = facebookService.fbGetUserById($scope.round.to);
@@ -898,12 +900,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.friend = facebookService.fbGetUserById($scope.round.from)
 	}
 	$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
-	
-	$scope.maxQuestions = 5;
-	$scope.myMissed = $scope.myStats.missed;
-	$scope.myScore = $scope.myMissed * 60;
-	$scope.friendMissed = $scope.friendStats.missed;
-	$scope.friendScore = $scope.friendMissed * 60;
 	
 	$scope.questionDisplays = [];
 	$scope.myStats = null;
@@ -916,9 +912,18 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.friendStats = $scope.round.fromStats;
 	}
 	
-	var displayHash = {};
+	$scope.maxQuestions = 5;
+	$scope.myMissed = $scope.myStats.missed;
+	$scope.myScore = $scope.myMissed * 60;
 	var myLastTime = $scope.myStats.startTime;
-	var friendLastTime = $scope.friendStats.startTime;
+	var friendLastTime = 0;
+	if ($scope.friendStats) {
+		$scope.friendMissed = $scope.friendStats.missed;
+		$scope.friendScore = $scope.friendMissed * 60;
+		friendLastTime = $scope.friendStats.startTime;
+	}
+	
+	var displayHash = {};
 	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {};
 		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
@@ -941,18 +946,20 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		if (seconds < 10) display.myTime += "0";
 		display.myTime += seconds;
 
-		display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime.getTime() - friendLastTime.getTime())/1000);
-		frienLastTime = $scope.friendStats.questions[q].completeTime;
-		$scope.friendScore += display.friendSeconds;
-		display.friendTime = "";
-		var minutes = Math.floor(display.friendSeconds / 60.0);
-		if (minutes < 10) {
-			display.friendTime = "0";
+		if ($scope.friendStats) {
+			display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime.getTime() - friendLastTime.getTime())/1000);
+			frienLastTime = $scope.friendStats.questions[q].completeTime;
+			$scope.friendScore += display.friendSeconds;
+			display.friendTime = "";
+			var minutes = Math.floor(display.friendSeconds / 60.0);
+			if (minutes < 10) {
+				display.friendTime = "0";
+			}
+			display.friendTime += minutes + ":";
+			var seconds = display.friendSeconds - (minutes * 60);
+			if (seconds < 10) display.friendTime += "0";
+			display.friendTime += seconds;
 		}
-		display.friendTime += minutes + ":";
-		var seconds = display.friendSeconds - (minutes * 60);
-		if (seconds < 10) display.friendTime += "0";
-		display.friendTime += seconds;
 
 		display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
 		display.letterTooltip = QuestionService.friendlyNames[display.letter];
