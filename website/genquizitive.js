@@ -807,8 +807,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.currentQuestion++;
 			$scope.question = $scope.questions[$scope.currentQuestion];
 			
+			if ($scope.question.error) {
+				console.log('question in error, resetting');
+				$scope.setupQuestion($scope.currentQuestion);
+			}
+			
+			var nextQ = null;
 			if ($scope.round.fromStats && $scope.round.fromStats.questions[$scope.currentQuestion+1]) {
-				$scope.questions[$scope.currentQuestion+1] = QuestionService.getQuestionByName($scope.round.fromStats.questions[$scope.currentQuestion+1].name);
+				nextQ = QuestionService.getQuestionByName($scope.round.fromStats.questions[$scope.currentQuestion+1].name);
 			} else {
 				var nextQ = QuestionService.getRandomQuestion();
 				while(nextQ.name==$scope.question.name) {
@@ -823,7 +829,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					$scope.questions[$scope.currentQuestion+1].setupFromPersistence($scope.round.fromStats.questions[$scope.currentQuestion+1]);
 				} else {
 					$scope.setupQuestion($scope.currentQuestion + 1);
-					//$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, $scope.round.friendTree);
 				}
 			}
 		}
@@ -859,14 +864,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.question = $scope.questions[num];
 		}
 	};
-	
-	/*
-	$scope.$watch('question.error', function(newval, oldval) {
-		if (newval && newval!=oldval) {
-			$scope.setupQuestion($scope.currentQuestion);
-		}
-	});
-	*/
 	
 	$scope.launchMenu = function() {
 		if (notif) {

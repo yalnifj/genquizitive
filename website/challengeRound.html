@@ -2,7 +2,7 @@
 	<div ng-if="!ready" class="center-div" style="position:relative; width: 20px;">
 		<img src="pole1.png" style="position: absolute; width: 20px; height: 300px; top: 450px; left: 0px;"/>
 	</div>
-	<div class="countdown" ng-if="!question" callback="startRound()" remove="true" delay-start="-1" style="position: relative; top: 350px; cursor: pointer;"></div>
+	<div class="countdown" ng-if="!ready" callback="startRound()" remove="true" delay-start="-1" style="position: relative; top: 350px; cursor: pointer;"></div>
 	<div ng-if="!ready" class="center-div" style="position: relative; top: 400px; left: -15px;">
 		<a class="arrow-button" ng-click="launchMenu()">
 			<img src="button_sign_arrow_left.png" />
