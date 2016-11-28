@@ -443,11 +443,16 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getPersonById = function(personId) {
+	this.getPersonById = function(personId, useCache) {
 		var deferred = $q.defer();
 		var temp = this;
 		if (personId) {
-			//TODO - check cache and download time
+			if (useCache) {
+				if (this.persons[personId]) {
+					deferred.resolve(this.persons[personId]);
+					return deferred.promise;
+				}
+			}
 			this.fs.get('/platform/tree/persons/'+personId, function(response) {
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];

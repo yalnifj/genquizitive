@@ -11,7 +11,7 @@
 	<div class="green-question-block" tree-sign="" style="position: absolute; left: 35px; top: 60px; width: 450px; height: 300px;">
 		{{questionText}}
 	</div>
-	<div class="{{item.person.display.inPlace?'':'movable'}}" style="position: absolute; top: {{item.position.y}}px; left: {{item.position.x}}px; z-index: 100;" 
+	<div class="{{item.person.display.inPlace?'':'movable'}}" ng-style="item.position" style="position: absolute; z-index: 100;" 
 			ng-repeat="item in people" tree-person="item.person">
 		<div avatar-badge class="avatar ancestor-avatar" src="item.person.portrait" label="item.person.display.name"></div>
 	</div>

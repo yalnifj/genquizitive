@@ -432,7 +432,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			question: '='
 		},
 		restrict: 'A',
-		link ($scope, $element, $attr) {
+		link: function($scope, $element, $attr) {
 			$scope.loadQuestion = function () {
 				$scope.$emit('changeBackground', $scope.question.background);
 				
@@ -731,13 +731,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			var count = 0;
 			var hash = {};
 			$scope.spots = {
-				4: {x: -15, y: 440},
-				5: {x: 115, y: 440},
-				6: {x: 305, y: 440},
-				7: {x: 435, y: 440},
-				2: {x: 50,  y: 570},
-				3: {x: 370, y: 570},
-				1: {x: 210, y: 640}
+				4: {left: -15, top: 440},
+				5: {left: 115, top: 440},
+				6: {left: 305, top: 440},
+				7: {left: 435, top: 440},
+				2: {left: 50,  top: 570},
+				3: {left: 370, top: 570},
+				1: {left: 210, top: 640}
 			};
 			for(var p=0; p<$scope.question.people.length; p++) {
 				$scope.question.people[p].display.inPlace = false;
@@ -764,7 +764,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						hash[res.id].portrait = res.src;
 					}
 				});
-				var pos = {x: x, y: y};
+				var pos = {left: x, top: y};
 				if ($scope.question.people[p].display.inPlace) {
 					if ($scope.spots[$scope.question.people[p].display.ascendancyNumber]) {
 						pos = $scope.spots[$scope.question.people[p].display.ascendancyNumber];

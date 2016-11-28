@@ -116,7 +116,21 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			background: '@',
 			incorrect: '='
 		},
-		template: '<div class="answer-button" style="background: url(\'{{background}}\'); {{incorrect? \'opacity: 0.7;\':\'opacity: 1.0;\'}}">{{label}}</div>'
+		template: '<div class="answer-button" ng-style="answerStyle">{{label}}</div>',
+		link: function($scope, $element, $attr) {
+			$scope.updateStyle = function() {
+				$scope.answerStyle = {
+					background: "url('"+$scope.background+"')",
+					opacity: $scope.incorrect ? '0.7':'1.0'
+				};
+			};
+			$scope.$watch('background', function() {
+				$scope.updateStyle();
+			});
+			$scope.$watch('incorrect', function() {
+				$scope.updateStyle();
+			});
+		}
 	}
 }])
 .directive('proxyImg', [function() {
@@ -339,6 +353,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 								$location.path('/challengeRound');
 							}
 						}
+					}, function() {
+						$scope.loading = false;
 					});
 				} else {
 					$location.path('/menu');
@@ -395,9 +411,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 					//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
 					//notif.show();
 					$scope.checkLogin();
+					$scope.loading = false;
 				});
 			} else {
 				//location.reload();
+				$scope.loading = false;
 			}
 		}, function() {
 			facebookService.fbLoginStatus().then(function(fbUser){
@@ -409,10 +427,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			}, function(error) {
 				//var notif = notificationService.showNotification({title: 'Facebook Error',message: error+' Please check your network connection and try again.', closable: true});
 				//notif.show();
-				$scope.checkLogin();
+				$scope.loading = false;
 			});
 		});
-	}, 1000);
+	}, 500);
 })
 .controller('menuController', function($scope, facebookService, familysearchService, firebaseService, $location, notificationService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
@@ -1013,7 +1031,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		var display = {};
 		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
 			displayHash[$scope.myStats.questions[q].personId] = display;
-			familysearchService.getPersonById($scope.myStats.questions[q].personId).then(function(person) {
+			familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
 				displayHash[person.id].person = person;
 			});
 		}
