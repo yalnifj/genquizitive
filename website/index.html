@@ -1,28 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<!--link rel="stylesheet" href="genquizitive.css"-->
+	<link rel="stylesheet" href="genquizitive-site.css">
+	<title>GenQuizitive</title>
+	<script type="text/javascript">
+		var tag = document.createElement('script');
+		tag.id = 'iframe-demo';
+		tag.src = 'https://www.youtube.com/iframe_api';
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		var player;
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('videoiframe', {
+				events: {
+				  'onReady': onPlayerReady,
+				  'onStateChange': onPlayerStateChange
+				}
+			});
+		}
+		function onPlayerReady(event) {
+			player.playVideo();
+		}
+		function onPlayerStateChange(event) {
+			
+		}
+		function togglePlaying() {
+			if (player.getPlayerState()!=1) {
+				player.playVideo();
+			} else {
+				player.pauseVideo();
+			}
+		}
+		
+		
+	function showContactForm() {
+	    $('#contactFormModal').modal('show')
+	}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<!--link rel="stylesheet" href="genquizitive.css"-->
-<link rel="stylesheet" href="genquizitive-site.css">
-<title>Genquizitive</title>
+	function validateName() {
+	    $('#nameGroup').removeClass('has-error').removeClass('has-success');
+	    var name = $('#name').val();
+        if (name.trim()=='') {
+            $('#nameGroup').addClass('has-error');
+            return false;
+        } else {
+            $('#nameGroup').addClass('has-success');
+        }
+        return true;
+	}
 
+	function validateEmail() {
+	    $('#emailGroup').removeClass('has-error').removeClass('has-success');
+	    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	    var email = $('#email').val();
+        if (!re.test(email)) {
+            $('#emailGroup').addClass('has-error');
+            return false;
+        } else {
+            $('#emailGroup').addClass('has-success');
+        }
+        return true;
+	}
 
+	function validateMessage() {
+	    $('#messageGroup').removeClass('has-error').removeClass('has-success');
+	    var name = $('#message').val();
+        if (name.trim()=='') {
+            $('#messageGroup').addClass('has-error');
+            return false;
+        } else {
+            $('#messageGroup').addClass('has-success');
+        }
+        return true;
+	}
 
+	function sendContactForm() {
+	    $('#ajaxError').hide();
+        if (validateName() && validateEmail() && validateMessage()) {
+            $.post('contact.php', {
+                reasoning: $('#reasoning').val(),
+                name: $('#name').val(),
+                email: $('#email').val(),
+                fhLevel: $("input:radio[name ='fhLevel']:checked").val(),
+                message: $('#message').val()
+            }, function(data) {
+                if (data=='success') {
+                    $('#contactFormModal').modal('hide');
+                    $('#thankYouModal').modal('show');
+                } else {
+                    $('#ajaxError').html('There was an error sending your message.' + data).show();
+                }
+            });
+        }
+        return false;
+	}
+    </script>
 </head>
 	
 <body>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
 <!-- Navigation Bar -->
 <nav id="navBar" class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
@@ -43,12 +123,12 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-left">
 				<li><a class="page-scroll" href="#page-top">Home</a></li>
-				<li><a class="page-scroll" href="#video">Video</a></li>
+				<!--<li><a class="page-scroll" href="#video">Video</a></li>-->
 				<li><a class="page-scroll" href="home.html">Play</a></li>
-				<li><a class="page-scroll" href="#howto">How to Play</a></li>
-				<li><a class="page-scroll" href="#partners">Partners</a></li>
+				<li><a class="page-scroll" href="#howto">Introduction</a></li>
+				<!--<li><a class="page-scroll" href="#partners">Partners</a></li>-->
 				<li><a class="page-scroll" href="#about">About Us</a></li>
-				<li><a class="page-scroll" href="news.html">News</a></li>
+				<!--<li><a class="page-scroll" href="news.html">News</a></li>-->
 			</ul>
 		</div>
 	</div>
@@ -59,32 +139,28 @@
 <section id="page-top">
 	<div class="container">
 		<div class="row">
-			<img id="top-sign" src="roadsign.png" alt="">
-			<p id="sign-text">The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?</p>
-			<img id="top-logo" src="logo-small.png">
-			<!--img id="play-button" src="play-online.png"-->
-		</div>
-	</div>
-</section>
-
-<!-- Video -->
-<section class="bg-primary" id="video">
-	<!--a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a-->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<div class="small-show">
-					<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+			<div class="col-sm-5 text-center">
+				<img src="logo-med300.png" class="img-responsive top-logo" />
+				<div class="play-online">
+					<p>GenQuizitive is currently in Beta. Try it out today.</p>
+					<p>
+					<a class="small-margin" href="https://www.genquizitive.com/home.html">
+						<img alt="Play Online" width="150" height="60" src="play-online.png" />
+					</a>	
+					</p>
 				</div>
-				<div id="tv-div">
-					<img id="tv" src="old-tv.png">
-				</div>
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe id="video" class="embed-responsive-item" <iframe width="560" height="315" src="https://www.youtube.com/embed/nSe72kCHhes" frameborder="0" allowfullscreen></iframe>
-				</div>
-				
 			</div>
-
+			<div class="col-sm-5">
+				<div id="video">
+					<iframe id="videoiframe" width="270" height="200" src="https://www.youtube.com/embed/nSe72kCHhes?controls=0&enablejsapi=1" frameborder="0" allowfullscreen=""></iframe>
+					<img id="tv" src="old-tv.png" onclick="togglePlaying()" />
+					<a id="youtubelink" href="https://www.youtube.com/watch?v=nSe72kCHhes" title="Open video in YouTube"><i class="fa fa-youtube-square" aria-hidden="true"></i></a>
+				</div>
+				<div class="road-sign">
+					The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </section>
@@ -93,18 +169,27 @@
 <section id="howto" style="line-height: 27px;" >
 	<div class="container">
 		<div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">About GenQuizitive</h2>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+		<div class="row">
 			<div class="col-sm-6">
-				
+				With GenQuizitive, challenge your friends and family members to a social genealogy quiz game. Find out who knows the most about their family history! 
+			</div>
+			<div class="col-sm-6">
+				Players may connect to their online family tree at FamilySearch to access their genealogy data.  
+				Players may challenge their friends and family members through Facebook.
 			</div>
 		</div>
 	</div>
 </section>
 
 
-<!-- Partners -->
+<!-- Partners
 <section class="bg-primary" id="partners">
     <a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
-    <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <h2 class="section-heading">Partners</h2>
@@ -135,45 +220,27 @@
                 </ul>
             </div>
         </div>
-    </div>
 </section>
-
+-->
 <!-- About -->
-<section id="howto" style="line-height: 27px;" >
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				
-			</div>
-		</div>
-	</div>
-</section>
 <section id="about">
     <a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
-    <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">About GenQuizitive</h2>
-                <p>&nbsp;</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="contact-section col-lg-3 col-lg-offset-2 col-sm-4 text-left">
-			<p>&nbsp;</p>
+            <div class="contact-section col-lg-3 col-lg-offset-2 col-md-offset-1 col-sm-3 text-center">
+				<p>&nbsp;</p>
                 <button type="button" onclick="showContactForm(); return false;" class="btn btn-primary">Contact Us!</button>
             </div>
 
-            <div class="contact-section col-sm-4 text-left" id="facebook-button">
-                <div class="socialbuttons">
+            <div class="contact-section col-sm-3 text-center" id="facebook-button">
+                <div class="">
 					<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+					<br/>Follow us on Facebook
 				</div>
             </div>
-
-            <div class="contact-section col-lg-3 col-sm-4 text-center">
+            <div class="contact-section col-lg-3 col-sm-3 text-center">
                 <p>
                     <img src="large_logo.png" border="0" height="120" />
                 </p>
-                <p>&nbsp;</p>
                 <address><a href="http://www.yellowforktech.com">Yellow Fork Technologies LLC</a>
                 <br />5526 W. 13400 S. #448
                 <br />Herriman, UT  84096</address>
@@ -196,7 +263,6 @@
                 <p>&nbsp;</p>
             </div>
         </div>
-    </div>
 </section>
 
 <div id="contactFormModal" class="modal fade bs-example-modal-sm"
@@ -234,6 +300,7 @@
                     <input type="radio" name="fhLevel" id="fhLevel3" value="Expert" /> Expert
                 </label>
             </div>
+			<!--
             <div class="form-group col col-sm-4">
                 <label>Social Connection</label>
                 <br />
@@ -260,8 +327,10 @@
                     <input type="radio" name="fsLevel" id="fsLevel3" value="Blank" /> Blank
                 </label>
             </div>
+			-->
           </div>
             <div class="row">
+			<!--
             <div class="form-group col col-sm-5" style="margin-left: 5px;">
                 <label>Platform</label>
                 <br />
@@ -277,6 +346,7 @@
                     <input type="text" class="form-control" id="deviceDetails" placeholder="iPhone 5s / Galaxy S3 / etc." />
                 </div>
             </div>
+			-->
                   <div class="form-group">
                     <label for="reasoning">Reason for contacting us:</label>
                     <select name="reasoning" class="form-control" id="reasoning">

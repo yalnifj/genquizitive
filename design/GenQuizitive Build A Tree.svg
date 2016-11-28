@@ -1173,15 +1173,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497474"
-     inkscape:cx="636.14628"
-     inkscape:cy="705.94307"
+     inkscape:cx="1198.5244"
+     inkscape:cy="140.25764"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="705"
-     inkscape:window-x="1272"
-     inkscape:window-y="245"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
+     inkscape:window-x="1672"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="false" />
   <metadata
@@ -2302,15 +2302,24 @@
        style="fill:#076240"
        inkscape:connector-curvature="0"
        d="m 1621.3496,1374.6911 -462.7594,0 c -8.8639,0 -16.0495,-7.1856 -16.0495,-16.0495 l 0,-243.7512 c 0,-8.8638 7.1856,-16.0494 16.0495,-16.0494 l 462.7594,0 c 8.8639,0 16.0495,7.1856 16.0495,16.0494 l 0,243.7512 c 0,8.8639 -7.1856,16.0495 -16.0495,16.0495 z"
-       id="path6823" />
+       id="path6823"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\roadsign.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <path
        style="fill:url(#SVGID_3_)"
        inkscape:connector-curvature="0"
        d="m 1621.3496,1098.8409 c 8.864,0 16.0495,7.1856 16.0495,16.0495 l 0,243.7512 c 0,8.8639 -7.1855,16.0495 -16.0495,16.0495 l -462.7594,0 c -8.8639,0 -16.0495,-7.1856 -16.0495,-16.0495 l 0,-243.7512 c 0,-8.8639 7.1856,-16.0495 16.0495,-16.0495 l 462.7594,0 m 0,-8.359 -462.7594,0 c -13.4589,0 -24.4086,10.9496 -24.4086,24.4085 l 0,243.7512 c 0,13.4589 10.9497,24.4086 24.4086,24.4086 l 462.7594,0 c 13.4589,0 24.4086,-10.9497 24.4086,-24.4086 l 0,-243.7512 c 0,-13.4589 -10.9497,-24.4085 -24.4086,-24.4085 l 0,0 z"
-       id="path6864" />
+       id="path6864"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\roadsign.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <g
        id="g6866"
-       transform="matrix(0.33436377,0,0,0.33436377,1079.7333,923.86956)">
+       transform="matrix(0.33436377,0,0,0.33436377,1079.7333,923.86956)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\website\roadsign.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <radialGradient
          gradientUnits="userSpaceOnUse"
          r="36.631802"

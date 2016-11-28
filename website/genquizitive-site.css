@@ -1,25 +1,23 @@
 
 body {
-	background-image: url("home_background.jpg");
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	background-position: left center;
 }
 .navbar-brand {
     line-height: 48px;
     padding-top: 0px;
 }
 #page-top {
-	margin-top: 60px;
-}
-#top-logo {
-	width: 20vw;
-	position: absolute;
+	margin-top: 50px;
+	background-image: url("home_background.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 }
 #play-button {
 	width: 10vw;
 	position: absolute;
+	float: left;
+}
+.navbar-toggle {
 	float: left;
 }
 .howto {
@@ -29,21 +27,54 @@ body {
 	margin-bottom: 8%;
 	margin-top: 8%;
 }
-#top-sign {
-    width: 50vw;
+.top-logo {
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.road-sign {
+	background-image: url(roadsign.png);
+    background-repeat: no-repeat;
+	background-size: contain;
+    color: white;
+    text-align: center;
+    font-size: 22px;
+	width: 350px;
+	height: 250px;
+	margin-top: 20px;
+	padding-top: 30px;
+	padding-bottom: 15px;
+	margin-left: 45px;
+}
+#video {
 	position: relative;
+    margin-top: 30px;
+	padding: 22px 0px 0px 60px;
+}
+#tv {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+}
+#youtubelink {
+	position: absolute;
+    left: 392px;
+    top: 168px;
+    font-size: 40px;
+    color: #7c3108;
+    text-decoration: none;
+    z-index: 2;
+    background-color: #e1dec4;
+    width: 39px;
+}
+#youtubelink:hover {
+	color: #9c5128;
+	text-decoration: none;
 }
 .container {
-	margin-bottom: 50px;
-	margin-top: 50px;
-}
-#sign-text {
-	position: absolute;
-	color: white;
-	text-align: center;
-	top: 200px;
-	width: 100%;
-	font-size: 2vw;
+	margin-bottom: 20px;
+	margin-top: 20px;
 }
 .socialbuttons {
     position: absolute;
@@ -106,12 +137,11 @@ header .header-content, section .container, section .container-fluid{
 #genquizitive-button {
 	margin: 0px;
 }
-#tv-div {
-	position: absolute;
-}
-#tv {
-	z-index: 30000000;
-}
-#video {
-	z-index: 0;
+.play-online {
+	border-radius: 10px;
+	/*background-color: rgba(0, 160, 160, 0.5);*/
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 20px;
+	padding: 10px;
 }
