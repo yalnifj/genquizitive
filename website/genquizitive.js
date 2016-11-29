@@ -732,6 +732,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.missedQuestions = 0;
 	
+	$scope.getRandomQuestion = function() {
+		var nextQ = QuestionService.getRandomQuestion();
+		while(nextQ.name==$scope.question.name) {
+			nextQ = QuestionService.getRandomQuestion();
+		}
+		console.log('next question is '+nextQ.name);
+		return nextQ;
+	};
+	
 	$scope.startRound = function() {
 		notif.close();
 		$scope.ready = true;
@@ -739,13 +748,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
 		
+		var nextQ = null;
 		if ($scope.round.fromStats && $scope.round.fromStats.questions[$scope.currentQuestion+1]) {
-			$scope.questions[$scope.currentQuestion+1] = QuestionService.getQuestionByName($scope.round.fromStats.questions[$scope.currentQuestion+1].name);
+			nextQ = QuestionService.getQuestionByName($scope.round.fromStats.questions[$scope.currentQuestion+1].name);
 		} else {
-			var nextQ = QuestionService.getRandomQuestion();
-			while(nextQ.name==$scope.question.name) {
-				nextQ = QuestionService.getRandomQuestion();
-			}
+			nextQ = $scope.getRandomQuestion();
 		}
 		$scope.questions[$scope.currentQuestion+1] = nextQ;
 		if ($scope.fromPersistence) {
@@ -761,6 +768,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.completeRound = function() {
+		$scope.question.completeTime = new Date();
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
@@ -834,15 +842,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			if ($scope.round.fromStats && $scope.round.fromStats.questions[$scope.currentQuestion+1]) {
 				nextQ = QuestionService.getQuestionByName($scope.round.fromStats.questions[$scope.currentQuestion+1].name);
 			} else {
-				var nextQ = QuestionService.getRandomQuestion();
-				while(nextQ.name==$scope.question.name) {
-					nextQ = QuestionService.getRandomQuestion();
-				}
+				nextQ = $scope.getRandomQuestion();
 			}
 			$scope.questions[$scope.currentQuestion+1] = nextQ;
 			if ($scope.fromPersistence) {
 				$scope.questions[$scope.currentQuestion+1].setupFromPersistence($scope.round.fromStats.questions[$scope.currentQuestion+1]);
-			} else {
 				if (familysearchService.fsUser && $scope.round.fromStats && familysearchService.getLocalPersonById($scope.round.fromStats.questions[$scope.currentQuestion+1].personId)) {
 					$scope.questions[$scope.currentQuestion+1].setupFromPersistence($scope.round.fromStats.questions[$scope.currentQuestion+1]);
 				} else {
@@ -874,7 +878,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			console.log('too many fails try a new question');
 			$scope.tries = 0;
 			$scope.questions[num].error = null;
-			$scope.questions[num] = QuestionService.getRandomQuestion();
+			$scope.questions[num] = $scope.getRandomQuestion();
 			$scope.questions[num].setup(num + 1, $scope.round.friendTree).then(function() {
 			}, function(error) {
 				$scope.setupQuestion(num);
@@ -1105,6 +1109,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		}
 	}, 1000);
 	
+	$scope.getRandomQuestion = function() {
+		var nextQ = QuestionService.getRandomQuestion();
+		while(nextQ.name==$scope.question.name) {
+			nextQ = QuestionService.getRandomQuestion();
+		}
+		return nextQ;
+	};
+	
 	$scope.missedQuestions = 0;
 	$scope.tries = 0;
 	$scope.setupQuestion = function(num) {
@@ -1140,15 +1152,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.question = $scope.questions[$scope.currentQuestion];
 		$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 		
-		var nextQ = QuestionService.getRandomQuestion();
-		while(nextQ.name==$scope.question.name) {
-			nextQ = QuestionService.getRandomQuestion();
-		}
+		var nextQ = $scope.getRandomQuestion();
 		$scope.questions[$scope.currentQuestion+1] = nextQ;
 		$scope.setupQuestion($scope.currentQuestion+1);
 	}
 	
 	$scope.completeRound = function() {
+		$scope.question.completeTime = new Date();
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
@@ -1185,7 +1195,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.question = $scope.questions[$scope.currentQuestion];
 			$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 			
-			$scope.questions[$scope.currentQuestion+1] = QuestionService.getRandomQuestion();
+			$scope.questions[$scope.currentQuestion+1] = $scope.getRandomQuestion();
 			$scope.setupQuestion($scope.currentQuestion+1);
 		}
 	}

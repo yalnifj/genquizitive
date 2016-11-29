@@ -448,8 +448,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var temp = this;
 		if (personId) {
 			if (useCache) {
-				if (this.persons[personId]) {
-					deferred.resolve(this.persons[personId]);
+				if (this.people[personId]) {
+					deferred.resolve(this.people[personId]);
 					return deferred.promise;
 				}
 			}

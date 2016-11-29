@@ -1,30 +1,30 @@
 <div class="question-holder" ng-controller="photo1Controller" zoom-to-fit="" zoom-max-height="780">
-	<img style="position: absolute; top: 40px; left: 345px; width: 8px; height: 100px;" src="pole1.png" />
-	<img style="position: absolute; top: 0px; left: 300px;" src="questions/photo1/star.png" />
-	<img style="position: absolute; top: 200px; left: 340px; width: 20px; height: 70%;" src="pole1.png" />
-	<img style="position: absolute; top: 70px; left: 150px;" src="questions/photo1/back.png" />
-	<div class="rounded-red" style="position: absolute; top: 130px; left: 250px; width: 200px; height: 200px;">
+	<img style="position: absolute; top: 40px; left: 305px; width: 8px; height: 100px;" src="pole1.png" />
+	<img style="position: absolute; top: 0px; left: 260px;" src="questions/photo1/star.png" />
+	<img style="position: absolute; top: 200px; left: 300px; width: 20px; height: 70%;" src="pole1.png" />
+	<img style="position: absolute; top: 70px; left: 110px;" src="questions/photo1/back.png" />
+	<div class="rounded-red" style="position: absolute; top: 130px; left: 210px; width: 200px; height: 200px;">
 		<img ng-if="question.person.portrait" src="{{question.person.portrait}}" style="position: absolute; top: 10px; left: 10px; width: 180px; height: 180px;" />
 	</div>
-	<img style="position: absolute; top: 540px; left: 245px; width: 100px; height: 8px;" src="pole2.png" />
-	<img style="position: absolute; top: 540px; left: 360px; width: 100px; height: 8px;" src="pole2.png" />
-	<img style="position: absolute; top: 625px; left: 245px; width: 100px; height: 8px;" src="pole2.png" />
-	<img style="position: absolute; top: 625px; left: 360px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 540px; left: 205px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 540px; left: 320px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 625px; left: 205px; width: 100px; height: 8px;" src="pole2.png" />
+	<img style="position: absolute; top: 625px; left: 320px; width: 100px; height: 8px;" src="pole2.png" />
 	
 	<div answer-button="" incorrect="incorrectAnswers[0]" label="answerPeople[0].display.name" background="button_red_oval.png" ng-click="guess1()" 
-		style="position:absolute; width:215px; height: 79px; top: 505px; left: 100px;">
+		style="position:absolute; width:215px; height: 79px; top: 505px; left: 60px;">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[1]" label="answerPeople[1].display.name" background="button_red_oval.png" ng-click="guess2()" 
-		style="position:absolute; width:215px; height: 79px; top: 590px; left: 100px;">
+		style="position:absolute; width:215px; height: 79px; top: 590px; left: 60px;">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[2]" label="answerPeople[2].display.name" background="button_red_oval.png" ng-click="guess3()" 
-		style="position:absolute; width:215px; height: 79px; top: 505px; left: 390px;">
+		style="position:absolute; width:215px; height: 79px; top: 505px; left: 350px;">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[3]" label="answerPeople[3].display.name" background="button_red_oval.png" ng-click="guess4()" 
-		style="position:absolute; width:215px; height: 79px; top: 590px; left: 390px;">
+		style="position:absolute; width:215px; height: 79px; top: 590px; left: 350px;">
 	</div>
 	
-	<div class="question-block" style="position: absolute; top: 335px; left: 220px; width: 250px; height: 150px;">
+	<div class="question-block" style="position: absolute; top: 335px; left: 180px; width: 250px; height: 150px;">
 		{{questionText}}
 	</div>
 </div>
