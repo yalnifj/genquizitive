@@ -23,6 +23,13 @@
 		93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9CC1DC9913200C25D4E /* yft_logo.png */; };
 		93E8A9D61DC9A4F700C25D4E /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */; };
 		93E8A9D71DC9A4F700C25D4E /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */; };
+		93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */; };
+		93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */; };
+		93E8A9E31DCAB6AD00C25D4E /* button_sign_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DC1DCAB6AD00C25D4E /* button_sign_arrow_left.png */; };
+		93E8A9E41DCAB6AD00C25D4E /* button_sign_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */; };
+		93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */; };
+		93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +85,13 @@
 		93E8A9CB1DC9913200C25D4E /* pole1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pole1.png; sourceTree = "<group>"; };
 		93E8A9CC1DC9913200C25D4E /* yft_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yft_logo.png; sourceTree = "<group>"; };
 		93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../../FacebookSDKs-iOS-4.17.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_badge.png; sourceTree = "<group>"; };
+		93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_blue_oval.png; sourceTree = "<group>"; };
+		93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_red_oval.png; sourceTree = "<group>"; };
+		93E8A9DC1DCAB6AD00C25D4E /* button_sign_arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sign_arrow_left.png; sourceTree = "<group>"; };
+		93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sign_arrow_right.png; sourceTree = "<group>"; };
+		93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_rect.png; sourceTree = "<group>"; };
+		93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_trap1.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +176,13 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
+				93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */,
+				93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */,
+				93E8A9DC1DCAB6AD00C25D4E /* button_sign_arrow_left.png */,
+				93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */,
+				93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */,
+				93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */,
 				93E8A9C61DC9913200C25D4E /* home_arrow1.png */,
 				93E8A9C71DC9913200C25D4E /* home_arrow2.png */,
 				93E8A9C81DC9913200C25D4E /* home_arrow3.png */,
@@ -285,15 +306,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */,
+				93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */,
 				93E8A9CF1DC9913200C25D4E /* home_arrow3.png in Resources */,
+				93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */,
 				93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,
 				939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */,
+				93E8A9E41DCAB6AD00C25D4E /* button_sign_arrow_right.png in Resources */,
+				93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */,
 				93E8A9D21DC9913200C25D4E /* pole1.png in Resources */,
 				939079031DB2EFC90010E0A0 /* Assets.xcassets in Resources */,
 				93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */,
+				93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */,
+				93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */,
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
+				93E8A9E31DCAB6AD00C25D4E /* button_sign_arrow_left.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

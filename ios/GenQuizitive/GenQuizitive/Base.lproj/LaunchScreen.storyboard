@@ -56,20 +56,20 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="uPf-4x-j0I" firstAttribute="top" secondItem="DOY-fZ-I25" secondAttribute="bottom" constant="110" id="4IX-Eo-IC2"/>
-                            <constraint firstItem="5B0-7f-R59" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="195" id="Bvo-jp-AQv"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5B0-7f-R59" secondAttribute="bottom" multiplier="1.05" constant="8" id="6n2-h2-5xv"/>
+                            <constraint firstItem="DOY-fZ-I25" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="21" id="CFt-wa-M7B"/>
                             <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="5B0-7f-R59" secondAttribute="centerX" id="Njd-0y-obe"/>
                             <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="uPf-4x-j0I" secondAttribute="centerX" id="RTH-aK-UuH"/>
                             <constraint firstAttribute="trailing" secondItem="VPh-u7-5xc" secondAttribute="trailing" id="SkM-FS-GWF"/>
-                            <constraint firstItem="g73-Zn-cm1" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="32" id="U3y-sO-ddV"/>
                             <constraint firstItem="5B0-7f-R59" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UIX-wd-8iN"/>
                             <constraint firstItem="g73-Zn-cm1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="YsF-SZ-hsE"/>
-                            <constraint firstItem="DOY-fZ-I25" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="21" id="a8U-Tr-9HI"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5B0-7f-R59" secondAttribute="bottom" multiplier="1.05" constant="8" id="b0f-4j-3Sy"/>
                             <constraint firstItem="DOY-fZ-I25" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="18" id="bi8-a0-oCX"/>
                             <constraint firstItem="VPh-u7-5xc" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="eUs-mg-cOA"/>
-                            <constraint firstItem="VPh-u7-5xc" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="mMU-IF-k9X"/>
                             <constraint firstItem="VPh-u7-5xc" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="qeE-aW-n25"/>
+                            <constraint firstItem="VPh-u7-5xc" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="rGM-FL-sq0"/>
+                            <constraint firstItem="5B0-7f-R59" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="195" id="rfe-By-Zwu"/>
                             <constraint firstItem="VPh-u7-5xc" firstAttribute="centerX" secondItem="g73-Zn-cm1" secondAttribute="centerX" id="tZN-bN-Vi7"/>
+                            <constraint firstItem="g73-Zn-cm1" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="32" id="y0n-Em-c4F"/>
                         </constraints>
                     </view>
                 </viewController>

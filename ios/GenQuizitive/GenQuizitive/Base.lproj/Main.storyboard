@@ -1,26 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GenQuizitive" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="rCf-rs-EDj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Us2-qV-EGC">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pole1.png" translatesAutoresizingMaskIntoConstraints="NO" id="BcF-gv-X8X">
+                                <rect key="frame" x="177" y="215" width="20" height="413"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="ke1-02-sUf"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_arrow1.png" translatesAutoresizingMaskIntoConstraints="NO" id="EaQ-Qm-yIT">
+                                <rect key="frame" x="74" y="41" width="271" height="274"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="271" id="TeE-b2-fnG"/>
+                                    <constraint firstAttribute="height" constant="274" id="gn0-su-Ejb"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_sign.png" translatesAutoresizingMaskIntoConstraints="NO" id="Lcy-SS-6ET">
+                                <rect key="frame" x="16" y="52" width="343" height="259"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="4qg-bT-BgY"/>
+                                    <constraint firstAttribute="height" constant="259" id="dqK-zg-bfu"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_blue_oval.png" translatesAutoresizingMaskIntoConstraints="NO" id="wWI-Jv-B06">
+                                <rect key="frame" x="87" y="323" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="EnZ-vf-Z93"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_blue_oval.png" translatesAutoresizingMaskIntoConstraints="NO" id="UsT-zs-4bK">
+                                <rect key="frame" x="87" y="431" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="1jr-pt-f5Z"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Us2-qV-EGC" firstAttribute="top" secondItem="rCf-rs-EDj" secondAttribute="top" id="2MA-UP-R7E"/>
+                            <constraint firstItem="wWI-Jv-B06" firstAttribute="trailing" secondItem="UsT-zs-4bK" secondAttribute="trailing" id="9MN-Uc-y8w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EaQ-Qm-yIT" secondAttribute="trailing" constant="14" id="AL6-kL-erk"/>
+                            <constraint firstItem="EaQ-Qm-yIT" firstAttribute="leading" secondItem="rCf-rs-EDj" secondAttribute="leadingMargin" constant="58" id="CKf-ss-KM3"/>
+                            <constraint firstItem="wWI-Jv-B06" firstAttribute="leading" secondItem="UsT-zs-4bK" secondAttribute="leading" id="FHI-g9-KbN"/>
+                            <constraint firstItem="Us2-qV-EGC" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Htf-bJ-S6M"/>
+                            <constraint firstAttribute="trailing" secondItem="Us2-qV-EGC" secondAttribute="trailing" id="Kem-EC-30V"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UsT-zs-4bK" secondAttribute="bottom" constant="136" id="Mee-dB-ezx"/>
+                            <constraint firstItem="wWI-Jv-B06" firstAttribute="top" secondItem="EaQ-Qm-yIT" secondAttribute="bottom" constant="8" symbolic="YES" id="QQJ-q4-Ua6"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BcF-gv-X8X" secondAttribute="bottom" constant="39" id="Ufz-9e-wGz"/>
+                            <constraint firstItem="UsT-zs-4bK" firstAttribute="top" secondItem="wWI-Jv-B06" secondAttribute="bottom" constant="8" symbolic="YES" id="e6R-nK-W1F"/>
+                            <constraint firstItem="Us2-qV-EGC" firstAttribute="leading" secondItem="rCf-rs-EDj" secondAttribute="leading" id="gDp-fy-1r1"/>
+                            <constraint firstItem="wWI-Jv-B06" firstAttribute="top" secondItem="Lcy-SS-6ET" secondAttribute="bottom" constant="12" id="h7o-AP-8rj"/>
+                            <constraint firstItem="Lcy-SS-6ET" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="32" id="iZD-J5-hNt"/>
+                            <constraint firstItem="Lcy-SS-6ET" firstAttribute="centerX" secondItem="wWI-Jv-B06" secondAttribute="centerX" id="q0g-fb-G6m"/>
+                            <constraint firstItem="EaQ-Qm-yIT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="21" id="qCW-BA-pUe"/>
+                            <constraint firstItem="Us2-qV-EGC" firstAttribute="centerX" secondItem="UsT-zs-4bK" secondAttribute="centerX" id="su4-nX-ny6"/>
+                            <constraint firstItem="BcF-gv-X8X" firstAttribute="centerX" secondItem="UsT-zs-4bK" secondAttribute="centerX" id="wIG-Ul-qXw"/>
+                            <constraint firstItem="BcF-gv-X8X" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="195" id="zTP-Fb-oIs"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="arrows" destination="EaQ-Qm-yIT" id="lGz-Xj-bHC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="36" y="37.331334332833585"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="button_blue_oval.png" width="200" height="81"/>
+        <image name="home_arrow1.png" width="199" height="244"/>
+        <image name="home_background.jpg" width="743" height="640"/>
+        <image name="home_sign.png" width="309" height="200"/>
+        <image name="pole1.png" width="32" height="324"/>
+    </resources>
 </document>
