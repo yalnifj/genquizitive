@@ -74,7 +74,7 @@ angular.module('genquiz.friends', ['genquizitive'])
 			challengeRounds: 0,
 			practiceHighScore: 0,
 			challengeHighScore: 0,
-			hasFamilyTree: hasFamilyTree
+			hasFamilyTree: hasFamilyTree?true:false
 		};
 		this.writeUser(user);
 		return user;
@@ -209,11 +209,13 @@ angular.module('genquiz.friends', ['genquizitive'])
 	};
 	
 	this.fbLogout = function() {
-		FB.logout();
+		if (window.FB && window.FB.Canvas) {
+			FB.logout();
+		}
 	};
 	
 	this.setCanvasReady = function() {
-		if (FB && FB.Canvas) {
+		if (window.FB && window.FB.Canvas) {
 			FB.Canvas.setDoneLoading();
 		}
 	};

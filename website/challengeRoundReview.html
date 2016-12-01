@@ -30,12 +30,6 @@
 	</div>
 	
 	<div class="center-div" style="width: 420px; margin-top: 10px;">
-		<div class="score-row">
-			<div class="time">Person</div>
-			<div class="time">My Time</div>
-			<div class="time">Question Type</div>
-			<div class="time">Friend's Time</div>
-		</div>
 		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
 			<div>{{display.myTime}}</div>
