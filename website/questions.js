@@ -68,6 +68,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					personId: this.person.id,
 					questionText: this.questionText,
 					answers: [],
+					startTime: this.startTime,
 					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
@@ -160,6 +161,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					personId: this.person.id,
 					questionText: questionText,
 					answers: [],
+					startTime: this.startTime,
 					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
@@ -289,6 +291,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					personId: this.person.id,
 					questionText: this.questionText,
 					answers: [],
+					startTime: this.startTime,
 					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
@@ -361,6 +364,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					person: {id: this.person.id, display: {name: this.person.display.name}},
 					questionText: this.questionText,
 					people: [],
+					startTime: this.startTime,
 					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.people.length; p++) {

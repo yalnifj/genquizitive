@@ -212,6 +212,12 @@ angular.module('genquiz.friends', ['genquizitive'])
 		FB.logout();
 	};
 	
+	this.setCanvasReady = function() {
+		if (FB && FB.Canvas) {
+			FB.Canvas.setDoneLoading();
+		}
+	};
+	
 	this.fbGetUser = function() {
 		var deferred = $q.defer();
 		var temp = this;

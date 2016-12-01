@@ -20,10 +20,15 @@
 	</div>
 	
 	<div class="center-div" style="width: 340px; margin-top: 10px;">
+		<div class="score-row">
+			<div class="time">Question Type</div>
+			<div class="time">Person</div>
+			<div class="time">Time</div>
+		</div>
 		<div ng-repeat="display in questionDisplays" class="score-row">
+			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
 			<div class="time">{{display.myTime}}</div>
-			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
 		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
 			<img src="button_sign_arrow_left.png" />

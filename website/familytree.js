@@ -251,14 +251,22 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			var currentPerson = startPerson;
 			for(var p=0; p<path.length; p++) {
 				var pid = null;
+				var pid2 = null;
 				var isPerson1 = true;
-				if (path[p].person1) pid = path[p].person1.resourceId;
-				else isPerson1 = false;
+				if (path[p].person1) {
+					pid = path[p].person1.resourceId;
+					pid2 = path[p].person2.resourceId;
+				}
+				else {
+					isPerson1 = false;
+				}
 				if (pid==currentPerson.id) {
 					pid = path[p].person2.resourceId;
+					pid2 = path[p].person1.resourceId;
 					isPerson1 = false;
 				}
 				var person = familysearchService.people[pid];
+				var person2 = familysearchService.people[pid2];
 				if (path[p].type=="http://gedcomx.org/ParentChild") {
 					if (isPerson1) {
 						if (person.gender.type=="http://gedcomx.org/Male") {
@@ -274,7 +282,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 						}
 					}
 				} else if (path[p].type=="http://gedcomx.org/Couple") {
-					if (person.gender.type=="http://gedcomx.org/Male") {
+					if (person2.gender.type=="http://gedcomx.org/Male") {
 						pathText += "husband";
 					} else {
 						pathText += "wife";
