@@ -282,7 +282,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 						}
 					}
 				} else if (path[p].type=="http://gedcomx.org/Couple") {
-					if (person2.gender.type=="http://gedcomx.org/Male") {
+					if (person.gender.type=="http://gedcomx.org/Male") {
 						pathText += "husband";
 					} else {
 						pathText += "wife";
@@ -295,8 +295,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					}
 				}
 				if (p < path.length-1) pathText += "'s ";
+				currentPerson = person;
 			}
-			deferred.resolve(pathText);
+			deferred.resolve({person: currentPerson, text: pathText});
+		},function(error) {
+			deferred.reject(error);
 		});
 		return deferred.promise;
 	};

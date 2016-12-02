@@ -101,22 +101,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 
 					question.path = path;
 					
-					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathText) {
-						question.questionText = 'Who is your ' + pathText + '?';
-					}, function(error) {
-						console.log(error);
-						question.questionText = 'Who is your relative?';
-					});
-					
-					question.person = null;
-					var lastPersonId = null;
-					if (lastRel.person1.resourceId != question.startPerson.id) {
-						lastPersonId = lastRel.person1.resourceId;
-					} else {
-						lastPersonId = lastRel.person2.resourceId;
-					}
-					familysearchService.getPersonById(lastPersonId).then(function(lastPerson) {
-						question.person = lastPerson;
+					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathInfo) {
+						question.questionText = 'Who is your ' + pathInfo.text + '?';
+						question.person = pathInfo.person;						
 						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 							question.randomPeople = people;
 							question.isReady = true;
@@ -126,7 +113,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 							question.error = error;
 							deferred.reject(question);
 						});
-					}, function(error){
+					}, function(error) {
 						console.log(error);
 						question.error = error;
 						deferred.reject(question);

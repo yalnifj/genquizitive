@@ -700,7 +700,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				if (familysearchService.fsUser && $scope.round.fromStats && familysearchService.getLocalPersonById($scope.round.fromStats.questions[0].personId)) {
 					$scope.questions[$scope.currentQuestion].setupFromPersistence($scope.round.fromStats.questions[0]);
 				} else {
-					$scope.setupQuestion($scope.currentQuestion);
+					$scope.setupQuestion($scope.currentQuestion, 0);
 				}
 			} else {
 				//-- setup from persistence
@@ -774,7 +774,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			if (familysearchService.fsUser && $scope.round.fromStats && familysearchService.getLocalPersonById($scope.round.fromStats.questions[$scope.currentQuestion+1].personId)) {
 				$scope.questions[$scope.currentQuestion+1].setupFromPersistence($scope.round.fromStats.questions[$scope.currentQuestion+1]);
 			} else {
-				$scope.setupQuestion($scope.currentQuestion + 1);
+				$scope.setupQuestion($scope.currentQuestion + 1, 0);
 				//$scope.questions[$scope.currentQuestion+1].setup($scope.currentQuestion + 2, $scope.round.friendTree);
 			}
 		}
@@ -850,7 +850,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			
 			if ($scope.question.error) {
 				console.log('question in error, resetting');
-				$scope.setupQuestion($scope.currentQuestion);
+				$scope.setupQuestion($scope.currentQuestion, 0);
 			}
 			
 			var nextQ = null;
@@ -864,8 +864,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				if (familysearchService.fsUser && $scope.round.fromStats && familysearchService.getLocalPersonById($scope.round.fromStats.questions[$scope.currentQuestion+1].personId)) {
 					$scope.questions[$scope.currentQuestion+1].setupFromPersistence($scope.round.fromStats.questions[$scope.currentQuestion+1]);
 				} else {
-					$scope.setupQuestion($scope.currentQuestion + 1);
+					$scope.setupQuestion($scope.currentQuestion + 1, 0);
 				}
+			} else {
+				$scope.setupQuestion($scope.currentQuestion + 1, 0);
 			}
 		}
 	}
@@ -878,22 +880,20 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.missedQuestions++;
 	});
 	
-	$scope.tries = 0;
-	$scope.setupQuestion = function(num) {
-		$scope.tries++;
-		if ($scope.tries < 5) {
+	$scope.setupQuestion = function(num, tries) {
+		if (tries < 5) {
 			var question = $scope.questions[num];
-			console.log('trying question '+question.name+' setup again '+$scope.tries);
+			console.log('trying question '+num+" "+question.name+' setup again '+tries);
 			question.error = null;
 			question.setup(num+1, $scope.round.friendTree).then(function() {
 				console.log('successfully setup question '+num+' '+question.name);
 			}, function(error) {
 				console.log('failed to setup question '+num+' '+question.name+'. error='+question.error);
-				$scope.setupQuestion(num);
+				$scope.setupQuestion(num, tries+1);
 			});
 		} else {
 			console.log('too many fails try a new question');
-			$scope.tries = 0;
+			tries = 0;
 			$scope.questions[num].error = null;
 			$scope.questions[num] = $scope.getRandomQuestion();
 			var question = $scope.questions[num];
@@ -901,8 +901,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				console.log('successfully setup question '+num+' '+question.name);
 			}, function(error) {
 				console.log('failed to setup question '+num+' '+question.name+'. error='+question.error);
-				$scope.setupQuestion(num);
+				$scope.setupQuestion(num, tries + 1);
 			});
+			//-- question object changed so update the current question
 			if ($scope.currentQuestion==num) {
 				$scope.question = question;
 			}
@@ -942,11 +943,16 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.me.shortName = languageService.shortenName($scope.me.name);
 	
 	if (facebookService.facebookUser.id==$scope.round.from) {
-		$scope.friend = facebookService.fbGetUserById($scope.round.to);
+		facebookService.fbGetUserById($scope.round.to).then(function(friend) {
+			$scope.friend = friend;
+			$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
+		});
 	} else {
-		$scope.friend = facebookService.fbGetUserById($scope.round.from)
+		facebookService.fbGetUserById($scope.round.from).then(function(friend) {
+			$scope.friend = friend;
+			$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
+		});
 	}
-	$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
 	
 	$scope.questionDisplays = [];
 	$scope.myStats = null;
@@ -1144,22 +1150,20 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	$scope.missedQuestions = 0;
-	$scope.tries = 0;
-	$scope.setupQuestion = function(num) {
-		$scope.tries++;
-		if ($scope.tries < 5) {
+	$scope.setupQuestion = function(num, tries) {
+		if (tries < 5) {
 			var question = $scope.questions[num];
-			console.log('trying question '+question.name+' setup again '+$scope.tries);
+			console.log('trying question '+num+" "+question.name+' setup again '+tries);
 			question.error = null;
 			question.setup(num+1, $scope.round.friendTree).then(function() {
 				console.log('successfully setup question '+num+' '+question.name);
 			}, function(error) {
 				console.log('failed to setup question '+num+' '+question.name+'. error='+question.error);
-				$scope.setupQuestion(num);
+				$scope.setupQuestion(num, tries+1);
 			});
 		} else {
 			console.log('too many fails try a new question');
-			$scope.tries = 0;
+			tries = 0;
 			$scope.questions[num].error = null;
 			$scope.questions[num] = $scope.getRandomQuestion();
 			var question = $scope.questions[num];
@@ -1167,8 +1171,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 				console.log('successfully setup question '+num+' '+question.name);
 			}, function(error) {
 				console.log('failed to setup question '+num+' '+question.name+'. error='+question.error);
-				$scope.setupQuestion(num);
+				$scope.setupQuestion(num, tries+1);
 			});
+			//-- question object changed so update the current question
 			if ($scope.currentQuestion==num) {
 				$scope.question = question;
 			}
@@ -1176,7 +1181,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
-	$scope.setupQuestion($scope.currentQuestion);
+	$scope.setupQuestion($scope.currentQuestion, 0);
 	
 	$scope.startRound = function() {
 		notif.close();
@@ -1189,7 +1194,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		
 		var nextQ = $scope.getRandomQuestion();
 		$scope.questions[$scope.currentQuestion+1] = nextQ;
-		$scope.setupQuestion($scope.currentQuestion+1);
+		$scope.setupQuestion($scope.currentQuestion+1, 0);
 	}
 	
 	$scope.completeRound = function() {
@@ -1233,7 +1238,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 			
 			$scope.questions[$scope.currentQuestion+1] = $scope.getRandomQuestion();
-			$scope.setupQuestion($scope.currentQuestion+1);
+			$scope.setupQuestion($scope.currentQuestion+1, 0);
 		}
 	}
 	
