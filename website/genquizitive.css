@@ -394,6 +394,7 @@ body {
 	height: 100px;
 	background-color: rgba(0, 160, 160, 0.5);
     margin-bottom: 5px;
+	position: relative;
 }
 
 .score-row > div {

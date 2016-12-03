@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	
-	<div class="center-div" style="width: 500px; height: 120px; position: relative;">
+	<div class="center-div" style="width: 540px; height: 120px; position: relative;">
 		<div avatar-badge src="me.picture.data.url" label="me.shortName" class="avatar" style="float: left; margin-right:10px;"></div>
 		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;"></div>
 		<div style="position: absolute; left: 110px; top: 90px;">
@@ -26,15 +26,15 @@
 			<div light="" color="red" on="friendMissed > 3" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="friendMissed > 4" style="margin: 5px; display: inline-block;"></div>
 		</div>
-		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar" style="position: absolute; float: left; left: -48px; margin-left:10px;"></div>
+		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar" style="position: relative; float: right; top: -85px;"></div>
 	</div>
 	
-	<div class="center-div" style="width: 420px; margin-top: 10px;">
+	<div class="center-div" style="width: 530px; margin-top: 10px;">
 		<div ng-repeat="display in questionDisplays" class="score-row">
-			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar"></div>
+			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar" uib-tooltip="Click to learn more about this person." ng-click="showPersonDetails(display.person)"></div>
 			<div class="time">{{display.myTime}}</div>
 			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
-			<div class="time">{{display.friendTime}}</div>
+			<div class="time" style="top: 0px; position: absolute; right: 10px;">{{display.friendTime}}<span ng-if="!display.friendTime">Waiting...</span></div>
 		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
 			<img src="button_sign_arrow_left.png" />

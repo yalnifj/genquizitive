@@ -13,8 +13,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var question = this;
 				this.difficulty = difficulty;
 				this.isReady = false;
+				this.questionText = 'Who is shown in this picture?';
 				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
 					question.person = person;
+					familysearchService.markUsed(person);
 					
 					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
 						question.randomPeople = people;
@@ -103,7 +105,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					
 					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathInfo) {
 						question.questionText = 'Who is your ' + pathInfo.text + '?';
-						question.person = pathInfo.person;						
+						question.person = pathInfo.person;
+						familysearchService.markUsed(person);						
 						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 							question.randomPeople = people;
 							question.isReady = true;
@@ -170,9 +173,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.difficulty = difficulty;
 				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
-				while(!question.person.facts || question.person.facts.length==0) {
+				while(!question.person.facts || question.person.facts.length<2) {
 					question.person = familysearchService.getRandomPerson(useLiving);
 				}
+				familysearchService.markUsed(person);
 				familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 					question.randomPeople = people;
 					var found = false;
@@ -302,6 +306,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.questionText = 'Complete the family tree.'
 				
 				question.person = familysearchService.getRandomPerson(useLiving);
+				familysearchService.markUsed(person);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if ((!tree.persons || tree.persons.length<3) && question.tryCount < 8) {
 						console.log('Not enough people. Trying setup again. '+question.tryCount);

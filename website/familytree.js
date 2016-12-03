@@ -184,16 +184,21 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		if (path.length >= length) {
 			if (!useLiving) {
 				var rel = path[path.length-1];
-				var nextPerson = rel.person1.resourceId;
-				if (nextPerson == personId) {
-					nextPerson = rel.person2.resourceId;
-				}
-				familysearchService.getPersonById(nextPerson).then(function(person) {
-					if (person.living) {
+				familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
+					if (person1.living) {
 						rel.living==true;
 						deferred.reject(path);
 					} else {
-						deferred.resolve(path);
+						familysearchService.getPersonById(rel.person2.resourceId).then(function(person2) {
+							if (person2.living) {
+								rel.living==true;
+								deferred.reject(path);
+							} else {
+								deferred.resolve(path);
+							}
+						}, function(error) {
+							deferred.reject(error);
+						});
 					}
 				}, function(error) {
 					deferred.reject(error);
@@ -346,7 +351,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				if (response.data) {
 					temp.fsUser = response.data.persons[0];
 					temp.people[temp.fsUser.id] = temp.fsUser;
-					temp.usedPeople[temp.fsUser.id] = true;
+					temp.usedPeople[temp.fsUser.id] = temp.fsUser;
 					temp.getAncestorTree(temp.fsUser.id, 8, true).then(function(data) {
 						var count = 0;
 						angular.forEach(data.persons.reverse(), function(person) {
@@ -798,6 +803,15 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 		});
 		return deferred.promise;
+	};
+	
+	this.markUsed = function(person) {
+		this.usedPeople[person.id] = person;
+	};
+	
+	this.clearUsed = function() {
+		this.usedPeople = {};
+		this.usedPeople[this.fsUser.id] = this.fsUser;
 	};
 }])
 ;

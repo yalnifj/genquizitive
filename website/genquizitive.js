@@ -627,7 +627,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	$scope.invite = function() {
 		//-- load facebook invite window
 		facebookService.inviteFriends().then(function(response) {
-			if (reponse && response.request && response.to && response.to.length>0) {
+			if (response && response.request && response.to && response.to.length>0) {
 				var round = {
 					from: facebookService.facebookUser.id,
 					to: response.to[0],
@@ -746,7 +746,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.getRandomQuestion = function() {
 		var nextQ = QuestionService.getRandomQuestion();
-		while(nextQ.name==$scope.question.name) {
+		while($scope.question && nextQ.name==$scope.question.name) {
 			nextQ = QuestionService.getRandomQuestion();
 		}
 		return nextQ;
@@ -756,6 +756,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		notif.close();
 		$scope.ready = true;
 		$scope.startTime = new Date();
+		
+		familysearchService.clearUsed();
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
 		$scope.question.startTime = (new Date()).getTime();
@@ -1143,7 +1145,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.getRandomQuestion = function() {
 		var nextQ = QuestionService.getRandomQuestion();
-		while(nextQ.name==$scope.question.name) {
+		while($scope.question && nextQ.name==$scope.question.name) {
 			nextQ = QuestionService.getRandomQuestion();
 		}
 		return nextQ;
@@ -1189,6 +1191,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.startTime = new Date();
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
+		if ($scope.question.person && $scope.question.isReady) {
+			familysearchService.clearUsed();
+			familysearchService.markUsed($scope.question.person);
+		}
 		$scope.question.startTime = (new Date()).getTime();
 		$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 		
@@ -1241,6 +1247,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			$scope.setupQuestion($scope.currentQuestion+1, 0);
 		}
 	}
+	
+	$scope.showPersonDetails = function(person) {
+		
+	};
 	
 	$scope.$on('questionCorrect', function(event, question) {
 		$scope.nextQuestion();
