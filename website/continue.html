@@ -26,11 +26,11 @@
 				It's Your Turn! Play Now!
 			</div>
 		</div>
-		<div ng-repeat="round in theirTurnGames">
+		<div ng-repeat="round in theirTurnGames" class="clickable" ng-click="launchReview(round)">
 			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar" style="top: 15px;z-index: 1;"></div>
 			<div class="round-summary">
 				<span class="genquiz-with">GenQuiz with {{friends[round.id].shortName}}</span><br />
-				It's Your Turn! Play Now!
+				It's {{friends[round.id].shortName}}'s turn.
 			</div>
 		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">

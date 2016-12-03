@@ -540,7 +540,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.launchReview = function(round) {
-		firebaseService.lastRound = $scope.round;
+		firebaseService.lastRound = round;
 		$location.path('/challengeRoundReview');
 	};
 	
@@ -758,7 +758,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.startTime = new Date();
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
-		$scope.question.startTime = new Date();
+		$scope.question.startTime = (new Date()).getTime();
 		
 		var nextQ = null;
 		if ($scope.round.fromStats && $scope.round.fromStats.questions[$scope.currentQuestion+1]) {
@@ -781,7 +781,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.completeRound = function() {
-		$scope.question.completeTime = new Date();
+		$scope.question.completeTime = (new Date()).getTime();
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
@@ -839,14 +839,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	};
 	
 	$scope.nextQuestion = function() {
-		$scope.question.completeTime = new Date();
+		$scope.question.completeTime = (new Date()).getTime();
 		
 		if ($scope.currentQuestion >= $scope.maxQuestions) {
 			$scope.completeRound();
 		} else {		
 			$scope.currentQuestion++;
 			$scope.question = $scope.questions[$scope.currentQuestion];
-			$scope.question.startTime = new Date();
+			$scope.question.startTime = (new Date()).getTime();
 			
 			if ($scope.question.error) {
 				console.log('question in error, resetting');
@@ -912,7 +912,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.$watch('question.isReady', function(newval, oldval) {
 		if (newval!=oldval && newval==true) {
-			$scope.question.startTime = new Date();
+			$scope.question.startTime = (new Date()).getTime();
 		}
 	});
 	
@@ -983,7 +983,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			});
 		}
 		
-		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime.getTime() - $scope.myStats.questions[q].startTime.getTime())/1000);
+		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
 		$scope.myScore += display.mySeconds;
 		display.myTime = "";
 		var minutes = Math.floor(display.mySeconds / 60.0);
@@ -996,7 +996,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		display.myTime += seconds;
 
 		if ($scope.friendStats) {
-			display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime.getTime() - $scope.friendStats.questions[q].startTime.getTime())/1000);
+			display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime - $scope.friendStats.questions[q].startTime)/1000);
 			$scope.friendScore += display.friendSeconds;
 			display.friendTime = "";
 			var minutes = Math.floor(display.friendSeconds / 60.0);
@@ -1068,7 +1068,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 			});
 		}
 		
-		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime.getTime() - $scope.myStats.questions[q].startTime.getTime())/1000);
+		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
 		$scope.myScore += display.mySeconds;
 		display.myTime = "";
 		var minutes = Math.floor(display.mySeconds / 60.0);
@@ -1189,7 +1189,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 		$scope.startTime = new Date();
 		
 		$scope.question = $scope.questions[$scope.currentQuestion];
-		$scope.question.startTime = new Date();
+		$scope.question.startTime = (new Date()).getTime();
 		$scope.letterTooltip = QuestionService.friendlyNames[$scope.question.letter];
 		
 		var nextQ = $scope.getRandomQuestion();
@@ -1198,7 +1198,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	}
 	
 	$scope.completeRound = function() {
-		$scope.question.completeTime = new Date();
+		$scope.question.completeTime = (new Date()).getTime();
 		$scope.complete = true;
 		$interval.cancel($scope.interval);
 		$scope.endTime = new Date();
@@ -1227,7 +1227,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.nextQuestion = function() {
 		$scope.tries = 0;
-		$scope.question.completeTime = new Date();
+		$scope.question.completeTime = (new Date()).getTime();
 		
 		$scope.currentQuestion++;
 		if ($scope.currentQuestion >= $scope.maxQuestions) {
@@ -1252,7 +1252,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ui.bootstrap', 'genquiz.q
 	
 	$scope.$watch('question.isReady', function(newval, oldval) {
 		if (newval!=oldval && newval==true) {
-			$scope.question.startTime = new Date();
+			$scope.question.startTime = (new Date()).getTime();
 		}
 	});
 	
