@@ -663,8 +663,10 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					if (temp.people[personId]) {
 						temp.people[personId].portrait = "fs-proxy.php?url="+encodeURIComponent(src);
 						temp.portraitPeople[personId] = true;
+						deferred.resolve({id: personId, src: temp.people[personId].portrait});
+					} else {
+						deferred.resolve({id: personId, src: "fs-proxy.php?url="+encodeURIComponent(src)});
 					}
-					deferred.resolve({id: personId, src: temp.people[personId].portrait});
 				} else {
 					deferred.reject(response.body);
 				}

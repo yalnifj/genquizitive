@@ -16,7 +16,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.questionText = 'Who is shown in this picture?';
 				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
 					question.person = person;
-					familysearchService.markUsed(person);
+					familysearchService.markUsed(question.person);
 					
 					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
 						question.randomPeople = people;
@@ -106,7 +106,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathInfo) {
 						question.questionText = 'Who is your ' + pathInfo.text + '?';
 						question.person = pathInfo.person;
-						familysearchService.markUsed(person);						
+						familysearchService.markUsed(question.person);						
 						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 							question.randomPeople = people;
 							question.isReady = true;
@@ -137,18 +137,33 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
 				this.answers = roundQuestion.answers;
+				this.person = roundQuestion.person;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+				}
+				this.randomPeople = [];
+				for(var r=0; r<roundQuestion.answers.length; r++) {
+					var rp = familysearchService.getLocalPersonById(roundQuestion.answers[r].id);
+					if (rp) {
+						this.randomPeople[r] = rp;
+					} else {
+						this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
+					}
+				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 			},
 			getPersistence: function() {
 				var questionText = this.questionText;
-				if (this.person) {
-					questionText = questionText.replace("your", languageService.shortenName(this.person.display.name)+"'s");
+				if (familysearchService.fsUser) {
+					questionText = questionText.replace("your", languageService.shortenName(familysearchService.fsUser.display.name)+"'s");
 				}
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
+					person: {id: this.person.id, display: { name: this.person.display.name}},
 					questionText: questionText,
 					answers: [],
 					startTime: this.startTime,
@@ -176,7 +191,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				while(!question.person.facts || question.person.facts.length<2) {
 					question.person = familysearchService.getRandomPerson(useLiving);
 				}
-				familysearchService.markUsed(person);
+				familysearchService.markUsed(question.person);
 				familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
 					question.randomPeople = people;
 					var found = false;
@@ -272,6 +287,20 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
 				this.answers = roundQuestion.answers;
+				this.randomPeople = [];
+				for(var r=0; r<roundQuestion.answers.length; r++) {
+					var rp = familysearchService.getLocalPersonById(roundQuestion.answers[r].id);
+					if (rp) {
+						this.randomPeople[r] = rp;
+					} else {
+						this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
+					}
+				}
+				this.person = roundQuestion.person;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 			},
@@ -280,6 +309,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
+					person: {id: this.person.id, display: { name: this.person.display.name}},
 					questionText: this.questionText,
 					answers: [],
 					startTime: this.startTime,
@@ -306,7 +336,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.questionText = 'Complete the family tree.'
 				
 				question.person = familysearchService.getRandomPerson(useLiving);
-				familysearchService.markUsed(person);
+				familysearchService.markUsed(question.person);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if ((!tree.persons || tree.persons.length<3) && question.tryCount < 8) {
 						console.log('Not enough people. Trying setup again. '+question.tryCount);
@@ -343,8 +373,24 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
-				this.person = roundQuestion.person;
-				this.people = roundQuestion.people;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+					this.person.display.ascendancyNumber = roundQuestion.person.ascendancyNumber;
+				} else {
+					this.person = angular.copy(roundQuestion.person);
+				}
+				this.people = [];
+				for(var r=0; r<roundQuestion.people.length; r++) {
+					var rp = familysearchService.getLocalPersonById(roundQuestion.people[r].id);
+					if (rp) {
+						var an = roundQuestion.people[r].display.ascendancyNumber;
+						rp.display.ascendancyNumber = an;
+						this.people[r] = rp;
+					} else {
+						this.people[r] = angular.copy(roundQuestion.people[r]);
+					}
+				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 			},
@@ -353,14 +399,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: {name: this.person.display.name}},
+					person: {id: this.person.id, display: {name: this.person.display.name, ascendancyNumber: this.person.display.ascendancyNumber}},
 					questionText: this.questionText,
 					people: [],
 					startTime: this.startTime,
 					completeTime: this.completeTime
 				};
 				for(var p=0; p<this.people.length; p++) {
-					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name}});
+					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}});
 				}
 				return q;
 			}

@@ -9,8 +9,8 @@
 	
 	<div class="center-div" style="width: 300px; height: 120px; position: relative;">
 		<div avatar-badge src="me.photoUrl" label="me.shortName" class="avatar" style="float: left; margin-right:10px;"></div>
-		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;"></div>
-		<div style="position: absolute; left: 110px; top: 90px;">
+		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;" uib-tooltip="Your total score."></div>
+		<div style="position: absolute; left: 110px; top: 90px;" uib-tooltip="You missed {{myMissed}} question(s).  Each miss adds 1 minute to the total time.">
 			<div light="" color="red" on="myMissed > 0" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="myMissed > 1" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="myMissed > 2" style="margin: 5px; display: inline-block;"></div>
@@ -19,15 +19,19 @@
 		</div>
 	</div>
 	
-	<div class="center-div" style="width: 340px; margin-top: 10px;">
+	<div class="center-div" style="width: 340px; height: 600px; margin-top: 10px;">
 		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar" uib-tooltip="Click to learn more about this person." ng-click="showPersonDetails(display.person)"></div>
 			<div class="time">{{display.myTime}}</div>
 		</div>
-		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
+		<a class="arrow-button" href="#/menu" style="margin-top: 30px; display: inline-block; width: auto;">
 			<img src="button_sign_arrow_left.png" />
 			<div class="button-text">Back to Menu</div>
+		</a>
+		<a class="arrow-button" href="#/practice" style="margin-top: 30px; margin-left: 20px; display: inline-block; width: auto;">
+			<img src="button_sign_arrow_right.png" />
+			<div class="button-text">Practice Again</div>
 		</a>
 	</div>
 </div>

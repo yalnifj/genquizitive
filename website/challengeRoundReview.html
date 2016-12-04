@@ -9,8 +9,8 @@
 	
 	<div class="center-div" style="width: 540px; height: 120px; position: relative;">
 		<div avatar-badge src="me.picture.data.url" label="me.shortName" class="avatar" style="float: left; margin-right:10px;"></div>
-		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;"></div>
-		<div style="position: absolute; left: 110px; top: 90px;">
+		<div class="timer" animated-timer="" time="myScore" style="display: inline-block; float: left;" uib-tooltip="Your total score."></div>
+		<div style="position: absolute; left: 110px; top: 90px;" uib-tooltip="You missed {{myMissed}} question(s).  Each miss adds 1 minute to the total time.">
 			<div light="" color="red" on="myMissed > 0" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="myMissed > 1" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="myMissed > 2" style="margin: 5px; display: inline-block;"></div>
@@ -18,8 +18,8 @@
 			<div light="" color="red" on="myMissed > 4" style="margin: 5px; display: inline-block;"></div>
 		</div>
 		<img src="vs.png" style="position: relative; left: -24px; top: 5px; float: left; z-index: 1;" />
-		<div class="timer" animated-timer="" time="friendScore" style="position: relative; left: -48px; float: left;"></div>
-		<div style="position: absolute; left: 280px; top: 90px;">
+		<div class="timer" animated-timer="" time="friendScore" style="position: relative; left: -48px; float: left;" uib-tooltip="Your friend's total score."></div>
+		<div style="position: absolute; left: 280px; top: 90px;" uib-tooltip="Your friend missed {{friendMissed}} question(s).  Each miss adds 1 minute to the total time.">
 			<div light="" color="red" on="friendMissed > 0" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="friendMissed > 1" style="margin: 5px; display: inline-block;"></div>
 			<div light="" color="red" on="friendMissed > 2" style="margin: 5px; display: inline-block;"></div>
@@ -29,16 +29,20 @@
 		<div avatar-badge src="friend.picture.data.url" label="friend.shortName" class="avatar" style="position: relative; float: right; top: -85px;"></div>
 	</div>
 	
-	<div class="center-div" style="width: 530px; margin-top: 10px;">
+	<div class="center-div" style="width: 530px; height: 600px; margin-top: 10px;">
 		<div ng-repeat="display in questionDisplays" class="score-row">
 			<div avatar-badge src="display.person.portrait" label="display.person.display.name" class="avatar ancestor-avatar" uib-tooltip="Click to learn more about this person." ng-click="showPersonDetails(display.person)"></div>
 			<div class="time">{{display.myTime}}</div>
 			<div class="letter" uib-tooltip="{{display.letterTooltip}}">{{display.letter}}</div>
-			<div class="time" style="top: 0px; position: absolute; right: 10px;">{{display.friendTime}}<span ng-if="!display.friendTime">Waiting...</span></div>
+			<div class="time" style="top: 0px; position: absolute; right: 10px; width: 175px; text-align: center;">{{display.friendTime ? display.friendTime : 'Waiting...'}}</span></div>
 		</div>
-		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
+		<a class="arrow-button" href="#/menu" style="margin-top: 30px; display: inline-block; width: auto;">
 			<img src="button_sign_arrow_left.png" />
 			<div class="button-text">Back to Menu</div>
+		</a>
+		<a class="arrow-button" href="#/challenge" ng-click="challengeAgain()" style="margin-top: 30px; margin-left: 20px; display: inline-block; width: auto;">
+			<img src="button_sign_arrow_right.png" />
+			<div class="button-text">Challenge Again</div>
 		</a>
 	</div>
 </div>

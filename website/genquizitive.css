@@ -410,6 +410,22 @@ body {
 	line-height: 100px;
 }
 
+.score-row.ng-move,
+.score-row.ng-enter,
+.score-row.ng-leave {
+  transition:all linear 0.5s;
+}
+
+.score-row.ng-enter,
+.score-row.ng-leave.ng-leave-active {
+    transform:translateY(400%);
+}
+
+.score-row.ng-enter.ng-enter-active,
+.score-row.ng-leave {
+    transform:translateY(0%);
+}
+
 .letter {
 	background: url(button_yellow_circle.png);
     width: 72px;
