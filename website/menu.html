@@ -32,7 +32,12 @@
 		<img id="home_arrows" src="home_arrow1.png" />
 		<img id="home_sign" src="home_sign.png" />
 		<div style="position: absolute; left: 70px; top: 260px;">
-			<div avatar-badge src="pictureUrl" class="avatar"></div>
+			<div avatar-badge src="pictureUrl" class="avatar clickable" style="z-index: 2;" ng-click="showMenu = !showMenu"></div>
+			<ul class="avatar-menu" ng-show="showMenu">
+				<div class="close-me" ng-click="showMenu = !showMenu">X</div>
+				<li><a href="JavaScript:void(0);" ng-click="logoutFB()">Logout of Facebook</a></li>
+				<li><a href="JavaScript:void(0);" ng-click="logoutFS()">Logout of FamilySearch</a></li>
+			</ul>
 		</div>
 		<div ng-if="!hasFacebook" class="text-center connect-button" ng-click="fbLogin()" style="position: absolute; top: 350px; left: 20px;">
 			Connect to<br/>Facebook

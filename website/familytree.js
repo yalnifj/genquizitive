@@ -397,6 +397,10 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		this.fs.oauthRedirect();
 	};
 	
+	this.fsLogout = function() {
+		this.fs.logout();
+	};
+	
 	this.startBackgroundQueue = function() {
 		if (this.interval) {
 			$interval.cancel(this.interval);
