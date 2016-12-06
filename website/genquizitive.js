@@ -981,6 +981,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
 				displayHash[person.id].person = person;
 			});
+		} else if ($scope.myStats.questions[q].person) {
+			display.person = $scope.myStats.questions[q].person;
 		}
 		
 		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
@@ -1046,6 +1048,24 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$location.path('/challengeRound');
 			});
 		});
+	};
+	
+	$scope.showPersonDetails = function(person) {
+		if (familysearchService.fsUser) {
+			var modalInstance = $uibModal.open({
+			  component: 'personDetails',
+			  resolve: {
+				person: function () {
+				  return $ctrl.person;
+				}
+			  }
+			});
+		} else {
+			var notif = notificationService.showNotification({title: 'Family Tree Required', 
+				message: 'This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.', 
+				closable: true});
+			notif.show();
+		}
 	};
 })
 .controller('practiceRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService, languageService) {
@@ -1123,6 +1143,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			firebaseService.writeUser(user);
 		});
 	}
+	
+	$scope.showPersonDetails = function(person) {
+		var modalInstance = $uibModal.open({
+		  component: 'personDetails',
+		  resolve: {
+			person: function () {
+			  return $ctrl.person;
+			}
+		  }
+		});
+	};
 })
 .controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
@@ -1276,10 +1307,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	}
 	
-	$scope.showPersonDetails = function(person) {
-		
-	};
-	
 	$scope.$on('questionCorrect', function(event, question) {
 		$scope.nextQuestion();
 	});
@@ -1306,6 +1333,32 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			notif.close();
 		}
 	});
+})
+.component('personDetails', {
+	templateUrl: 'personDetails.html',
+	bindings: {
+		person: '=',
+		close: '&',
+		dismiss: '&'
+	},
+	controller: function() {
+		var $ctrl = this;
+		$ctrl.$onInit = function () {
+			if ($ctrl.resolve.person) {
+				$ctrl.person = $ctrl.resolve.person;
+			}
+			$ctrl.selected = {
+				item: $ctrl.items[0]
+			};
+		};
+		$ctrl.ok = function () {
+			$ctrl.close();
+		};
+
+		$ctrl.cancel = function () {
+			$ctrl.dismiss();
+		};
+	}
 })
 .controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
