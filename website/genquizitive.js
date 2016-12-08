@@ -929,7 +929,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	});
 })
-.controller('challengeRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService, languageService) {
+.controller('challengeRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService, languageService, $uibModal) {
 	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
 	
 	$scope.round = firebaseService.lastRound;
@@ -1041,7 +1041,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		//-- check if friend has familytree
 		firebaseService.getUserProperty($scope.friend.id, "hasFamilyTree").then(function(hasFamilyTree) {
 			if (hasFamilyTree) round.friendTree = true;
-			
+			 
 			firebaseService.writeRound(round).then(function(round) {
 				//-- move to play round
 				$location.search({roundId: round.id});
@@ -1053,12 +1053,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.showPersonDetails = function(person) {
 		if (familysearchService.fsUser) {
 			var modalInstance = $uibModal.open({
-			  component: 'personDetails',
-			  resolve: {
-				person: function () {
-				  return $ctrl.person;
+				component: 'personDetails',
+				size: 'lg',
+				resolve: {
+					person: function () {
+						return person;
+					}
 				}
-			  }
 			});
 		} else {
 			var notif = notificationService.showNotification({title: 'Family Tree Required', 
@@ -1068,7 +1069,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	};
 })
-.controller('practiceRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService, languageService) {
+.controller('practiceRoundReviewController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService, languageService, $uibModal) {
 	$scope.$emit('changeBackground', 'challenge_review_background.jpg');
 	
 	$scope.round = firebaseService.lastRound;
@@ -1145,14 +1146,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	}
 	
 	$scope.showPersonDetails = function(person) {
-		var modalInstance = $uibModal.open({
-		  component: 'personDetails',
-		  resolve: {
-			person: function () {
-			  return $ctrl.person;
-			}
-		  }
-		});
+		if (familysearchService.fsUser) {
+			var modalInstance = $uibModal.open({
+				component: 'personDetails',
+				size: 'lg',
+				resolve: {
+					person: function () {
+						return person;
+					}
+				}
+			});
+		} else {
+			var notif = notificationService.showNotification({title: 'Family Tree Required', 
+				message: 'This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.', 
+				closable: true});
+			notif.show();
+		}
 	};
 })
 .controller('practiceController', function($scope, notificationService, QuestionService, familysearchService, $interval, $timeout, facebookService, $location, firebaseService) {
@@ -1337,19 +1346,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 .component('personDetails', {
 	templateUrl: 'personDetails.html',
 	bindings: {
-		person: '=',
+		person: '<',
+		resolve: '<',
 		close: '&',
 		dismiss: '&'
 	},
-	controller: function() {
+	controller: function(familysearchService) {
 		var $ctrl = this;
 		$ctrl.$onInit = function () {
-			if ($ctrl.resolve.person) {
+			if (!$ctrl.person) {
 				$ctrl.person = $ctrl.resolve.person;
 			}
-			$ctrl.selected = {
-				item: $ctrl.items[0]
-			};
+			if ($ctrl.person) {
+				familysearchService
+				familysearchService.getPersonMemories($ctrl.person.id).then(function(memories) {
+					$ctrl.memories = memories;
+				});
+			}
 		};
 		$ctrl.ok = function () {
 			$ctrl.close();

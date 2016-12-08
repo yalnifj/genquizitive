@@ -206,7 +206,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 								count++;
 							}
 						}
-						if (good && languageService.facts[question.fact.type]) {
+						if (good && languageService.facts[question.fact.type] && languageService.facts[question.fact.type].pastVerb) {
 							found = true;
 							//-- check for a matching fact
 							for(var p=0; p<question.randomPeople.length; p++) {

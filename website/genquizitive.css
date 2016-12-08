@@ -496,6 +496,23 @@ body {
 	margin-top: 15px;
 }
 
+.person-comp {
+	display: inline-block;
+	background-color: #eee;
+	border: solid 1px #444;
+	border-radius: 3px;
+	margin: 5px;
+	padding: 3px;
+}
+.person-comp .table {
+	font-size: 90%;
+    margin-bottom: 2px;
+}
+
+.person-memories {
+	min-width: 200px;
+	height: 250px;
+}
 
 @media (max-width: 767px) {
 	.center-logo {
