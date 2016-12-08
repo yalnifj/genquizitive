@@ -1054,7 +1054,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		if (familysearchService.fsUser) {
 			var modalInstance = $uibModal.open({
 				component: 'personDetails',
-				size: 'lg',
+				//size: 'lg',
 				resolve: {
 					person: function () {
 						return person;
@@ -1149,7 +1149,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		if (familysearchService.fsUser) {
 			var modalInstance = $uibModal.open({
 				component: 'personDetails',
-				size: 'lg',
+				//size: 'lg',
 				resolve: {
 					person: function () {
 						return person;
