@@ -326,7 +326,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	this.backgroundQueue = [];
 	
 	this.fs = new FamilySearch({
-	  //environment: 'production',
+	  //environment: 'beta',
 	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
@@ -355,7 +355,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var temp = this;
 		this.fs.get('/platform/tree/current-person', { headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache'}}, function(response){
-			if (response.statusCode==200) {
+			if (response && response.statusCode==200) {
 				if (response.data) {
 					temp.fsUser = response.data.persons[0];
 					temp.people[temp.fsUser.id] = temp.fsUser;
@@ -391,11 +391,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					*/
 					deferred.reject('no content');
 				}
-			} else if (response.statusCode==401) {
+			} else if (response && response.statusCode==401) {
 				temp.fs.setAccessToken('');
 				deferred.reject(response.body);
 			} else {
-				deferred.reject(response.body);
+				deferred.reject(response);
 			}
 		});
 		return deferred.promise;
