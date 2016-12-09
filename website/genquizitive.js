@@ -1370,8 +1370,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				familysearchService.getPersonMemories($ctrl.person.id).then(function(memories) {
 					$ctrl.memories = [];
 					angular.forEach(memories, function(memory) {
-						if (memory.links && memory.links.image && memory.links.image.href) {
-							memory.src = 'fs-proxy.php?url='+encodeURIComponent(memory.links.image.href);
+						if (memory.links && memory.links['image-thumbnail'] && memory.links['image-thumbnail'].href) {
+							memory.src = 'fs-proxy.php?url='+encodeURIComponent(memory.links['image-thumbnail'].href);
 							$ctrl.memories.push(memory);
 						}
 					});

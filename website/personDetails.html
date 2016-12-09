@@ -1,7 +1,7 @@
 <div class="modal-body" style="min-height: 300px;">
 	<div ng-if="$ctrl.memories.length > 0" class="person-comp person-memories" uib-carousel active="$ctrl.active">
 		<div uib-slide ng-repeat="memory in $ctrl.memories track by memory.id" index="memory.id">
-			<img ng-src="{{memory.src}}" class="img-responsive" style="margin:auto;" />
+			<img src="{{memory.src}}" class="img-responsive" style="margin:auto;" />
 			<div class="carousel-caption">
 				<h4>{{memory.titles[0].value}}</h4>
 			</div>
