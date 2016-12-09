@@ -128,7 +128,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var day = null;
 		var month = null;
 		var year = null;
-		var dateNums = str.match(/\d+/);
+		var dateNums = dateStr.match(/\d+/g);
 		if (dateNums) {
 			for(var d=0; d<dateNums.length; d++) {
 				if (dateNums[d].length > 0) {
@@ -141,11 +141,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				}
 			}
 		}
-		var monthParts = str.match(/\w+/);
+		var monthParts = dateStr.match(/\w+/g);
 		if (monthParts) {
 			for(var m=0; d<monthParts.length; d++) {
 				if (!month) {
-					var tm = monthPaths[m].toLowerCase();
+					var tm = monthParts[m].toLowerCase();
 					if (this.months[tm]) month = this.months[tm];
 					else {
 						if (tm.length > 3) tm = tm.substring(0,3);
@@ -212,6 +212,10 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	return function(factType) {
 		if (languageService.facts[factType] && languageService.facts[factType].label) {
 			return languageService.facts[factType].label;
+		}
+		else if (factType.indexOf("data:")==0) {
+			factType = decodeURIComponent(factType);
+			return factType.substring(5);
 		}
 		return factType.replace("http://gedcomx.org/", "");
 	}
