@@ -497,12 +497,16 @@ body {
 }
 
 .person-comp {
-	display: inline-block;
-	background-color: #eee;
-	border: solid 1px #444;
-	border-radius: 3px;
-	margin: 5px;
-	padding: 3px;
+	position: relative;
+    display: inline-block;
+    float: left;
+    background-color: #fafafa;
+    border: solid 1px #999;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 3px;
+    min-width: 250px;
+    width: 48%;
 }
 .person-comp .table {
 	font-size: 90%;
@@ -510,7 +514,6 @@ body {
 }
 
 .person-memories {
-	min-width: 200px;
 	height: 250px;
 }
 

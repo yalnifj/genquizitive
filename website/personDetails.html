@@ -1,7 +1,7 @@
-<div class="modal-body">
-	<div ng-if="$ctrl.memories.length > 0" class="person-comp person-memories" uib-carousel>
+<div class="modal-body" style="min-height: 300px;">
+	<div ng-if="$ctrl.memories.length > 0" class="person-comp person-memories" uib-carousel active="$ctrl.active">
 		<div uib-slide ng-repeat="memory in $ctrl.memories track by memory.id" index="memory.id">
-			<img ng-src="{{memory.links.image.href}}" class="img-responsive" style="margin:auto;" />
+			<img ng-src="{{memory.src}}" class="img-responsive" style="margin:auto;" />
 			<div class="carousel-caption">
 				<h4>{{memory.titles[0].value}}</h4>
 			</div>
@@ -14,17 +14,17 @@
 		<table class="table">
 			<tbody>
 				<tr><td>Gender</td><td>{{$ctrl.person.display.gender}}</td></tr>
-				<tr><td>Birth</td><td>{{$ctrl.person.display.birthDate}} - {{$ctrl.person.display.birthPlace}}</td></tr>
-				<tr><td>Death</td><td>{{$ctrl.person.display.deathDate}} - {{$ctrl.person.display.deathPlace}}</td></tr>
+				<tr ng-if="$ctrl.person.display.birthDate || $ctrl.person.display.birthPlace"><td>Birth</td><td>{{$ctrl.person.display.birthDate}} - {{$ctrl.person.display.birthPlace}}</td></tr>
+				<tr ng-if="$ctrl.person.display.deathDate || $ctrl.person.display.deathPlace"><td>Death</td><td>{{$ctrl.person.display.deathDate}} - {{$ctrl.person.display.deathPlace}}</td></tr>
 			</tbody>
 		</table>
 		</div>
 	</div>
 	
-	<div ng-if="$ctrl.person.facts.length > 0" class="person-comp">
+	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp">
 		<table class="table table-condensed table-striped">
 			<tbody>
-				<tr ng-repeat="fact in $ctrl.person.facts">
+				<tr ng-repeat="fact in $ctrl.facts">
 					<td>{{fact.date.original}}</td>
 					<td>{{fact.type | factlabel}}</td>
 					<td>{{fact.place.original}}</td>

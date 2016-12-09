@@ -1351,16 +1351,30 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		close: '&',
 		dismiss: '&'
 	},
-	controller: function(familysearchService) {
+	controller: function(familysearchService, languageService) {
 		var $ctrl = this;
+		$ctrl.active = 0;
 		$ctrl.$onInit = function () {
 			if (!$ctrl.person) {
 				$ctrl.person = $ctrl.resolve.person;
 			}
 			if ($ctrl.person) {
-				familysearchService
+				
+				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
+				
+				familysearchService.getPersonRelatives($ctrl.person.id).then(function(relatives) {
+					familysearchService.getPersonRelationships($ctrl.person.id).then(function(relationships) {
+						
+					});
+				});
 				familysearchService.getPersonMemories($ctrl.person.id).then(function(memories) {
-					$ctrl.memories = memories;
+					$ctrl.memories = [];
+					angular.forEach(memories, function(memory) {
+						if (memory.links && memory.links.image && memory.links.image.href) {
+							memory.src = 'fs-proxy.php?url='+encodeURIComponent(memory.links.image.href);
+							$ctrl.memories.push(memory);
+						}
+					});
 				});
 			}
 		};

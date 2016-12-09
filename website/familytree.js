@@ -1,85 +1,112 @@
 angular.module('genquiz.familytree', ['genquizitive'])
-.service('languageService', [function() {
+.service('languageService', ['$filter',function($filter) {
 	this.facts = {
-		'http://gedcomx.org/Adoption':{ pastVerb: 'was adopted' },
-		'http://gedcomx.org/AdultChristening':{ pastVerb: 'was christened as an adult', label: 'Adult Christening' },
-		'http://gedcomx.org/Amnesty':{ pastVerb: 'was given amnesty' },
-		'http://gedcomx.org/Apprenticeship':{ pastVerb: 'served an apprenticeship' },
-		'http://gedcomx.org/Arrest':{ pastVerb: 'was arrested' },
-		'http://gedcomx.org/Baptism':{ pastVerb: 'was baptized' },
-		'http://gedcomx.org/BarMitzvah':{ pastVerb: 'had a Bar Mitzvah' },
-		'http://gedcomx.org/BatMitzvah':{ pastVerb: 'had a Bat Mitzvah' },
-		'http://gedcomx.org/Birth':{ pastVerb: 'was born' },
-		'http://gedcomx.org/Blessing':{ pastVerb: 'was blessed' },
-		'http://gedcomx.org/Burial':{ pastVerb: 'was buried' },
-		'http://gedcomx.org/Caste':{  },
-		'http://gedcomx.org/Census':{ pastVerb: 'was recorded in a census' },
-		'http://gedcomx.org/Christening':{ pastVerb: 'was christened' },
-		'http://gedcomx.org/Circumcision':{ pastVerb: 'was circumcized' },
-		'http://gedcomx.org/Clan':{ },
-		'http://gedcomx.org/Confirmation':{ pastVerb: 'had a confirmation' },
-		'http://gedcomx.org/Cremation':{ pastVerb: 'was cremated' },
-		'http://gedcomx.org/Court':{ pastVerb: 'appeared in court' },
-		'http://gedcomx.org/Death':{ pastVerb: 'died' },
-		'http://gedcomx.org/Education':{ pastVerb: 'was educated' },
-		'http://gedcomx.org/EducationEnrollment':{ pastVerb: 'enrolled in an education', label: 'Education Enrollment' },
-		'http://gedcomx.org/Emigration':{ pastVerb: 'emigrated' },
-		'http://gedcomx.org/Ethnicity':{  },
-		'http://gedcomx.org/Excommunication':{ pastVerb: 'was excommunicated' },
-		'http://gedcomx.org/FirstCommunion':{ pastVerb: 'had first communion' },
-		'http://gedcomx.org/Funeral':{ pastVerb: 'had a funeral' },
-		'http://gedcomx.org/GenderChange':{ pastVerb: 'changed genders' },
-		'http://gedcomx.org/Graduation':{ pastVerb: 'graduated' },
-		'http://gedcomx.org/Immigration':{ pastVerb: 'immigrated' },
-		'http://gedcomx.org/Imprisonment':{ pastVerb: 'was imprisoned' },
-		'http://gedcomx.org/Inquest':{ },
-		'http://gedcomx.org/LandTransaction':{ label: 'Land Transaction'},
-		'http://gedcomx.org/Language':{  },
-		'http://gedcomx.org/Living':{  },
-		'http://gedcomx.org/MaritalStatus':{ label: 'Marital Status' },
-		'http://gedcomx.org/Medical':{ },
-		'http://gedcomx.org/MilitaryAward':{ pastVerb: 'received a military award', label: 'Military Award' },
-		'http://gedcomx.org/MilitaryDischarge':{ pastVerb: 'was discharged from the military', label: 'Military Discharge' },
-		'http://gedcomx.org/MilitaryDraftRegistration':{ pastVerb: 'was drafted into the military', label: 'Military Draft Registration' },
-		'http://gedcomx.org/MilitaryInduction':{ label: 'Military Induction' },
-		'http://gedcomx.org/MilitaryService':{ label: 'Military Service' },
-		'http://gedcomx.org/Mission':{ pastVerb: 'served a mission' },
-		'http://gedcomx.org/MoveFrom':{ pastVerb: 'moved from', label: 'Moved from' },
-		'http://gedcomx.org/MoveTo':{ pastVerb: 'moved to', label: 'Moved to' },
-		'http://gedcomx.org/MultipleBirth':{ label: 'Multiple Birth' },
-		'http://gedcomx.org/NationalId':{ label: 'National ID' },
-		'http://gedcomx.org/Nationality':{  },
-		'http://gedcomx.org/Naturalization':{ pastVerb: 'was naturalized' },
-		'http://gedcomx.org/NumberOfMarriages':{ label: 'Number of Marriages' },
-		'http://gedcomx.org/Obituary':{ pastVerb: 'appeared in an obituary' },
-		'http://gedcomx.org/Occupation':{ pastVerb: 'worked as', expectValue: true },
-		'http://gedcomx.org/Ordination':{ pastVerb: 'was ordained' },
-		'http://gedcomx.org/Pardon':{ pastVerb: 'was pardoned' },
-		'http://gedcomx.org/PhysicalDescription':{ label: 'Physical Description' },
-		'http://gedcomx.org/Probate':{  },
-		'http://gedcomx.org/Property':{  },
-		'http://gedcomx.org/Religion':{ pastVerb: 'was a', expectValue: true },
-		'http://gedcomx.org/Residence':{ pastVerb: 'resided' },
-		'http://gedcomx.org/Retirement':{ pastVerb: 'retired' },
-		'http://gedcomx.org/Stillbirth':{ label: 'Still Birth' },
-		'http://gedcomx.org/TaxAssessment':{ label: 'Tax Assessment' },
-		'http://gedcomx.org/Will':{  },
-		'http://gedcomx.org/Visit':{  },
-		'http://gedcomx.org/Yahrzeit':{  },
-		'http://gedcomx.org/Annulment':{  },
-		'http://gedcomx.org/CommonLawMarriage':{ label: 'Common-law Marriage' },
-		'http://gedcomx.org/CivilUnion':{ pastVerb: 'entered a civil union', family: true, label: 'Civil Union' },
-		'http://gedcomx.org/Divorce':{ pastVerb: 'was divorced', family: true },
-		'http://gedcomx.org/DivorceFiling':{ label: 'Divorce Filing' },
-		'http://gedcomx.org/DomesticPartnership':{ pastVerb: 'was in a domestic partnership', family: true, label: 'Domestic Partnership' },
-		'http://gedcomx.org/Engagement':{ pastVerb: 'was engaged', family: true },
-		'http://gedcomx.org/Marriage':{ pastVerb: 'was married', family: true },
-		'http://gedcomx.org/MarriageBanns':{ label: 'Marriage Banns'},
-		'http://gedcomx.org/MarriageContract':{ label: 'Marriage Contract' },
-		'http://gedcomx.org/MarriageLicense':{ label: 'Marriage License' },
-		'http://gedcomx.org/MarriageNotice':{ label: 'Marriage Notice'},
-		'http://gedcomx.org/NumberOfChildren':{ label: 'Number Of Children' },
-		'http://gedcomx.org/Separation':{ pastVerb: 'was separated', family: true }
+		'http://gedcomx.org/Adoption':{ pastVerb: 'was adopted', order: 1 },
+		'http://gedcomx.org/AdultChristening':{ pastVerb: 'was christened as an adult', label: 'Adult Christening', order: 5 },
+		'http://gedcomx.org/Amnesty':{ pastVerb: 'was given amnesty', order: 5 },
+		'http://gedcomx.org/Apprenticeship':{ pastVerb: 'served an apprenticeship', order: 4 },
+		'http://gedcomx.org/Arrest':{ pastVerb: 'was arrested', order: 5 },
+		'http://gedcomx.org/Baptism':{ pastVerb: 'was baptized', order: 4 },
+		'http://gedcomx.org/BarMitzvah':{ pastVerb: 'had a Bar Mitzvah', order: 4 },
+		'http://gedcomx.org/BatMitzvah':{ pastVerb: 'had a Bat Mitzvah', order: 4 },
+		'http://gedcomx.org/Birth':{ pastVerb: 'was born', order: 0 },
+		'http://gedcomx.org/Blessing':{ pastVerb: 'was blessed', order: 1 },
+		'http://gedcomx.org/Burial':{ pastVerb: 'was buried', order: 10 },
+		'http://gedcomx.org/Caste':{ order: 5 },
+		'http://gedcomx.org/Census':{ pastVerb: 'was recorded in a census', order: 5 },
+		'http://gedcomx.org/Christening':{ pastVerb: 'was christened', order: 1 },
+		'http://gedcomx.org/Circumcision':{ pastVerb: 'was circumcized', order: 1 },
+		'http://gedcomx.org/Clan':{ order: 5 },
+		'http://gedcomx.org/Confirmation':{ pastVerb: 'had a confirmation', order:4 },
+		'http://gedcomx.org/Cremation':{ pastVerb: 'was cremated', order: 11 },
+		'http://gedcomx.org/Court':{ pastVerb: 'appeared in court', order: 5 },
+		'http://gedcomx.org/Death':{ pastVerb: 'died', order: 8 },
+		'http://gedcomx.org/Education':{ pastVerb: 'was educated', order: 5 },
+		'http://gedcomx.org/EducationEnrollment':{ pastVerb: 'enrolled in an education', label: 'Education Enrollment', order: 4 },
+		'http://gedcomx.org/Emigration':{ pastVerb: 'emigrated', order: 5 },
+		'http://gedcomx.org/Ethnicity':{ order: 5 },
+		'http://gedcomx.org/Excommunication':{ pastVerb: 'was excommunicated', order: 5 },
+		'http://gedcomx.org/FirstCommunion':{ pastVerb: 'had first communion', order: 2 },
+		'http://gedcomx.org/Funeral':{ pastVerb: 'had a funeral', order: 9 },
+		'http://gedcomx.org/GenderChange':{ pastVerb: 'changed genders', order: 5 },
+		'http://gedcomx.org/Graduation':{ pastVerb: 'graduated', order: 6 },
+		'http://gedcomx.org/Immigration':{ pastVerb: 'immigrated', order: 5 },
+		'http://gedcomx.org/Imprisonment':{ pastVerb: 'was imprisoned', order: 5 },
+		'http://gedcomx.org/Inquest':{order: 5 },
+		'http://gedcomx.org/LandTransaction':{ label: 'Land Transaction', order: 6},
+		'http://gedcomx.org/Language':{ order: 5 },
+		'http://gedcomx.org/Living':{ order: 5 },
+		'http://gedcomx.org/MaritalStatus':{ label: 'Marital Status', order: 5 },
+		'http://gedcomx.org/Medical':{ order: 5 },
+		'http://gedcomx.org/MilitaryAward':{ pastVerb: 'received a military award', label: 'Military Award', order: 5 },
+		'http://gedcomx.org/MilitaryDischarge':{ pastVerb: 'was discharged from the military', label: 'Military Discharge', order: 5 },
+		'http://gedcomx.org/MilitaryDraftRegistration':{ pastVerb: 'was drafted into the military', label: 'Military Draft Registration', order: 5 },
+		'http://gedcomx.org/MilitaryInduction':{ label: 'Military Induction', order: 5 },
+		'http://gedcomx.org/MilitaryService':{ label: 'Military Service', order: 5 },
+		'http://gedcomx.org/Mission':{ pastVerb: 'served a mission', order: 5 },
+		'http://gedcomx.org/MoveFrom':{ pastVerb: 'moved from', label: 'Moved from', order: 5 },
+		'http://gedcomx.org/MoveTo':{ pastVerb: 'moved to', label: 'Moved to', order: 5 },
+		'http://gedcomx.org/MultipleBirth':{ label: 'Multiple Birth', order: 5 },
+		'http://gedcomx.org/NationalId':{ label: 'National ID', order: 5 },
+		'http://gedcomx.org/Nationality':{ order: 5 },
+		'http://gedcomx.org/Naturalization':{ pastVerb: 'was naturalized', order: 5 },
+		'http://gedcomx.org/NumberOfMarriages':{ label: 'Number of Marriages', order: 5 },
+		'http://gedcomx.org/Obituary':{ pastVerb: 'appeared in an obituary', order: 10 },
+		'http://gedcomx.org/Occupation':{ pastVerb: 'worked as', expectValue: true, order: 5},
+		'http://gedcomx.org/Ordination':{ pastVerb: 'was ordained', order: 5 },
+		'http://gedcomx.org/Pardon':{ pastVerb: 'was pardoned', order: 6 },
+		'http://gedcomx.org/PhysicalDescription':{ label: 'Physical Description', order: 5 },
+		'http://gedcomx.org/Probate':{ order: 5 },
+		'http://gedcomx.org/Property':{ order: 6 },
+		'http://gedcomx.org/Religion':{ pastVerb: 'was a', expectValue: true, order: 5 },
+		'http://gedcomx.org/Residence':{ pastVerb: 'resided', order: 5 },
+		'http://gedcomx.org/Retirement':{ pastVerb: 'retired', order: 7 },
+		'http://gedcomx.org/Stillbirth':{ label: 'Still Birth', order: 0 },
+		'http://gedcomx.org/TaxAssessment':{ label: 'Tax Assessment', order: 5 },
+		'http://gedcomx.org/Will':{ order: 7 },
+		'http://gedcomx.org/Visit':{ order: 5 },
+		'http://gedcomx.org/Yahrzeit':{ order: 11 },
+		'http://gedcomx.org/Annulment':{ order: 5 },
+		'http://gedcomx.org/CommonLawMarriage':{ label: 'Common-law Marriage', order: 5 },
+		'http://gedcomx.org/CivilUnion':{ pastVerb: 'entered a civil union', family: true, label: 'Civil Union', order: 5 },
+		'http://gedcomx.org/Divorce':{ pastVerb: 'was divorced', family: true, order: 6 },
+		'http://gedcomx.org/DivorceFiling':{ label: 'Divorce Filing', order: 6 },
+		'http://gedcomx.org/DomesticPartnership':{ pastVerb: 'was in a domestic partnership', family: true, label: 'Domestic Partnership', order: 5 },
+		'http://gedcomx.org/Engagement':{ pastVerb: 'was engaged', family: true, order: 4 },
+		'http://gedcomx.org/Marriage':{ pastVerb: 'was married', family: true, order: 5 },
+		'http://gedcomx.org/MarriageBanns':{ label: 'Marriage Banns', order: 5},
+		'http://gedcomx.org/MarriageContract':{ label: 'Marriage Contract', order: 4 },
+		'http://gedcomx.org/MarriageLicense':{ label: 'Marriage License', order: 4 },
+		'http://gedcomx.org/MarriageNotice':{ label: 'Marriage Notice', order: 6},
+		'http://gedcomx.org/NumberOfChildren':{ label: 'Number Of Children', order: 6 },
+		'http://gedcomx.org/Separation':{ pastVerb: 'was separated', family: true, order: 6 }
+	};
+	
+	this.months = {
+		january: 0,
+		february: 1,
+		march: 2,
+		april: 3,
+		may: 4,
+		june: 5,
+		july: 6,
+		august: 7,
+		september: 8,
+		october: 9,
+		november: 10,
+		december: 11,
+		jan: 0,
+		feb: 1,
+		mar: 2,
+		apr: 3,
+		may: 4,
+		jun: 5,
+		jul: 6,
+		aug: 7,
+		sep: 8,
+		oct: 9,
+		nov: 10,
+		dec: 11
 	};
 
 	this.shortenName = function(name) {
@@ -95,6 +122,90 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var yearPatt = new RegExp("\d\d\d\d");
 		var year = yearPatt.exec(date);
 		return year;
+	};
+	
+	this.parseDate = function(dateStr) {
+		var day = null;
+		var month = null;
+		var year = null;
+		var dateNums = str.match(/\d+/);
+		if (dateNums) {
+			for(var d=0; d<dateNums.length; d++) {
+				if (dateNums[d].length > 0) {
+					if (dateNums[d].length <=2) {
+						if (!day) date = dateNums[d];
+						else if (!year) year = dateNums[d];
+					} else {
+						if (!year) year = dateNums[d];
+					}
+				}
+			}
+		}
+		var monthParts = str.match(/\w+/);
+		if (monthParts) {
+			for(var m=0; d<monthParts.length; d++) {
+				if (!month) {
+					var tm = monthPaths[m].toLowerCase();
+					if (this.months[tm]) month = this.months[tm];
+					else {
+						if (tm.length > 3) tm = tm.substring(0,3);
+						if (this.months[tm]) month = this.months[tm];
+					}
+				}
+			}
+		}
+		
+		if (!year) return null;
+		
+		var date = new Date();
+		date.setFullYear(year);
+		if (!month) month = 0;
+		date.setMonth(month);
+		if (!day) day = 1;
+		date.setDate(day);
+		return date;
+	};
+	
+	this.sortFacts = function(facts) {
+		var datedFacts = [];
+		var nonDatedFacts = [];
+		for(var f=0; f<facts.length; f++) {
+			var fact = facts[f];
+			if (fact.date && fact.date.original) {
+				var parsedDate = this.parseDate(fact.date.original);
+				if (parsedDate) {
+					fact.date.parsedDate = parsedDate;
+					datedFacts.push(fact);
+				} else {
+					nonDatedFacts.push(fact);
+				}
+			}
+			else nonDatedFacts.push(fact);
+		}
+		
+		facts = [];
+		datedFacts = $filter('orderBy')(datedFacts, function(fact) { return fact.date.parsedDate;});
+		var temp=this;
+		nonDatedFacts = $filter('orderBy')(nonDatedFacts, function(fact) { if (temp.facts[fact.type]) return temp.facts[fact.type].order; else return 100;});
+		while(datedFacts.length > 0) {
+			var df = datedFacts[0];
+			if (nonDatedFacts.length==0) facts.push(datedFacts.pop());
+			else {
+				var nf = nonDatedFacts[0];
+				var od = 100;
+				var on = 100;
+				if (temp.facts[df.type]) od = temp.facts[df.type].order;
+				if (temp.facts[nf.type]) on = temp.facts[nf.type].order;
+				if (od<=on) facts.push(datedFacts.pop());
+				else facts.push(nonDatedFacts.pop());
+			}
+		}
+		while(nonDatedFacts.length > 0) {
+			facts.push(nonDatedFacts.pop());
+		}
+		
+		return facts;
+		
 	};
 }])
 .filter('factlabel', function(languageService) {
