@@ -1371,6 +1371,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 					$ctrl.memories = [];
 					angular.forEach(memories, function(memory) {
 						if (memory.links && memory.links['image-thumbnail'] && memory.links['image-thumbnail'].href) {
+							//if (!$ctrl.active) $ctrl.active = memory.id;
 							memory.src = 'fs-proxy.php?url='+encodeURIComponent(memory.links['image-thumbnail'].href);
 							$ctrl.memories.push(memory);
 						}

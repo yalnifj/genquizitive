@@ -515,6 +515,11 @@ body {
 
 .person-memories {
 	height: 250px;
+	background-color: #151515;
+}
+
+.person-memories img {
+	max-height: 240px;
 }
 
 @media (max-width: 767px) {
@@ -528,5 +533,8 @@ body {
 	}
 	.question-holder {
 		margin-left: 135px;
+	}
+	.carousel-indicators {
+		bottom: 10px; 
 	}
 }	

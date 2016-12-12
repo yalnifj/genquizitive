@@ -189,19 +189,19 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		nonDatedFacts = $filter('orderBy')(nonDatedFacts, function(fact) { if (temp.facts[fact.type]) return temp.facts[fact.type].order; else return 100;});
 		while(datedFacts.length > 0) {
 			var df = datedFacts[0];
-			if (nonDatedFacts.length==0) facts.push(datedFacts.unshift());
+			if (nonDatedFacts.length==0) facts.push(datedFacts.shift());
 			else {
 				var nf = nonDatedFacts[0];
 				var od = 100;
 				var on = 100;
 				if (temp.facts[df.type]) od = temp.facts[df.type].order;
 				if (temp.facts[nf.type]) on = temp.facts[nf.type].order;
-				if (od<=on) facts.push(datedFacts.pounshiftp());
-				else facts.push(nonDatedFacts.unshift());
+				if (od<=on) facts.push(datedFacts.shift());
+				else facts.push(nonDatedFacts.shift());
 			}
 		}
 		while(nonDatedFacts.length > 0) {
-			facts.push(nonDatedFacts.unshift());
+			facts.push(nonDatedFacts.shift());
 		}
 		
 		return facts;
