@@ -522,6 +522,50 @@ body {
 	max-height: 240px;
 }
 
+.timeline-fact .fact-circle {
+	position: relative;
+	text-align: center;
+	color: #aaccbe;
+	background-image: url('chrome_badge.png');
+	background-size: contain;
+	width: 70px;
+	height: 72px;
+	z-index: 2;
+}
+
+.timeline-fact .fact-month-day {
+	font-size: 16px;
+}
+
+.timeline-fact .fact-year {
+	font-size: 28px;
+}
+
+.timeline-fact .fact-details {
+	position: relative;
+	left: -25px;
+	min-width: 300px;
+	min-height: 100px;
+	background-color: #aaccbe;
+	color: #111;
+	border-radius: 50% / 50%;
+	font-size: 16px;
+	text-align: center;
+}
+.timeline-fact .fact-details .fact-age {
+	display: inline-block;
+}
+.timeline-fact .fact-details .fact-age .age {
+	font-size: 20px;
+}
+.timeline-fact .fact-details .fact-place {
+	display: inline-block;
+}
+.timeline-fact .fact-details .fact-place .fact-type {
+	font-size: 28px;
+}
+
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;

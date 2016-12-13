@@ -109,6 +109,31 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		replace: false
 	}
 }])
+.directive('timelineFact', ['languageService',function(languageService) {
+	return {
+		scope: {
+			fact: '='
+		},
+		template: '<div class="fact-circle"><span class="fact-month-day">{{monthDay}}</span><br /><span class="fact-year">{{year}}</span></div>\
+			<div class="fact-details" ng-show="age > 0"><div class="fact-age">Age<br /><span class="age">{{age}}</span></div>\
+			<div class="fact-place"><span class="fact-type">{{type}}</span><br />{{value}}<br ng-if="value"/>{{place}}</div></div>',
+		controller: ['$scope', 'languageService', function($scope, languageService) {
+			if ($scope.fact.date) {
+				if (!$scope.fact.date.parsedDate) {
+					if ($scope.fact.date.original) {
+						$scope.fact.date.parsedDate = this.parseDate(fact.date.original);
+					}
+				}
+				if ($scope.fact.date.parsedDate) {
+					var date = new Date($scope.fact.date.parsedDate);
+					$scope.year = date.getFullYear();
+					$scope.monthDate = $scope.fact.date.original.replace($scope.year, "");
+				}
+			}
+			
+		}]
+	}
+}])
 .directive('answerButton', [function() {
 	return {
 		scope: {
