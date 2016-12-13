@@ -21,15 +21,9 @@
 		</div>
 	</div>
 	
-	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp">
-		<table class="table table-condensed table-striped">
-			<tbody>
-				<tr ng-repeat="fact in $ctrl.facts">
-					<td>{{fact.date.original}}</td>
-					<td>{{fact.type | factlabel}}</td>
-					<td>{{fact.value}} {{fact.place.original}}</td>
-				</tr>
-			</tbody>
-		</table>
+	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp text-center">
+		<h4>Timeline</h4>
+		<img src="pole1.png" style="position: absolute; left: 27px; top: 50px; width: 5px; z-index: 0;" ng-style="$ctrl.poleStyle" />
+		<div class="timeline-fact" timeline-fact="" fact="fact" person="$ctrl.person" ng-repeat="fact in $ctrl.facts"></div>
 	</div>
 </div>

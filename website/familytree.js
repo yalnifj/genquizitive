@@ -108,6 +108,20 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		nov: 10,
 		dec: 11
 	};
+	this.monthShort = {
+		0: 'Jan',
+		1: 'Feb',
+		2: 'Mar',
+		3: 'Apr',
+		4: 'May',
+		5: 'Jun',
+		6: 'Jul',
+		7: 'Aug',
+		8: 'Sep',
+		9: 'Oct',
+		10: 'Nov',
+		11: 'Dec'
+	};
 
 	this.shortenName = function(name) {
 		var arr = name.split(" ");
@@ -133,7 +147,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			for(var d=0; d<dateNums.length; d++) {
 				if (dateNums[d].length > 0) {
 					if (dateNums[d].length <=2) {
-						if (!day) date = dateNums[d];
+						if (!day) day = dateNums[d];
 						else if (!year) year = dateNums[d];
 					} else {
 						if (!year) year = dateNums[d];
@@ -141,9 +155,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				}
 			}
 		}
-		var monthParts = dateStr.match(/\w+/g);
+		var monthParts = dateStr.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/ig);
 		if (monthParts) {
-			for(var m=0; d<monthParts.length; d++) {
+			for(var m=0; m<monthParts.length; m++) {
 				if (!month) {
 					var tm = monthParts[m].toLowerCase();
 					if (this.months[tm]) month = this.months[tm];
@@ -215,7 +229,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		}
 		else if (factType.indexOf("data:")==0) {
 			factType = decodeURIComponent(factType);
-			return factType.substring(5);
+			var label = factType.substring(5).trim();
+			if (label.indexOf(",")==0) {
+				label = label.substring(1);
+			}
+			return label;
 		}
 		return factType.replace("http://gedcomx.org/", "");
 	}

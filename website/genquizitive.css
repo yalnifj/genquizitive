@@ -499,14 +499,15 @@ body {
 .person-comp {
 	position: relative;
     display: inline-block;
-    float: left;
     background-color: #fafafa;
     border: solid 1px #999;
     border-radius: 3px;
-    margin: 5px;
+    margin-right: 5px;
+	margin-bottom: 5px;
     padding: 3px;
     min-width: 250px;
-    width: 48%;
+    width: 275px;
+	vertical-align:top;
 }
 .person-comp .table {
 	font-size: 90%;
@@ -522,8 +523,16 @@ body {
 	max-height: 240px;
 }
 
+.timeline-fact {
+	position: relative;
+	min-width: 380px;
+	min-height: 100px;
+}
+
 .timeline-fact .fact-circle {
 	position: relative;
+	float: left;
+	top: 6px;
 	text-align: center;
 	color: #aaccbe;
 	background-image: url('chrome_badge.png');
@@ -531,40 +540,56 @@ body {
 	width: 70px;
 	height: 72px;
 	z-index: 2;
+	margin-top: 5px;
+	padding-top: 9px;
+	line-height: 22px;
 }
 
 .timeline-fact .fact-month-day {
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .timeline-fact .fact-year {
-	font-size: 28px;
+	font-size: 24px;
 }
 
 .timeline-fact .fact-details {
 	position: relative;
-	left: -25px;
-	min-width: 300px;
-	min-height: 100px;
+	float: left;
+	left: -30px;
+	top: 0px;
+	min-width: 310px;
+	min-height: 90px;
 	background-color: #aaccbe;
 	color: #111;
-	border-radius: 50% / 50%;
+	border-radius: 50% / 47%;
 	font-size: 16px;
 	text-align: center;
 }
 .timeline-fact .fact-details .fact-age {
-	display: inline-block;
+	position: absolute;
+	left: 27px;
+	top: 20px;
+	width: 40px;
+	height: 50px;
+	text-align: center;
 }
 .timeline-fact .fact-details .fact-age .age {
 	font-size: 20px;
+	text-align: center;
 }
 .timeline-fact .fact-details .fact-place {
-	display: inline-block;
+	position: absolute;
+	left: 65px;
+	width: 230px;
+	min-height: 90px;
 }
 .timeline-fact .fact-details .fact-place .fact-type {
-	font-size: 28px;
+	font-size: 24px;
 }
-
+.person-comp .timeline-fact {
+	zoom: 0.75;
+}
 
 @media (max-width: 767px) {
 	.center-logo {

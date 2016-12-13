@@ -1,6 +1,7 @@
 angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 'genquiz.questions', 'genquiz.familytree','genquiz.friends'])
-.config(['$locationProvider', '$routeProvider',
-    function config($locationProvider, $routeProvider) {
+.config(['$locationProvider', '$routeProvider', '$uibTooltipProvider',
+    function config($locationProvider, $routeProvider, $uibTooltipProvider) {
+		$uibTooltipProvider.options({popupDelay: 300});
       $routeProvider
 		.when('/', {
 			templateUrl: 'getting-started.html'
@@ -112,11 +113,12 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 .directive('timelineFact', ['languageService',function(languageService) {
 	return {
 		scope: {
-			fact: '='
+			fact: '=',
+			person: '='
 		},
 		template: '<div class="fact-circle"><span class="fact-month-day">{{monthDay}}</span><br /><span class="fact-year">{{year}}</span></div>\
-			<div class="fact-details" ng-show="age > 0"><div class="fact-age">Age<br /><span class="age">{{age}}</span></div>\
-			<div class="fact-place"><span class="fact-type">{{type}}</span><br />{{value}}<br ng-if="value"/>{{place}}</div></div>',
+			<div class="fact-details"><div class="fact-age"><span ng-hide="!age">Age<br /><span class="age">{{age}}</span></span></div>\
+			<div class="fact-place"><span class="fact-type">{{fact.type | factlabel}}</span><br />{{fact.value}}<br ng-if="value"/>{{fact.place.original}}</div></div>',
 		controller: ['$scope', 'languageService', function($scope, languageService) {
 			if ($scope.fact.date) {
 				if (!$scope.fact.date.parsedDate) {
@@ -127,7 +129,27 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				if ($scope.fact.date.parsedDate) {
 					var date = new Date($scope.fact.date.parsedDate);
 					$scope.year = date.getFullYear();
-					$scope.monthDate = $scope.fact.date.original.replace($scope.year, "");
+					if ($scope.fact.date.original.length > 4) {
+						$scope.monthDay = date.getDate() +" "+languageService.monthShort[date.getMonth()];
+					}
+					
+					if ($scope.person && $scope.person.display && $scope.person.display.birthDate) {
+						if (!$scope.person.display.parsedBirthDate) {
+							$scope.person.display.parsedBirthDate = languageService.parseDate($scope.person.display.birthDate);
+						}
+						$scope.age = $scope.fact.date.parsedDate.getFullYear() - $scope.person.display.parsedBirthDate.getFullYear();
+						var bmonth = $scope.person.display.parsedBirthDate.getMonth();
+						var fmonth = $scope.fact.date.parsedDate.getMonth();
+						if (fmonth < bmonth) {
+							$scope.age -= 1;
+						} else if (fmonth==bmonth) {
+							var bday = $scope.person.display.parsedBirthDate.getDate();
+							var fday = $scope.fact.date.parsedDate.getDate();
+							if (fday < bday) {
+								$scope.age -= 1;
+							}
+						}
+					}
 				}
 			}
 			
@@ -1384,8 +1406,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$ctrl.person = $ctrl.resolve.person;
 			}
 			if ($ctrl.person) {
-				
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
+				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*85)+'px'};
 				
 				familysearchService.getPersonRelatives($ctrl.person.id).then(function(relatives) {
 					familysearchService.getPersonRelationships($ctrl.person.id).then(function(relationships) {
