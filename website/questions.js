@@ -427,16 +427,22 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var count = 0;
 				
 				var person = question.person;
-				while(count < 10 && (!question.person.facts || question.person.facts.length<2+question.difficulty)) {
+				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty || question.person.facts.length>2+2*question.difficulty)) {
 					person = familysearchService.getRandomPerson(useLiving);
 					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
 						question.person = person;
 					}
 					count++;
 				}
-				familysearchService.markUsed(question.person);
-				question.questionText = 'Place the facts for '+question.person.display.name+' in the correct order on the timeline.';
-				deferred.resolve(question);
+				if (count==10) {
+					console.log('unabled to find person with enough facts');
+					deferred.reject(question);
+				} else {
+					familysearchService.markUsed(question.person);
+					question.questionText = 'Place the facts for '+question.person.display.name+' in the correct order on the timeline.';
+					question.isReady = true;
+					deferred.resolve(question);
+				}
 				
 				return deferred.promise;
 			},
@@ -898,24 +904,67 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 	}
 })
-.controller('timelineController', function($scope, QuestionService, familysearchService) {
+.directive('sortableTimeline', [function() {
+	return {
+		link: function($scope, $element, $attr) {
+			$element.sortable({
+				//containment: "parent",
+				axis: "y",
+				items: '> .timeline-fact',
+				stop: function( event, ui ) {
+					var complete = true;
+					$element.find( ".timeline-fact" ).each(function( index ) {
+						var fact = $(this).data('fact');
+						if (fact) {
+							if (fact.sortIndex!=index) {
+								fact.factClass="hide-date";
+								complete = false;
+							} else {
+								fact.factClass=null;
+							}
+						}
+					});
+					if (complete) {
+						$scope.sendComplete();
+					}
+				}
+			});
+		}
+	}
+}])
+.controller('timelineController', function($scope, QuestionService, languageService) {
 	$scope.questionText = '';
 	
-	$scope.$watch('question', function() {
+	$scope.$watch('question.person', function() {
 		if ($scope.question.person) {
 			$scope.questionText = $scope.question.questionText;
 			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
 			$scope.facts = angular.copy($scope.sortedfacts);
+			for(var f=0; f<$scope.facts.length; f++) {
+				$scope.facts[f].sortIndex = f;
+			}
 			$scope.facts = QuestionService.shuffleArray($scope.facts);
 			if ($scope.checkTimeline()) {
 				$scope.facts = QuestionService.shuffleArray($scope.facts);
 			}
-			$scope.poleStyle = {height: (($scope.sortedfacts - 1)*85)+'px'};
+			$scope.poleStyle = {height: (($scope.sortedfacts.length - 1)*100)+'px'};
 		}
 	});
 	
 	$scope.checkTimeline = function() {
-		return false;
-	}
+		var complete = true;
+		for(var f=0; f<$scope.facts.length; f++) {
+			if (f!=$scope.facts[f].sortIndex) {
+				$scope.facts[f].factClass="hide-date";
+				complete = false;
+			}
+		}
+		return complete;
+	};
+	
+	$scope.sendComplete = function() {
+		console.log('timeline complete');
+		$scope.$emit('questionCorrect', $scope.question);
+	};
 })
 ;

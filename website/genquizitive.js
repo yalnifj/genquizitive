@@ -119,11 +119,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		template: '<div class="fact-circle"><span class="fact-month-day">{{monthDay}}</span><br /><span class="fact-year">{{year}}</span></div>\
 			<div class="fact-details"><div class="fact-age"><span ng-hide="!age">Age<br /><span class="age">{{age}}</span></span></div>\
 			<div class="fact-place"><span class="fact-type">{{fact.type | factlabel}}</span><br />{{fact.value}}<br ng-if="value"/>{{fact.place.original}}</div></div>',
+		link: function($scope, $element, $attr) {
+			$($element).data('fact', $scope.fact);
+		},
 		controller: ['$scope', 'languageService', function($scope, languageService) {
 			if ($scope.fact.date) {
 				if (!$scope.fact.date.parsedDate) {
 					if ($scope.fact.date.original) {
-						$scope.fact.date.parsedDate = this.parseDate(fact.date.original);
+						$scope.fact.date.parsedDate = languageService.parseDate($scope.fact.date.original);
 					}
 				}
 				if ($scope.fact.date.parsedDate) {

@@ -553,6 +553,10 @@ body {
 	font-size: 24px;
 }
 
+.timeline-fact.hide-date .fact-month-day, .timeline-fact.hide-date .fact-year, .timeline-fact.hide-date .fact-details .fact-age {
+	display: none;
+}
+
 .timeline-fact .fact-details {
 	position: relative;
 	float: left;
@@ -568,7 +572,7 @@ body {
 }
 .timeline-fact .fact-details .fact-age {
 	position: absolute;
-	left: 27px;
+	left: 30px;
 	top: 20px;
 	width: 40px;
 	height: 50px;
@@ -580,8 +584,8 @@ body {
 }
 .timeline-fact .fact-details .fact-place {
 	position: absolute;
-	left: 65px;
-	width: 230px;
+	left: 68px;
+	width: 225px;
 	min-height: 90px;
 }
 .timeline-fact .fact-details .fact-place .fact-type {
@@ -589,6 +593,12 @@ body {
 }
 .person-comp .timeline-fact {
 	zoom: 0.75;
+}
+.timeline-block {
+	background-color: #cee2e3;
+	border-radius: 10px;
+	width: 400px;
+    padding: 20px;
 }
 
 @media (max-width: 767px) {

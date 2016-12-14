@@ -79,7 +79,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		'http://gedcomx.org/MarriageLicense':{ label: 'Marriage License', order: 4 },
 		'http://gedcomx.org/MarriageNotice':{ label: 'Marriage Notice', order: 6},
 		'http://gedcomx.org/NumberOfChildren':{ label: 'Number Of Children', order: 6 },
-		'http://gedcomx.org/Separation':{ pastVerb: 'was separated', family: true, order: 6 }
+		'http://gedcomx.org/Separation':{ pastVerb: 'was separated', family: true, order: 6 },
+		'http://familysearch.org/v1/TribeName':{ label: 'Tribe', order: 6 }
 	};
 	
 	this.months = {
@@ -181,6 +182,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	};
 	
 	this.sortFacts = function(facts) {
+		var temp = this;
+		facts = $filter('orderBy')(facts, function(fact) { if (temp.facts[fact.type]) return temp.facts[fact.type].order; else return 100;});
 		var datedFacts = [];
 		var nonDatedFacts = [];
 		for(var f=0; f<facts.length; f++) {
@@ -198,9 +201,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		}
 		
 		facts = [];
-		datedFacts = $filter('orderBy')(datedFacts, function(fact) { return fact.date.parsedDate;});
-		var temp=this;
-		nonDatedFacts = $filter('orderBy')(nonDatedFacts, function(fact) { if (temp.facts[fact.type]) return temp.facts[fact.type].order; else return 100;});
+		datedFacts = $filter('orderBy')(datedFacts, function(fact) { return fact.date.parsedDate;});		
 		while(datedFacts.length > 0) {
 			var df = datedFacts[0];
 			if (nonDatedFacts.length==0) facts.push(datedFacts.shift());
@@ -234,6 +235,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				label = label.substring(1);
 			}
 			return label;
+		} else if (factType.indexOf("http://familysearch.org/v1/")>=0) {
+			return factType.replace("http://familysearch.org/v1/", "");
 		}
 		return factType.replace("http://gedcomx.org/", "");
 	}
