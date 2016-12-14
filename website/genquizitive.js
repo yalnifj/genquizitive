@@ -1456,6 +1456,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		console.log('trying question '+$scope.question.name+' setup again '+$scope.tries);
 		$scope.question.error = null;
 		$scope.question.setup($scope.difficulty, $scope.useLiving).then(function() {
+			console.log('successfully setup question '+$scope.question.name);
 		}, function(error) {
 			window.setTimeout(function() {
 				$scope.setupQuestion();

@@ -1,0 +1,11 @@
+<div class="question-holder" ng-controller="timelineController">
+	
+	<div class="question-block" style="position: absolute; left: 35px; top: 10px; width: 350px; height: 150px;">
+		{{questionText}}
+	</div>
+	
+	<div class="timeline-block" style="position: relative; top: 175px;">
+		<img src="pole1.png" style="position: absolute; left: 27px; top: 50px; width: 7px; z-index: 0;" ng-style="poleStyle" />
+		<div class="timeline-fact" timeline-fact="" fact="fact" person="question.person" ng-repeat="fact in facts"></div>
+	</div>
+</div>

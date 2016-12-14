@@ -410,6 +410,64 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				return q;
 			}
+		},
+		{
+			name: 'timeline',
+			letter: 'L',
+			background: 'questions/multi2/background.jpg',
+			difficulty: 2,
+			error: null,
+			setup: function(difficulty, useLiving) {
+				var deferred = $q.defer();
+				var question = this;
+				question.isReady = false;
+				question.difficulty = difficulty;
+				question.person = familysearchService.getRandomPerson(useLiving);
+				//-- make sure we have a person with facts
+				var count = 0;
+				
+				var person = question.person;
+				while(count < 10 && (!question.person.facts || question.person.facts.length<2+question.difficulty)) {
+					person = familysearchService.getRandomPerson(useLiving);
+					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
+						question.person = person;
+					}
+					count++;
+				}
+				familysearchService.markUsed(question.person);
+				question.questionText = 'Place the facts for '+question.person.display.name+' in the correct order on the timeline.';
+				deferred.resolve(question);
+				
+				return deferred.promise;
+			},
+			checkAnswer: function(answer) {
+				if (answer.id == this.person.id) {
+					return true;
+				}
+				return false;
+			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.person = roundQuestion.person;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+				}
+				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id,
+					person: this.person,
+					questionText: this.questionText,
+					startTime: this.startTime,
+					completeTime: this.completeTime
+				};
+				return q;
+			}
 		}
 	];
 	
@@ -838,6 +896,26 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		if (correct) {
 			$scope.$emit('questionCorrect', $scope.question);
 		}
+	}
+})
+.controller('timelineController', function($scope, QuestionService, familysearchService) {
+	$scope.questionText = '';
+	
+	$scope.$watch('question', function() {
+		if ($scope.question.person) {
+			$scope.questionText = $scope.question.questionText;
+			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
+			$scope.facts = angular.copy($scope.sortedfacts);
+			$scope.facts = QuestionService.shuffleArray($scope.facts);
+			if ($scope.checkTimeline()) {
+				$scope.facts = QuestionService.shuffleArray($scope.facts);
+			}
+			$scope.poleStyle = {height: (($scope.sortedfacts - 1)*85)+'px'};
+		}
+	});
+	
+	$scope.checkTimeline = function() {
+		return false;
 	}
 })
 ;
