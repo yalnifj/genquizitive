@@ -376,6 +376,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	}
 }])
+.directive('hint', [function() {
+	return {
+		scope: {
+			hint: '='
+		},
+		template: '<img ng-src="{{hint.img}}" class="image-responsive" /><div class="hint-count">{{hint.userCount}}</div>'
+	}
+}])
 .controller('getstarted', function($scope, familysearchService, facebookService, firebaseService, languageService, $location, $timeout, notificationService, $cookies) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	$scope.fsLoggedIn = false;
@@ -589,6 +597,63 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	};
 	
+	$scope.launchHints = function() {
+		if (facebookService.facebookUser) {
+			$location.path('/hints');
+		} else {
+			var notif = notificationService.showNotification({title: 'Facebook Required', 
+				message: 'This feature requires a connection to Facebook. Please connect to Facebook and try again.', 
+				closable: true});
+			notif.show();
+		}
+	};
+	
+})
+.controller('hintsController', function($scope, facebookService, firebaseService, $location, QuestionService, familysearchService, notificationService) {
+	$scope.$emit('changeBackground', 'home_background.jpg');
+	
+	if (!facebookService.facebookUser) {
+		//-- go back to home screen if not authed to anything
+		$location.path('/');
+		return;
+	}
+	
+	firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+		if (user) {
+			$scope.gameUser = user;
+			$scope.hints = angular.copy(QuestionService.hints);
+			angular.forEach($scope.hints, function(hint) {
+				if ($scope.gameUser.hints && $scope.gameUser.hints[hint.name]) {
+					hint.userCount = $scope.gameUser.hints[hint.name];
+				} else {
+					hint.userCount = 0;
+				}
+			});
+		}
+	});
+	
+	$scope.checkFamilySearch = function() {
+		var lastDate = (new Date()).getTime() - (1000*60*60*24*7);
+		if ($scope.gameUser.lastFSHint) {
+			lastDate = $scope.gameUser.lastFSHint;
+		}
+		familysearchService.getUserHistory().then(function(entries) {
+			if (entries && entries>0) {
+				for(var e=0; e<entries.length; e++) {
+					if (entries[0].updated > lastDate) {
+						
+					}
+				}
+			} else {
+				var notif = notificationService.showNotification({title: 'FamilySearch',message: 'No user history was found in FamilySearch.', closable: true});
+				notif.show();
+			}
+		}, function(error) {
+			var notif = notificationService.showNotification({title: 'FamilySearch Error',message: 'Unable to get user history from FamilySearch.', closable: true});
+			notif.show();
+			console.log(error);
+		});
+	};
 })
 .controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location, languageService) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
@@ -1412,10 +1477,51 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
 				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*85)+'px'};
 				
-				familysearchService.getPersonRelatives($ctrl.person.id).then(function(relatives) {
-					familysearchService.getPersonRelationships($ctrl.person.id).then(function(relationships) {
-						
-					});
+				$ctrl.ancestors = [];
+				var hash = {};
+				familysearchService.getAncestorTree($ctrl.person.id, 2, false).then(function(tree) {
+					$ctrl.parents = [];
+					$ctrl.gParents = [];
+					if (tree.persons) {
+						angular.forEach(tree.persons, function(person) {
+							if (person.display.ascendancyNumber.indexOf("S")<0 && person.display.ascendancyNumber > 1) {
+								if (person.display.ascendancyNumber < 4) {
+									$ctrl.parents.push(person);
+								} else {
+									$ctrl.gParents.push(person);
+								}
+							}
+							hash[person.id] = person;
+							familysearchService.getPersonPortrait(person.id).then(function(details) {
+								hash[details.id].portrait = details.src;
+							});
+						});
+					}
+				});
+				$ctrl.spouseTrees = {};
+				$ctrl.hasSpouses = false;
+				familysearchService.getDescendancyTree($ctrl.person.id, 1, false).then(function(tree) {
+					if (tree.persons) {
+						angular.forEach(tree.persons, function(person) {
+							if (person.display.descendancyNumber!="1") {
+								var dnums = person.display.descendancyNumber.split(".");
+								if (dnums[0]=="1") dnums[0]="1-S";
+								if (!$ctrl.spouseTrees[dnums[0]]) {
+									$ctrl.hasSpouses = true;
+									$ctrl.spouseTrees[dnums[0]] = { children: [] };
+								}
+								if (dnums.length==1) {
+									$ctrl.spouseTrees[dnums[0]].spouse = person;
+								} else {
+									$ctrl.spouseTrees[dnums[0]].children.push(person);
+								}
+								hash[person.id] = person;
+								familysearchService.getPersonPortrait(person.id).then(function(details) {
+									hash[details.id].portrait = details.src;
+								});
+							}
+						});
+					}
 				});
 				familysearchService.getPersonMemories($ctrl.person.id).then(function(memories) {
 					$ctrl.memories = [];

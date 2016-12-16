@@ -8,6 +8,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/photo1/background.jpg',
 			difficulty: 1,
 			error: null,
+			hints: ['fifty','lifesaver','freeze','skip','rollback'],
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
@@ -85,6 +86,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi1/background.jpg',
 			difficulty: 1,
 			error: null,
+			hints: ['fifty','lifesaver','freeze','skip','rollback'],
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
@@ -181,6 +183,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
+			hints: ['fifty','lifesaver','freeze','skip','rollback'],
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
@@ -328,6 +331,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			tryCount: 0,
+			hints: ['freeze','skip','rollback'],
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
@@ -417,6 +421,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			background: 'questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
+			hints: ['freeze','skip','rollback'],
 			setup: function(difficulty, useLiving) {
 				var deferred = $q.defer();
 				var question = this;
@@ -474,6 +479,39 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				};
 				return q;
 			}
+		}
+	];
+	
+	this.hints = [
+		{
+			name: "fifty",
+			img: "hints/fifty.png",
+			questions: ['photo1','multi1','multi2'],
+			description: 'The 50/50 hint removes two of the incorrect choices from multiple choice questions.'
+		},
+		{
+			name: "lifesaver",
+			img: "hints/lifesaver.png",
+			questions: ['photo1','multi1','multi2'],
+			description: 'The Life-Saver hint will save you from incurring a penalty if you answer a question incorrectly.'
+		},
+		{
+			name: "freeze",
+			img: "hints/freeze.png",
+			questions: ['photo1','multi1','multi2','tree','timeline'],
+			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.'
+		},
+		{
+			name: "skip",
+			img: "hints/skip.png",
+			questions: ['photo1','multi1','multi2','tree','timeline'],
+			description: 'The Skip hint will allow you to skip to the next question, but it will keep the current amount of time that you have spent on the question.'
+		},
+		{
+			name: "rollback",
+			img: "hints/rollback.png",
+			questions: ['photo1','multi1','multi2','tree','timeline'],
+			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.'
 		}
 	];
 	

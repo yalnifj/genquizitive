@@ -799,6 +799,19 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
+	this.getPersonChildrenRelationships = function(personId) {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/tree/persons/'+personId+'/children', function(response) {
+			if (response.statusCode!=200 || !response.data) {
+				deferred.reject(response);
+				return;
+			}
+			deferred.resolve(response.data.relationships);
+		});
+		return deferred.promise;
+	};
+	
 	this.getPersonPortrait = function(personId) {
 		var deferred = $q.defer();
 		if (this.people[personId] && this.people[personId].portrait) {
@@ -975,6 +988,19 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	this.clearUsed = function() {
 		this.usedPeople = {};
 		this.usedPeople[this.fsUser.id] = this.fsUser;
+	};
+	
+	this.getUserHistory = function() {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/users/current/history', function(response) {
+			if (response.statusCode==200 || response.statusCode == 307) {
+				deferred.resolve(response.data.entries);
+			} else {
+				deferred.reject(response.body);
+			}
+		});
+		return deferred.promise;
 	};
 }])
 ;
