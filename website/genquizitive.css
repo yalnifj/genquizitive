@@ -526,6 +526,12 @@ body {
 	width: 99%;
 	zoom: 0.75;
 }
+.person-tree .person-spacer {
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	height: 98px;
+}
 .tree-row {
 	min-height: 115px;
 	text-align: center;

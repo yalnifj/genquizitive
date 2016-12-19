@@ -1483,13 +1483,21 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 					$ctrl.parents = [];
 					$ctrl.gParents = [];
 					if (tree.persons) {
+						var lastIndex = 1;
 						angular.forEach(tree.persons, function(person) {
 							if (person.display.ascendancyNumber.indexOf("S")<0 && person.display.ascendancyNumber > 1) {
 								if (person.display.ascendancyNumber < 4) {
+									while(lastIndex < person.display.ascendancyNumber - 1) {
+										$ctrl.parents.push("spacer");
+									}
 									$ctrl.parents.push(person);
 								} else {
+									while(lastIndex < person.display.ascendancyNumber - 1) {
+										$ctrl.parents.push("spacer");
+									}
 									$ctrl.gParents.push(person);
 								}
+								lastIndex = person.display.ascendancyNumber;
 							}
 							hash[person.id] = person;
 							familysearchService.getPersonPortrait(person.id).then(function(details) {

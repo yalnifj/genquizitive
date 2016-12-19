@@ -29,10 +29,16 @@
 	
 	<div class="person-comp person-tree">
 		<div class="tree-row" ng-if="$ctrl.gParents.length>0">
-			<div avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" ng-repeat="person in $ctrl.gParents" style="display: inline-block;"></div>
+			<div ng-repeat="person in $ctrl.gParents">
+				<div ng-if="person=='spacer'" class="person-spacer"></div>
+				<div ng-if="person!='spacer'" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" style="display: inline-block;"></div>
+			</div>
 		</div>
 		<div class="tree-row" ng-if="$ctrl.parents.length>0">
-			<div avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" ng-repeat="person in $ctrl.parents" style="display: inline-block;"></div>
+			<div ng-repeat="person in $ctrl.parents">
+				<div ng-if="person=='spacer'" class="person-spacer"></div>
+				<div ng-if="person!='spacer'" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" style="display: inline-block;"></div>
+			</div>
 		</div>
 		<div class="tree-row">
 			<div ng-if="!$ctrl.hasSpouses" avatar-badge class="avatar ancestor-avatar" label="$ctrl.person.display.name" src="$ctrl.person.portrait" style="display: inline-block;"></div>
