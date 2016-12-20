@@ -618,10 +618,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		return;
 	}
 	
-	firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
-		if (user) {
-			$scope.gameUser = user;
-			$scope.hints = angular.copy(QuestionService.hints);
+	$scope.hints = angular.copy(QuestionService.hints);
+	
+	$scope.$watch('gameUser', function() {
+		if ($scope.gameUser) {
 			angular.forEach($scope.hints, function(hint) {
 				if ($scope.gameUser.hints && $scope.gameUser.hints[hint.name]) {
 					hint.userCount = $scope.gameUser.hints[hint.name];
@@ -632,20 +632,66 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	});
 	
+	firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+		if (user) {
+			$scope.gameUser = user;
+		}
+	});
+	
 	$scope.checkFamilySearch = function() {
 		var lastDate = (new Date()).getTime() - (1000*60*60*24*7);
 		if ($scope.gameUser.lastFSHint) {
-			lastDate = $scope.gameUser.lastFSHint;
+			lastDate = $scope.gameUser.lastFSHint.getTime();
+			var now = new Date();
+			var diff = lastDate + (1000*60*60*24) - now.getTime();
+			if (diff > 0) {
+				var hours = Math.floor(diff / (1000*60*60));
+				var minutes = Math.round((diff - (hours*1000*60*60)) / (1000*60));
+				var notif = notificationService.showNotification({title: 'Please Wait',message: 'You may only earn 1 family tree update hint per day. \
+				Improve your family tree each day to earn more hints. Try again in '+hours+' hours and '+minutes+' minutes.', closable: true});
+				notif.show();
+				return;
+			}
 		}
+		$scope.foundEntry = null;
+		$scope.entryCount = 0;
 		familysearchService.getUserHistory().then(function(entries) {
-			if (entries && entries>0) {
+			if (entries && entries.length>0) {
 				for(var e=0; e<entries.length; e++) {
-					if (entries[0].updated > lastDate) {
-						
+					if (entries[e].updated > lastDate) {
+						$scope.entryCount++;
+						familysearchService.getPersonChanges(entries[e].id).then(function(personEntries) {
+							if (personEntries) {
+								for(var i=0; i<personEntries.length; i++) {
+									var entry = personEntries[i];
+									if (entry.updated >= lastDate) {
+										if (entry.contributors) {
+											for(var c=0; c<entry.contributors.length; c++) {
+												if (familysearchService.currentUser && entry.contributors[c].name == familysearchService.currentUser.contactName) {
+													if ($scope.foundEntry == null) {
+														var hint = QuestionService.getRandomHint();
+														firebaseService.addUserHint($scope.gameUser.userId, hint).then(function(user) {
+															$scope.gameUser = user;
+														});
+														var notif = notificationService.showNotification({title: 'Congradulations!',message: 'You\'ve earned a free hint! \
+															<img src="'+hint.img+'" />', closable: true});
+														notif.show();
+													}
+													$scope.foundEntry = entry;
+												}
+											}
+										}
+									}
+								}
+							}
+						});
 					}
 				}
+				$scope.gameUser.lastFSHint = new Date();
+				//firebaseService.writeUserProperty($scope.gameUser.userId, 'lastFSHint', $scope.gameUser.lastFSHint);
 			} else {
-				var notif = notificationService.showNotification({title: 'FamilySearch',message: 'No user history was found in FamilySearch.', closable: true});
+				var notif = notificationService.showNotification({title: 'Hints',message: 'We were unable to find any change you have made on your family tree. \
+					Improve your family tree each day to earn free hints!', closable: true});
 				notif.show();
 			}
 		}, function(error) {
@@ -654,6 +700,14 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			console.log(error);
 		});
 	};
+	$scope.$watch('foundEntry', function(newval, oldval) {
+		if (newval!=oldval) {
+			if ($scope.foundEntry===false) {
+				var notif = notificationService.showNotification({title: 'FamilySearch',message: 'No user history was found in FamilySearch.', closable: true});
+				notif.show();
+			}
+		}
+	});
 })
 .controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location, languageService) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');

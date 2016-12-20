@@ -552,12 +552,25 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 		return 'Q';
 	};
+	
+	this.getRandomHint = function () {
+		var q = Math.floor (Math.random () * this.hints.length);
+		return angular.copy(this.hints[q]);
+	};
+	
+	this.getHintByName = function(name) {
+		for(var q=0; q<this.hints.length; q++) {
+			if (this.hints[q].name==name) return angular.copy(this.hints[q]);
+		}
+		return null;
+	};
 
 	this.friendlyNames = {
 		R: 'Relationship Mulitple Choice Question',
 		T: 'Complete the Tree Question',
 		P: 'Picture Mulitple Choice Question',
-		F: 'Fact Mulitple Choice Question'
+		F: 'Fact Mulitple Choice Question',
+		L: 'Timeline Sort Question'
 	};
 	
 	this.shuffleArray = function(array) {
