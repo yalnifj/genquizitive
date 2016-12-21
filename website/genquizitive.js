@@ -641,7 +641,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.checkFamilySearch = function() {
 		var lastDate = (new Date()).getTime() - (1000*60*60*24*7);
 		if ($scope.gameUser.lastFSHint) {
-			lastDate = $scope.gameUser.lastFSHint.getTime();
+			lastDate = $scope.gameUser.lastFSHint;
 			var now = new Date();
 			var diff = lastDate + (1000*60*60*24) - now.getTime();
 			if (diff > 0) {
@@ -673,7 +673,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 														firebaseService.addUserHint($scope.gameUser.userId, hint).then(function(user) {
 															$scope.gameUser = user;
 														});
-														var notif = notificationService.showNotification({title: 'Congradulations!',message: 'You\'ve earned a free hint! \
+														var notif = notificationService.showNotification({title: 'Congratulations!',message: 'You\'ve earned a free hint! \
 															<img src="'+hint.img+'" />', closable: true});
 														notif.show();
 													}
@@ -687,8 +687,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						});
 					}
 				}
-				$scope.gameUser.lastFSHint = new Date();
-				//firebaseService.writeUserProperty($scope.gameUser.userId, 'lastFSHint', $scope.gameUser.lastFSHint);
+				$scope.gameUser.lastFSHint = (new Date()).getTime();
+				firebaseService.writeUserProperty($scope.gameUser.userId, 'lastFSHint', $scope.gameUser.lastFSHint);
 			} else {
 				var notif = notificationService.showNotification({title: 'Hints',message: 'We were unable to find any change you have made on your family tree. \
 					Improve your family tree each day to earn free hints!', closable: true});
@@ -1341,8 +1341,15 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		return;
 	}
 	
-	if (facebookService.facebookUser && facebookService.facebookUser.picture) {
-		$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+	if (facebookService.facebookUser) {
+		if (facebookService.facebookUser.picture) {
+			$scope.pictureUrl = facebookService.facebookUser.picture.data.url;
+		}
+		firebaseService.getUser(facebookService.facebookUser.id).then(function(user) {
+			if (user) {
+				$scope.gameUser = user;
+			}
+		});
 	} else {
 		if (familysearchService.fsUser) {
 			familysearchService.getPersonPortrait(familysearchService.fsUser.id).then(function(data) {
@@ -1365,12 +1372,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.interval = $interval(function() {
 		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
 			if ($scope.question && $scope.question.isReady) {
-				var d = new Date();
-				var diff = d.getTime() - $scope.startTime.getTime() - $scope.loadingTime;
-				$scope.minute = Math.floor(diff / (1000*60));
-				$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
-				if ($scope.minute >= 15) {
-					$scope.completeRound();
+				if ($scope.freezeTime && $scope.freezeTime > 0) {
+					$scope.freezeTime--;
+					$scope.loadingTime++;
+					if (!$scope.question.timeOffset) {
+						$scope.question.timeOffset = 1;
+					} else {
+						$scope.question.timeOffset++;
+					}
+				} else {
+					var d = new Date();
+					var diff = d.getTime() - $scope.startTime.getTime() - $scope.loadingTime;
+					$scope.minute = Math.floor(diff / (1000*60));
+					$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
+					if ($scope.minute >= 15) {
+						$scope.completeRound();
+					}
 				}
 			} else {
 				$scope.loadingTime++;
@@ -1485,6 +1502,23 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	}
 	
+	$scope.applyHint = function(hint) {
+		if ($scope.gameUser && $scope.gameUser.hints[hint.name]) {
+			firebaseService.subtractUserHint($scope.gameUser.userId, hint).then(function(user) {
+				$scope.gameUser = user;
+				if (hint.name=='freeze') {
+					$scope.freezeTime = 20;
+				}
+			}, function(user) {
+				$scope.gameUser = user;
+				var notif = notificationService.showNotification({title: 'No Hints Available', 
+					message: 'All of those hints have been used. Or an error occurred.', 
+					closable: true});
+				notif.show();
+			});
+		}
+	};
+	
 	$scope.$on('questionCorrect', function(event, question) {
 		$scope.nextQuestion();
 	});
@@ -1496,6 +1530,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.$watch('question.isReady', function(newval, oldval) {
 		if (newval!=oldval && newval==true) {
 			$scope.question.startTime = (new Date()).getTime();
+
+			if ($scope.gameUser) {
+				$scope.hints = [];
+				angular.forEach(QuestionService.hints, function(hint) {
+					if ($scope.gameUser.hints && $scope.gameUser.hints[hint.name] && hint.questions.indexOf($scope.question.name)>=0) {
+						var gameHint = angular.copy(hint);
+						gameHint.userCount = $scope.gameUser.hints[hint.name];
+						$scope.hints.push(gameHint);
+					}
+				});
+			}
 		}
 	});
 	

@@ -119,6 +119,26 @@ angular.module('genquiz.friends', ['genquizitive'])
 		return deferred.promise;
 	};
 	
+	this.subtractUserHint = function(userId, hint) {
+		var deferred = $q.defer();
+		var temp = this;
+		this.getUser(userId).then(function(user) {
+			if (!user.hints) {
+				user.hints = {};
+			}
+			if (!user.hints[hint.name] || user.hints[hint.name] <= 0) {
+				deferred.reject(user);
+			} else {
+				user.hints[hint.name] -= 1;
+				temp.writeUser(user);
+				deferred.resolve(user);
+			}
+		}, function(error) {
+			deferred.reject(error);
+		});
+		return deferred.promise;
+	};
+	
 	this.writeRound = function(round) {
 		var deferred = $q.defer();
 		var ref = null;

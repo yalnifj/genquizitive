@@ -652,6 +652,13 @@ body {
 	z-index: 5;
 }
 
+.hint-holder {
+	width: 190px;
+}
+.hint-holder .hint {
+	zoom: 0.7;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;
