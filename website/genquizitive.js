@@ -1,4 +1,4 @@
-angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 'genquiz.questions', 'genquiz.familytree','genquiz.friends'])
+angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 'genquiz.questions', 'genquiz.familytree','genquiz.friends','ngMap'])
 .config(['$locationProvider', '$routeProvider', '$uibTooltipProvider',
     function config($locationProvider, $routeProvider, $uibTooltipProvider) {
 		$uibTooltipProvider.options({popupDelay: 300});

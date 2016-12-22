@@ -479,6 +479,71 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				};
 				return q;
 			}
+		},
+		{
+			name: 'map',
+			letter: 'M',
+			background: 'questions/tree/background.jpg',
+			difficulty: 2,
+			error: null,
+			hints: ['freeze','skip','rollback'],
+			setup: function(difficulty, useLiving) {
+				var deferred = $q.defer();
+				var question = this;
+				question.isReady = false;
+				question.difficulty = difficulty;
+				question.person = familysearchService.getRandomPerson(useLiving);
+				//-- make sure we have a person with facts
+				var count = 0;
+				
+				var person = question.person;
+				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty || question.person.facts.length>2+2*question.difficulty)) {
+					person = familysearchService.getRandomPerson(useLiving);
+					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
+						question.person = person;
+					}
+					count++;
+				}
+				if (count==10) {
+					console.log('unabled to find person with enough facts');
+					deferred.reject(question);
+				} else {
+					familysearchService.markUsed(question.person);
+					question.questionText = 'Pin the facts for '+question.person.display.name+' on the correct place on the map.';
+					question.isReady = true;
+					deferred.resolve(question);
+				}
+				
+				return deferred.promise;
+			},
+			checkAnswer: function(answer) {
+				if (answer.id == this.person.id) {
+					return true;
+				}
+				return false;
+			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.person = roundQuestion.person;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+				}
+				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id,
+					person: this.person,
+					questionText: this.questionText,
+					startTime: this.startTime,
+					completeTime: this.completeTime
+				};
+				return q;
+			}
 		}
 	];
 	
@@ -498,19 +563,19 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		{
 			name: "freeze",
 			img: "hints/freeze.png",
-			questions: ['photo1','multi1','multi2','tree','timeline'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map'],
 			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.'
 		},
 		{
 			name: "skip",
 			img: "hints/skip.png",
-			questions: ['photo1','multi1','multi2','tree','timeline'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map'],
 			description: 'The Skip hint will allow you to skip to the next question, but it will keep the current amount of time that you have spent on the question.'
 		},
 		{
 			name: "rollback",
 			img: "hints/rollback.png",
-			questions: ['photo1','multi1','multi2','tree','timeline'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map'],
 			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.'
 		}
 	];
@@ -1012,6 +1077,26 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 		return complete;
 	};
+	
+	$scope.sendComplete = function() {
+		console.log('timeline complete');
+		$scope.$emit('questionCorrect', $scope.question);
+	};
+})
+.controller('mapController', function($scope, QuestionService, languageService) {
+	$scope.questionText = '';
+	
+	$scope.$watch('question.person', function() {
+		if ($scope.question.person) {
+			$scope.questionText = $scope.question.questionText;
+			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
+			$scope.facts = angular.copy($scope.sortedfacts);
+			for(var f=0; f<$scope.facts.length; f++) {
+				$scope.facts[f].sortIndex = f;
+			}
+			$scope.facts = QuestionService.shuffleArray($scope.facts);
+		}
+	});
 	
 	$scope.sendComplete = function() {
 		console.log('timeline complete');
