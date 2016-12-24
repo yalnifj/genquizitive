@@ -509,14 +509,17 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.difficulty = difficulty;
 				this.timeOffset = 0;
 				question.person = familysearchService.getRandomPerson(useLiving);
+				question.factCount = question.countFacts(question.person);
 				//-- make sure we have a person with facts
 				var count = 0;
 				
 				var person = question.person;
-				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty || question.person.facts.length>2+2*question.difficulty)) {
+				while(count < 10 && (!question.factCount || question.factCount<1+question.difficulty || question.factCount>2+2*question.difficulty)) {
 					person = familysearchService.getRandomPerson(useLiving);
-					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
+					var pcount=question.countFacts(person);
+					if (pcount>=1+question.difficulty && pcount<=2+2*question.difficulty) {
 						question.person = person;
+						question.factCount = pcount;
 					}
 					count++;
 				}
@@ -531,6 +534,15 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				
 				return deferred.promise;
+			},
+			countFacts: function(person) {
+				var count = 0;
+				if (person.facts && person.facts.length > 0) {
+					for(var f=0; f<person.facts.length; f++) {
+						if (person.facts[f].place) count++;
+					}
+				}
+				return count;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -1139,18 +1151,45 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		$scope.$emit('questionCorrect', $scope.question);
 	};
 })
-.controller('mapController', function($scope, QuestionService, languageService) {
+.controller('mapController', function($scope, QuestionService, languageService, familysearchService) {
 	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function() {
 		if ($scope.question.person) {
 			$scope.questionText = $scope.question.questionText;
 			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
-			$scope.facts = angular.copy($scope.sortedfacts);
-			for(var f=0; f<$scope.facts.length; f++) {
-				$scope.facts[f].sortIndex = f;
+			$scope.facts = []
+			var uniquePlaces = {};
+			var uniqueFacts = {};
+			for(var f=0; f<$scope.sortedfacts.length; f++) {
+				var fact = $scope.sortedfacts[f];
+				if (fact.place) {
+					var place = "";
+					if (fact.place.normalized && fact.place.normalized.value) {
+						place = fact.place.normalized.value;
+					} else if (fact.place.original) {
+						place = fact.place.original;
+					}
+					
+					if (place!="" && !uniqueFacts[place]) {
+						uniqueFacts[place] = fact;
+						familysearchService.searchPlace(place).then(function(response) {
+							if (response.entries && response.entries.length>0) {
+								var responsePlace = response.place;
+								var entry = entries[0];
+								if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
+									var placeAuthority = entry.content.gedcomx.places[0];
+									if (!uniquePlaces[placeAuthority.id]) {
+										uniquePlaces[placeAuthority.id] = placeAuthority;
+										placeAuthority.fact = uniqueFacts[responsePlace];
+									}
+								}
+							}
+						});
+					}
+				}
 			}
-			$scope.facts = QuestionService.shuffleArray($scope.facts);
+			$scope.places = uniquePlaces;
 		}
 	});
 	

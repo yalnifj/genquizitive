@@ -1024,5 +1024,18 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		});
 		return deferred.promise;
 	};
+	
+	this.searchPlace = function(place) {
+		var deferred = $q.defer();
+		var temp = this;
+		this.fs.get('/platform/places/search?q=name:"'+encodeURIComponent(place)+'"', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(response) {
+			if (response.statusCode==200 || response.statusCode == 307) {
+				deferred.resolve({place: place, response.data.entries});
+			} else {
+				deferred.reject(response.body);
+			}
+		});
+		return deferred.promise;
+	};
 }])
 ;
