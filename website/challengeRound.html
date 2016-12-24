@@ -14,14 +14,22 @@
 		<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
 		
 		<div class="" style="position: absolute; left: 10px; top: 10px; width: 200px; height: 250px;">
-			<div class="timer"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
+			<div class="timer" style="position: absolute; left: 25px; top: 5px;">
+				<span ng-if="freezeTime<=0"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></span>
+				<span ng-if="freezeTime>0" class="freeze-time">{{freezeTime}}</span>
+			</div>
+			<img src="freeze.png" style="position: absolute; left: 20px; top: 50px;" ng-if="freezeTime > 0" />
 			<div class="guage" style="position: absolute; left: 25px; top: 110px;" guage=""
 				min="0" max="maxQuestions" value="currentQuestion" label="Questions"></div>
-			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 15px;"></div>
-			<div light="" color="red" on="missedQuestions > 0" style="position: absolute; top: 205px; left: 35px;"></div>
-			<div light="" color="red" on="missedQuestions > 1" style="position: absolute; top: 210px; left: 65px;"></div>
-			<div light="" color="red" on="missedQuestions > 2" style="position: absolute; top: 205px; left: 95px;"></div>
-			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" style="position: absolute; top: 185px; left: 105px;"></div>
+			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 40px;"></div>
+			<div light="" color="red" on="missedQuestions > 0" style="position: absolute; top: 205px; left: 60px;"></div>
+			<div light="" color="red" on="missedQuestions > 1" style="position: absolute; top: 210px; left: 90px;"></div>
+			<div light="" color="red" on="missedQuestions > 2" style="position: absolute; top: 205px; left: 120px;"></div>
+			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" style="position: absolute; top: 185px; left: 140px;"></div>
+			<div class="letter" style="position: absolute; top: 245px; left: 60px;" uib-tooltip="{{letterTooltip}}">{{question.letter}}</div>
+			<div class="hint-holder" style="position: absolute; top: 320px;">
+				<div class="hint clickable" ng-class="hint.hintClass" hint="hint" uib-tooltip="{{hint.description}}" ng-click="applyHint(hint)" ng-repeat="hint in hints"></div>
+			</div>
 		</div>
 		<div avatar-badge src="pictureUrl" class="avatar" style="position: absolute; top:10px; right: 50px;"></div>
 	</div>

@@ -14,6 +14,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var question = this;
 				this.difficulty = difficulty;
 				this.isReady = false;
+				this.timeOffset = 0;
 				this.questionText = 'Who is shown in this picture?';
 				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
 					question.person = person;
@@ -37,6 +38,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.isReady = false;
+				this.timeOffset = 0;
 				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
 				if (person) {
 					var deferred = $q.defer();
@@ -72,7 +74,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					questionText: this.questionText,
 					answers: [],
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -93,6 +96,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.isReady = false;
 				this.difficulty = difficulty;
 				question.startPerson = familysearchService.fsUser;
+				this.timeOffset = 0;
 				
 				var length = 1 + difficulty;
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
@@ -155,6 +159,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
+				this.timeOffset = 0;
 			},
 			getPersistence: function() {
 				var questionText = this.questionText;
@@ -169,7 +174,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					questionText: questionText,
 					answers: [],
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -189,6 +195,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var question = this;
 				question.isReady = false;
 				this.difficulty = difficulty;
+				this.timeOffset = 0;
 				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
 				while(!question.person.facts || question.person.facts.length<2) {
@@ -306,6 +313,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
+				this.timeOffset = 0;
 			},
 			getPersistence: function() {
 				var q = {
@@ -316,7 +324,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					questionText: this.questionText,
 					answers: [],
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -337,6 +346,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var question = this;
 				question.isReady = false;
 				this.difficulty = difficulty;
+				this.timeOffset = 0;
 				question.questionText = 'Complete the family tree.'
 				
 				question.person = familysearchService.getRandomPerson(useLiving);
@@ -397,6 +407,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
+				this.timeOffset = 0;
 			},
 			getPersistence: function() {
 				var q = {
@@ -407,7 +418,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					questionText: this.questionText,
 					people: [],
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				for(var p=0; p<this.people.length; p++) {
 					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}});
@@ -426,6 +438,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
+				this.timeOffset = 0;
 				question.difficulty = difficulty;
 				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
@@ -466,6 +479,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
+				this.timeOffset = 0;
 			},
 			getPersistence: function() {
 				var q = {
@@ -475,7 +489,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					person: this.person,
 					questionText: this.questionText,
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				return q;
 			}
@@ -492,6 +507,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var question = this;
 				question.isReady = false;
 				question.difficulty = difficulty;
+				this.timeOffset = 0;
 				question.person = familysearchService.getRandomPerson(useLiving);
 				//-- make sure we have a person with facts
 				var count = 0;
@@ -531,6 +547,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
+				this.timeOffset = 0;
 			},
 			getPersistence: function() {
 				var q = {
@@ -540,7 +557,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					person: this.person,
 					questionText: this.questionText,
 					startTime: this.startTime,
-					completeTime: this.completeTime
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
 				};
 				return q;
 			}
@@ -558,13 +576,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			name: "lifesaver",
 			img: "hints/lifesaver.png",
 			questions: ['photo1','multi1','multi2'],
-			description: 'The Life-Saver hint will save you from incurring a penalty if you answer a question incorrectly.'
+			description: 'The Life-Saver hint will erase a missed question penalty or save you from incurring a penalty if you answer a future question incorrectly.'
 		},
 		{
 			name: "freeze",
 			img: "hints/freeze.png",
 			questions: ['photo1','multi1','multi2','tree','timeline','map'],
-			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.'
+			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.',
+			time: 20
 		},
 		{
 			name: "skip",
@@ -576,7 +595,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			name: "rollback",
 			img: "hints/rollback.png",
 			questions: ['photo1','multi1','multi2','tree','timeline','map'],
-			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.'
+			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.',
+			time: 15
 		}
 	];
 	
@@ -635,7 +655,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		T: 'Complete the Tree Question',
 		P: 'Picture Mulitple Choice Question',
 		F: 'Fact Mulitple Choice Question',
-		L: 'Timeline Sort Question'
+		L: 'Timeline Sort Question',
+		M: 'Map the Facts Question',
+		U: 'Unknown'
 	};
 	
 	this.shuffleArray = function(array) {
@@ -767,6 +789,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			}
 		}
 	};
+	
+	$scope.$on('applyHint', function(event, hint) {
+		if (hint.name=='fifty') {
+			var count = Math.floor($scope.answerPeople.length / 2);
+			var temp = [];
+			for (var a=0; a<$scope.answerPeople.length; a++) temp.push(a);
+			temp = QuestionService.shuffleArray(temp);
+			var a=0;
+			while(count>0 && a<temp.length) {
+				if (!$scope.question.checkAnswer($scope.answerPeople[temp[a]])) {
+					$scope.incorrectAnswers[temp[a]] = true;
+					count--;
+				}
+				a++;
+			}
+		}
+	});
 })
 .controller('multi2Controller', function($scope, QuestionService) {
 	
@@ -859,6 +898,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			}
 		}
 	};
+	
+	$scope.$on('applyHint', function(event, hint) {
+		if (hint.name=='fifty') {
+			var count = Math.floor($scope.answerPeople.length / 2);
+			var temp = [];
+			for (var a=0; a<$scope.answerPeople.length; a++) temp.push(a);
+			temp = QuestionService.shuffleArray(temp);
+			var a=0;
+			while(count>0 && a<temp.length) {
+				if (!$scope.question.checkAnswer($scope.answerPeople[temp[a]])) {
+					$scope.incorrectAnswers[temp[a]] = true;
+					count--;
+				}
+				a++;
+			}
+		}
+	});
 })
 .directive('treePerson', [function() {
 	return {

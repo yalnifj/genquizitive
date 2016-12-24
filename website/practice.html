@@ -2,7 +2,7 @@
 	<div ng-if="!ready" class="center-div" style="position:relative; width: 20px;">
 		<img src="pole1.png" style="position: absolute; width: 20px; height: 300px; top: 450px; left: 0px;"/>
 	</div>
-	<div class="countdown" ng-if="!question" callback="startRound()" remove="true" delay-start="-1" style="position: relative; top: 350px; cursor: pointer;"></div>
+	<div class="countdown" ng-if="!ready" callback="startRound()" remove="true" delay-start="-1" style="position: relative; top: 350px; cursor: pointer;"></div>
 	<div ng-if="!ready" class="center-div" style="position: relative; top: 400px; left: -15px;">
 		<a class="arrow-button" ng-click="launchMenu()">
 			<img src="button_sign_arrow_left.png" />
@@ -14,7 +14,11 @@
 		<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
 		
 		<div class="" style="position: absolute; left: 10px; top: 10px; width: 200px; height: 250px;">
-			<div class="timer" style="position: absolute; left: 25px; top: 5px;"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></div>
+			<div class="timer" style="position: absolute; left: 25px; top: 5px;">
+				<span ng-if="freezeTime<=0"><span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span></span>
+				<span ng-if="freezeTime>0" class="freeze-time">{{freezeTime}}</span>
+			</div>
+			<img src="freeze.png" style="position: absolute; left: 20px; top: 50px;" ng-if="freezeTime > 0" />
 			<div class="guage" style="position: absolute; left: 50px; top: 110px;" guage=""
 				min="0" max="maxQuestions" value="currentQuestion" label="Questions"></div>
 			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 40px;"></div>
@@ -24,7 +28,7 @@
 			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" style="position: absolute; top: 185px; left: 140px;"></div>
 			<div class="letter" style="position: absolute; top: 245px; left: 60px;" uib-tooltip="{{letterTooltip}}">{{question.letter}}</div>
 			<div class="hint-holder" style="position: absolute; top: 320px;">
-				<div class="hint clickable" hint="hint" uib-tooltip="{{hint.description}}" ng-click="applyHint(hint)" ng-repeat="hint in hints"></div>
+				<div class="hint clickable" ng-class="hint.hintClass" hint="hint" uib-tooltip="{{hint.description}}" ng-click="applyHint(hint)" ng-repeat="hint in hints"></div>
 			</div>
 		</div>
 		<div avatar-badge src="pictureUrl" class="avatar" style="position: absolute; top:10px; right: 50px;"></div>

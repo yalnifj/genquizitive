@@ -908,12 +908,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.interval = $interval(function() {
 		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
 			if ($scope.question && $scope.question.isReady) {
-				var d = new Date();
-				var diff = d.getTime() - $scope.startTime.getTime() - $scope.loadingTime;
-				$scope.minute = Math.floor(diff / (1000*60));
-				$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
-				if ($scope.minute >= 15) {
-					$scope.completeRound();
+				if ($scope.freezeTime && $scope.freezeTime > 0) {
+					$scope.freezeTime--;
+					$scope.loadingTime++;
+					if (!$scope.question.timeOffset) {
+						$scope.question.timeOffset = 1;
+					} else {
+						$scope.question.timeOffset++;
+					}
+				} else {
+					var d = new Date();
+					var diff = d.getTime() - $scope.startTime.getTime() - $scope.loadingTime;
+					$scope.minute = Math.floor(diff / (1000*60));
+					$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
+					if ($scope.minute >= 15) {
+						$scope.completeRound();
+					}
 				}
 			} else {
 				$scope.loadingTime++;
@@ -1041,6 +1051,43 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	}
 	
+	$scope.applyHint = function(hint) {
+		if ($scope.gameUser && $scope.gameUser.hints[hint.name] && !hint.disabled) {
+			firebaseService.subtractUserHint($scope.gameUser.userId, hint).then(function(user) {
+				$scope.gameUser = user;
+				if (hint.name=='freeze') {
+					$scope.freezeTime = hint.time;
+				} else if (hint.name=='rollback') {
+					if (!$scope.question.timeOffset) $scope.question.timeOffset = 0;
+					if ($scope.question.startTime) {
+						var now = new Date();
+						var diff = Math.round((now.getTime() - $scope.question.startTime.getTime())/1000);
+						if (diff < hint.time) {
+							$scope.question.timeOffset += diff;
+						} else {
+							$scope.question.timeOffset += hint.time;
+						}
+					}
+				} else if (hint.name=='lifesaver') {
+					$scope.missedQuestions--;
+				} else if (hint.name=='fifty') {
+					hint.disabled = true;
+					hint.hintClass = 'hint-disabled';
+					$scope.$broadcast('applyHint', hint);
+				} else if (hint.name=='skip') {
+					//-- TODO show skip animation
+					$scope.nextQuestion();
+				}
+			}, function(user) {
+				$scope.gameUser = user;
+				var notif = notificationService.showNotification({title: 'No Hints Available', 
+					message: 'All of those hints have been used. Or an error occurred.', 
+					closable: true});
+				notif.show();
+			});
+		}
+	};
+	
 	$scope.$on('questionCorrect', function(event, question) {
 		$scope.nextQuestion();
 	});
@@ -1136,38 +1183,53 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	
 	$scope.maxQuestions = 5;
 	$scope.myMissed = $scope.myStats.missed;
+	if ($scope.myMissed < 0) $scope.myMissed = 0;
 	$scope.myScore = $scope.myMissed * 20;
 	if ($scope.friendStats) {
 		$scope.friendMissed = $scope.friendStats.missed;
+		if ($scope.friendMissed < 0) $scope.friendMissed = 0;
 		$scope.friendScore = $scope.friendMissed * 20;
 	}
 	
 	var displayHash = {};
 	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {num: q};
-		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
-			displayHash[$scope.myStats.questions[q].personId] = display;
-			familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
-				displayHash[person.id].person = person;
-			});
-		} else if ($scope.myStats.questions[q].person) {
-			display.person = $scope.myStats.questions[q].person;
+		if ($scope.myStats.questions[q]) {
+			if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
+				displayHash[$scope.myStats.questions[q].personId] = display;
+				familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
+					displayHash[person.id].person = person;
+				});
+			} else if ($scope.myStats.questions[q].person) {
+				display.person = $scope.myStats.questions[q].person;
+			}
+			
+			display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
+			if ($scope.myStats.questions[q].timeOffset) {
+				display.mySeconds -= $scope.myStats.questions[q].timeOffset;
+				if (display.mySeconds < 0) display.mySeconds = 0;
+			}
+			$scope.myScore += display.mySeconds;
+			display.myTime = "";
+			var minutes = Math.floor(display.mySeconds / 60.0);
+			if (minutes < 10) {
+				display.myTime = "0";
+			}
+			display.myTime += minutes + ":";
+			var seconds = display.mySeconds - (minutes * 60);
+			if (seconds < 10) display.myTime += "0";
+			display.myTime += seconds;
+		} else {
+			display.mySeconds = 0;
+			display.myTime = "0:00";
 		}
-		
-		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
-		$scope.myScore += display.mySeconds;
-		display.myTime = "";
-		var minutes = Math.floor(display.mySeconds / 60.0);
-		if (minutes < 10) {
-			display.myTime = "0";
-		}
-		display.myTime += minutes + ":";
-		var seconds = display.mySeconds - (minutes * 60);
-		if (seconds < 10) display.myTime += "0";
-		display.myTime += seconds;
 
-		if ($scope.friendStats) {
+		if ($scope.friendStats && $scope.friendStats.questions[q]) {
 			display.friendSeconds = Math.round(($scope.friendStats.questions[q].completeTime - $scope.friendStats.questions[q].startTime)/1000);
+			if ($scope.friendStats.questions[q].timeOffset) {
+				display.friendSeconds -= $scope.friendStats.questions[q].timeOffset;
+				if (display.friendSeconds < 0) display.friendSeconds = 0;
+			}
 			$scope.friendScore += display.friendSeconds;
 			display.friendTime = "";
 			var minutes = Math.floor(display.friendSeconds / 60.0);
@@ -1180,8 +1242,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			display.friendTime += seconds;
 		}
 
-		display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
-		display.letterTooltip = QuestionService.friendlyNames[display.letter];
+		if ($scope.myStats.questions[q]) {
+			display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
+			display.letterTooltip = QuestionService.friendlyNames[display.letter];
+		} else {
+			display.letter = "U";
+			display.letterTooltip = "You did not complete the QenQuiz";
+		}
 		
 		displayHash[q] = display;
 		$timeout(function() {
@@ -1270,32 +1337,44 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.myStats = null;
 	$scope.myStats = $scope.round.fromStats;
 	$scope.myMissed = $scope.myStats.missed;
+	if ($scope.myMissed < 0) $scope.myMissed = 0;
 	$scope.myScore = $scope.myMissed * 20;
 
 	var displayHash = {};
 	for(var q=0; q<$scope.maxQuestions; q++) {
 		var display = {};
-		if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
-			displayHash[$scope.myStats.questions[q].personId] = display;
-			familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
-				displayHash[person.id].person = person;
-			});
-		}
-		
-		display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
-		$scope.myScore += display.mySeconds;
-		display.myTime = "";
-		var minutes = Math.floor(display.mySeconds / 60.0);
-		if (minutes < 10) {
-			display.myTime = "0";
-		}
-		display.myTime += minutes + ":";
-		var seconds = display.mySeconds - (minutes * 60);
-		if (seconds < 10) display.myTime += "0";
-		display.myTime += seconds;
+		if ($scope.myStats.questions[q]) {
+			if (familysearchService.fsUser && $scope.myStats.questions[q].personId) {
+				displayHash[$scope.myStats.questions[q].personId] = display;
+				familysearchService.getPersonById($scope.myStats.questions[q].personId, true).then(function(person) {
+					displayHash[person.id].person = person;
+				});
+			}
+			
+			display.mySeconds = Math.round(($scope.myStats.questions[q].completeTime - $scope.myStats.questions[q].startTime)/1000);
+			if ($scope.myStats.questions[q].timeOffset) {
+				display.mySeconds -= $scope.myStats.questions[q].timeOffset;
+				if (display.mySeconds < 0) display.mySeconds = 0;
+			}
+			$scope.myScore += display.mySeconds;
+			display.myTime = "";
+			var minutes = Math.floor(display.mySeconds / 60.0);
+			if (minutes < 10) {
+				display.myTime = "0";
+			}
+			display.myTime += minutes + ":";
+			var seconds = display.mySeconds - (minutes * 60);
+			if (seconds < 10) display.myTime += "0";
+			display.myTime += seconds;
 
-		display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
-		display.letterTooltip = QuestionService.friendlyNames[display.letter];
+			display.letter = QuestionService.getQuestionLetter($scope.myStats.questions[q].name);
+			display.letterTooltip = QuestionService.friendlyNames[display.letter];
+		} else {
+			display.mySeconds = 0;
+			display.myTime = "0:00";
+			display.letter = "U";
+			display.letterTooltip = "You did not complete the QenQuiz";
+		}
 
 		displayHash[q] = display;
 		$timeout(function() {
@@ -1361,14 +1440,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	var notif = notificationService.showNotification({title: 'Practice GenQuiz', message: 'Practice a GenQuiz on your family tree then challenge your family and friends. Answer the questions as quickly as you can.  Try not to make any mistakes or you will receive a time penalty.'});
 	notif.show();
 	
-	$scope.questions = [];
-	$scope.currentQuestion = 0;
 	$scope.maxQuestions = 5;
 	$scope.ready = false;
 	
-	$scope.minute = 0;
-	$scope.second = 0;
-	$scope.loadingTime = 0;
 	$scope.interval = $interval(function() {
 		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
 			if ($scope.question && $scope.question.isReady) {
@@ -1403,7 +1477,6 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		return nextQ;
 	};
 	
-	$scope.missedQuestions = 0;
 	$scope.setupQuestion = function(num, tries) {
 		if (tries < 5) {
 			var question = $scope.questions[num];
@@ -1439,6 +1512,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	
 	$scope.startRound = function() {
 		notif.close();
+		$scope.questions = [];
+		$scope.currentQuestion = 0;
+		$scope.missedQuestions = 0;
+		
+		$scope.minute = 0;
+		$scope.second = 0;
+		$scope.loadingTime = 0;
 		$scope.ready = true;
 		$scope.startTime = new Date();
 		
@@ -1503,11 +1583,31 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	}
 	
 	$scope.applyHint = function(hint) {
-		if ($scope.gameUser && $scope.gameUser.hints[hint.name]) {
+		if ($scope.gameUser && $scope.gameUser.hints[hint.name] && !hint.disabled) {
 			firebaseService.subtractUserHint($scope.gameUser.userId, hint).then(function(user) {
 				$scope.gameUser = user;
 				if (hint.name=='freeze') {
-					$scope.freezeTime = 20;
+					$scope.freezeTime = hint.time;
+				} else if (hint.name=='rollback') {
+					if (!$scope.question.timeOffset) $scope.question.timeOffset = 0;
+					if ($scope.question.startTime) {
+						var now = new Date();
+						var diff = Math.round((now.getTime() - $scope.question.startTime.getTime())/1000);
+						if (diff < hint.time) {
+							$scope.question.timeOffset += diff;
+						} else {
+							$scope.question.timeOffset += hint.time;
+						}
+					}
+				} else if (hint.name=='lifesaver') {
+					$scope.missedQuestions--;
+				} else if (hint.name=='fifty') {
+					hint.disabled = true;
+					hint.hintClass = 'hint-disabled';
+					$scope.$broadcast('applyHint', hint);
+				} else if (hint.name=='skip') {
+					//-- TODO show skip animation
+					$scope.nextQuestion();
 				}
 			}, function(user) {
 				$scope.gameUser = user;
@@ -1524,6 +1624,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	});
 	
 	$scope.$on('questionIncorrect', function(event, question) {
+		if ($scope.missedQuestions < 0) {
+			//-- TODO show lifesaver animation
+		}
 		$scope.missedQuestions++;
 	});
 	
