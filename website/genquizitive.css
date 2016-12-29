@@ -667,6 +667,76 @@ body {
 	color: #d0fffc;
 }
 
+.fact-map {
+	height: 50%;
+	border: solid #008080 3px;
+	box-shadow: -7px 7px 5px #222;
+}
+
+.fact-map .custom-marker {
+	background-color: #ebe9d5;
+	border-radius: 20px;
+	border: solid black 1px;
+	box-shadow: -3px 3px 3px #222;
+	padding: 10px;
+	text-align: center;
+	font-size: 12px;
+	max-width: 200px;
+}
+
+.fact-map .custom-marker:after {
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 15px 14px 0;
+	border-color: #ebe9d5 transparent;
+	display: block;
+	width: 0;
+	z-index: 1;
+	margin-left: -14px;
+	bottom: -14px;
+	left: 50%;
+}
+
+.fact-map .custom-marker:before {
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 15px 14px 0;
+	border-color: black transparent;
+	display: block;
+	width: 0;
+	z-index: 0;
+	margin-left: -14px;
+	bottom: -15px;
+	left: 50%;
+}
+
+.fact-map .custom-marker .fact-holder {
+	position: relative;
+	border: dashed #008080 1px;
+	border-radius: 30% 0%;
+	width: 152px;
+	height: 42px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.map-fact {
+	position: relative;
+	display: inline-block;
+	background-color: #008080;
+	border-radius: 30% 0%;
+	width: 150px;
+	height: 40px;
+	font-size: 12px;
+	margin: 3px;
+	color: white;
+}
+.map-fact .fact-date {
+	font-size: 80%;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;

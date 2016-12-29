@@ -1,9 +1,27 @@
-<div class="question-holder" ng-controller="mapController">
+<div class="question-holder" ng-controller="mapController as mc" style="max-width: 700px;">
 	
-	<div class="question-block" style="position: absolute; left: 0px; top: 10px; width: 500px; height: 130px;">
+	<div class="question-block" style="position: relative; margin: 10px auto 20px auto; width: 500px; height: 140px;">
 		{{questionText}}
+		<div>
+			<div class="map-fact movable" map-fact="" place="place" ng-repeat="place in question.places track by $index">
+			</div>
+		</div>
 	</div>
-	<div avatar-badge ng-if="question.person.portrait" class="avatar ancestor-avatar" src="question.person.portrait" style="position: absolute; left: 410px; top: 40px;"></div>
+	<div avatar-badge ng-if="question.person.portrait" class="avatar ancestor-avatar" src="question.person.portrait" style="position: absolute; left: 590px; top: 10px;"></div>
 	
-	<ng-map></ng-map>
+	<ng-map class="fact-map">
+		<custom-marker class="fact-place" ng-repeat="place in question.places track by $index"
+			id="fact-{{$index}}" position="{{place.pos}}">
+			<div>
+				{{place.display.fullName}}
+			</div>
+			<div class="fact-holder" map-fact-holder="" place="place">
+			</div>
+		</custom-marker>
+	</ng-map>
+	<ul>
+		<li ng-repeat="fact in question.places track by $index">fact-{{$index}} 
+			{{fact.pos}} {{fact.display.fullName}}
+		</li>
+	</ul>
 </div>

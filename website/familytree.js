@@ -1030,7 +1030,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var temp = this;
 		this.fs.get('/platform/places/search?q=name:"'+encodeURIComponent(place)+'"', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
-				deferred.resolve({place: place, response.data.entries});
+				deferred.resolve({place: place, entries: response.data.entries});
 			} else {
 				deferred.reject(response.body);
 			}

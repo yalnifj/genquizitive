@@ -527,10 +527,53 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					console.log('unabled to find person with enough facts');
 					deferred.reject(question);
 				} else {
-					familysearchService.markUsed(question.person);
-					question.questionText = 'Pin the facts for '+question.person.display.name+' on the correct place on the map.';
-					question.isReady = true;
-					deferred.resolve(question);
+					var sortedfacts = languageService.sortFacts(question.person.facts);
+					var uniquePlaces = {};
+					var uniqueFacts = {};
+					question.places = [];
+					var promises = [];
+					for(var f=0; f<sortedfacts.length; f++) {
+						var fact = sortedfacts[f];
+						if (fact.place) {
+							var place = "";
+							if (fact.place.normalized && fact.place.normalized.value) {
+								place = fact.place.normalized.value;
+							} else if (fact.place.original) {
+								place = fact.place.original;
+							}
+							
+							if (place!="" && !uniqueFacts[place]) {
+								uniqueFacts[place] = fact;
+								var promise = familysearchService.searchPlace(place).then(function(response) {
+									if (response.entries && response.entries.length>0) {
+										var responsePlace = response.place;
+										var entry = response.entries[0];
+										if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
+											var placeAuthority = entry.content.gedcomx.places[0];
+											if (!uniquePlaces[placeAuthority.id] && placeAuthority.latitude) {
+												uniquePlaces[placeAuthority.id] = placeAuthority;
+												placeAuthority.fact = uniqueFacts[responsePlace];
+												placeAuthority.pos = [placeAuthority.latitude, placeAuthority.longitude];
+												question.places.push(placeAuthority);
+											}
+										}
+									}
+								});
+								promises.push(promise);
+							}
+						}
+					}
+					//-- wait for all place searches to complete
+					$q.all(promises).then(function() {
+						if (question.places.length >= 1+question.difficulty && question.places.length <= 2+2*question.difficulty) {
+							familysearchService.markUsed(question.person);
+							question.questionText = 'Pin the facts for '+question.person.display.name+' to the correct place on the map.';
+							question.isReady = true;
+							deferred.resolve(question);
+						} else {
+							deferred.reject("person "+question.person.id+" does not have enough facts with geocoded place data");
+						}
+					});
 				}
 				
 				return deferred.promise;
@@ -1151,51 +1194,76 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		$scope.$emit('questionCorrect', $scope.question);
 	};
 })
-.controller('mapController', function($scope, QuestionService, languageService, familysearchService) {
+.directive('mapFact', [function() {
+	return {
+		scope: {
+			place: '='
+		},
+		template: '<span class="fact-type">{{place.fact.type | factlabel}} {{place.fact.value}}</span><br /><span class="fact-date">{{place.fact.date.original}}</span>',
+		link: function($scope, $element, $attr) {
+			$element.draggable({
+				revert: "invalid", 
+				zIndex: 101
+			})
+			.data('place', $scope.place);
+		}
+	}
+}])
+.directive('mapFactHolder', [function() {
+	return {
+		scope: {
+			place: '='
+		},
+		link: function($scope, $element, $attr) {
+			$element.droppable({
+				drop: function(event, ui) {
+					var droppedFact = ui.draggable.data('place');
+					if (droppedFact.id==$scope.place.id) {
+						droppedFact.inPlace = true;
+						//$element.droppable( "option", "disabled", true );
+					} else {
+						droppedFact.inPlace = false;
+					}
+					$scope.checkMap();
+				}
+			});
+		}
+	}
+}])
+.controller('mapController', function($scope, $q, QuestionService, languageService, familysearchService, NgMap) {
 	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function() {
 		if ($scope.question.person) {
 			$scope.questionText = $scope.question.questionText;
-			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
-			$scope.facts = []
-			var uniquePlaces = {};
-			var uniqueFacts = {};
-			for(var f=0; f<$scope.sortedfacts.length; f++) {
-				var fact = $scope.sortedfacts[f];
-				if (fact.place) {
-					var place = "";
-					if (fact.place.normalized && fact.place.normalized.value) {
-						place = fact.place.normalized.value;
-					} else if (fact.place.original) {
-						place = fact.place.original;
-					}
-					
-					if (place!="" && !uniqueFacts[place]) {
-						uniqueFacts[place] = fact;
-						familysearchService.searchPlace(place).then(function(response) {
-							if (response.entries && response.entries.length>0) {
-								var responsePlace = response.place;
-								var entry = entries[0];
-								if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
-									var placeAuthority = entry.content.gedcomx.places[0];
-									if (!uniquePlaces[placeAuthority.id]) {
-										uniquePlaces[placeAuthority.id] = placeAuthority;
-										placeAuthority.fact = uniqueFacts[responsePlace];
-									}
-								}
-							}
-						});
-					}
-				}
-			}
-			$scope.places = uniquePlaces;
 		}
 	});
 	
-	$scope.sendComplete = function() {
-		console.log('timeline complete');
-		$scope.$emit('questionCorrect', $scope.question);
+	$scope.$watchCollection('question.places', function() {
+		var bounds = new google.maps.LatLngBounds();
+		for (var i=0; i<$scope.question.places.length; i++) {
+		  var latlng = new google.maps.LatLng($scope.question.places[i].latitude, $scope.question.places[i].longitude);
+		  bounds.extend(latlng);
+		}
+
+		NgMap.getMap().then(function(map) {
+		  map.setCenter(bounds.getCenter());
+		  map.fitBounds(bounds);
+		});
+	});
+	
+	$scope.checkMap = function() {
+		var complete = true;
+		for(var i=0; i<$scope.question.places.length; i++) {
+			if (!$scope.question.places[i].inPlace) {
+				complete = false;
+				break;
+			}
+		}
+		console.log('map complete in '+complete);
+		if (complete) {
+			$scope.$emit('questionCorrect', $scope.question);
+		}
 	};
 })
 ;
