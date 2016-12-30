@@ -1763,7 +1763,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.useLiving = true;
 	
 	familysearchService.fsLoginStatus().then(function(fsUser) {
-		familysearchService.usedPeople = {};
+		familysearchService.clearUsed();
 		familysearchService.getAncestorTree(fsUser.id, 6, true).then(function() {
 			$scope.question.setup(1, true);
 		});
@@ -1777,6 +1777,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		$scope.question.setup($scope.difficulty, $scope.useLiving).then(function() {
 			console.log('successfully setup question '+$scope.question.name);
 		}, function(error) {
+			familysearchService.clearUsed();
 			window.setTimeout(function() {
 				$scope.setupQuestion();
 			}, 1500);

@@ -995,7 +995,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	
 	this.clearUsed = function() {
 		this.usedPeople = {};
-		this.usedPeople[this.fsUser.id] = this.fsUser;
+		if (this.fsUser) {
+			this.usedPeople[this.fsUser.id] = this.fsUser;
+		}
 	};
 	
 	this.getUserHistory = function() {

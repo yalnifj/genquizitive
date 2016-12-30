@@ -527,6 +527,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					console.log('unabled to find person with enough facts');
 					deferred.reject(question);
 				} else {
+					console.log('lookup geocodes for person '+question.person.id +' '+question.person.display.name);
 					var sortedfacts = languageService.sortFacts(question.person.facts);
 					var uniquePlaces = {};
 					var uniqueFacts = {};
@@ -558,6 +559,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 											}
 										}
 									}
+								}, function(error) {
+									console.log("unable to get place for "+place+" "+error);
 								});
 								promises.push(promise);
 							}
@@ -567,12 +570,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					$q.all(promises).then(function() {
 						if (question.places.length >= 1+question.difficulty && question.places.length <= 2+2*question.difficulty) {
 							familysearchService.markUsed(question.person);
-							question.questionText = 'Pin the facts for '+question.person.display.name+' to the correct place on the map.';
+							question.questionText = 'Move the facts for '+question.person.display.name+' to the correct place on the map.';
 							question.isReady = true;
 							deferred.resolve(question);
 						} else {
 							deferred.reject("person "+question.person.id+" does not have enough facts with geocoded place data");
 						}
+					}, function(error) {
+						console.log("unable to resolve all promises "+error);
 					});
 				}
 				
@@ -1194,7 +1199,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		$scope.$emit('questionCorrect', $scope.question);
 	};
 })
-.directive('mapFact', [function() {
+.directive('mapFact', ['NgMap', function(NgMap) {
 	return {
 		scope: {
 			place: '='
@@ -1203,7 +1208,17 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		link: function($scope, $element, $attr) {
 			$element.draggable({
 				revert: "invalid", 
-				zIndex: 101
+				zIndex: 101,
+				start: function(event, ui) {
+					NgMap.getMap().then(function(map) {
+					  map.setOptions({draggable: false});
+					});
+				},
+				stop: function(event, ui) {
+					NgMap.getMap().then(function(map) {
+					  map.setOptions({draggable: true});
+					});
+				}
 			})
 			.data('place', $scope.place);
 		}
@@ -1215,16 +1230,32 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			place: '='
 		},
 		link: function($scope, $element, $attr) {
+			$scope.isFull = false;
 			$element.droppable({
-				drop: function(event, ui) {
+				accept: function(event, ui) {
 					var droppedFact = ui.draggable.data('place');
 					if (droppedFact.id==$scope.place.id) {
+						return true;
+					}
+					return false;
+				},
+				drop: function(event, ui) {
+					$scope.isFull = true;
+					$($element).append(ui.draggable.detach());
+					ui.draggable.css('position', 'absolute');
+					ui.draggable.css('left', '-1px');
+					ui.draggable.css('top', '-3px');
+					var droppedFact = ui.draggable.data('place');
+					if (droppedFact.id==$scope.place.id) {
+						ui.draggable.addClass('inPlace');
 						droppedFact.inPlace = true;
-						//$element.droppable( "option", "disabled", true );
+						$element.droppable( "option", "disabled", true );
+						ui.draggable.draggable("option", "disabled", true);
 					} else {
+						ui.draggable.removeClass('inPlace');
 						droppedFact.inPlace = false;
 					}
-					$scope.checkMap();
+					$scope.$emit('checkMap');
 				}
 			});
 		}
@@ -1240,16 +1271,29 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	});
 	
 	$scope.$watchCollection('question.places', function() {
-		var bounds = new google.maps.LatLngBounds();
-		for (var i=0; i<$scope.question.places.length; i++) {
-		  var latlng = new google.maps.LatLng($scope.question.places[i].latitude, $scope.question.places[i].longitude);
-		  bounds.extend(latlng);
+		if ($scope.question && $scope.question.places) {
+			$scope.dynMarkers = [];
+			NgMap.getMap().then(function(map) {
+				var bounds = new google.maps.LatLngBounds();
+				for (var k in map.customMarkers) {
+					var cm = map.customMarkers[k];
+					bounds.extend(cm.getPosition());
+					$scope.dynMarkers.push(cm);
+				}
+				if ($scope.marketClusterer) {
+					$scope.marketClusterer.clearMarkers();
+					$scope.marketClusterer.addMarkers($scope.dynMarkers);
+				} else {
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 55, textSize: 16}]}); 
+				}
+				map.setCenter(bounds.getCenter());
+				map.fitBounds(bounds);
+			});
 		}
-
-		NgMap.getMap().then(function(map) {
-		  map.setCenter(bounds.getCenter());
-		  map.fitBounds(bounds);
-		});
+	});
+	
+	$scope.$on('checkMap', function() {
+		$scope.checkMap();
 	});
 	
 	$scope.checkMap = function() {

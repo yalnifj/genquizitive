@@ -668,8 +668,8 @@ body {
 }
 
 .fact-map {
-	height: 50%;
-	border: solid #008080 3px;
+	height: 65%;
+	border: solid #008080 2px;
 	box-shadow: -7px 7px 5px #222;
 }
 
@@ -678,10 +678,10 @@ body {
 	border-radius: 20px;
 	border: solid black 1px;
 	box-shadow: -3px 3px 3px #222;
-	padding: 10px;
+	padding: 5px;
 	text-align: center;
 	font-size: 12px;
-	max-width: 200px;
+	max-width: 180px;
 }
 
 .fact-map .custom-marker:after {
@@ -716,7 +716,7 @@ body {
 	position: relative;
 	border: dashed #008080 1px;
 	border-radius: 30% 0%;
-	width: 152px;
+	width: 125px;
 	height: 42px;
 	margin-left: auto;
     margin-right: auto;
@@ -726,12 +726,22 @@ body {
 	position: relative;
 	display: inline-block;
 	background-color: #008080;
-	border-radius: 30% 0%;
-	width: 150px;
-	height: 40px;
+	border-radius: 30% 5%;
+	box-shadow: -3px 3px 3px #222;
+	min-width: 120px;
+	min-height: 38px;
 	font-size: 12px;
 	margin: 3px;
 	color: white;
+	line-height: 14px;
+    padding: 5px;
+}
+.map-fact.inPlace {
+	background-color: #30B0B0;
+	box-shadow: -3px 3px 3px #477;
+}
+.map-fact .fact-type {
+	font-weight: bold;
 }
 .map-fact .fact-date {
 	font-size: 80%;
