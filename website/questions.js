@@ -605,6 +605,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				if (person) {
 					this.person = person;
 				}
+				this.places = roundQuestion.places;
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 				this.timeOffset = 0;
@@ -614,12 +615,23 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: this.person,
 					questionText: this.questionText,
 					startTime: this.startTime,
 					completeTime: this.completeTime,
 					timeOffset: this.timeOffset
 				};
+				var pPlaces = [];
+				for(var p=0; p<this.places.length; p++) {
+					var place = this.places[p];
+					var pp = {};
+					pp.fact = place.fact;
+					pp.pos = place.pos;
+					pp.latitude = place.latitude;
+					pp.longitude = place.longitude;
+					pp.display = place.display;
+					pPlaces.push(pp);
+				}
+				q.places = pPlaces;
 				return q;
 			}
 		}
