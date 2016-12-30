@@ -722,6 +722,16 @@ body {
     margin-right: auto;
 }
 
+.fact-map .custom-marker .person-holder {
+	position: relative;
+	border: dashed #008080 1px;
+	border-radius: 50% 50%;
+	width: 105px;
+	height: 105px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
 .map-fact {
 	position: relative;
 	display: inline-block;
@@ -745,6 +755,14 @@ body {
 }
 .map-fact .fact-date {
 	font-size: 80%;
+}
+
+.map-person {
+	position: relative;
+	display: inline-block;
+	min-width: 100px;
+	min-height: 100px;
+	margin: 3px;
 }
 
 @media (max-width: 767px) {

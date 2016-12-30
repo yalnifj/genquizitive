@@ -942,17 +942,18 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return false;
 	};
 
-	this.getRandomPeopleNear = function(person, num, useLiving) {
+	this.getRandomPeopleNear = function(person, num, useLiving, ignoreGender) {
 		var deferred = $q.defer();
 		var persons = [];
 		var temp = this;
 		this.getPersonRelatives(person.id).then(function(relatives) {
 			var personCount = 0;
 			var loopCount = 0;
+			if (num<=0) num = relatives.length;
 			while(loopCount < num-1) {
 				var rand = Math.floor(Math.random() * relatives.length);
 				var rPerson = relatives[rand];
-				if (rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
+				if (rPerson.id != person.id && rPerson.gender && (ignoreGender || rPerson.gender.type == person.gender.type) && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -961,7 +962,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			
 			while(personCount < num && loopCount < num * 4) {
 				var rPerson = temp.getRandomPerson(useLiving);
-				if (rPerson && rPerson.id != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
+				if (rPerson && rPerson.id != person.id && rPerson.gender && (ignoreGender || rPerson.gender.type == person.gender.type) && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
@@ -976,7 +977,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					var rand = Math.floor(Math.random() * keys.length);
 					var randomId = keys[rand];
 					var rPerson = temp.people[randomId];
-					if (randomId != person.id && rPerson.gender && rPerson.gender.type == person.gender.type && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
+					if (randomId != person.id && rPerson.gender && (ignoreGender || rPerson.gender.type == person.gender.type) && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
 						persons.push(temp.people[randomId]);
 						count++;
 					}

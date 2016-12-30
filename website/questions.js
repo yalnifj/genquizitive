@@ -634,6 +634,147 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				q.places = pPlaces;
 				return q;
 			}
+		},
+		{
+			name: 'map2',
+			letter: 'B',
+			background: 'questions/tree/background.jpg',
+			difficulty: 2,
+			error: null,
+			hints: ['freeze','skip','rollback'],
+			setup: function(difficulty, useLiving) {
+				var question = this;
+				question.deferred = $q.defer();				
+				question.isReady = false;
+				question.difficulty = difficulty;
+				this.timeOffset = 0;
+				question.uniquePlaces = {};
+				question.places = [];
+				question.placeCount = 0;
+				question.personQueue = [];
+				question.questionText = 'Move the people to their correct birth place on the map.';
+				
+				question.checkNextPerson(useLiving);
+				
+				return question.deferred.promise;
+			},
+			checkNextPerson: function(useLiving) {
+				if (this.placeCount >= 1 + this.difficulty) {
+					if (!question.isReady) {
+						this.isReady = true;
+						this.deferred.resolve(this);
+					}
+				} else {
+					if (question.personQueue.length == 0) {
+						var person = familysearchService.getRandomPerson(useLiving);
+						this.personQueue.push(person);
+					}
+					var person = this.personQueue.shift();
+					var question = this;
+					this.checkBirthPlace(person).then(function(placeAuthority) {
+						question.places.push(placeAuthority);
+						question.placeCount++;
+						question.checkNextPerson(useLiving);
+					}, function(error) {
+						console.log(error);
+						question.checkNextPerson(useLiving);
+					}
+					
+					familysearchService.getRandomPeopleNear(person, 0, useLiving, true).then(function(people) {
+						for(var p=0; p<people.length; p++) {
+							question.personQueue.push(people[p]);
+						}
+					}, function(error) {
+						console.log(error);
+					});
+				}
+			},
+			checkBirthPlace: function(person) {
+				var deferred = $q.defer();
+				var birthFact = null;
+				for(var f=0; f<person.facts.length; f++) {
+					var fact = person.facts[f];
+					if (fact.type=='http://gedcomx.org/Birth' && fact.place) {
+						birthFact = fact;
+						break;
+					}
+				}
+				if (birthFact) {
+					var place = "";
+					if (birthFact.place.normalized && birthFact.place.normalized.value) {
+						place = birthFact.place.normalized.value;
+					} else if (birthFact.place.original) {
+						place = birthFact.place.original;
+					}
+					
+					if (place!="") {
+						familysearchService.searchPlace(place).then(function(response) {
+							if (response.entries && response.entries.length>0) {
+								var responsePlace = response.place;
+								var entry = response.entries[0];
+								if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
+									var placeAuthority = entry.content.gedcomx.places[0];
+									if (!question.uniquePlaces[placeAuthority.id] && placeAuthority.latitude) {
+										question.uniquePlaces[placeAuthority.id] = placeAuthority;
+										placeAuthority.pos = [placeAuthority.latitude, placeAuthority.longitude];
+										placeAuthority.person = person;
+										deferred.resolve(placeAuthority);
+									} else {
+										deferred.reject('duplicate birth place ['+place+'] for person '+person.id);
+									}
+								} else {
+									deferred.reject('birth place ['+place+'] not found for person '+person.id);
+								}
+							} else {
+								deferred.reject('birth place ['+place+'] not found for person '+person.id);
+							}
+						}, function(error) {
+							deferred.reject('birth place ['+place+'] not found for person '+person.id);
+						});
+					} else {
+						deferred.reject('no birth place for person '+person.id);
+					}
+				} else {
+					deferred.reject('no birth place for person '+person.id);
+				}
+				return deferred.promise;
+			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.person = roundQuestion.person;
+				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
+				if (person) {
+					this.person = person;
+				}
+				this.places = roundQuestion.places;
+				this.difficulty = roundQuestion.difficulty;
+				this.isReady = true;
+				this.timeOffset = 0;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					personId: this.person.id,
+					questionText: this.questionText,
+					startTime: this.startTime,
+					completeTime: this.completeTime,
+					timeOffset: this.timeOffset
+				};
+				var pPlaces = [];
+				for(var p=0; p<this.places.length; p++) {
+					var place = this.places[p];
+					var pp = {};
+					pp.person = {id: place.person.id, display: place.person.display};
+					pp.pos = place.pos;
+					pp.latitude = place.latitude;
+					pp.longitude = place.longitude;
+					pp.display = place.display;
+					pPlaces.push(pp);
+				}
+				q.places = pPlaces;
+				return q;
+			}
 		}
 	];
 	
@@ -653,20 +794,20 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		{
 			name: "freeze",
 			img: "hints/freeze.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
 			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.',
 			time: 20
 		},
 		{
 			name: "skip",
 			img: "hints/skip.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
 			description: 'The Skip hint will allow you to skip to the next question, but it will keep the current amount of time that you have spent on the question.'
 		},
 		{
 			name: "rollback",
 			img: "hints/rollback.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
 			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.',
 			time: 15
 		}
@@ -729,6 +870,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		F: 'Fact Mulitple Choice Question',
 		L: 'Timeline Sort Question',
 		M: 'Map the Facts Question',
+		B: 'Map People by Birth Place',
 		U: 'Unknown'
 	};
 	
@@ -1220,17 +1362,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		link: function($scope, $element, $attr) {
 			$element.draggable({
 				revert: "invalid", 
-				zIndex: 101,
-				start: function(event, ui) {
-					NgMap.getMap().then(function(map) {
-					  map.setOptions({draggable: false});
-					});
-				},
-				stop: function(event, ui) {
-					NgMap.getMap().then(function(map) {
-					  map.setOptions({draggable: true});
-					});
-				}
+				zIndex: 101
 			})
 			.data('place', $scope.place);
 		}
@@ -1275,6 +1407,122 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	}
 }])
 .controller('mapController', function($scope, $q, QuestionService, languageService, familysearchService, NgMap) {
+	$scope.questionText = '';
+	
+	$scope.$watch('question.person', function() {
+		if ($scope.question.person) {
+			$scope.questionText = $scope.question.questionText;
+		}
+	});
+	
+	$scope.$watchCollection('question.places', function() {
+		if ($scope.question && $scope.question.places) {
+			$scope.dynMarkers = [];
+			NgMap.getMap().then(function(map) {
+				var bounds = new google.maps.LatLngBounds();
+				for (var k in map.customMarkers) {
+					var cm = map.customMarkers[k];
+					bounds.extend(cm.getPosition());
+					$scope.dynMarkers.push(cm);
+				}
+				if ($scope.marketClusterer) {
+					$scope.marketClusterer.clearMarkers();
+					$scope.marketClusterer.addMarkers($scope.dynMarkers);
+				} else {
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+				}
+				map.setCenter(bounds.getCenter());
+				map.fitBounds(bounds);
+			});
+		}
+	});
+	
+	$scope.$on('checkMap', function() {
+		$scope.checkMap();
+	});
+	
+	$scope.checkMap = function() {
+		var complete = true;
+		for(var i=0; i<$scope.question.places.length; i++) {
+			if (!$scope.question.places[i].inPlace) {
+				complete = false;
+				break;
+			}
+		}
+		console.log('map complete in '+complete);
+		if (complete) {
+			$scope.$emit('questionCorrect', $scope.question);
+		}
+	};
+})
+.directive('mapPerson', ['NgMap', function(NgMap) {
+	return {
+		scope: {
+			place: '='
+		},
+		template: '<div avatar-badge class="avatar ancestor-avatar" src="place.person.portrait" label="label"></div>',
+		link: function($scope, $element, $attr) {
+			$scope.label = "";
+			if ($scope.place && $scope.place.person) {
+				//-- make sure we have portrait pictures for each person					
+				if (!$scope.place.person.portrait) {
+					familysearchService.getPersonPortrait($scope.place.person.id).then(function(res) {
+						$scope.place.portrait = res.src;
+					});
+				}
+				
+				$scope.label = $scope.place.person.display.name;
+				if ($scope.place.person.display.birthDate) {
+					$scope.label += "("+$scope.place.person.display.birthDate+")";
+				}
+			}
+			$element.draggable({
+				revert: "invalid", 
+				zIndex: 101
+			})
+			.data('place', $scope.place);
+		}
+	}
+}])
+.directive('mapPersonHolder', [function() {
+	return {
+		scope: {
+			place: '='
+		},
+		link: function($scope, $element, $attr) {
+			$scope.isFull = false;
+			$element.droppable({
+				accept: function(element) {
+					var droppedPlace = element.data('place');
+					if (droppedPlace.id==$scope.place.id) {
+						return true;
+					}
+					return false;
+				},
+				drop: function(event, ui) {
+					$scope.isFull = true;
+					$($element).append(ui.draggable.detach());
+					ui.draggable.css('position', 'absolute');
+					ui.draggable.css('left', '-1px');
+					ui.draggable.css('top', '-3px');
+					var droppedPlace = ui.draggable.data('place');
+					if (droppedPlace.id==$scope.place.id) {
+						ui.draggable.addClass('inPlace');
+						ui.draggable.removeClass('movable');
+						droppedPlace.inPlace = true;
+						$element.droppable( "option", "disabled", true );
+						ui.draggable.draggable("option", "disabled", true);
+					} else {
+						ui.draggable.removeClass('inPlace');
+						droppedPlace.inPlace = false;
+					}
+					$scope.$emit('checkMap');
+				}
+			});
+		}
+	}
+}])
+.controller('map2Controller', function($scope, $q, QuestionService, languageService, familysearchService, NgMap) {
 	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function() {
