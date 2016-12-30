@@ -1232,8 +1232,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		link: function($scope, $element, $attr) {
 			$scope.isFull = false;
 			$element.droppable({
-				accept: function(event, ui) {
-					var droppedFact = ui.draggable.data('place');
+				accept: function(element) {
+					var droppedFact = element.data('place');
 					if (droppedFact.id==$scope.place.id) {
 						return true;
 					}
@@ -1248,6 +1248,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					var droppedFact = ui.draggable.data('place');
 					if (droppedFact.id==$scope.place.id) {
 						ui.draggable.addClass('inPlace');
+						ui.draggable.removeClass('movable');
 						droppedFact.inPlace = true;
 						$element.droppable( "option", "disabled", true );
 						ui.draggable.draggable("option", "disabled", true);
@@ -1284,7 +1285,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					$scope.marketClusterer.clearMarkers();
 					$scope.marketClusterer.addMarkers($scope.dynMarkers);
 				} else {
-					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 55, textSize: 16}]}); 
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
 				map.setCenter(bounds.getCenter());
 				map.fitBounds(bounds);
