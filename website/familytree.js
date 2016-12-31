@@ -134,9 +134,12 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	};
 
 	this.getDateYear = function(date) {
-		var yearPatt = new RegExp("\d\d\d\d");
+		var yearPatt = new RegExp(/\d\d\d\d/);
 		var year = yearPatt.exec(date);
-		return year;
+		if (year && year.length > 0) {
+			return year[0];
+		}
+		return "";
 	};
 	
 	this.parseDate = function(dateStr) {

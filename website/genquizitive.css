@@ -726,10 +726,14 @@ body {
 	position: relative;
 	border: dashed #008080 1px;
 	border-radius: 50% 50%;
-	width: 105px;
-	height: 105px;
+	width: 89px;
+	height: 89px;
 	margin-left: auto;
     margin-right: auto;
+}
+
+.fact-map .custom-marker .person-holder .avatar {
+	z-index: 2;
 }
 
 .map-fact {

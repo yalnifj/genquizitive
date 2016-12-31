@@ -660,16 +660,19 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			},
 			checkNextPerson: function(useLiving) {
 				if (this.placeCount >= 1 + this.difficulty) {
-					if (!question.isReady) {
+					if (!this.isReady) {
 						this.isReady = true;
 						this.deferred.resolve(this);
 					}
 				} else {
-					if (question.personQueue.length == 0) {
+					if (this.personQueue.length == 0) {
 						var person = familysearchService.getRandomPerson(useLiving);
 						this.personQueue.push(person);
 					}
 					var person = this.personQueue.shift();
+					if (!person) {
+						person = familysearchService.getRandomPerson(useLiving);
+					}
 					var question = this;
 					this.checkBirthPlace(person).then(function(placeAuthority) {
 						question.places.push(placeAuthority);
@@ -678,7 +681,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					}, function(error) {
 						console.log(error);
 						question.checkNextPerson(useLiving);
-					}
+					});
 					
 					familysearchService.getRandomPeopleNear(person, 0, useLiving, true).then(function(people) {
 						for(var p=0; p<people.length; p++) {
@@ -708,6 +711,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					}
 					
 					if (place!="") {
+						var question = this;
 						familysearchService.searchPlace(place).then(function(response) {
 							if (response.entries && response.entries.length>0) {
 								var responsePlace = response.place;
@@ -1455,7 +1459,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}
 	};
 })
-.directive('mapPerson', ['NgMap', function(NgMap) {
+.directive('mapPerson', ['NgMap', 'familysearchService', 'languageService', function(NgMap, familysearchService, languageService) {
 	return {
 		scope: {
 			place: '='
@@ -1473,7 +1477,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				
 				$scope.label = $scope.place.person.display.name;
 				if ($scope.place.person.display.birthDate) {
-					$scope.label += "("+$scope.place.person.display.birthDate+")";
+					$scope.label += ' ('+languageService.getDateYear($scope.place.person.display.birthDate)+')';
 				}
 			}
 			$element.draggable({
@@ -1503,8 +1507,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					$scope.isFull = true;
 					$($element).append(ui.draggable.detach());
 					ui.draggable.css('position', 'absolute');
-					ui.draggable.css('left', '-1px');
+					ui.draggable.css('left', '-10px');
 					ui.draggable.css('top', '-3px');
+					ui.draggable.css('z-index', '2');
 					var droppedPlace = ui.draggable.data('place');
 					if (droppedPlace.id==$scope.place.id) {
 						ui.draggable.addClass('inPlace');
