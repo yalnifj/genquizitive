@@ -683,17 +683,27 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 						question.checkNextPerson(useLiving);
 					});
 					
-					familysearchService.getRandomPeopleNear(person, 0, useLiving, true).then(function(people) {
-						for(var p=0; p<people.length; p++) {
-							question.personQueue.push(people[p]);
-						}
-					}, function(error) {
-						console.log(error);
-					});
+					if (person!=null) {
+						familysearchService.getRandomPeopleNear(person, 0, useLiving, true).then(function(people) {
+							for(var p=0; p<people.length; p++) {
+								question.personQueue.push(people[p]);
+							}
+						}, function(error) {
+							console.log(error);
+						});
+					}
 				}
 			},
 			checkBirthPlace: function(person) {
 				var deferred = $q.defer();
+				if (!person) {
+					deferred.reject('null person');
+					return deferred.promise;
+				}
+				if (!person.facts) {
+					deferred.reject('person has no facts');
+					return deferred.promise;
+				}
 				var birthFact = null;
 				for(var f=0; f<person.facts.length; f++) {
 					var fact = person.facts[f];
@@ -745,11 +755,6 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
-				this.person = roundQuestion.person;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-				}
 				this.places = roundQuestion.places;
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
@@ -759,7 +764,6 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id,
 					questionText: this.questionText,
 					startTime: this.startTime,
 					completeTime: this.completeTime,
@@ -1326,7 +1330,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function() {
-		if ($scope.question.person) {
+		if ($scope.question.person && $scope.question.person.facts) {
 			$scope.questionText = $scope.question.questionText;
 			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
 			$scope.facts = angular.copy($scope.sortedfacts);
@@ -1369,6 +1373,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				zIndex: 101
 			})
 			.data('place', $scope.place);
+			
+			$scope.$on('$destroy', function() {
+				$($element).draggable( "destroy" );
+			});
 		}
 	}
 }])
@@ -1407,6 +1415,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					$scope.$emit('checkMap');
 				}
 			});
+			
+			$scope.$on('$destroy', function() {
+				$($element).droppable( "destroy" );
+			});
 		}
 	}
 }])
@@ -1423,10 +1435,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		if ($scope.question && $scope.question.places) {
 			$scope.dynMarkers = [];
 			NgMap.getMap().then(function(map) {
-				var bounds = new google.maps.LatLngBounds();
+				$scope.map = map;
 				for (var k in map.customMarkers) {
 					var cm = map.customMarkers[k];
-					bounds.extend(cm.getPosition());
 					$scope.dynMarkers.push(cm);
 				}
 				if ($scope.marketClusterer) {
@@ -1435,8 +1446,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				} else {
 					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
-				map.setCenter(bounds.getCenter());
-				map.fitBounds(bounds);
+				setTimeout(function() {
+					$scope.markerClusterer.fitMapToMarkers();
+					google.maps.event.trigger(map, 'resize');
+				}, 300);
 			});
 		}
 	});
@@ -1458,6 +1471,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		}
 	};
+	
+	$scope.$on('$destroy', function() {
+		if ($scope.map) {
+			$scope.markerClusterer.clearMarkers();
+			google.maps.event.clearInstanceListeners($scope.map);
+		}
+	});
 })
 .directive('mapPerson', ['NgMap', 'familysearchService', 'languageService', function(NgMap, familysearchService, languageService) {
 	return {
@@ -1485,6 +1505,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				zIndex: 101
 			})
 			.data('place', $scope.place);
+			
+			$scope.$on('$destroy', function() {
+				$($element).draggable( "destroy" );
+			});
 		}
 	}
 }])
@@ -1498,7 +1522,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$element.droppable({
 				accept: function(element) {
 					var droppedPlace = element.data('place');
-					if (droppedPlace.id==$scope.place.id) {
+					if (droppedPlace && droppedPlace.id==$scope.place.id) {
 						return true;
 					}
 					return false;
@@ -1524,10 +1548,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					$scope.$emit('checkMap');
 				}
 			});
+			
+			$scope.$on('$destroy', function() {
+				$($element).droppable( "destroy" );
+			});
 		}
 	}
 }])
-.controller('map2Controller', function($scope, $q, QuestionService, languageService, familysearchService, NgMap) {
+.controller('map2Controller', function($scope, $q, QuestionService, languageService, familysearchService, NgMap, NgMapPool) {
 	$scope.questionText = '';
 	
 	$scope.$watch('question.person', function() {
@@ -1540,20 +1568,21 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		if ($scope.question && $scope.question.places) {
 			$scope.dynMarkers = [];
 			NgMap.getMap().then(function(map) {
-				var bounds = new google.maps.LatLngBounds();
+				$scope.map = map;
 				for (var k in map.customMarkers) {
 					var cm = map.customMarkers[k];
-					bounds.extend(cm.getPosition());
 					$scope.dynMarkers.push(cm);
 				}
-				if ($scope.marketClusterer) {
-					$scope.marketClusterer.clearMarkers();
-					$scope.marketClusterer.addMarkers($scope.dynMarkers);
+				if ($scope.markerClusterer) {
+					$scope.markerClusterer.clearMarkers();
+					$scope.markerClusterer.addMarkers($scope.dynMarkers);
 				} else {
 					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
-				map.setCenter(bounds.getCenter());
-				map.fitBounds(bounds);
+				setTimeout(function() {
+					$scope.markerClusterer.fitMapToMarkers();
+					google.maps.event.trigger(map, 'resize');
+				}, 300);
 			});
 		}
 	});
@@ -1575,5 +1604,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		}
 	};
+	
+	$scope.$on('$destroy', function() {
+		if ($scope.map) {
+			$scope.markerClusterer.clearMarkers();
+			google.maps.event.clearInstanceListeners($scope.map);
+		}
+	});
 })
 ;

@@ -40,6 +40,19 @@
 				<div ng-if="person!='spacer'" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" style="display: inline-block;"></div>
 			</div>
 		</div>
+		<div class="person-comp person-map">
+			<ng-map class="person-fact-map">
+				<custom-marker class="fact-place" ng-repeat="place in $ctrl.places track by $index"
+					id="fact-{{$index}}" position="{{place.pos}}">
+					<div class="place">
+						{{place.display.fullName}}
+					</div>
+					<div class="fact" ng-repeat="fact in place.facts">
+						<span class="fact-type">{{fact.type | factlabel}} {{fact.value}}</span><br /><span class="fact-date">{{fact.date.original}}</span>
+					</div>
+				</custom-marker>
+			</ng-map>
+		</div>
 		<div class="tree-row">
 			<div ng-if="!$ctrl.hasSpouses" avatar-badge class="avatar ancestor-avatar" label="$ctrl.person.display.name" src="$ctrl.person.portrait" style="display: inline-block;"></div>
 			<div class="spouse-tree" ng-repeat="spouseTree in $ctrl.spouseTrees">

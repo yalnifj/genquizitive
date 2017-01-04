@@ -902,6 +902,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.maxQuestions = 5;
 	$scope.ready = false;
 	
+	$scope.freezeTime = 0;
 	$scope.minute = 0;
 	$scope.second = 0;
 	$scope.loadingTime = 0;
@@ -1507,15 +1508,16 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		}
 	};
 	
+	$scope.questions = [];
+	$scope.currentQuestion = 0;
 	$scope.questions[$scope.currentQuestion] = QuestionService.getRandomQuestion();
 	$scope.setupQuestion($scope.currentQuestion, 0);
 	
 	$scope.startRound = function() {
 		notif.close();
-		$scope.questions = [];
-		$scope.currentQuestion = 0;
 		$scope.missedQuestions = 0;
 		
+		$scope.freezeTime = 0;
 		$scope.minute = 0;
 		$scope.second = 0;
 		$scope.loadingTime = 0;
@@ -1668,7 +1670,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		close: '&',
 		dismiss: '&'
 	},
-	controller: function(familysearchService, languageService) {
+	controller: function(familysearchService, languageService, NgMap) {
 		var $ctrl = this;
 		$ctrl.active = 0;
 		$ctrl.$onInit = function () {
@@ -1743,8 +1745,80 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						}
 					});
 				});
+				
+				//-- map the facts
+				$ctrl.places = [];
+				var placeFacts = {};
+				var promises = [];
+				for(var f=0; f<$ctrl.facts.length; f++) {
+					var fact = $ctrl.facts[f];
+					if (fact.place) {
+						var place = "";
+						if (fact.place.normalized && fact.place.normalized.value) {
+							place = fact.place.normalized.value;
+						} else if (fact.place.original) {
+							place = fact.place.original;
+						}
+						
+						if (place!="") {
+							if (placeFacts[place]) placeFacts[place].push(fact);
+							else {
+								placeFacts[place] = [fact];
+								var promise = familysearchService.searchPlace(place).then(function(response) {
+									if (response.entries && response.entries.length>0) {
+										var responsePlace = response.place;
+										var entry = response.entries[0];
+										if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
+											var placeAuthority = entry.content.gedcomx.places[0];
+											if (placeAuthority.latitude) {
+												placeAuthority.facts = placeFacts[responsePlace];
+												placeAuthority.pos = [placeAuthority.latitude, placeAuthority.longitude];
+												$ctrl.places.push(placeAuthority);
+											}
+										}
+									}
+								}, function(error) {
+									console.log("unable to get place for "+place+" "+error);
+								});
+								promises.push(promise);
+							}
+						}
+					}
+				}
+				//-- wait for all place searches to complete
+				$q.all(promises).then(function() {
+					//map is ready
+					$ctrl.dynMarkers = [];
+					NgMap.getMap().then(function(map) {
+						$ctrl.map = map;
+						for (var k in map.customMarkers) {
+							var cm = map.customMarkers[k];
+							$ctrl.dynMarkers.push(cm);
+						}
+						if ($ctrl.markerClusterer) {
+							$ctrl.markerClusterer.clearMarkers();
+							$ctrl.markerClusterer.addMarkers($ctrl.dynMarkers);
+						} else {
+							$ctrl.markerClusterer = new MarkerClusterer(map, $ctrl.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+						}
+						setTimeout(function() {
+							$ctrl.markerClusterer.fitMapToMarkers();
+							google.maps.event.trigger(map, 'resize');
+						}, 200);
+					});
+				}, function(error) {
+					console.log("unable to resolve all promises "+error);
+				});
 			}
 		};
+		
+		$ctrl.$onDestroy = function() {
+			if ($ctrl.map) {
+				$ctrl.markerClusterer.clearMarkers();
+				google.maps.event.clearInstanceListeners($ctrl.map);
+			}
+		};
+		
 		$ctrl.ok = function () {
 			$ctrl.close();
 		};

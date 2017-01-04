@@ -264,6 +264,7 @@ MarkerClusterer.prototype.fitMapToMarkers = function() {
   }
 
   this.map_.fitBounds(bounds);
+  this.map_.setCenter(bounds.getCenter());
 };
 
 
