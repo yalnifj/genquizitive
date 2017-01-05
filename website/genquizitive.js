@@ -1670,7 +1670,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		close: '&',
 		dismiss: '&'
 	},
-	controller: function(familysearchService, languageService, NgMap) {
+	controller: function(familysearchService, languageService, NgMap, $q, $filter) {
 		var $ctrl = this;
 		$ctrl.active = 0;
 		$ctrl.$onInit = function () {
@@ -1679,7 +1679,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			}
 			if ($ctrl.person) {
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
-				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*85)+'px'};
+				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*80)+'px'};
 				
 				$ctrl.ancestors = [];
 				var hash = {};
@@ -1693,11 +1693,17 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 								if (person.display.ascendancyNumber < 4) {
 									while(lastIndex < person.display.ascendancyNumber - 1) {
 										$ctrl.parents.push("spacer");
+										lastIndex++;
 									}
 									$ctrl.parents.push(person);
 								} else {
-									while(lastIndex < person.display.ascendancyNumber - 1) {
+									while(lastIndex < 3) {
 										$ctrl.parents.push("spacer");
+										lastIndex++;
+									}
+									while(lastIndex < person.display.ascendancyNumber - 1) {
+										$ctrl.gParents.push("spacer");
+										lastIndex++;
 									}
 									$ctrl.gParents.push(person);
 								}
@@ -1708,6 +1714,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 								hash[details.id].portrait = details.src;
 							});
 						});
+						while(lastIndex < 7) {
+							$ctrl.gParents.push("spacer");
+							lastIndex++;
+						}
 					}
 				});
 				$ctrl.spouseTrees = {};
@@ -1761,6 +1771,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						}
 						
 						if (place!="") {
+							fact.factLabel = $filter('factlabel')(fact.type);
 							if (placeFacts[place]) placeFacts[place].push(fact);
 							else {
 								placeFacts[place] = [fact];
@@ -1786,29 +1797,31 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 					}
 				}
 				//-- wait for all place searches to complete
-				$q.all(promises).then(function() {
-					//map is ready
-					$ctrl.dynMarkers = [];
-					NgMap.getMap().then(function(map) {
-						$ctrl.map = map;
-						for (var k in map.customMarkers) {
-							var cm = map.customMarkers[k];
-							$ctrl.dynMarkers.push(cm);
-						}
-						if ($ctrl.markerClusterer) {
-							$ctrl.markerClusterer.clearMarkers();
-							$ctrl.markerClusterer.addMarkers($ctrl.dynMarkers);
-						} else {
-							$ctrl.markerClusterer = new MarkerClusterer(map, $ctrl.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
-						}
-						setTimeout(function() {
-							$ctrl.markerClusterer.fitMapToMarkers();
-							google.maps.event.trigger(map, 'resize');
-						}, 200);
+				if (promises.length>0) {
+					$q.all(promises).then(function() {
+						//map is ready
+						$ctrl.dynMarkers = [];
+						NgMap.getMap().then(function(map) {
+							setTimeout(function() {
+								$ctrl.map = map;
+								for (var k in map.customMarkers) {
+									var cm = map.customMarkers[k];
+									$ctrl.dynMarkers.push(cm);
+								}
+								if ($ctrl.markerClusterer) {
+									$ctrl.markerClusterer.clearMarkers();
+									$ctrl.markerClusterer.addMarkers($ctrl.dynMarkers);
+								} else {
+									$ctrl.markerClusterer = new MarkerClusterer(map, $ctrl.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+								}
+								$ctrl.markerClusterer.fitMapToMarkers();
+								google.maps.event.trigger(map, 'resize');
+							}, 400);
+						});
+					}, function(error) {
+						console.log("unable to resolve all promises "+error);
 					});
-				}, function(error) {
-					console.log("unable to resolve all promises "+error);
-				});
+				}
 			}
 		};
 		
@@ -1870,5 +1883,37 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	$scope.$watch('useLiving', function(newval, oldval) {
 		$scope.setupQuestion();
 	});
+})
+.controller('testPersonController', function($scope, familysearchService, $uibModal) {
+	
+	if (!familysearchService.fsUser) {
+		familysearchService.fsLoginStatus().then(function(fsUser) {
+			familysearchService.clearUsed();
+			familysearchService.getAncestorTree(fsUser.id, 6, true).then(function() {
+				$scope.people = familysearchService.people;
+			});
+		});
+	} else {
+		$scope.people = familysearchService.people;
+	}
+
+	$scope.showPersonDetails = function(person) {
+		if (familysearchService.fsUser) {
+			var modalInstance = $uibModal.open({
+				component: 'personDetails',
+				//size: 'lg',
+				resolve: {
+					person: function () {
+						return person;
+					}
+				}
+			});
+		} else {
+			var notif = notificationService.showNotification({title: 'Family Tree Required', 
+				message: 'This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.', 
+				closable: true});
+			notif.show();
+		}
+	};	
 })
 ;

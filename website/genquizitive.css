@@ -508,6 +508,8 @@ body {
     min-width: 250px;
     width: 275px;
 	vertical-align:top;
+	max-height: 250px;
+	overflow-y: auto;
 }
 .person-comp .table {
 	font-size: 90%;
@@ -515,26 +517,55 @@ body {
 }
 
 .person-memories {
-	height: 250px;
 	background-color: #151515;
+	height: 250px;
 }
 
 .person-memories img {
 	max-height: 240px;
 }
+
+.person-memories .carousel-caption {
+	position: inherit;
+	padding: 0px;
+}
+
+.person-timeline {
+	overflow-x: hidden;
+}
+
 .person-tree {
 	width: 99%;
-	zoom: 0.75;
+	zoom: 0.70;
+	max-height: 470px;
+}
+.person-tree .person-or-spacer {
+	position: relative;
+	display: inline-block;
 }
 .person-tree .person-spacer {
 	position: relative;
 	display: inline-block;
-	width: 100px;
-	height: 98px;
+	width: 95px;
+	height: 95px;
+	padding: 10px 5px 10px 5px;
 }
+
+.person-tree .person-spacer div {
+	border-radius: 50% 50%;
+	background-color: #ccc;
+	font-size: 60px;
+	color: #BBB;
+	width: 90px;
+	height: 90px;
+	position: relative;
+	top: -23px;
+}
+
 .person-map {
 	width: 99%;
-	height: 350px;
+	height: 360px;
+	max-height: inherit;
 }
 
 .person-fact-map .custom-marker {
@@ -545,7 +576,8 @@ body {
 	padding: 5px;
 	text-align: center;
 	font-size: 11px;
-	max-width: 120px;
+	min-width: 100px;
+	max-width: 200px;
 }
 
 .person-fact-map .custom-marker:after {
@@ -666,7 +698,7 @@ body {
 	font-size: 24px;
 }
 .person-comp .timeline-fact {
-	zoom: 0.75;
+	zoom: 0.70;
 }
 .timeline-block {
 	background-color: #cee2e3;

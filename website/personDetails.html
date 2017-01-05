@@ -21,37 +21,23 @@
 		</div>
 	</div>
 	
-	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp text-center">
-		<h4>Timeline</h4>
-		<img src="pole1.png" style="position: absolute; left: 27px; top: 50px; width: 5px; z-index: 0;" ng-style="$ctrl.poleStyle" />
+	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp person-timeline text-center">
+		<img src="pole1.png" style="position: absolute; left: 27px; top: 25px; width: 5px; z-index: 0;" ng-style="$ctrl.poleStyle" />
 		<div class="timeline-fact" timeline-fact="" fact="fact" person="$ctrl.person" ng-repeat="fact in $ctrl.facts"></div>
 	</div>
 	
 	<div class="person-comp person-tree">
 		<div class="tree-row" ng-if="$ctrl.gParents.length>0">
-			<div ng-repeat="person in $ctrl.gParents">
-				<div ng-if="person=='spacer'" class="person-spacer"></div>
+			<div class="person-or-spacer" ng-repeat="person in $ctrl.gParents track by $index">
+				<div ng-if="person=='spacer'" class="person-spacer"><div>?</div></div>
 				<div ng-if="person!='spacer'" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" style="display: inline-block;"></div>
 			</div>
 		</div>
 		<div class="tree-row" ng-if="$ctrl.parents.length>0">
-			<div ng-repeat="person in $ctrl.parents">
-				<div ng-if="person=='spacer'" class="person-spacer"></div>
+			<div class="person-or-spacer" ng-repeat="person in $ctrl.parents track by $index">
+				<div ng-if="person=='spacer'" class="person-spacer"><div>?</div></div>
 				<div ng-if="person!='spacer'" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name" style="display: inline-block;"></div>
 			</div>
-		</div>
-		<div class="person-comp person-map">
-			<ng-map class="person-fact-map">
-				<custom-marker class="fact-place" ng-repeat="place in $ctrl.places track by $index"
-					id="fact-{{$index}}" position="{{place.pos}}">
-					<div class="place">
-						{{place.display.fullName}}
-					</div>
-					<div class="fact" ng-repeat="fact in place.facts">
-						<span class="fact-type">{{fact.type | factlabel}} {{fact.value}}</span><br /><span class="fact-date">{{fact.date.original}}</span>
-					</div>
-				</custom-marker>
-			</ng-map>
 		</div>
 		<div class="tree-row">
 			<div ng-if="!$ctrl.hasSpouses" avatar-badge class="avatar ancestor-avatar" label="$ctrl.person.display.name" src="$ctrl.person.portrait" style="display: inline-block;"></div>
@@ -65,5 +51,18 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<div class="person-comp person-map">
+		<ng-map class="person-fact-map">
+			<custom-marker class="fact-place" ng-repeat="place in $ctrl.places track by $index" id="fact-{{$index}}" position="{{place.pos}}">
+				<div class="place">
+					{{place.display.fullName}}
+				</div>
+				<div class="fact" ng-repeat="fact in place.facts track by $index">
+					<span class="fact-type">{{fact.factLabel}} {{fact.value}}</span><br /><span class="fact-date">{{fact.date.original}}</span>
+				</div>
+			</custom-marker>
+		</ng-map>
 	</div>
 </div>
