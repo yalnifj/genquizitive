@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>GenQuizitive - Question Types</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="genquizitive-site.css">
+
+    <link rel="shortcut icon" type="image/png" href="logo-large1024.png"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		h3 {
+			display: inline-block;
+			margin-top: 10px;
+			margin-left: 20px;
+			top: -10px;
+			position: relative;
+		}
+	</style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav id="navBar" class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="socialbuttons">
+			<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+		</div>
+		<div class="navbar-header">
+			<a class="navbar-brand page-scroll" href="#page-top">
+				<img class="icon" src="logo-small.png" border="0" height="45" />
+			</a>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="index.html">Home</a></li>
+				<!--<li><a class="page-scroll" href="#video">Video</a></li>-->
+				<li><a href="home.html">Play</a></li>
+				<li><a href="howtoplay.html">How to Play</a></li>
+				<li><a href="questiontypes.html">Question Types</a></li>
+				<!--<li><a class="page-scroll" href="#partners">Partners</a></li>-->
+				<li><a href="index.html#about">About Us</a></li>
+				<!--<li><a class="page-scroll" href="news.html">News</a></li>-->
+			</ul>
+		</div>
+	</div>
+</nav>
+
+
+<div class="content-start container text-center" id="error">
+    <div class="row" style="margin-bottom: 15px; margin-top: 40px;">
+        <div class="col-sm-2">
+            <a href="index.html">
+                <img border="0" src="logo-med300.png" style="width: 100px;"/>
+            </a>
+        </div>
+        <div class="col-sm-8"><h1><span style="font-size:28px;">Question Types</span></h1></div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">P</div> <h3>Picture Mulitple Choice</h3></div>
+			<p>This question will pick a random photo from your tree and ask you to choose who is shown in the picture.</p>
+			<p>You will receive a penalty for answering this question incorrectly.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_photo.png"><img src="screenshots/question_photo.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">R</div> <h3>Relationship Mulitple Choice</h3></div>
+			<p>This question calculates a random relationship path between you and another person in the tree.  You are then asked to select the correct person
+			represented by this path.  This question increases in difficulty by generating a longer relationship path.</p>
+			<p>You will receive a penalty for answering this question incorrectly.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_relationship.png"><img src="screenshots/question_relationship.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">T</div> <h3>Complete the Tree</h3></div>
+			<p>In the sign above are shown the ancestor badges for a 3 generation family tree.  The smaller signs below represent places in the tree.  
+			For example, the smaller sign at the top left is for the main person's father's father.  The top right sign is for the mother's mother.  To complete
+			this question drag the ancestor badges from the top sign to their correct place in the family tree.  If a person is in the correct place, their sign
+			will be outlined in yellow.  If they are in the incorrect place it will be outlined in red.</p>
+			<p>Depening on the difficulty level of this question, some of the people may already be in their correct place when the question begins.
+			There is no penalty for placing someone in the incorrect place except for the time it takes to remove them and place them somewhere else.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_tree.png"><img src="screenshots/question_tree.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">F</div> <h3>Fact Mulitple Choice</h3></div>
+			<p>This question chooses a random event from a random person in your tree.  You must then select the person who experienced that event at the described 
+			place and time.  There is guarenteed to only be 1 correct answer.</p>
+			<p>You will receive a penalty for answering this question incorrectly.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_fact.png"><img src="screenshots/question_fact.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">T</div> <h3>Timeline Sort</h3></div>
+			<p>This question chooses a random person from your tree and randomly sorts all of the facts for that person.  To correctly complete the question, you 
+			must put the facts back into their correct order. You may reorder the facts by clicking and dragging them to a new spot.</p>
+			<p>When a fact is in its correct place, the date when the fact occurred and the age of the person at the time of the fact will appear.  
+			This question gets more difficult by choosing a person with more facts.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_timeline.png"><img src="screenshots/question_timeline.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">M</div> <h3>Map the Facts</h3></div>
+			<p>This question randomly chooses a person from your tree and asks you to place all of their facts into their correct locations on a map.  To place a fact
+			on the map, drag it from the top down into the correct place.  If you try to place a fact in the incorrect place, it will move back to the top area above the map.
+			Use the standard Google map controls to pan around and zoom in and out on the map.  Each location is guarenteed to be unique and there will only be one fact per 
+			place.  </p>
+			<p>Some places may be too close to distinquish at the current zoom level and will be shown as a cluster with a number.  Zoom into that location 
+			until the unique places are visible in order to drag facts to locations that were in that cluster.  As you zoom out on the map, locations will merge into a cluster again.</p>
+			<p>This question gets more difficult by choosing a person with more facts.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/fact_map_question.png"><img src="screenshots/fact_map_question.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-md-8 text-left">
+            <div><div class="letter">B</div> <h3>Map People by Birth Place</h3></div>
+			<p>In this question, you will place people on a map by their correct birth place.  To do this, simply drag them from the top area down into their 
+			correct place on the map.  Each place is quarenteed to be unique, and there will only be one person born in a certain place.</p>
+			<p>Some places may be too close to distinquish at the current zoom level and will be shown as a cluster with a number.  Zoom into that location 
+			until the unique places are visible in order to drag people to the locations that were in that cluster.  As you zoom out on the map, locations will merge into a cluster again.</p>
+			<p>This question gets more difficult by adding more people to place.</p>
+        </div>
+		<div class="col-md-4">
+			<a href="screenshots/question_map_births.png"><img src="screenshots/question_map_births.png" class="img-responsive img-thumbnail" /></a>
+		</div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="jquery.easing.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // jQuery for page scrolling feature - requires jQuery Easing plugin
+        $('a.page-scroll').bind('click', function(event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top - 50)
+            }, 1250, 'easeInOutExpo');
+            event.preventDefault();
+        });
+    });
+
+</script>
+</body>
+</html>

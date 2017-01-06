@@ -24,7 +24,10 @@
 			});
 		}
 		function onPlayerReady(event) {
-			player.playVideo();
+			if (document.cookie.indexOf("videoPlayed") < 0) {
+				document.cookie = "videoPlayed=true;";
+				player.playVideo();
+			}
 		}
 		function onPlayerStateChange(event) {
 			
@@ -111,7 +114,7 @@
 		</div>
 		<div class="navbar-header">
 			<a class="navbar-brand page-scroll" href="#page-top">
-				<img class="icon" src="logo.png" border="0" height="45" />
+				<img class="icon" src="logo-small.png" border="0" height="45" />
 			</a>
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span>
@@ -125,7 +128,8 @@
 				<li><a class="page-scroll" href="#page-top">Home</a></li>
 				<!--<li><a class="page-scroll" href="#video">Video</a></li>-->
 				<li><a class="page-scroll" href="home.html">Play</a></li>
-				<li><a class="page-scroll" href="#howto">Introduction</a></li>
+				<li><a href="howtoplay.html">How to Play</a></li>
+				<li><a href="questiontypes.html">Question Types</a></li>
 				<!--<li><a class="page-scroll" href="#partners">Partners</a></li>-->
 				<li><a class="page-scroll" href="#about">About Us</a></li>
 				<!--<li><a class="page-scroll" href="news.html">News</a></li>-->
@@ -176,11 +180,17 @@
         </div>
 		<div class="row">
 			<div class="col-sm-6">
-				With GenQuizitive, challenge your friends and family members to a social genealogy quiz game. Find out who knows the most about their family history! 
+				<p>GenQuizitive is an interactive, social, genealogy game where players challenge each other to trivia quizzes about their personal family history.
+				Each GenQuiz consists of a series of trivia questions about your family tree.  Questions become more difficult as the round progresses.  The player who
+				answers the questions the fastest wins that GenQuiz.
+				</p>
+				<p>Learn more about <a href="howtoplay.html">How to Play!</a></p>
+				<p>Learn more about GenQuiz <a href="questiontypes.html">Question Types</a></p>
 			</div>
 			<div class="col-sm-6">
-				Players may connect to their online family tree at FamilySearch to access their genealogy data.  
-				Players may challenge their friends and family members through Facebook.
+				<p>Play parctice rounds by yourself or challenge your friends and family members to find out who knows the most about their family history!</p>
+				<p>Play the game with your personal family history by connecting to your online Family Tree at <a href="http://www.familysearch.org" target="_blank">FamilySearch</a>.</p>
+				<p>Play with your friends and family members by connecting to your <a href="http://www.facebook.com" target="_blank">Facebook</a> account.</p>
 			</div>
 		</div>
 	</div>
