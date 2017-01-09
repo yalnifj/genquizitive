@@ -46,6 +46,66 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		
 		return $scope;
 	};
+	
+	this.showHintWon = function(options) {
+		var $scope = $rootScope.$new();
+		$scope.title = options.title;
+		$scope.message = options.message;
+		$scope.options = options;
+		var template = '<div class="notification"><div class="title">{{title}}</div><div class="message">{{message}}\
+			<div class="text-center" hint-spinner="" hint-won="options.hint"></div></div>\
+			<button ng-if="options.closable" ng-click="close()" class="btn btn-default closebutton">Close</button></div>';
+		$scope.element = $compile(template)($scope);
+		$('body').append($scope.element);
+		
+		$scope.show = function() {
+			var left = ($(window).width() - $scope.element.width()) / 2;
+			$scope.element.css('left', left + 'px');
+			$scope.element.animate({top: '20px'}, 800);
+		};
+		
+		$scope.close = function() {
+			$scope.element.animate({top: '-500px'}, {duration: 800, complete: function() { $scope.element.remove(); } });
+		};
+		
+		return $scope;
+	};
+}])
+.directive('hintSpinner', ['$interval', 'QuestionService', function($interval, QuestionService) {
+	return {
+		restrict: 'A',
+		scope: {
+			hint: '=hintWon'
+		},
+		template: '<img ng-src="{{img}}" />',
+		link: function($scope, $element, $attr) {
+			$scope.hints = QuestionService.hints;
+			$scope.currentIndex == 0;
+			$scope.delay = 4000;
+			$scope.swapDelay = 100;
+			$scope.img = $scope.hints[$scope.currentIndex].img;
+			
+			$scope.interval = $interval(function() {
+				if ($scope.delay > 0) {
+					$scope.delay -= 100;
+					$scope.swapDelay -= 100;
+					if ($scope.swapDelay <=0) {
+						$scope.swapDelay = 100 + (4000 - $scope.delay) / 2;
+						$scope.currentIndex++;
+						if ($scope.currentIndex >= $scope.hints.length) {
+							$scope.currentIndex = 0;
+						}
+						$scope.img = $scope.hints[$scope.currentIndex].img;
+					}
+				} else {
+					$scope.img = $scope.hint.img;
+				}
+			}, 100);
+			$scope.$on('$destroy', function() {
+				$interval.cancel($scope.interval);
+			});
+		}
+	}
 }])
 .directive('countdown', ['$interval', '$timeout', function($interval, $timeout) {
 	return {
@@ -609,7 +669,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	};
 	
 })
-.controller('hintsController', function($scope, facebookService, firebaseService, $location, QuestionService, familysearchService, notificationService) {
+.controller('hintsController', function($scope, facebookService, firebaseService, $location, QuestionService, familysearchService, notificationService, $q) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 	
 	if (!facebookService.facebookUser) {
@@ -619,6 +679,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	}
 	
 	$scope.hints = angular.copy(QuestionService.hints);
+	$scope.hintTxt = "Daily Hint!";
 	
 	$scope.$watch('gameUser', function() {
 		if ($scope.gameUser) {
@@ -629,6 +690,19 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 					hint.userCount = 0;
 				}
 			});
+			var lastDate = (new Date()).getTime() - (1000*60*60*24*7);
+			if ($scope.gameUser.lastFSHint) {
+				lastDate = $scope.gameUser.lastFSHint;
+				var now = new Date();
+				var diff = lastDate + (1000*60*60*24) - now.getTime();
+				if (diff > 0) {
+					var hours = Math.floor(diff / (1000*60*60));
+					var minutes = Math.round((diff - (hours*1000*60*60)) / (1000*60));
+					$scope.hintTxt = "Next Hint in ";
+					if (hours > 0) $scope.hintTxt += hours + " hours";
+					else $scope.hintTxt += minutes + " minutes";
+				}
+			}
 		}
 	});
 	
@@ -637,6 +711,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			$scope.gameUser = user;
 		}
 	});
+	
+	$scope.showNoChanges = function() {
+		$scope.hintTxt = "Daily Hint!";
+		var notif = notificationService.showNotification({title: 'Hints',message: 'We were not able to detect any changes you made to your family tree. \
+			Go to your family tree and make some changes, then return and check again to earn free hints!', closable: true});
+		notif.show();
+	};
 	
 	$scope.checkFamilySearch = function() {
 		var lastDate = (new Date()).getTime() - (1000*60*60*24*7);
@@ -653,14 +734,16 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				return;
 			}
 		}
+		$scope.hintTxt = "Loading...";
 		$scope.foundEntry = null;
 		$scope.entryCount = 0;
 		familysearchService.getUserHistory().then(function(entries) {
 			if (entries && entries.length>0) {
+				var promises = [];
 				for(var e=0; e<entries.length; e++) {
 					if (entries[e].updated > lastDate) {
 						$scope.entryCount++;
-						familysearchService.getPersonChanges(entries[e].id).then(function(personEntries) {
+						var promise = familysearchService.getPersonChanges(entries[e].id).then(function(personEntries) {
 							if (personEntries) {
 								for(var i=0; i<personEntries.length; i++) {
 									var entry = personEntries[i];
@@ -670,11 +753,13 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 												if (familysearchService.currentUser && entry.contributors[c].name == familysearchService.currentUser.contactName) {
 													if ($scope.foundEntry == null) {
 														var hint = QuestionService.getRandomHint();
+														$scope.gameUser.lastFSHint = (new Date()).getTime();
+														firebaseService.writeUserProperty($scope.gameUser.userId, 'lastFSHint', $scope.gameUser.lastFSHint);
 														firebaseService.addUserHint($scope.gameUser.userId, hint).then(function(user) {
 															$scope.gameUser = user;
 														});
-														var notif = notificationService.showNotification({title: 'Congratulations!',message: 'You\'ve earned a free hint! \
-															<img src="'+hint.img+'" />', closable: true});
+														var notif = notificationService.showHintWon({title: 'Congratulations!',message: 'You\'ve earned a free hint!', 
+																hint: hint, closable: true});
 														notif.show();
 													}
 													$scope.foundEntry = entry;
@@ -685,29 +770,31 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 								}
 							}
 						});
+						promises.push(promise);
 					}
 				}
-				$scope.gameUser.lastFSHint = (new Date()).getTime();
-				firebaseService.writeUserProperty($scope.gameUser.userId, 'lastFSHint', $scope.gameUser.lastFSHint);
+				if (promises.length>0) {
+					$q.all(promises).then(function() {
+						if ($scope.foundEntry == null) {
+							$scope.showNoChanges();
+						}
+					}, function(error) {
+						console.log("unable to resolve all promises "+error);
+						$scope.hintTxt = "Daily Hint!";
+					});
+				} else {
+					$scope.showNoChanges();
+				}
 			} else {
-				var notif = notificationService.showNotification({title: 'Hints',message: 'We were unable to find any change you have made on your family tree. \
-					Improve your family tree each day to earn free hints!', closable: true});
-				notif.show();
+				$scope.showNoChanges();
 			}
 		}, function(error) {
 			var notif = notificationService.showNotification({title: 'FamilySearch Error',message: 'Unable to get user history from FamilySearch.', closable: true});
 			notif.show();
 			console.log(error);
+			$scope.hintTxt = "Daily Hint!";
 		});
 	};
-	$scope.$watch('foundEntry', function(newval, oldval) {
-		if (newval!=oldval) {
-			if ($scope.foundEntry===false) {
-				var notif = notificationService.showNotification({title: 'FamilySearch',message: 'No user history was found in FamilySearch.', closable: true});
-				notif.show();
-			}
-		}
-	});
 })
 .controller('continueController', function($scope, facebookService, firebaseService, notificationService, $location, languageService) {
 	$scope.$emit('changeBackground', 'questions/multi2/background.jpg');
