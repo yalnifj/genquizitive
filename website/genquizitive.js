@@ -1766,7 +1766,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			}
 			if ($ctrl.person) {
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
-				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*80)+'px'};
+				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*75)+'px'};
 				
 				$ctrl.ancestors = [];
 				var hash = {};
@@ -1801,6 +1801,10 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 								hash[details.id].portrait = details.src;
 							});
 						});
+						while(lastIndex < 3) {
+							$ctrl.parents.push("spacer");
+							lastIndex++;
+						}
 						while(lastIndex < 7) {
 							$ctrl.gParents.push("spacer");
 							lastIndex++;
@@ -1817,17 +1821,29 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 								if (dnums[0]=="1") dnums[0]="1-S";
 								if (!$ctrl.spouseTrees[dnums[0]]) {
 									$ctrl.hasSpouses = true;
-									$ctrl.spouseTrees[dnums[0]] = { children: [] };
+									$ctrl.spouseTrees[dnums[0]] = { children: [], lines: [], lineOffset: 0 };
 								}
 								if (dnums.length==1) {
 									$ctrl.spouseTrees[dnums[0]].spouse = person;
-								} else {
+								} else if (dnums[1].indexOf("S")<0) {
 									$ctrl.spouseTrees[dnums[0]].children.push(person);
+									if ($ctrl.spouseTrees[dnums[0]].children.length > 2) $ctrl.spouseTrees[dnums[0]].lineOffset += 25;
 								}
 								hash[person.id] = person;
 								familysearchService.getPersonPortrait(person.id).then(function(details) {
 									hash[details.id].portrait = details.src;
 								});
+							}
+						});
+						angular.forEach($ctrl.spouseTrees, function(spouseTree) {
+							if (spouseTree.children.length > 2) {
+								for(var l=0; l<spouseTree.children.length; l++) {
+									spouseTree.lines.push(50+100*l);
+								}
+							} else {
+								for(var l=0; l<spouseTree.children.length; l++) {
+									spouseTree.lines.push(150 + 100*l);
+								}
 							}
 						});
 					}

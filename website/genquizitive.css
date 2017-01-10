@@ -511,22 +511,25 @@ body {
 	max-height: 250px;
 	overflow-y: auto;
 }
+.person-comp.person-display {
+	height: 250px;
+}
 .person-comp .table {
 	font-size: 90%;
     margin-bottom: 2px;
 }
 
 .person-memories {
-	background-color: #151515;
 	height: 250px;
 }
 
 .person-memories img {
-	max-height: 240px;
+	max-height: 230px;
 }
 
 .person-memories .carousel-caption {
 	position: inherit;
+	color: inherit;
 	padding: 0px;
 }
 
@@ -549,6 +552,8 @@ body {
 	width: 95px;
 	height: 95px;
 	padding: 10px 5px 10px 5px;
+	margin-left: 5px;
+    margin-right: 5px;
 }
 
 .person-tree .person-spacer div {
@@ -623,6 +628,13 @@ body {
 .tree-row {
 	min-height: 115px;
 	text-align: center;
+}
+.tree-row .avatar {
+	display: inline-block;
+}
+.tree-row.parents-row .avatar, .tree-row.parents-row .person-spacer {
+	margin-right: 45px;
+    margin-left: 45px;
 }
 .spouse-tree {
 	display: inline-block;
