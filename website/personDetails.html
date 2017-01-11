@@ -3,7 +3,7 @@
 		<div uib-slide ng-repeat="memory in $ctrl.memories track by memory.id" index="$index">
 			<img ng-src="{{memory.src}}" class="img-responsive" style="margin:auto;" />
 			<div class="carousel-caption">
-				<h4>{{memory.titles[0].value}}</h4>
+				<h5>{{memory.titles[0].value}}</h5>
 			</div>
 		</div>
 	</div>
@@ -24,6 +24,20 @@
 	<div ng-if="$ctrl.person.facts.length > 1" class="person-comp person-timeline text-center">
 		<img src="pole1.png" style="position: absolute; left: 27px; top: 25px; width: 5px; z-index: 0;" ng-style="$ctrl.poleStyle" />
 		<div class="timeline-fact" timeline-fact="" fact="fact" person="$ctrl.person" ng-repeat="fact in $ctrl.facts"></div>
+	</div>
+	
+	<div ng-if="$ctrl.relationship" class="person-comp person-relationship text-center">
+		<div>
+			<div avatar-badge class="avatar ancestor-avatar" src="$ctrl.relationship.path1[0].portrait" label="$ctrl.relationship.path1[0].display.name"></div>
+			<div avatar-badge class="avatar ancestor-avatar" ng-if="$ctrl.relationship.path2.length > 0 && $ctrl.relationship.path1[0].id != $ctrl.relationship.path2[0].id" src="$ctrl.relationship.path2[0].portrait" label="$ctrl.relationship.path2[0].display.name"></div>
+		</div>
+		<div class="col-sm-6">
+			<div ng-repeat="person in $ctrl.relationship.path1" ng-if="!$first" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name"></div>
+		</div>
+		<div class="col-sm-6">
+			<div ng-repeat="person in $ctrl.relationship.path2" ng-if="!$first" avatar-badge class="avatar ancestor-avatar" src="person.portrait" label="person.display.name"></div>
+		</div>
+		<h5>{{$ctrl.relationship.relationship}}</h5>
 	</div>
 	
 	<div class="person-comp person-tree">

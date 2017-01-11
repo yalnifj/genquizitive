@@ -1932,6 +1932,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				//-- relationship
 				relationshipService.getRelationship(familysearchService.fsUser.id, $ctrl.person.id).then(function(result) {
 					$ctrl.relationship = result;
+					angular.forEach($ctrl.relationship.path1, function(person) {
+						if (!hash[person.id]) {
+							hash[person.id] = person;
+							familysearchService.getPersonPortrait(person.id).then(function(details) {
+								hash[details.id].portrait = details.src;
+							});
+						}
+					});
+					angular.forEach($ctrl.relationship.path2, function(person) {
+						if (!hash[person.id]) {
+							hash[person.id] = person;
+							familysearchService.getPersonPortrait(person.id).then(function(details) {
+								hash[details.id].portrait = details.src;
+							});
+						}
+					});
 				});
 			}
 		};

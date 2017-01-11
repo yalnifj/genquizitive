@@ -531,10 +531,16 @@ body {
 	position: inherit;
 	color: inherit;
 	padding: 0px;
+	text-shadow: none;
 }
 
-.person-timeline {
+.person-timeline, .person-relationship {
 	overflow-x: hidden;
+	height: 250px;
+}
+
+.person-relationship .avatar {
+	zoom: 0.7;
 }
 
 .person-tree {

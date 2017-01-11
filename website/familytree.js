@@ -185,6 +185,9 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	};
 	
 	this.sortFacts = function(facts) {
+		if (!facts) {
+			return [];
+		}
 		var temp = this;
 		facts = $filter('orderBy')(facts, function(fact) { if (temp.facts[fact.type]) return temp.facts[fact.type].order; else return 100;});
 		var datedFacts = [];
@@ -464,6 +467,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			path.push(ahnen[a]);
 			a = Math.floor(a / 2);
 		}
+		path.push(ahnen[1]);
 		return path;
 	};
 	
@@ -471,6 +475,15 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		
 		var result = {path1: [], path2: [], relationship: "" };
+		if (personId1==personId2) {
+			familysearchService.getPersonById(personId1).then(function(person) {
+				result.path1.push(person);
+				result.path2.push(person);
+				result.relationship="You";
+				deferred.resolve(result);
+			});
+			return deferred.promise;
+		}
 		var treePeople1 = [];
 		var treePeople2 = [];
 		var temp = this;
@@ -485,10 +498,18 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			
 			if (hash[personId2]) {
-				var path1 = temp.getAscendancyPath(ahnen1, hash[personId2].display.ascendancyNumber);
-				result.path1 = path1;
-				deferred.resolve(result);
-				return;
+				if (hash[personId2].display.ascendancyNumber.indexOf("S")>0) {
+					result.path1.push(hash[personId1]);
+					result.path2.push(hash[personId2]);
+					result.relationship="Spouse";
+					deferred.resolve(result);
+					return;
+				} else {
+					var path1 = temp.getAscendancyPath(ahnen1, hash[personId2].display.ascendancyNumber);
+					result.path1 = path1;
+					deferred.resolve(result);
+					return;
+				}
 			}
 			
 			var promise2 = familysearchService.getAncestorTree(personId2, 8).then(function(data) {
