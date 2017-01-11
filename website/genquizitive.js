@@ -1757,7 +1757,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		close: '&',
 		dismiss: '&'
 	},
-	controller: function(familysearchService, languageService, NgMap, $q, $filter) {
+	controller: function(familysearchService, relationshipService, languageService, NgMap, $q, $filter) {
 		var $ctrl = this;
 		$ctrl.active = 0;
 		$ctrl.$onInit = function () {
@@ -1766,8 +1766,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			}
 			if ($ctrl.person) {
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
-				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*75)+'px'};
+				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*70)+'px'};
 				
+				//-- mini-tree
 				$ctrl.ancestors = [];
 				var hash = {};
 				familysearchService.getAncestorTree($ctrl.person.id, 2, false).then(function(tree) {
@@ -1848,6 +1849,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						});
 					}
 				});
+				
+				//-- memories
 				familysearchService.getPersonMemories($ctrl.person.id).then(function(memories) {
 					$ctrl.memories = [];
 					angular.forEach(memories, function(memory) {
@@ -1925,6 +1928,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						console.log("unable to resolve all promises "+error);
 					});
 				}
+				
+				//-- relationship
+				relationshipService.getRelationship(familysearchService.fsUser.id, $ctrl.person.id).then(function(result) {
+					$ctrl.relationship = result;
+				});
 			}
 		};
 		

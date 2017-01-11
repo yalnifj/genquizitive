@@ -455,6 +455,65 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		});
 		return deferred.promise;
 	};
+	
+	this.getAscendancyPath = function(ahnen, ascendancyNumber) {
+		var a = ascendancyNumber;
+		var path = [ahnen[a]];
+		a = Math.floor(a / 2);
+		while(a > 1) {
+			path.push(ahnen[a]);
+			a = Math.floor(a / 2);
+		}
+		return path;
+	};
+	
+	this.getRelationship = function(personId1, personId2) {
+		var deferred = $q.defer();
+		
+		var result = {path1: [], path2: [], relationship: "" };
+		var treePeople1 = [];
+		var treePeople2 = [];
+		var temp = this;
+		var promise1 = familysearchService.getAncestorTree(personId1, 8).then(function(data) {
+			treePeople1 = data.persons;
+			var hash = {};
+			var ahnen1 = {};
+			var ahnen2 = {};
+			for(var p=0; p<treePeople1.length; p++) {
+				hash[treePeople1[p].id] = treePeople1[p];
+				ahnen1[treePeople1[p].display.ascendancyNumber] = treePeople1[p];
+			}
+			
+			if (hash[personId2]) {
+				var path1 = temp.getAscendancyPath(ahnen1, hash[personId2].display.ascendancyNumber);
+				result.path1 = path1;
+				deferred.resolve(result);
+				return;
+			}
+			
+			var promise2 = familysearchService.getAncestorTree(personId2, 8).then(function(data) {
+				treePeople2 = data.persons;
+				for(var p=0; p<treePeople2.length; p++) {
+					ahnen2[treePeople2[p].display.ascendancyNumber] = treePeople2[p];
+					if (hash[treePeople2[p].id]) {
+						var commonAncestor1 = hash[treePeople2[p].id];
+						var commonAncestor2 = treePeople2[p];
+						var path1 = temp.getAscendancyPath(ahnen1, commonAncestor1.display.ascendancyNumber);
+						var path2 = temp.getAscendancyPath(ahnen2, commonAncestor2.display.ascendancyNumber);
+
+						result.path1 = path1;
+						result.path2 = path2;
+						
+						deferred.resolve(result);
+						return;
+					}
+				}
+				deferred.reject('no relationship');
+			});
+		});
+		
+		return deferred.promise;
+	};
 }])
 .service('familysearchService', ['$q','$cookies', '$interval', '$http', '$sce', '$filter', function($q, $cookies, $interval, $http, $sce, $filter) {
 	this.fsUser = null;
@@ -584,7 +643,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		if (spouse) url += '&spouse='+spouse;
 		if (details) url += '&personDetails='
 		this.fs.get(url, function(response) {
-			if (!noCache) {
+			if (details && !noCache) {
 				angular.forEach(response.data.persons, function(person) {
 					if (details && !temp.people[person.id]) {
 						temp.people[person.id] = person;
