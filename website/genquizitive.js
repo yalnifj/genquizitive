@@ -1828,7 +1828,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 									$ctrl.spouseTrees[dnums[0]].spouse = person;
 								} else if (dnums[1].indexOf("S")<0) {
 									$ctrl.spouseTrees[dnums[0]].children.push(person);
-									if ($ctrl.spouseTrees[dnums[0]].children.length > 2) $ctrl.spouseTrees[dnums[0]].lineOffset += 25;
+									if ($ctrl.spouseTrees[dnums[0]].children.length > 2) $ctrl.spouseTrees[dnums[0]].lineOffset += 20;
 								}
 								hash[person.id] = person;
 								familysearchService.getPersonPortrait(person.id).then(function(details) {
@@ -1839,11 +1839,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						angular.forEach($ctrl.spouseTrees, function(spouseTree) {
 							if (spouseTree.children.length > 2) {
 								for(var l=0; l<spouseTree.children.length; l++) {
-									spouseTree.lines.push(50+100*l);
+									spouseTree.lines.push(40+80*l);
 								}
 							} else {
 								for(var l=0; l<spouseTree.children.length; l++) {
-									spouseTree.lines.push(150 + 100*l);
+									spouseTree.lines.push(120 + 80*l);
 								}
 							}
 						});
@@ -1862,6 +1862,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 					});
 				});
 				
+				/*
 				//-- map the facts
 				$ctrl.places = [];
 				var placeFacts = {};
@@ -1928,6 +1929,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						console.log("unable to resolve all promises "+error);
 					});
 				}
+				*/
 				
 				//-- relationship
 				relationshipService.getRelationship(familysearchService.fsUser.id, $ctrl.person.id).then(function(result) {

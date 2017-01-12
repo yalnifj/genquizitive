@@ -194,6 +194,8 @@ body {
 	width: 100px;
 	height: 89px;
 	background-image: url('avatar_badge.png');
+	background-size: contain;
+	background-repeat: no-repeat;
 	margin: 0px;
 	display: inline-block;
 }
@@ -222,6 +224,23 @@ body {
 	color: #333;
 	padding: 2px;
 	line-height: 100%;
+}
+
+.avatar-small {
+	width: 78px;
+	height: 68px;
+}
+.avatar-small img {
+    top: 6px;
+    width: 55px;
+    height: 55px;
+    left: 11px;
+}
+.avatar-small .avatar-label {
+	top: 55px;
+	width: 100%;
+	font-size: 8pt;
+	padding: 1px;
 }
 
 .avatar-menu {
@@ -540,39 +559,52 @@ body {
 }
 
 .person-relationship .avatar {
-	zoom: 0.7;
+	margin-bottom: 15px;
 }
 
 .person-tree {
 	width: 99%;
-	zoom: 0.70;
 	max-height: 470px;
 }
 .person-tree .person-or-spacer {
 	position: relative;
 	display: inline-block;
+	vertical-align: top;
 }
 .person-tree .person-spacer {
 	position: relative;
 	display: inline-block;
-	width: 95px;
-	height: 95px;
-	padding: 10px 5px 10px 5px;
-	margin-left: 5px;
-    margin-right: 5px;
+	width: 78px;
+	height: 68px;
 }
 
 .person-tree .person-spacer div {
+	display: inline-block;
 	border-radius: 50% 50%;
 	background-color: #ccc;
-	font-size: 60px;
+	font-size: 48px;
 	color: #BBB;
-	width: 90px;
-	height: 90px;
-	position: relative;
-	top: -23px;
+	width: 68px;
+	height: 68px;
 }
 
+.tree-row {
+	min-height: 85px;
+	text-align: center;
+}
+.tree-row .avatar {
+	display: inline-block;
+}
+.tree-row.parents-row .avatar, .tree-row.parents-row .person-spacer {
+	margin-right: 29px;
+    margin-left: 29px;
+}
+.spouse-tree {
+	display: inline-block;
+	position: relative;
+}
+
+/*
 .person-map {
 	width: 99%;
 	height: 360px;
@@ -630,22 +662,7 @@ body {
 .person-fact-map .fact .fact-date {
 	font-size: 80%;
 }
-
-.tree-row {
-	min-height: 115px;
-	text-align: center;
-}
-.tree-row .avatar {
-	display: inline-block;
-}
-.tree-row.parents-row .avatar, .tree-row.parents-row .person-spacer {
-	margin-right: 45px;
-    margin-left: 45px;
-}
-.spouse-tree {
-	display: inline-block;
-	position: relative;
-}
+*/
 
 .timeline-fact {
 	position: relative;
@@ -715,15 +732,61 @@ body {
 .timeline-fact .fact-details .fact-place .fact-type {
 	font-size: 24px;
 }
-.person-comp .timeline-fact {
-	zoom: 0.70;
-}
 .timeline-block {
 	background-color: #cee2e3;
 	border-radius: 10px;
 	width: 400px;
     padding: 20px;
 }
+
+/*-----*/
+.timeline-fact-small {
+	min-width: 240px;
+	min-height: 65px;
+}
+
+.timeline-fact-small .fact-circle {
+	top: 4px;
+	width: 45px;
+	height: 46px;
+	margin-top: 3px;
+	padding-top: 6px;
+	line-height: 14px;
+}
+
+.timeline-fact-small .fact-month-day {
+	font-size: 9px;
+}
+
+.timeline-fact-small .fact-year {
+	font-size: 15px;
+}
+
+.timeline-fact-small .fact-details {
+	left: -19px;
+	top: 0px;
+	min-width: 201px;
+	min-height: 58px;
+	font-size: 10px;
+}
+.timeline-fact-small .fact-details .fact-age {
+	left: 19px;
+	top: 13px;
+	width: 26px;
+	height: 32px;
+}
+.timeline-fact-small .fact-details .fact-age .age {
+	font-size: 13px;
+}
+.timeline-fact-small .fact-details .fact-place {
+	left: 44px;
+	width: 146px;
+	min-height: 58px;
+}
+.timeline-fact-small .fact-details .fact-place .fact-type {
+	font-size: 15px;
+}
+
 
 .hint-details {
 	display: inline-block;
