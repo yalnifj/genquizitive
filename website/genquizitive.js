@@ -1950,16 +1950,44 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 							});
 						}
 					});
+				}, function() {
+					familysearchService.getPersonSpouses($ctrl.person.id).then(function(spouses) {
+						if (spouses && spouses.length >0) {
+							relationshipService.getRelationship(familysearchService.fsUser.id, spouses[0].id).then(function(result) {
+								result.spouse = spouses[0];
+								result.relationship = "Wife's "+result.relationship;
+								$ctrl.relationship = result;
+								angular.forEach($ctrl.relationship.path1, function(person) {
+									if (!hash[person.id]) {
+										hash[person.id] = person;
+										familysearchService.getPersonPortrait(person.id).then(function(details) {
+											hash[details.id].portrait = details.src;
+										});
+									}
+								});
+								angular.forEach($ctrl.relationship.path2, function(person) {
+									if (!hash[person.id]) {
+										hash[person.id] = person;
+										familysearchService.getPersonPortrait(person.id).then(function(details) {
+											hash[details.id].portrait = details.src;
+										});
+									}
+								});
+							});
+						}
+					});
 				});
 			}
 		};
 		
+		/*
 		$ctrl.$onDestroy = function() {
 			if ($ctrl.map) {
 				$ctrl.markerClusterer.clearMarkers();
 				google.maps.event.clearInstanceListeners($ctrl.map);
 			}
 		};
+		*/
 		
 		$ctrl.ok = function () {
 			$ctrl.close();

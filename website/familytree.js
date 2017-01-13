@@ -123,6 +123,14 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		10: 'Nov',
 		11: 'Dec'
 	};
+	
+	this.getOrdinalAbbr = function(num) {
+		if (num==1) return "st";
+		if (num==2) return "nd";
+		if (num==3) return "rd";
+		if (num>3 && num<=20) return "th";
+		return "";
+	};
 
 	this.shortenName = function(name) {
 		var arr = name.split(" ");
@@ -247,7 +255,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return factType.replace("http://gedcomx.org/", "");
 	}
 })
-.service('relationshipService', ['$q', 'familysearchService', function($q, familysearchService) {
+.service('relationshipService', ['$q', 'familysearchService', 'languageService', function($q, familysearchService, languageService) {
 
 	this.checkRelationships = function(rel, lastRel) {
 		if (rel.type == "http://gedcomx.org/Couple" && rel.type==lastRel.type) return false;
@@ -471,6 +479,68 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return path;
 	};
 	
+	this.relationshipMatrix = [
+		[
+			{M:"You", F:"You"},
+			{M:"Son", F:"Daughter"},
+			{M:"Grandson", F:"Granddaughter"},
+			{M:"Great Grandson", F:"Great Granddaughter", prefix: function(up, down) { if (down>3) return (down-2)+languageService.getOrdinalAbbr(down-2); return "";} }
+		],
+		[
+			{M:"Father", F:"Mother"},
+			{M:"Brother", F:"Sister"},
+			{M:"Nephew", F:"Niece"},
+			{M:"Grand Nephew", F:"Grand Niece"},
+			{M:"Great Grand Nephew", F:"Great Grand Niece", prefix: function(up, down) { if (down>4) return (down-3)+languageService.getOrdinalAbbr(down-3); return "";} }
+		],
+		[
+			{M:"Grandfather", F:"Grandmother"},
+			{M:"Uncle", F:"Aunt"},
+			{M:"1st Cousin", F:"1st Cousin", suffix: function(up, down) { if (down > 2) return (down-2)+" removed"; return ""; } }
+		],
+		[
+			{M:"Great Grandfather", F:"Great Grandmother"},
+			{M:"Great Uncle", F:"Great Aunt"},
+			{M:"2nd Cousin 1 removed", F:"2nd Cousin 1 removed", suffix: function(up, down) { if (down > 2) return (down-2)+" removed"; return ""; } }
+			{M:"2nd Cousin", F:"2nd Cousin", suffix: function(up, down) { if (down > 3) return (down-3)+" removed"; return ""; } }
+		],
+		[
+			{M:"Great Grandfather", F:"Great Grandmother", prefix: function(up, down) { if (up>3) return (up-3)+languageService.getOrdinalAbbr(up-3); return "";} },
+			{M:"Great Uncle", F:"Great Aunt", prefix: function(up, down) { if (up>3) return (up-3)+languageService.getOrdinalAbbr(up-3); return "";} },
+			{M:"Cousin", F:"Cousin", 
+				prefix: function(up, down) { if (up>3) return (up-1)+languageService.getOrdinalAbbr(up-3); return "";} , 
+				suffix: function(up, down) { if (down != up) return Math.abs(down-up)+" removed"; return ""; } 
+			}
+		]
+	];
+	
+	this.getRelationshipLabel = function(up, down, person) {
+		var code = "F";
+		if (person.gender.type=="http://gedcomx.org/Male") {
+			code = "M";
+		}
+		
+		var u = up;
+		if (u > this.relationshipMatrix.length-1) u = this.relationshipMatrix.length-1;
+		
+		var relUp = this.relationshipMatrix[u];
+		if (relUp) {
+			var d = down;
+			if (d > relUp.length-1) d = relUp.lenght-1;
+			
+			var relDown = relUp[d];
+			if (relDown) {
+				var relationship = "";
+				if (relDown.prefix) relationship = relDown.prefix(up, down)+" ";
+				relationship += relDown[code];
+				if (relDown.suffix) relationship += " "+relDown.suffix(up, down);
+				return relationship;
+			}
+		}
+		
+		return "";
+	};
+	
 	this.getRelationship = function(personId1, personId2) {
 		var deferred = $q.defer();
 		
@@ -501,12 +571,16 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				if (hash[personId2].display.ascendancyNumber.indexOf("S")>0) {
 					result.path1.push(hash[personId1]);
 					result.path2.push(hash[personId2]);
-					result.relationship="Spouse";
+					result.relationship="Wife";
+					if (hash[personId2].gender.type=="http://gedcomx.org/Male") {
+						result.relationship="Husband";
+					}
 					deferred.resolve(result);
 					return;
 				} else {
 					var path1 = temp.getAscendancyPath(ahnen1, hash[personId2].display.ascendancyNumber);
 					result.path1 = path1;
+					result.relationship = temp.getRelationshipLabel(path1.length-1, 0, hash[personId2]);
 					deferred.resolve(result);
 					return;
 				}
@@ -524,11 +598,13 @@ angular.module('genquiz.familytree', ['genquizitive'])
 
 						result.path1 = path1;
 						result.path2 = path2;
+						result.relationship = temp.getRelationshipLabel(path1.length-1, path2.length-1, commonAncestor2);
 						
 						deferred.resolve(result);
 						return;
 					}
 				}
+				
 				deferred.reject('no relationship');
 			});
 		});
