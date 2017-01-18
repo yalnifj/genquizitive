@@ -15,16 +15,17 @@
 <body ng-app="genquizitive">
 	<script>
 var fs = new FamilySearch({
-  environment: 'integration',
-  appKey: 'a02j000000JERmSAAX',
-  redirectUri: 'https://www.genquizitive.com/fs-login.html',
-  saveAccessToken: true,
-  tokenCookie: 'FS_AUTH_TOKEN',
-  maxThrottledRetries: 10
+	environment: 'beta',
+	//environment: 'integration',
+	appKey: 'a02j000000JERmSAAX',
+	redirectUri: 'https://www.genquizitive.com/fs-login.html',
+	saveAccessToken: true,
+	tokenCookie: 'FS_AUTH_TOKEN',
+	maxThrottledRetries: 10
 });
 
 var fscheck = fs.oauthResponse(function(response){
-	if (response.data) {
+	if (response && response.data) {
 		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': response.data['access_token']});
 		document.cookie = 'FS_AUTH_TOKEN='+response.data['access_token']+';';
 		fs.setAccessToken(response.data['access_token']);

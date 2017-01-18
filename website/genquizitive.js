@@ -37,11 +37,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		$scope.show = function() {
 			var left = ($(window).width() - $scope.element.width()) / 2;
 			$scope.element.css('left', left + 'px');
-			$scope.element.animate({top: '20px'}, 1500);
+			$scope.element.animate({top: '20px'}, 1000);
 		};
 		
 		$scope.close = function() {
-			$scope.element.animate({top: '-500px'}, {duration: 800, complete: function() { $scope.element.remove(); } });
+			$scope.element.animate({top: '-500px'}, {duration: 700, complete: function() { $scope.element.remove(); } });
 		};
 		
 		return $scope;

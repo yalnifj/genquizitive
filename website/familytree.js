@@ -501,7 +501,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		[
 			{M:"Great Grandfather", F:"Great Grandmother"},
 			{M:"Great Uncle", F:"Great Aunt"},
-			{M:"2nd Cousin 1 removed", F:"2nd Cousin 1 removed", suffix: function(up, down) { if (down > 2) return (down-2)+" removed"; return ""; } }
+			{M:"2nd Cousin 1 removed", F:"2nd Cousin 1 removed", suffix: function(up, down) { if (down > 2) return (down-2)+" removed"; return ""; } },
 			{M:"2nd Cousin", F:"2nd Cousin", suffix: function(up, down) { if (down > 3) return (down-3)+" removed"; return ""; } }
 		],
 		[
@@ -622,8 +622,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	this.backgroundQueue = [];
 	
 	this.fs = new FamilySearch({
-	  //environment: 'beta',
-	  environment: 'integration',
+	  environment: 'beta',
+	  //environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
 	  saveAccessToken: true,
@@ -651,13 +651,20 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var deferred = $q.defer();
 		var temp = this;
 		this.fs.get('/platform/users/current', function(response) {
-			if (response.statusCode==200 || response.statusCode == 307) {
+			if (response && (response.statusCode==200 || response.statusCode == 307)) {
 				if (response.data && response.data.users) {
 					temp.currentUser = response.data.users[0];
 				}
+			} else if (response && response.statusCode==401) {
+				temp.fs.setAccessToken('');
+				deferred.reject(response.body);
+				return;
+			} else {
+				deferred.reject(response);
+				return;
 			}
 		});
-		this.fs.get('/platform/tree/current-person', { headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache'}}, function(response){
+		this.fs.get('/platform/tree/current-person', function(response){
 			if (response && response.statusCode==200) {
 				if (response.data) {
 					temp.fsUser = response.data.persons[0];

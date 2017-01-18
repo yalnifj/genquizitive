@@ -47,7 +47,7 @@ var FamilySearch =
 
 	var cookies = __webpack_require__(1),
 	    Request = __webpack_require__(2),
-	    XHR = __webpack_require__(3),
+	    requestHandler = __webpack_require__(3),
 	    utils = __webpack_require__(4),
 	    requestMiddleware = __webpack_require__(5),
 	    responseMiddleware = __webpack_require__(12);
@@ -61,9 +61,9 @@ var FamilySearch =
 	 * @param {String} options.appKey Application Key
 	 * @param {String} options.redirectUri OAuth2 redirect URI
 	 * @param {String} options.saveAccessToken Save the access token to a cookie
-	 * and automatically load it from that cookie. Defaults to true.
+	 * and automatically load it from that cookie. Defaults to false.
 	 * @param {String} options.tokenCookie Name of the cookie that the access token
-	 * will be saved in. Defaults to 'FS_AUTH_TOKEN'.
+	 * will be saved in when `saveAccessToken` is true. Defaults to 'FS_AUTH_TOKEN'.
 	 * @param {String} options.maxThrottledRetries Maximum number of a times a 
 	 * throttled request should be retried. Defaults to 10.
 	 * @param {Array} options.pendingModifications List of pending modifications
@@ -73,9 +73,9 @@ var FamilySearch =
 	  this.appKey = options.appKey;
 	  this.environment = options.environment || 'integration';
 	  this.redirectUri = options.redirectUri;
-	  this.saveAccessToken = options.saveAccessToken || true;
 	  this.tokenCookie = options.tokenCookie || 'FS_AUTH_TOKEN';
 	  this.maxThrottledRetries = options.maxThrottledRetries || 10;
+	  this.saveAccessToken = options.saveAccessToken === true;
 	  
 	  this.middleware = {
 	    request: [
@@ -118,14 +118,21 @@ var FamilySearch =
 	 * Start the OAuth2 redirect flow by redirecting the user to FamilySearch.org
 	 */
 	FamilySearch.prototype.oauthRedirect = function(){
-	  window.location.href = this.identHost() + '/cis-web/oauth2/v3/authorization' +
+	  window.location.href = this.oauthRedirectURL();
+	};
+
+	/**
+	 * Generate the OAuth 2 redirect URL
+	 */
+	FamilySearch.prototype.oauthRedirectURL = function(){
+	  return this.identHost() + '/cis-web/oauth2/v3/authorization' +
 	    '?response_type=code&client_id=' + this.appKey + '&redirect_uri=' + this.redirectUri;
 	};
 
 	/**
 	 * Handle an OAuth2 redirect response by extracting the code from the query
-	 * and exchanging it for an access token. This also automatically saves the
-	 * token in a cookie when that behavior is enabled.
+	 * and exchanging it for an access token. The token is automatically saved
+	 * in a cookie when that behavior is enabled.
 	 * 
 	 * @param {Function} callback that receives the access token response
 	 * @return {Boolean} true if a code was detected; false otherwise. This does
@@ -135,32 +142,39 @@ var FamilySearch =
 	 */
 	FamilySearch.prototype.oauthResponse = function(callback){
 	  
-	  var client = this;
-	  
-	  // Extract the code from the query
+	  // Extract the code from the query params
 	  var code = utils.getParameterByName('code');
-	  
 	  if(code){
 	  
-	    // Exchange the code for the access token
-	    this.post(this.identHost() + '/cis-web/oauth2/v3/token', {
-	      body: {
-	        grant_type: 'authorization_code',
-	        code: code,
-	        client_id: this.appKey
-	      },
-	      headers: {
-	        'Content-Type': 'application/x-www-form-urlencoded'
-	      }
-	    }, function(response){
-	      client.processOauthResponse(response, callback);
-	    });
-	    
+	    // Exchange the code for an access token
+	    this.oauthToken(code, callback);
 	    return true;
-	    
 	  }
-	  
 	  return false;
+	};
+
+	/**
+	 * Exchange an OAuth code for an access token. You don't need to call this in
+	 * the browser if you use oauthResponse() to automatically get the URL from the
+	 * query parameters.
+	 * 
+	 * @param {String} code
+	 * @param {Function} callback that receives the access token response
+	 */
+	FamilySearch.prototype.oauthToken = function(code, callback){
+	  var client = this;
+	  client.post(client.identHost() + '/cis-web/oauth2/v3/token', {
+	    body: {
+	      grant_type: 'authorization_code',
+	      code: code,
+	      client_id: client.appKey
+	    },
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	  }, function(error, response){
+	    client.processOauthResponse(error, response, callback);
+	  });
 	};
 
 	/**
@@ -182,21 +196,21 @@ var FamilySearch =
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
-	  }, function(response){
-	    client.processOauthResponse(response, callback);
+	  }, function(error, response){
+	    client.processOauthResponse(error, response, callback);
 	  });
 	};
 
 	/**
 	 * Process an OAuth2 access_token response
 	 */
-	FamilySearch.prototype.processOauthResponse = function(response, callback){
+	FamilySearch.prototype.processOauthResponse = function(error, response, callback){
 	  if(response && response.statusCode === 200 && response.data){
 	    this.setAccessToken(response.data.access_token);
 	  }
 	  if(callback){
 	    setTimeout(function(){
-	      callback(response);
+	      callback(error, response);
 	    });
 	  }
 	};
@@ -356,42 +370,60 @@ var FamilySearch =
 	  var client = this;
 	  
 	  // First we run request middleware
-	  client._runRequestMiddleware(request, function(response){
+	  client._runRequestMiddleware(request, function(error, middlewareResponse){
 	    
-	    // If request middleware returns a response then we're done and return the
-	    // response to the user. This may happen with caching middleware.
-	    if(response){
-	      setTimeout(function(){
-	        callback(response);
-	      });
+	    // Return the error if one was received from the middleware
+	    if(error || middlewareResponse){
+	      responseHandler(error, middlewareResponse);
 	    } 
 	    
 	    // If we didn't receive a response from the request middleware then we
 	    // proceed with executing the actual request.
 	    else {
-	      XHR(request, function(response){
-	        
-	        // Run response middleware.
-	        client._runResponseMiddleware(request, response, function(){
-	          setTimeout(function(){
-	            callback(response);
-	          });
+	      requestHandler(request, responseHandler);
+	    }
+	  });
+	  
+	  function responseHandler(error, response){
+	    // If the request errored then we immediately return and don't run
+	    // response middleware because we don't have an HTTP response
+	    if(error){
+	      setTimeout(function(){
+	        callback(error);
+	      });
+	    }
+	    
+	    // Run response middleware
+	    else {
+	      client._runResponseMiddleware(request, response, function(error){
+	        setTimeout(function(){
+	          if(error){
+	            callback(error);
+	          } else {
+	            callback(undefined, response);
+	          }
 	        });
 	      });
 	    }
-	  });
+	  }
 	};
 
 	/**
 	 * Run request middleware
 	 * 
 	 * @param {Object} request
-	 * @param {Function} callback(response)
+	 * @param {Function} callback(error, response)
 	 */
 	FamilySearch.prototype._runRequestMiddleware = function(request, callback){
 	  var client = this;
 	  utils.asyncEach(this.middleware.request, function(middleware, next){
-	    middleware(client, request, next);
+	    middleware(client, request, function(error, newResponse){
+	      if(error || newResponse){
+	        callback(error, newResponse);
+	      } else {
+	        next();
+	      }
+	    });
 	  }, callback);
 	};
 
@@ -400,22 +432,19 @@ var FamilySearch =
 	 * 
 	 * @param {Object} request
 	 * @param {Object} response
-	 * @param {Function} callback(response)
+	 * @param {Function} callback(error)
 	 */
 	FamilySearch.prototype._runResponseMiddleware = function(request, response, callback){
 	  var client = this;
 	  utils.asyncEach(this.middleware.response, function(middleware, next){
-	    middleware(client, request, response, next);
-	  }, function(newResponse){
-	    
-	    // Cancel response middleware by passing anything to the next function.
-	    // Canceling middleware is useful when middleware issues a new request,
-	    // such as throttling. We just drop this middleware chain when it's
-	    // canceled because the new request will run it's own middleware.
-	    if(typeof newResponse === 'undefined'){
-	      setTimeout(callback);
-	    }
-	  });
+	    middleware(client, request, response, function(error, cancel){
+	      if(error){
+	        callback(error);
+	      } else if(typeof cancel === 'undefined') {
+	        next();
+	      }
+	    });
+	  }, callback);
 	};
 
 	/**
@@ -538,12 +567,39 @@ var FamilySearch =
 	 * @param {Function} callback
 	 */
 	var Request = function(url, options, callback){
+	  
+	  // Inititialize and set defaults
 	  this.url = url;
-	  this.method = options.method || 'GET';
-	  this.headers = options.headers ? JSON.parse(JSON.stringify(options.headers)) : {};
-	  this.body = options.body;
-	  this.retries = options.retries || 0;
 	  this.callback = callback || function(){};
+	  this.method = 'GET';
+	  this.headers = {};
+	  this.retries = 0;
+	  this.options = {};
+	  
+	  // Process request options. We use a for loop so that we can stuff all
+	  // non-standard options into the options object on the reuqest.
+	  var opt;
+	  for(opt in options){
+	    if(options.hasOwnProperty(opt)){
+	      switch(opt){
+	        
+	        case 'method':
+	        case 'body':
+	        case 'retries':
+	          this[opt] = options[opt];
+	          break;
+	          
+	        case 'headers':
+	          // We copy the headers object so that we don't have to worry about the developer
+	          // and the SDK stepping on each other's toes by modifying the headers object.
+	          this.headers = JSON.parse(JSON.stringify(options.headers));
+	          break;
+	          
+	        default:
+	          this.options[opt] = options[opt];
+	      }
+	    }
+	  }
 	};
 
 	/**
@@ -602,11 +658,14 @@ var FamilySearch =
 /***/ function(module, exports) {
 
 	/**
-	 * XMLHttpRequest wrapper
+	 * XMLHttpRequest wrapper used for making requests in the browser
 	 * 
 	 * @param {Object} request {url, method, headers, body, retries}
 	 * @param {Function} callback function(response)
 	 */
+	 
+	var headersRegex = /^(.*?):[ \t]*([^\r\n]*)$/mg;
+
 	module.exports = function(request, callback){
 	  
 	  // Create the XMLHttpRequest
@@ -625,13 +684,15 @@ var FamilySearch =
 	  xhr.onload = function(){
 	    var response = createResponse(xhr, request);
 	    setTimeout(function(){
-	      callback(response);
+	      callback(null, response);
 	    });
 	  };
 	  
 	  // Attach error handler
 	  xhr.onerror = function(error){
-	    setTimeout(callback);
+	    setTimeout(function(){
+	      callback(error);
+	    });
 	  };
 	  
 	  // Now we can send the request
@@ -647,15 +708,17 @@ var FamilySearch =
 	 * @return {Object} response
 	 */
 	function createResponse(xhr, request){
+	  
+	  // XHR header processing borrowed from jQuery
+	  var responseHeaders = {}, match;
+	  while ((match = headersRegex.exec(xhr.getAllResponseHeaders()))) {
+			responseHeaders[match[1].toLowerCase()] = match[2];
+		}
+		
 	  return {
 	    statusCode: xhr.status,
 	    statusText: xhr.statusText,
-	    getHeader: function(name){
-	      return xhr.getResponseHeader(name);
-	    },
-	    getAllHeaders: function(){
-	      return xhr.getAllResponseHeaders();
-	    },
+	    headers: responseHeaders,
 	    originalUrl: request.url,
 	    effectiveUrl: request.url,
 	    redirected: false,
@@ -704,30 +767,19 @@ var FamilySearch =
 	  /**
 	   * Iterate over data asynchronously in series.
 	   * 
-	   * iterator is passed (item, next). Pass anything to the next method to
-	   * cancel iteration. Whatever is passed to next will be passed to the finished
-	   * callback method. The finished callback is called with nothing if iteration
-	   * completes normally.
-	   * 
 	   * @param {Array} list
 	   * @param {Function} iterator function(item, next)
-	   * @param {Function} finished function(cancel)
+	   * @param {Function} finished function()
 	   */
 	  asyncEach: function(data, iterator, callback){
 	    function nextCall(i){
 	    	if(i === data.length){
 	      	setTimeout(callback);
 	      } else {
-	      	iterator(data[i], function(cancel){
-	        	if(typeof cancel === 'undefined'){
-	          	setTimeout(function(){
-	            	nextCall(++i);
-	            });
-	          } else {
-	          	setTimeout(function(){
-	            	callback(cancel);
-	            });
-	          }
+	      	iterator(data[i], function(){
+	        	setTimeout(function(){
+	          	nextCall(++i);
+	          });
 	        });
 	      }
 	    }
@@ -815,7 +867,11 @@ var FamilySearch =
 /* 9 */
 /***/ function(module, exports) {
 
-	// Disable automatic redirects
+	/**
+	 * Disable automatic redirects. Useful client-side so that the browser doesn't
+	 * automatically follow 3xx redirects; that causes problems if the browser
+	 * doesn't replay all request options such as the Accept header.
+	 */
 	module.exports = function(client, request, next){
 	  if(!request.hasHeader('X-Expect-Override') && request.isPlatform()){
 	    request.setHeader('X-Expect-Override', '200-ok');
@@ -880,14 +936,12 @@ var FamilySearch =
 
 	// Parse JSON response
 	module.exports = function(client, request, response, next){
-	  if(response){
-	    var contentType = response.getHeader('Content-Type');
-	    if(contentType && contentType.indexOf('json') !== -1){
-	      try {
-	        response.data = JSON.parse(response.body);
-	      } catch(e) { 
-	        // Should we handle this error? how could we?
-	      }
+	  var contentType = response.headers['content-type'];
+	  if(contentType && contentType.indexOf('json') !== -1){
+	    try {
+	      response.data = JSON.parse(response.body);
+	    } catch(e) { 
+	      // Should we handle this error? how could we?
 	    }
 	  }
 	  next();
@@ -897,25 +951,28 @@ var FamilySearch =
 /* 14 */
 /***/ function(module, exports) {
 
+	/**
+	 * Automatically follow a redirect. This behavior is optional because you don't
+	 * allways want to follow redirects such as when requesting a person's profile.
+	 * 
+	 * This middleware is enabled per request by setting the `followRedirect` request 
+	 * option to true.
+	 */
 	module.exports = function(client, request, response, next){
-	  if(response){
-	    var location = response.getHeader('Location');
-	    if(response.statusCode === 200 && location && location !== request.url ){
+	  var location = response.headers['location'];
+	  if(request.options.followRedirect && location && location !== request.url ){
+	    var originalUrl = request.url;
+	    request.url = response.headers['location'];
+	    client._execute(request, function(error, response){
+	      if(response){
+	        response.originalUrl = originalUrl;
+	        response.redirected = true;
+	      }
 	      setTimeout(function(){
-	        var originalUrl = request.url;
-	        request.url = response.getHeader('Location');
-	        client._execute(request, function(response){
-	          if(response){
-	            response.originalUrl = originalUrl;
-	            response.redirected = true;
-	          }
-	          setTimeout(function(){
-	            request.callback(response);
-	          });
-	        });
+	        request.callback(error, response);
 	      });
-	      return next(true);
-	    }
+	    });
+	    return next(undefined, true);
 	  }
 	  next();
 	};
@@ -926,26 +983,23 @@ var FamilySearch =
 
 	// Automatically replay all throttled requests
 	module.exports = function(client, request, response, next){
-	  if(response){
-	  
-	    // Throttled responses have an HTTP status code of 429. We also check to make
-	    // sure we haven't maxed out on throttled retries.
-	    if(response.statusCode === 429 && request.retries < client.maxThrottledRetries){
-	      
-	      // Throttled responses include a retry header that tells us how long to wait
-	      // until we retry the request
-	      var retryAfter = parseInt(response.getHeader('Retry'), 10) * 1000 || 1000;
-	      setTimeout(function(){
-	        client._execute(request, function(response){
-	          response.throttled = true;
-	          response.retries = ++request.retries;
-	          setTimeout(function(){
-	            request.callback(response);
-	          });
+	  // Throttled responses have an HTTP status code of 429. We also check to make
+	  // sure we haven't maxed out on throttled retries.
+	  if(response.statusCode === 429 && request.retries < client.maxThrottledRetries){
+	    
+	    // Throttled responses include a retry header that tells us how long to wait
+	    // until we retry the request
+	    var retryAfter = parseInt(response.headers['retry'], 10) * 1000 || 1000;
+	    setTimeout(function(){
+	      client._execute(request, function(error, response){
+	        response.throttled = true;
+	        response.retries = ++request.retries;
+	        setTimeout(function(){
+	          request.callback(error, response);
 	        });
-	      }, retryAfter);
-	      return next(true);
-	    }
+	      });
+	    }, retryAfter);
+	    return next(undefined, true);
 	  }
 	  next();
 	};
