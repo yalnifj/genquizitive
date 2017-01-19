@@ -14,6 +14,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		'http://gedcomx.org/Burial':{ pastVerb: 'was buried', order: 10 },
 		'http://gedcomx.org/Caste':{ order: 5 },
 		'http://gedcomx.org/Census':{ pastVerb: 'was recorded in a census', order: 5 },
+		'data:,census':{ pastVerb: 'was recorded in a census', order: 5, label: 'Census' },
 		'http://gedcomx.org/Christening':{ pastVerb: 'was christened', order: 1 },
 		'http://gedcomx.org/Circumcision':{ pastVerb: 'was circumcized', order: 1 },
 		'http://gedcomx.org/Clan':{ order: 5 },
@@ -154,28 +155,35 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var day = null;
 		var month = null;
 		var year = null;
-		var dateNums = dateStr.match(/\d+/g);
-		if (dateNums) {
-			for(var d=0; d<dateNums.length; d++) {
-				if (dateNums[d].length > 0) {
-					if (dateNums[d].length <=2) {
-						if (!day) day = dateNums[d];
-						else if (!year) year = dateNums[d];
-					} else {
-						if (!year) year = dateNums[d];
+		var isymd = /(\d\d\d\d)(\d\d)(\d\d)/.exec(dateStr);
+		if (isymd) {
+			year = isymd[1];
+			month = isymd[2] - 1;
+			day = isymd[3];
+		} else {
+			var dateNums = dateStr.match(/\d+/g);
+			if (dateNums) {
+				for(var d=0; d<dateNums.length; d++) {
+					if (dateNums[d].length > 0) {
+						if (dateNums[d].length <=2) {
+							if (!day) day = dateNums[d];
+							else if (!year) year = dateNums[d];
+						} else {
+							if (!year) year = dateNums[d];
+						}
 					}
 				}
 			}
-		}
-		var monthParts = dateStr.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/ig);
-		if (monthParts) {
-			for(var m=0; m<monthParts.length; m++) {
-				if (!month) {
-					var tm = monthParts[m].toLowerCase();
-					if (this.months[tm]) month = this.months[tm];
-					else {
-						if (tm.length > 3) tm = tm.substring(0,3);
+			var monthParts = dateStr.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/ig);
+			if (monthParts) {
+				for(var m=0; m<monthParts.length; m++) {
+					if (!month) {
+						var tm = monthParts[m].toLowerCase();
 						if (this.months[tm]) month = this.months[tm];
+						else {
+							if (tm.length > 3) tm = tm.substring(0,3);
+							if (this.months[tm]) month = this.months[tm];
+						}
 					}
 				}
 			}
@@ -239,6 +247,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 }])
 .filter('factlabel', function(languageService) {
 	return function(factType) {
+		if (!factType) return "";
 		if (languageService.facts[factType] && languageService.facts[factType].label) {
 			return languageService.facts[factType].label;
 		}
@@ -253,6 +262,15 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			return factType.replace("http://familysearch.org/v1/", "");
 		}
 		return factType.replace("http://gedcomx.org/", "");
+	}
+})
+.filter('valueSizeFilter', function() {
+	return function(value) {
+		var val = value;
+		if (val && val.length && val.length > 200) {
+			val = val.substr(0, 200)+'...';
+		}
+		return val;
 	}
 })
 .service('relationshipService', ['$q', 'familysearchService', 'languageService', function($q, familysearchService, languageService) {
@@ -469,11 +487,13 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	
 	this.getAscendancyPath = function(ahnen, ascendancyNumber) {
 		var a = ascendancyNumber;
-		var path = [ahnen[a]];
-		a = Math.floor(a / 2);
-		while(a > 1) {
-			path.push(ahnen[a]);
+		if (a>1) {
+			var path = [ahnen[a]];
 			a = Math.floor(a / 2);
+			while(a > 1) {
+				path.push(ahnen[a]);
+				a = Math.floor(a / 2);
+			}
 		}
 		path.push(ahnen[1]);
 		return path;
@@ -505,7 +525,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			{M:"2nd Cousin", F:"2nd Cousin", suffix: function(up, down) { if (down > 3) return (down-3)+" removed"; return ""; } }
 		],
 		[
-			{M:"Great Grandfather", F:"Great Grandmother", prefix: function(up, down) { if (up>3) return (up-3)+languageService.getOrdinalAbbr(up-3); return "";} },
+			{M:"Great Grandfather", F:"Great Grandmother", prefix: function(up, down) { if (up>3) return (up-2)+languageService.getOrdinalAbbr(up-2); return "";} },
 			{M:"Great Uncle", F:"Great Aunt", prefix: function(up, down) { if (up>3) return (up-3)+languageService.getOrdinalAbbr(up-3); return "";} },
 			{M:"Cousin", F:"Cousin", 
 				prefix: function(up, down) { if (up>3) return (up-1)+languageService.getOrdinalAbbr(up-3); return "";} , 
@@ -672,8 +692,8 @@ angular.module('genquiz.familytree', ['genquizitive'])
 					temp.usedPeople[temp.fsUser.id] = temp.fsUser;
 					temp.getAncestorTree(temp.fsUser.id, 8, true).then(function(data) {
 						var count = 0;
-						angular.forEach(data.persons.reverse(), function(person) {
-							if (count < data.persons.length/2) {
+						angular.forEach(response.data.persons.reverse(), function(person) {
+							if (count < response.data.persons.length/2) {
 								temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, 2, true); });
 							}
 							count++;

@@ -178,7 +178,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		},
 		template: '<div class="fact-circle"><span class="fact-month-day">{{monthDay}}</span><br /><span class="fact-year">{{year}}</span></div>\
 			<div class="fact-details"><div class="fact-age"><span ng-hide="!age">Age<br /><span class="age">{{age}}</span></span></div>\
-			<div class="fact-place"><span class="fact-type">{{fact.type | factlabel}}</span><br />{{fact.value}}<br ng-if="value"/>{{fact.place.original}}</div></div>',
+			<div class="fact-place"><span class="fact-type">{{fact.type | factlabel}}</span><br />{{fact.value | valueSizeFilter}}<br ng-if="value"/>{{fact.place.original}}</div></div>',
 		link: function($scope, $element, $attr) {
 			$($element).data('fact', $scope.fact);
 		},
@@ -1768,6 +1768,12 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$ctrl.facts = languageService.sortFacts($ctrl.person.facts);
 				$ctrl.poleStyle = {height: (($ctrl.facts.length - 1)*70)+'px'};
 				
+				angular.forEach($ctrl.facts, function(fact) {
+					if (fact.type.indexOf("LifeSketch") >=0) {
+						$ctrl.lifeSketch = fact;
+					}
+				});
+				
 				//-- mini-tree
 				$ctrl.ancestors = [];
 				var hash = {};
@@ -1828,7 +1834,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 									$ctrl.spouseTrees[dnums[0]].spouse = person;
 								} else if (dnums[1].indexOf("S")<0) {
 									$ctrl.spouseTrees[dnums[0]].children.push(person);
-									if ($ctrl.spouseTrees[dnums[0]].children.length > 2) $ctrl.spouseTrees[dnums[0]].lineOffset += 20;
+									if ($ctrl.spouseTrees[dnums[0]].children.length > 3) $ctrl.spouseTrees[dnums[0]].lineOffset += 26;
 								}
 								hash[person.id] = person;
 								familysearchService.getPersonPortrait(person.id).then(function(details) {
@@ -1839,11 +1845,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						angular.forEach($ctrl.spouseTrees, function(spouseTree) {
 							if (spouseTree.children.length > 2) {
 								for(var l=0; l<spouseTree.children.length; l++) {
-									spouseTree.lines.push(40+80*l);
+									spouseTree.lines.push(40 + 61*l);
 								}
 							} else {
 								for(var l=0; l<spouseTree.children.length; l++) {
-									spouseTree.lines.push(120 + 80*l);
+									spouseTree.lines.push(120 + 61*l);
 								}
 							}
 						});

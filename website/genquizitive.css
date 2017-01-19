@@ -227,19 +227,19 @@ body {
 }
 
 .avatar-small {
-	width: 78px;
-	height: 68px;
+	width: 64px;
+    height: 57px;
 }
 .avatar-small img {
-    top: 6px;
-    width: 55px;
-    height: 55px;
-    left: 11px;
+    top: 4px;
+    width: 47px;
+    height: 47px;
+    left: 9px;
 }
 .avatar-small .avatar-label {
-	top: 55px;
+	top: 47px;
 	width: 100%;
-	font-size: 8pt;
+	font-size: 7pt;
 	padding: 1px;
 }
 
@@ -559,7 +559,7 @@ body {
 }
 
 .person-relationship .avatar {
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 .person-tree {
@@ -596,8 +596,8 @@ body {
 	display: inline-block;
 }
 .tree-row.parents-row .avatar, .tree-row.parents-row .person-spacer {
-	margin-right: 29px;
-    margin-left: 29px;
+	margin-right: 26px;
+    margin-left: 26px;
 }
 .spouse-tree {
 	display: inline-block;

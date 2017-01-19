@@ -1333,7 +1333,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		if ($scope.question.person && $scope.question.person.facts) {
 			$scope.questionText = $scope.question.questionText;
 			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
-			$scope.facts = angular.copy($scope.sortedfacts);
+			$scope.facts = [];
+			for(var f=0; f<$scope.sortedFacts.length; f++) {
+				if ($scope.sortedFacts[f].type.indexOf("LifeSketch" < 0)) {
+					$scope.facts.push($scope.sortedFacts[f]);
+				}
+			}
 			for(var f=0; f<$scope.facts.length; f++) {
 				$scope.facts[f].sortIndex = f;
 			}
