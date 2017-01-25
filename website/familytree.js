@@ -137,6 +137,11 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var arr = name.split(" ");
 		var shortName = arr[0];
 		if (arr.length > 1) {
+			var last = arr[arr.length-1];
+			var check = last.toLowerCase();
+			if (check.indexOf("jr") >=0 || check.indexOf("sr") >= 0) {
+				last = arr[arr.length-2];
+			}
 			shortName = shortName + " " + arr[arr.length-1].substr(0,1);
 		}
 		return shortName;
@@ -546,7 +551,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		var relUp = this.relationshipMatrix[u];
 		if (relUp) {
 			var d = down;
-			if (d > relUp.length-1) d = relUp.lenght-1;
+			if (d > relUp.length-1) d = relUp.length-1;
 			
 			var relDown = relUp[d];
 			if (relDown) {
@@ -1044,14 +1049,19 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getRandomPersonWithPortrait = function(useLiving) {
+	this.difficultyLevels = [8, 16, 32, 64, 128];
+	this.getRandomPersonWithPortrait = function(useLiving, difficulty) {
 		var deferred = $q.defer();
-		if (Object.keys(this.portraitPeople).length > 0) {
+		var keys = Object.keys(this.portraitPeople);
+		if (keys.length > 0) {
 			var count = 0;
 			var person = null;
+			var max = keys.length;
+			if (difficulty < 5) {
+				if (max > this.difficultyLevels[difficulty]) max = this.difficultyLevels[difficulty];
+			}
 			while(count < 5 && person == null) {
-				var keys = Object.keys(this.portraitPeople);
-				var rand = Math.floor(Math.random() * keys.length);
+				var rand = Math.floor(Math.random() * max);
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;
@@ -1069,9 +1079,13 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		if (Object.keys(this.people).length > 0) {
 			var count = 0;
 			var person = null;
+			var keys = Object.keys(this.people);
+			var max = keys.length;
+			if (difficulty < 5) {
+				if (max > this.difficultyLevels[difficulty]) max = this.difficultyLevels[difficulty];
+			}
 			while(count < 5 && person == null) {
-				var keys = Object.keys(this.people);
-				var rand = Math.floor(Math.random() * keys.length);
+				var rand = Math.floor(Math.random() * max);
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;
@@ -1098,13 +1112,17 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 	
-	this.getRandomPerson = function(useLiving) {
+	this.getRandomPerson = function(useLiving, difficulty) {
 		var keys = Object.keys(this.people);
 		if (keys.length > 0) {
 			var count = 0;
 			var person = null;
+			var max = keys.length;
+			if (difficulty < 5) {
+				if (max > this.difficultyLevels[difficulty]) max = this.difficultyLevels[difficulty];
+			}
 			while(count < 5 && person == null) {
-				var rand = Math.floor(Math.random() * keys.length);
+				var rand = Math.floor(Math.random() * max);
 				var randomId = keys[rand];
 				if (!this.usedPeople[randomId]) {
 					person = randomId;

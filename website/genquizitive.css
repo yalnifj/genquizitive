@@ -320,6 +320,7 @@ body {
     display: table-cell;
 	width: 215px;
     height: 79px;
+	padding: 8px;
 }
 .yellow_answer_button .answer-button {
 	color: #333333;

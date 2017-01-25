@@ -16,7 +16,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.isReady = false;
 				this.timeOffset = 0;
 				this.questionText = 'Who is shown in this picture?';
-				familysearchService.getRandomPersonWithPortrait(useLiving).then(function(person) {
+				familysearchService.getRandomPersonWithPortrait(useLiving, this.difficulty).then(function(person) {
 					question.person = person;
 					familysearchService.markUsed(question.person);
 					
@@ -196,10 +196,10 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.isReady = false;
 				this.difficulty = difficulty;
 				this.timeOffset = 0;
-				question.person = familysearchService.getRandomPerson(useLiving);
+				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				//-- make sure we have a person with facts
 				while(!question.person.facts || question.person.facts.length<2) {
-					question.person = familysearchService.getRandomPerson(useLiving);
+					question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				}
 				familysearchService.markUsed(question.person);
 				familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
@@ -349,7 +349,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				this.timeOffset = 0;
 				question.questionText = 'Complete the family tree.'
 				
-				question.person = familysearchService.getRandomPerson(useLiving);
+				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				familysearchService.markUsed(question.person);
 				familysearchService.getAncestorTree(question.person.id, 2, false, null, true).then(function(tree) {
 					if ((!tree.persons || tree.persons.length<3) && question.tryCount < 8) {
@@ -440,13 +440,13 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.isReady = false;
 				this.timeOffset = 0;
 				question.difficulty = difficulty;
-				question.person = familysearchService.getRandomPerson(useLiving);
+				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				//-- make sure we have a person with facts
 				var count = 0;
 				
 				var person = question.person;
-				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty || question.person.facts.length>2+2*question.difficulty)) {
-					person = familysearchService.getRandomPerson(useLiving);
+				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty)) {
+					person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
 						question.person = person;
 					}
@@ -508,14 +508,14 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.isReady = false;
 				question.difficulty = difficulty;
 				this.timeOffset = 0;
-				question.person = familysearchService.getRandomPerson(useLiving);
+				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				question.factCount = question.countFacts(question.person);
 				//-- make sure we have a person with facts
 				var count = 0;
 				
 				var person = question.person;
 				while(count < 10 && (!question.factCount || question.factCount<1+question.difficulty || question.factCount>2+2*question.difficulty)) {
-					person = familysearchService.getRandomPerson(useLiving);
+					person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 					var pcount=question.countFacts(person);
 					if (pcount>=1+question.difficulty && pcount<=2+2*question.difficulty) {
 						question.person = person;
@@ -666,12 +666,12 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					}
 				} else {
 					if (this.personQueue.length == 0) {
-						var person = familysearchService.getRandomPerson(useLiving);
+						var person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 						this.personQueue.push(person);
 					}
 					var person = this.personQueue.shift();
 					if (!person) {
-						person = familysearchService.getRandomPerson(useLiving);
+						person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 					}
 					var question = this;
 					this.checkBirthPlace(person).then(function(placeAuthority) {
@@ -1329,14 +1329,25 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 .controller('timelineController', function($scope, QuestionService, languageService) {
 	$scope.questionText = '';
 	
+	$scope.badFacts = ["LifeSketch","Other","REFN"]
+	
 	$scope.$watch('question.person', function() {
 		if ($scope.question.person && $scope.question.person.facts) {
 			$scope.questionText = $scope.question.questionText;
+			$scope.maxFacts = $scope.question.difficulty * 3;
 			$scope.sortedfacts = languageService.sortFacts($scope.question.person.facts);
 			$scope.facts = [];
-			for(var f=0; f<$scope.sortedFacts.length; f++) {
-				if ($scope.sortedFacts[f].type.indexOf("LifeSketch" < 0)) {
-					$scope.facts.push($scope.sortedFacts[f]);
+			for(var f=0; f<$scope.sortedfacts.length; f++) {
+				var found = false;
+				for(var b=0; b<$scope.badFacts.length; b++) {
+					if ($scope.sortedfacts[f].type.indexOf($scope.badFacts[b]) >= 0) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) $scope.facts.push($scope.sortedfacts[f]);
+				if ($scope.facts.length > $scope.maxFacts) {
+					break;
 				}
 			}
 			for(var f=0; f<$scope.facts.length; f++) {
@@ -1346,7 +1357,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			if ($scope.checkTimeline()) {
 				$scope.facts = QuestionService.shuffleArray($scope.facts);
 			}
-			$scope.poleStyle = {height: (($scope.sortedfacts.length - 1)*100)+'px'};
+			$scope.poleStyle = {height: (($scope.facts.length - 1)*100)+'px'};
 		}
 	});
 	
@@ -1445,9 +1456,9 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 					var cm = map.customMarkers[k];
 					$scope.dynMarkers.push(cm);
 				}
-				if ($scope.marketClusterer) {
-					$scope.marketClusterer.clearMarkers();
-					$scope.marketClusterer.addMarkers($scope.dynMarkers);
+				if ($scope.markerClusterer) {
+					$scope.markerClusterer.clearMarkers();
+					$scope.markerClusterer.addMarkers($scope.dynMarkers);
 				} else {
 					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
