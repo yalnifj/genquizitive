@@ -134,7 +134,9 @@ header .header-content, section .container, section .container-fluid{
 .small-title {
 	display: none;
 }
-
+.fb-button {
+	padding-top: 20px;
+}
 .fb-page.small {
 	display: none;
 }
