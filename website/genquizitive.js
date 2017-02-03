@@ -576,6 +576,8 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		$scope.hasFamilyTree = true;
 	}
 	
+	$scope.continueGameCount = 0;
+	
 	$scope.checkFacebook = function() {
 		if (facebookService.facebookUser) {
 			$scope.hasFacebook = true;
@@ -594,6 +596,22 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 						} else if (user.hasFamilyTree && !$scope.hasFamilyTree) {
 							//-- force familysearch login if user 
 							familysearchService.fsLogin();
+						} else {
+							firebaseService.getUserFromRounds(facebookService.facebookUser.id).then(function(rounds) {
+								angular.forEach(rounds, function(round) {
+									if (round.complete) {
+										$scope.continueGameCount++;
+									} else if (!round.fromStats) {
+										$scope.continueGameCount++;
+									}
+								});
+							});
+							
+							firebaseService.getUserToRounds(facebookService.facebookUser.id).then(function(rounds) {
+								angular.forEach(rounds, function(round) {
+									$scope.continueGameCount++;
+								});
+							});
 						}
 					} else {
 						//--- create firebase user if not exist

@@ -24,6 +24,7 @@
 			</div>
 			<div class="arrow-button arrow-left" ng-click="launchContinue()">
 				<img src="button_sign_arrow_left.png" />
+				<div class="continue-count" ng-if="continueGameCount > 0">{{continueGameCount}}</div>
 				<div class="button-text">Continue GenQuiz</div>
 			</div>
 			<div class="arrow-button arrow-right" ng-click="launchHints()">
