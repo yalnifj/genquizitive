@@ -600,7 +600,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 							firebaseService.getUserFromRounds(facebookService.facebookUser.id).then(function(rounds) {
 								angular.forEach(rounds, function(round) {
 									if (round.complete) {
-										$scope.continueGameCount++;
+										if (!round.read || !round.read[facebookService.facebookUser.id]) {
+											$scope.continueGameCount++;
+										}
 									} else if (!round.fromStats) {
 										$scope.continueGameCount++;
 									}
@@ -609,7 +611,9 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 							
 							firebaseService.getUserToRounds(facebookService.facebookUser.id).then(function(rounds) {
 								angular.forEach(rounds, function(round) {
-									$scope.continueGameCount++;
+									if (!round.read || !round.read[facebookService.facebookUser.id]) {
+										$scope.continueGameCount++;
+									}
 								});
 							});
 						}
@@ -835,6 +839,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 	
 	$scope.friends = {};
 	$scope.completeGames = [];
+	$scope.completeReadGames = [];
 	$scope.myTurnGames = [];
 	$scope.theirTurnGames = [];
 	$scope.gameCount = 0;
@@ -849,7 +854,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$scope.friends[round.id] = fbu;
 			});
 			if (round.complete) {
-				$scope.completeGames.push(round);
+				if (round.read && round.read[facebookService.facebookUser.id]) {
+					$scope.completeReadGames.push(round);
+				} else {
+					$scope.completeGames.push(round);
+				}
 			} else if (round.fromStats) {
 				$scope.theirTurnGames.push(round);
 			} else {
@@ -870,7 +879,11 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 				$scope.friends[round.id] = fbu;
 			});
 			if (round.complete) {
-				$scope.completeGames.push(round);
+				if (round.read && round.read[facebookService.facebookUser.id]) {
+					$scope.completeReadGames.push(round);
+				} else {
+					$scope.completeGames.push(round);
+				}
 			} else {
 				$scope.myTurnGames.push(round);
 			}
@@ -974,7 +987,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 		firebaseService.getRoundById(roundId).then(function(round) {
 			$scope.round = round;
 			
-			if ($scope.round.hasFamilyTree || facebookService.facebookUser.id==$scope.round.from) {
+			if (familysearchService.fsUser || facebookService.facebookUser.id==$scope.round.from) {
 				$scope.fromPersistence = false;
 				if ($scope.round.fromStats) {
 					$scope.questions[$scope.currentQuestion] = QuestionService.getQuestionByName($scope.round.fromStats.questions[0].name);
@@ -1274,6 +1287,12 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			$scope.friend = friend;
 			$scope.friend.shortName = languageService.shortenName($scope.friend['first_name']+' '+$scope.friend['last_name']);
 		});
+	}
+	
+	if ($scope.round.fromStats && $scope.round.toStats) {
+		if (!$scope.round.read) $scope.round.read = {};
+		$scope.round.read[facebookService.facebookUser.id] = true;
+		firebaseService.writeRound($scope.round);
 	}
 	
 	$scope.questionDisplays = [];

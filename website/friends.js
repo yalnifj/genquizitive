@@ -142,6 +142,9 @@ angular.module('genquiz.friends', ['genquizitive'])
 	this.writeRound = function(round) {
 		var deferred = $q.defer();
 		var ref = null;
+		if (round['$$hashKey']) {
+			delete(round['$$hashKey']);
+		}
 		if (round.id) {
 			ref = firebase.database().ref('rounds/'+round.id);
 		} else {

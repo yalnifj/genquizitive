@@ -33,6 +33,13 @@
 				GenQuiz with {{friends[round.id].shortName}}
 			</div>
 		</div>
+		<div ng-repeat="round in completeReadGames" class="clickable" ng-click="launchReview(round)">
+			<div avatar-badge src="friends[round.id].picture.data.url" class="avatar" style="top: 15px;z-index: 1;"></div>
+			<div class="round-summary">
+				<span class="genquiz-with">See who won in the past!</span><br />
+				GenQuiz with {{friends[round.id].shortName}}
+			</div>
+		</div>
 		<a class="arrow-button" href="#/menu" style="margin-top: 30px;">
 			<img src="button_sign_arrow_left.png" />
 			<div class="button-text">Back to Menu</div>

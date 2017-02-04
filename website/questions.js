@@ -42,17 +42,27 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
 				if (person) {
 					var deferred = $q.defer();
-					this.difficulty = roundQuestion.difficulty;
-					this.person = person;
-					this.questionText = roundQuestion.questionText;
-					familysearchService.getRandomPeopleNear(person, 3, useLiving).then(function(people) {
-						question.randomPeople = people;
-						question.isReady = true;
-						deferred.resolve(question);
+					var question = this;
+					familysearchService.getPersonPortrait(roundQuestion.personId).then(function(data) {
+						question.difficulty = roundQuestion.difficulty;
+						question.person = person;
+						question.questionText = roundQuestion.questionText;
+						
+						familysearchService.getRandomPeopleNear(person, 3, true).then(function(people) {
+							question.randomPeople = people;
+							question.isReady = true;
+							deferred.resolve(question);
+						}, function(error) {
+							console.log(error);
+							question.error = error;
+							deferred.reject(question);
+						});
 					}, function(error) {
-						console.log(error);
-						question.error = error;
-						deferred.reject(question);
+						question.setup(roundQuestion.difficulty, true).then(function(data) {
+							deferred.resolve(data);
+						}, function(error) {
+							deferred.reject(question);
+						});
 					});
 					return deferred.promise;
 				} else {
