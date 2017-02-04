@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:background="@drawable/home_background"
+    tools:context="com.yellowforktech.genquizitive_android.MainActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/pole"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:id="@+id/pole"
+        android:layout_below="@+id/signLogo" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/logo"
+        android:id="@+id/signLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/avatar_badge"
+        android:id="@+id/avatarBadge"
+        android:paddingRight="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/button_sign_arrow_right"
+        android:id="@+id/challengeButton"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/practiceButton"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/button_sign_arrow_left"
+        android:id="@+id/continueButton"
+        android:layout_below="@+id/challengeButton"
+        android:layout_alignLeft="@+id/challengeButton"
+        android:layout_alignStart="@+id/challengeButton"
+        android:layout_marginTop="14dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/button_sign_arrow_left"
+        android:id="@+id/practiceButton"
+        android:layout_below="@+id/signLogo"
+        android:layout_alignLeft="@+id/challengeButton"
+        android:layout_alignStart="@+id/challengeButton"
+        android:layout_marginTop="7dp" />
+
+</RelativeLayout>

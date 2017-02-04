@@ -16,7 +16,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="GenQuizitive Logo.svg">
+   sodipodi:docname="GenQuizitive Logo.svg"
+   inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\design\Ad Print\LogoMerchandiseText.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <linearGradient
@@ -707,9 +710,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.47376154"
-     inkscape:cx="396.60237"
-     inkscape:cy="705.0099"
+     inkscape:zoom="0.33500001"
+     inkscape:cx="844.09142"
+     inkscape:cy="201.85872"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -20066,5 +20069,71 @@
          id="tspan16915-2"
          x="516.59741"
          y="339.74423">TM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:81.67180634px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="1130.649"
+       y="735.24469"
+       id="text4146-0-17"
+       sodipodi:linespacing="125%"
+       transform="scale(0.81793195,1.2225956)"><tspan
+         sodipodi:role="line"
+         id="tspan4148-1-22"
+         x="1130.649"
+         y="735.24469"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:81.67180634px;line-height:125%;font-family:'AR CHRISTY';-inkscape-font-specification:'AR CHRISTY, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;"
+           id="tspan4156-7-64">Quiz</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:64.48517609px;line-height:125%;font-family:'AR BONNIE';-inkscape-font-specification:'AR BONNIE, Thin';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
+       x="854.98438"
+       y="887.46173"
+       id="text4210-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4212-72"
+         x="854.98438"
+         y="887.46173">Gen</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:67.7820282px;line-height:125%;font-family:'AR BONNIE';-inkscape-font-specification:'AR BONNIE, Thin';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="1049.4485"
+       y="888.25519"
+       id="text4214-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4216-9"
+         x="1049.4485"
+         y="888.25519">ITIVE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:69.25265503px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1133.3402"
+       y="843.10895"
+       id="text4146-0-17-8"
+       sodipodi:linespacing="125%"
+       transform="scale(0.81793195,1.2225956)"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\design\Ad Print\LogoMerchandiseText.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan4148-1-22-8"
+         x="1133.3402"
+         y="843.10895"
+         style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:69.25218964px;line-height:125%;font-family:'AR CHRISTY';-inkscape-font-specification:'AR CHRISTY, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start">LOGO</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:67.7820282px;line-height:125%;font-family:'AR BONNIE';-inkscape-font-specification:'AR BONNIE, Thin';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="876.2724"
+       y="1098.6991"
+       id="text4214-6-5"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\john\Documents\GitHub\GenQuizitive\design\Ad Print\LogoMerchandiseText.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan4216-9-2"
+         x="876.2724"
+         y="1098.6991">Merchandise</tspan></text>
   </g>
 </svg>
