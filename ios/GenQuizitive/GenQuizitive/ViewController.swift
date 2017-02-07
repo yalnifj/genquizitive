@@ -39,6 +39,10 @@ class ViewController: UIViewController {
         if let accessToken = AccessToken.current {
             // User is logged in, use 'accessToken' here.
             print("Already logged in to facebook \(accessToken)")
+            
+            self.gotoMenuView()
+        } else {
+            print("Not logged into facebook")
         }
     }
 
@@ -46,9 +50,15 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func gotoMenuView() {
+        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as UIViewController
+        
+        self.present(viewController, animated: false, completion: nil)
+    }
 
     @IBAction func onFBBtnClick(_ sender: Any) {
-        let loginManager = LoginManager()
+        let loginManager = LoginManager(loginBehavior: .systemAccount, defaultAudience: .friends)
         loginManager.logIn([ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
@@ -56,7 +66,9 @@ class ViewController: UIViewController {
             case .cancelled:
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                print("Logged in!")
+                print("Logged in! \(accessToken)")
+                
+                self.gotoMenuView()
             }
         }
     }

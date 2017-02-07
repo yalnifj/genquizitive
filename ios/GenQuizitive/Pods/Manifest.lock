@@ -73,6 +73,7 @@ DEPENDENCIES:
   - FacebookShare
   - Firebase
   - Firebase/Auth
+  - Firebase/Core
   - Firebase/Database
 
 SPEC CHECKSUMS:
@@ -94,6 +95,6 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
 
-PODFILE CHECKSUM: 84f2596f575d512a521d3a15cbd8bdde2ec1993d
+PODFILE CHECKSUM: 89541907c250a651bff2a77113f51153627d0e4d
 
 COCOAPODS: 1.2.0

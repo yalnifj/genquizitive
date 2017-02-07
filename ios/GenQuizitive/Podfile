@@ -12,6 +12,7 @@ target 'GenQuizitive' do
   pod 'FacebookLogin'
   pod 'FacebookShare'
   pod 'Firebase'
+  pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
 
