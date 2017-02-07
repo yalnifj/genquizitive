@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var arrows: UIImageView!
+    @IBOutlet weak var funLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,11 @@ class ViewController: UIViewController {
         arrows.animationDuration = 0.3
         arrows.animationDuration = 1.0
         arrows.startAnimating()
+        
+        funLabel.layer.cornerRadius = 10
+        funLabel.clipsToBounds = true
+        funLabel.layer.borderColor = UIColor.black.cgColor
+        funLabel.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {
