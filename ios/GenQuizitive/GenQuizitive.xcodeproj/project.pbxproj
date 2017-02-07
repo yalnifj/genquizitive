@@ -31,6 +31,7 @@
 		93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */; };
 		93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */; };
 		A0B65178F435DA5EBBD0508C /* Pods_GenQuizitiveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1792C585315086F2689B31 /* Pods_GenQuizitiveUITests.framework */; };
+		D871EDBE3B1E6352B97E7B5B /* Pods_GenQuizitive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743EE7371AE5C578165F430C /* Pods_GenQuizitive.framework */; };
 		FEA47B6899FA07746B93F1B7 /* Pods_GenQuizitiveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE3A82E2ECC5C8901A4BE52 /* Pods_GenQuizitiveTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +112,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93E8A9D61DC9A4F700C25D4E /* FBSDKLoginKit.framework in Frameworks */,
+				D871EDBE3B1E6352B97E7B5B /* Pods_GenQuizitive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +177,7 @@
 				939079021DB2EFC90010E0A0 /* Assets.xcassets */,
 				939079041DB2EFC90010E0A0 /* LaunchScreen.storyboard */,
 				939079071DB2EFC90010E0A0 /* Info.plist */,
+				93AEE5F01E4A3A1400700AB6 /* views */,
 				93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */,
 			);
 			path = GenQuizitive;
@@ -196,6 +199,13 @@
 				9390791D1DB2EFC90010E0A0 /* Info.plist */,
 			);
 			path = GenQuizitiveUITests;
+			sourceTree = "<group>";
+		};
+		93AEE5F01E4A3A1400700AB6 /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
 			sourceTree = "<group>";
 		};
 		93E8A9C51DC9913200C25D4E /* assets */ = {
@@ -687,7 +697,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KXJU72995U;
 				INFOPLIST_FILE = GenQuizitive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yellowforktech.GenQuizitive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -702,7 +712,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KXJU72995U;
 				INFOPLIST_FILE = GenQuizitive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yellowforktech.GenQuizitive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
