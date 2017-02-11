@@ -12,6 +12,7 @@ import FacebookCore
 class MenuViewController: UIViewController {
     
     @IBOutlet weak var arrows: UIImageView!
+    @IBOutlet weak var avatarBadge: AvatarBadge!
     
     
     override func viewDidLoad() {
@@ -26,6 +27,21 @@ class MenuViewController: UIViewController {
         arrows.animationDuration = 1.0
         arrows.startAnimating()
 
+        let facebookService = FacebookService.getInstance();
+        facebookService.getCurrentUser { (fsUser, error) in
+            if fsUser != nil {
+                if fsUser?.picture != nil {
+                    let url = NSURL(string: fsUser!.picture)
+                    let data = NSData(contentsOf: url! as URL)
+                    if data != nil {
+                        let pImage = UIImage(data: data! as Data)
+                        if pImage != nil {
+                            self.avatarBadge.setProfileImage(image: pImage!)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

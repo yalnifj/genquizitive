@@ -36,9 +36,9 @@ class ViewController: UIViewController {
         facebookButton.titleLabel?.textAlignment = .center
         familysearchButton.titleLabel?.textAlignment = .center
         
-        if let accessToken = AccessToken.current {
+        if FacebookService.getInstance().isAuthenticated() {
             // User is logged in, use 'accessToken' here.
-            print("Already logged in to facebook \(accessToken)")
+            print("Already logged in to facebook")
             
             self.gotoMenuView()
         } else {

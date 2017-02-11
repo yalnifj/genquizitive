@@ -11,6 +11,8 @@ import UIKit
 
 class AvatarBadge: UIView {
     
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var label: UILabel!
     var view:UIView!
     
     override init(frame: CGRect) {
@@ -29,6 +31,15 @@ class AvatarBadge: UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
+        self.view.layoutIfNeeded()
+        profileImage.layer.cornerRadius = profileImage.frame.size.width/2
+        profileImage.clipsToBounds = true
+        
+        label.layer.cornerRadius = 10
+        label.clipsToBounds = true
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 1
+        label.isHidden = true
     }
     
     func loadViewFromNib() -> UIView {
@@ -39,4 +50,12 @@ class AvatarBadge: UIView {
         return view
     }
 
+    func setProfileImage(image: UIImage) {
+        profileImage.image = image
+    }
+    
+    func setLabel(text: String) {
+        label.text = text
+        label.isHidden = false
+    }
 }
