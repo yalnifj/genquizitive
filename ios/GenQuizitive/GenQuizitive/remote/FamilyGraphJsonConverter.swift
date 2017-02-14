@@ -38,7 +38,11 @@ class FamilyGraphJsonConverter {
         let name = Name()
         let form = NameForm()
         let ft = json["name"].string
-        form.fulltext = ft?.replaceAll(" \\([\\w\\s]*\\)", replace: "")
+        if ft != nil {
+            form.fulltext = StringUtils.replaceAll(text: ft!, regex: " \\([\\w\\s]*\\)", replace: "")
+        } else {
+            form.fulltext = ft
+        }
         
         if json["first_name"] != JSON.null {
             let part = NamePart()

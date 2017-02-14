@@ -14,13 +14,15 @@ class MyHeritageService: RemoteService {
     var sessionId: String?
     
     var clientId = "0d9d29c39d0ded7bd6a9e334e5f673a7"
-    var clientSecret = "9021b2dcdb4834bd12a491349f61cb27"
+    var redirectUri = "urn:ietf:wg:oauth:2.0:oob"
+    var scope = "basic,offline_access"
+    
     var jsonConverter:FamilyGraphJsonConverter!
     var baseUrl = "https://familygraph.myheritage.com/"
     
     var oAuthUrl:String {
         get {
-            return "https://accounts.myheritage.com/oauth2/authorize?client_id=0d9d29c39d0ded7bd6a9e334e5f673a7&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=basic,offline_access&response_type=token"
+            return "https://accounts.myheritage.com/oauth2/authorize?client_id=\(clientId)&redirect_uri=\(redirectUri)&scope=\(scope)&response_type=token"
         }
     }
     
@@ -38,6 +40,27 @@ class MyHeritageService: RemoteService {
     
     init() {
         jsonConverter = FamilyGraphJsonConverter()
+    }
+    
+    func processOathResponse(webview:UIWebView, onCompletion: @escaping AcessTokenResponse) {
+        let title = webview.stringByEvaluatingJavaScript(from: "document.title")
+        if title != nil && title!.contains("Success") {
+            let parts = StringUtils.split(text: title!, splitter: "=")
+            if parts.count > 1 {
+                var accessToken = parts[1]
+                let aParts = StringUtils.split(text: accessToken, splitter: "&")
+                accessToken = aParts[0]
+                print(accessToken)
+                self.sessionId = accessToken
+                
+                onCompletion(accessToken, nil)
+            } else {
+                onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+            }
+        } else {
+            onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+        }
+
     }
     
     func getCurrentUser(_ onCompletion: @escaping (JSON?, NSError?) -> Void) {

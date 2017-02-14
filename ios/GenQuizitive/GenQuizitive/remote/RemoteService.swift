@@ -1,6 +1,8 @@
 import Foundation
+import UIKit
 
 typealias ServiceResponse = (JSON, NSError?) -> Void
+typealias AcessTokenResponse = (String?, NSError?) -> Void
 typealias PersonResponse = (Person?, NSError?) -> Void
 typealias LinkResponse = (Link?, NSError?) -> Void
 typealias RelationshipsResponse = ([Relationship]?, NSError?) -> Void
@@ -12,6 +14,7 @@ protocol RemoteService {
 	var sessionId: String? { get set }
     var oAuthUrl: String { get }
     var oAuthCompleteUrl: String { get }
+    func processOathResponse(webview:UIWebView, onCompletion: @escaping AcessTokenResponse)
 	func getCurrentPerson(_ onCompletion: @escaping PersonResponse)
     func getPerson(_ personId: String, ignoreCache: Bool, onCompletion: @escaping PersonResponse)
 	func getLastChangeForPerson(_ personId: String, onCompletion: @escaping LongResponse)

@@ -34,6 +34,10 @@ class PGVService : RemoteService {
 		self.defaultPersonId = defaultPersonId
 		gedcomParser = GedcomParser()
     }
+    
+    func processOathResponse(webview:UIWebView, onCompletion: @escaping AcessTokenResponse) {
+        onCompletion(nil, NSError(domain: "PGVService", code: 500, userInfo: ["message":"Not implemented"]))
+    }
 	
 	func getVersion(_ onCompletion: @escaping StringResponse) {
 		
@@ -47,7 +51,7 @@ class PGVService : RemoteService {
             var version:String? = nil
 			if data != nil {
                 let dataStr:String = data!
-				let parts = dataStr.split("\\s+")
+                let parts = StringUtils.split(text: dataStr, splitter:"\\s+")
 				if parts.count > 1 && parts[0] == PGVService.SUCCESS {
 					version = parts[1]
 				}
@@ -69,7 +73,7 @@ class PGVService : RemoteService {
 		makeHTTPPostRequest(self.baseUrl! + "client.php", body: params, headers: headers, onCompletion: {data, err in
 			if data != nil {
                 let dataStr:String = data!
-                let parts = dataStr.split("\\s+")
+                let parts = StringUtils.split(text: dataStr, splitter: "\\s+")
 				if parts.count > 2 && parts[0] == PGVService.SUCCESS {
 					self.sessionName = parts[1]
 					self.sessionId = parts[2]
@@ -185,7 +189,7 @@ class PGVService : RemoteService {
 							if sr.links.count > 0 {
 								for link in sr.links {
 									if link.href != nil && link.href!.hasPrefix("@") {
-										let objeid = (link.href! as String).replaceAll("@", replace: "")
+                                        let objeid = StringUtils.replaceAll(text: link.href! as String, regex: "@", replace: "")
 										group.enter()
 										self.getGedcomRecord(objeid, onCompletion: {gedcom, err in 
 											if gedcom != nil {
@@ -235,7 +239,7 @@ class PGVService : RemoteService {
 					if fams.count > 0 {
 						for fam in fams {
                             let href = fam.href!
-							let famid = href.replaceAll("@", replace: "")
+                            let famid = StringUtils.replaceAll(text: href, regex: "@", replace: "")
 							group.enter()
 							self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
 								if gedcom != nil {
@@ -244,7 +248,7 @@ class PGVService : RemoteService {
                                         if fam.rel == "FAMC" {
                                             for p in fh!.parents {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
@@ -261,7 +265,7 @@ class PGVService : RemoteService {
                                         if fam.rel == "FAMS" {
                                             for p in fh!.parents {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/Couple"
@@ -276,7 +280,7 @@ class PGVService : RemoteService {
                                             }
                                             for p in fh!.children {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
@@ -321,7 +325,7 @@ class PGVService : RemoteService {
 						for fam in fams {
 							if fam.rel == "FAMC" {
                                 let href = fam.href!
-								let famid = href.replaceAll("@", replace: "")
+                                let famid = StringUtils.replaceAll(text: href, regex: "@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
 									if gedcom != nil {
@@ -329,7 +333,7 @@ class PGVService : RemoteService {
                                         if fh != nil {
                                             for p in fh!.parents {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
@@ -374,7 +378,7 @@ class PGVService : RemoteService {
 						for fam in fams {
 							if fam.rel == "FAMS" {
                                 let href = fam.href!
-								let famid = href.replaceAll("@", replace: "")
+                                let famid = StringUtils.replaceAll(text: href, regex: "@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
 									if gedcom != nil {
@@ -382,7 +386,7 @@ class PGVService : RemoteService {
                                         if fh != nil {
                                             for p in fh!.children {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
@@ -427,7 +431,7 @@ class PGVService : RemoteService {
 						for fam in fams {
 							if fam.rel == "FAMS" {
                                 let href = fam.href!
-								let famid = href.replaceAll("@", replace: "")
+                                let famid = StringUtils.replaceAll(text: href, regex: "@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
 									if gedcom != nil {
@@ -435,7 +439,7 @@ class PGVService : RemoteService {
                                         if fh != nil {
                                             for p in fh!.parents {
                                                 let href = p.href!
-                                                let relid = href.replaceAll("@" , replace: "")
+                                                let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/Couple"
@@ -479,7 +483,7 @@ class PGVService : RemoteService {
 						for link in sr.links {
                             let href = link.href!
 							if link.href != nil && href.hasPrefix("@") {
-								let objeid = href.replaceAll("@", replace: "")
+                                let objeid = StringUtils.replaceAll(text: href, regex: "@", replace: "")
 								group.enter()
 								self.getGedcomRecord(objeid, onCompletion: { gedcom, err in 
 									if gedcom != nil {

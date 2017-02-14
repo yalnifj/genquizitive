@@ -19,7 +19,7 @@ class FamilySearchService : RemoteService {
     var sessionId: String?
     var oAuthUrl:String {
         get {
-            return FS_OAUTH2_PATH_PROD
+            return FS_OAUTH2_PATH
         }
     }
     var oAuthCompleteUrl:String {
@@ -33,6 +33,10 @@ class FamilySearchService : RemoteService {
     fileprivate init() {
         FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
         FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
+    }
+    
+    func processOathResponse(webview:UIWebView, onCompletion: @escaping AcessTokenResponse) {
+        onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Not implemented"]))
     }
 	
 	static let sharedInstance = FamilySearchService()
@@ -455,7 +459,6 @@ class FamilySearchService : RemoteService {
             }
             if httpResponse.statusCode == 204 {
                 //-- connection was throttled, try again after 10 seconds
-                SyncQ.getInstance().pauseForTime(60)
                 self.throttled(20, closure: {
                     self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
                 })

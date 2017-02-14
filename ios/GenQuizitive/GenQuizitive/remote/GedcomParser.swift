@@ -48,13 +48,13 @@ class GedcomParser {
 	func parsePerson(_ gedcom:String) -> Person? {
 		var person:Person? = nil
 		
-		let lines = gedcom.split("(\r?\n)+")
+        let lines = StringUtils.split(text:gedcom, splitter:"(\r?\n)+")
 		if lines[0].range(of: "0 @\\w+@ INDI", options: .regularExpression) == nil {
 			return person
 		}
 		
 		person = Person()
-		let xparts = lines[0].split("@")
+        let xparts = StringUtils.split(text: lines[0], splitter: "@")
 		let xref = xparts[1]
 		person!.id = xref
 		
@@ -78,7 +78,7 @@ class GedcomParser {
 		 //-- parse each fact
         for a in level2s {
 			let line2 = a[0]
-			let parts = line2.split(" ")
+            let parts = StringUtils.split(text:line2, splitter:" ")
 			if parts[1] == "NAME" {
 				let name = parseName(a)
 				if person!.names.count == 0 {
@@ -133,13 +133,13 @@ class GedcomParser {
 	func parseFamily(_ gedcom:String) -> FamilyHolder? {
 		var family:FamilyHolder? = nil
 		
-		let lines = gedcom.split("(\r?\n)+")
+        let lines = StringUtils.split(text:gedcom, splitter: "(\r?\n)+")
 		if lines[0].range(of: "0 @\\w+@ FAM", options: .regularExpression) == nil {
 			return family
 		}
 		
 		family = FamilyHolder()
-		let xparts = lines[0].split("@")
+        let xparts = StringUtils.split(text: lines[0], splitter: "@")
 		let xref = xparts[1]
 		family!.id = xref
 		
@@ -162,7 +162,7 @@ class GedcomParser {
 		 //-- parse each fact
         for a in level2s {
 			let line2 = a[0]
-			let parts = line2.split(" ")
+            let parts = StringUtils.split(text: line2, splitter: " ")
 			if parts[1] == "SOUR" {
                 // TODO
             }
@@ -197,26 +197,26 @@ class GedcomParser {
 	func parseObje(_ gedcom:String, baseUrl:String) -> SourceDescription? {
 		var sd:SourceDescription? = nil
 		
-		let lines = gedcom.split("(\r?\n)+")
+        let lines = StringUtils.split(text: gedcom, splitter: "(\r?\n)+")
 		if lines[0].range(of: "0 @\\w+@ OBJE", options: .regularExpression) == nil {
 			return sd
 		}
 		
 		sd = SourceDescription()
-		let xparts = lines[0].split("@")
+        let xparts = StringUtils.split(text: lines[0], splitter: "@")
 		let xref = xparts[1]
 		sd!.id = xref
 		
 		for s in 1..<lines.count {
 			let line = lines[s]
-			let ps = line.split(" ")
+            let ps = StringUtils.split(text: line, splitter: " ")
 			if ps[0] == "1" && ps[1] == "FILE" {
 				let link = Link()
 				var mediaPath = ps[2]
 				for p in 3..<ps.count {
 					mediaPath = mediaPath + "%20" + ps[p]
 				}
-				let paths = mediaPath.split("\\.")
+                let paths = StringUtils.split(text: mediaPath, splitter: "\\.")
 				let ext = paths[paths.count - 1].lowercased()
 				if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png") {
 					link.rel = "image"
@@ -243,10 +243,10 @@ class GedcomParser {
         let name = Name()
         let wholeName = lines[0].substring(from: lines[0].characters.index(lines[0].startIndex, offsetBy: 7))
 		let form = NameForm()
-        form.fulltext = wholeName.replaceAll("/", replace: "")
+        form.fulltext = StringUtils.replaceAll(text: wholeName, regex: "/", replace: "")
         for s in 1..<lines.count {
             let line = lines[s]
-            let parts = line.split(" ");
+            let parts = StringUtils.split(text: line, splitter: " ")
             if "GIVN" == parts[1] {
                 let part = NamePart()
                 part.type = "http://gedcomx.org/Given"
@@ -275,7 +275,7 @@ class GedcomParser {
         }
 
         if form.parts.count == 0 {
-			let parts = wholeName.split("/")
+            let parts = StringUtils.split(text: wholeName, splitter: "/")
 			if parts.count > 0 {
                 let chars = CharacterSet(charactersIn: " ")
 				let givn = parts[0].trimmingCharacters(in: chars)
@@ -309,7 +309,7 @@ class GedcomParser {
 	
 	func parseMedia(_ lines:[String]) -> SourceReference {
 		let sd = SourceReference()
-		let parts = lines[0].split(" ")
+        let parts = StringUtils.split(text: lines[0], splitter: " ")
 		if (parts.count > 2) {
 			let link = Link()
 			link.rel = "image"
@@ -317,7 +317,7 @@ class GedcomParser {
 			sd.links.append(link)
 		}
 		for line in lines {
-            let ps = line.split(" ")
+            let ps = StringUtils.split(text: line, splitter: " ")
             if "FILE" == ps[1] {
                 let link = Link()
                 link.rel = "image"
@@ -330,7 +330,7 @@ class GedcomParser {
 	
 	func parseFact(_ lines:[String]) -> Fact {
         let fact = Fact()
-        let parts = lines[0].split(" ")
+        let parts = StringUtils.split(text: lines[0], splitter: " ")
         var type = factMap[parts[1]]
         if (type == nil) {
             type = "Other"
@@ -341,7 +341,7 @@ class GedcomParser {
         }
         for s in 1..<lines.count {
             let line = lines[s]
-            let ps = line.split(" ")
+            let ps = StringUtils.split(text: line, splitter: " ")
             if ps[0] == "2" {
                 if ps[1] == "DATE" && fact.date == nil {
                     let date = GedcomDate()
@@ -366,7 +366,7 @@ class GedcomParser {
 		var hasTime = false
 		var dateString = ""
         for line in lines {
-            let ps = line.split(" ");
+            let ps = StringUtils.split(text: line, splitter: " ");
             if ps[0] == "2" {
                 if ps[1] == "DATE" {
                     hasDate = true

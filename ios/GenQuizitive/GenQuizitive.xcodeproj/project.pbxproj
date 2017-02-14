@@ -58,6 +58,8 @@
 		93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */; };
 		93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93CC31731E4CE805006AA26B /* AuthDialogView.xib */; };
 		93CC31761E4CE8DA006AA26B /* AuthDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */; };
+		93D489AD1E52AFEB00FAE6F5 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */; };
+		93D489AF1E52B83400FAE6F5 /* GenderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D489AE1E52B83400FAE6F5 /* GenderType.swift */; };
 		93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9C61DC9913200C25D4E /* home_arrow1.png */; };
 		93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9C71DC9913200C25D4E /* home_arrow2.png */; };
 		93E8A9CF1DC9913200C25D4E /* home_arrow3.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9C81DC9913200C25D4E /* home_arrow3.png */; };
@@ -174,6 +176,8 @@
 		93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93CC31731E4CE805006AA26B /* AuthDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthDialogView.xib; sourceTree = "<group>"; };
 		93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDialogView.swift; sourceTree = "<group>"; };
+		93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		93D489AE1E52B83400FAE6F5 /* GenderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderType.swift; sourceTree = "<group>"; };
 		93E8A9C61DC9913200C25D4E /* home_arrow1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_arrow1.png; sourceTree = "<group>"; };
 		93E8A9C71DC9913200C25D4E /* home_arrow2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_arrow2.png; sourceTree = "<group>"; };
 		93E8A9C81DC9913200C25D4E /* home_arrow3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_arrow3.png; sourceTree = "<group>"; };
@@ -246,6 +250,7 @@
 				93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */,
 				93CC31731E4CE805006AA26B /* AuthDialogView.xib */,
 				93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */,
+				93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */,
 			);
 			path = remote;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 		93105A261E4BE262005D4512 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				93D489AE1E52B83400FAE6F5 /* GenderType.swift */,
 				93105A271E4BE262005D4512 /* Attribution.swift */,
 				93105A281E4BE262005D4512 /* CitationField.swift */,
 				93105A291E4BE262005D4512 /* Conclusion.swift */,
@@ -727,7 +733,9 @@
 				93105A521E4BE262005D4512 /* ExtensibleData.swift in Sources */,
 				93105A5F1E4BE262005D4512 /* PlaceReference.swift in Sources */,
 				93105A4B1E4BE262005D4512 /* Attribution.swift in Sources */,
+				93D489AF1E52B83400FAE6F5 /* GenderType.swift in Sources */,
 				93105A561E4BE262005D4512 /* FieldValue.swift in Sources */,
+				93D489AD1E52AFEB00FAE6F5 /* StringUtils.swift in Sources */,
 				93105A611E4BE262005D4512 /* Relationship.swift in Sources */,
 				93105A631E4BE262005D4512 /* SourceCitation.swift in Sources */,
 				93105A531E4BE262005D4512 /* Fact.swift in Sources */,
