@@ -10,11 +10,15 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AuthCompleteListener {
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var funLabel: UILabel!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var familysearchButton: UIButton!
+    
+    var service : RemoteService?
+    
+    var authDialog:AuthDialogView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +78,19 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onFSBtnClick(_ sender: Any) {
+        service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
+        authDialog = AuthDialogView(frame: self.view.bounds)
+        authDialog?.remoteService = service
+        authDialog?.listener = self
+        self.view.addSubview(authDialog!)
+    }
+    
+    func AuthComplete(accessToken:String?) {
+        authDialog?.removeFromSuperview()
+    }
+    
+    func AuthCanceled() {
+        authDialog?.removeFromSuperview()
     }
 }
 

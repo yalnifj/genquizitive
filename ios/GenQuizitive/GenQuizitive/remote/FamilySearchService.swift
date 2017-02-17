@@ -3,23 +3,23 @@ import SpriteKit
 
 class FamilySearchService : RemoteService {
 
-	let FS_PLATFORM_PATH_SAND = "https://sandbox.familysearch.org/platform/"
+	let FS_PLATFORM_PATH_SAND = "https://integration.familysearch.org/platform/"
     let FS_PLATFORM_PATH_BETA = "https://beta.familysearch.org/platform/"
 	let FS_PLATFORM_PATH_PROD = "https://familysearch.org/platform/"
     var FS_PLATFORM_PATH:String
 	
-	let FS_OAUTH2_PATH_SAND = "https://sandbox.familysearch.org/cis-web/oauth2/v3/authorization"
-    let FS_OAUTH2_PATH_BETA = "https://identbeta.familysearch.org/cis-web/oauth2/v3/authorization"
-	let FS_OAUTH2_PATH_PROD = "https://ident.familysearch.org/cis-web/oauth2/v3/authorization"
+	let FS_OAUTH2_PATH_SAND = "https://integration.familysearch.org/cis-web/oauth2/v3/"
+    let FS_OAUTH2_PATH_BETA = "https://identbeta.familysearch.org/cis-web/oauth2/v3/"
+	let FS_OAUTH2_PATH_PROD = "https://ident.familysearch.org/cis-web/oauth2/v3/"
     var FS_OAUTH2_PATH:String
 	
-	fileprivate let FS_APP_KEY = "a02j000000JERmSAAX"
-    private let FS_REDIRECT_URL = "https://www.genquizitive.com/mobile.html"
+    fileprivate let FS_APP_KEY:String! 
+    private let FS_REDIRECT_URL:String!
 
     var sessionId: String?
     var oAuthUrl:String {
         get {
-            return FS_OAUTH2_PATH
+            return "\(FS_OAUTH2_PATH)authorization?response_type=code&client_id=\(FS_APP_KEY)&redirect_uri=\(FS_REDIRECT_URL)"
         }
     }
     var oAuthCompleteUrl:String {
@@ -30,19 +30,47 @@ class FamilySearchService : RemoteService {
     
     var personCache = [String: Person]()
     
-    fileprivate init() {
-        FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
-        FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
+    init(env: String, applicationKey: String, redirectUrl: String) {
+        self.FS_APP_KEY = applicationKey
+        self.FS_REDIRECT_URL = redirectUrl
+        self.FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
+        self.FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
+        self.setEnvironment(env)
     }
     
     func processOathResponse(webview:UIWebView, onCompletion: @escaping AcessTokenResponse) {
-        onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Not implemented"]))
+        let url = webview.request?.url
+        let urlComps = URLComponents(url: url!, resolvingAgainstBaseURL: false)
+        let code = urlComps?.queryItems?.filter { $0.name == "code" }.first
+        if code != nil {
+            var params:[String:String] = [
+                "code": code!.description,
+                "redirect_uri": FS_REDIRECT_URL,
+                "grant_type": "authorization_code",
+                "client_id": FS_APP_KEY
+            ]
+            self.makeHTTPPostRequest("\(FS_OAUTH2_PATH)token", body: params, headers: [:], onCompletion: {json, err in
+                self.sessionId = json["access_token"].description
+                if self.sessionId!.isEmpty || self.sessionId! == "null" {
+                    self.sessionId = nil
+                    if err == nil {
+                        let jerror = json["error_description"]
+                        if jerror != JSON.null {
+                            let error = NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":jerror.description])
+                            onCompletion(self.sessionId, error)
+                            return
+                        }
+                    }
+                }
+                onCompletion(self.sessionId, err)
+            })
+        } else {
+            onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Unable to retrieve access code"]))
+        }
     }
-	
-	static let sharedInstance = FamilySearchService()
     
     func setEnvironment(_ env:String) {
-        if (env=="sandbox") {
+        if (env=="sandbox" || env=="integration") {
             FS_PLATFORM_PATH = FS_PLATFORM_PATH_SAND
             FS_OAUTH2_PATH = FS_OAUTH2_PATH_SAND
         }
@@ -50,7 +78,7 @@ class FamilySearchService : RemoteService {
             FS_PLATFORM_PATH = FS_PLATFORM_PATH_BETA
             FS_OAUTH2_PATH = FS_OAUTH2_PATH_BETA
         }
-        else if (env=="prod") {
+        else {
             FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
             FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
         }

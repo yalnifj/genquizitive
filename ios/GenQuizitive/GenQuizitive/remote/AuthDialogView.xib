@@ -24,7 +24,11 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <items>
                         <navigationItem title="Login" id="owj-sC-fNb">
-                            <barButtonItem key="leftBarButtonItem" title="&lt; Cancel" id="ivf-9b-je1"/>
+                            <barButtonItem key="leftBarButtonItem" title="&lt; Cancel" id="ivf-9b-je1">
+                                <connections>
+                                    <action selector="cancelBtnClicked:" destination="-1" id="PlZ-Co-g4v"/>
+                                </connections>
+                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>

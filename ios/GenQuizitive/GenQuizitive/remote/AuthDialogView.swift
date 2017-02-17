@@ -9,13 +9,20 @@
 import Foundation
 import UIKit
 
+protocol AuthCompleteListener {
+    func AuthComplete(acessToken:String!)
+    func AuthCanceled()
+}
+
 class AuthDialogView : UIView, UIWebViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var view:UIView!
     
-    var remoteService:RemoteService?
+    var listener:AuthCompleteListener!
+    
+    var remoteService:RemoteService!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,9 +84,14 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         print("finished loading")
         print(webView.request!)//Sent after a web view finishes loading a frame.
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if webView.request?.url?.absoluteString == remoteService?.oAuthCompleteUrl {
-            remoteService?.processOathResponse(webview: webView, onCompletion: {(accessToken, err)->Void in
-                
+        if webView.request!.url!.absoluteString.contains(remoteService!.oAuthCompleteUrl) {
+            remoteService?.processOathResponse(webview: webView, onCompletion: { accessToken, err in
+                if err != nil {
+                    print("error authenticating with remote service \(err)")
+                }
+                if self.listener != nil {
+                    self.listener!.AuthComplete(acessToken: accessToken)
+                }
             })
         }
     }
@@ -88,5 +100,11 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         //Sent if a web view failed to load a frame.
         print("failed to load")
         print(error)
+    }
+    
+    @IBAction func cancelBtnClicked(_ sender: Any) {
+        if listener != nil {
+            listener!.AuthCanceled()
+        }
     }
 }
