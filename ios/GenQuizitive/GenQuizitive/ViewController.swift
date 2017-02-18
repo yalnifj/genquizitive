@@ -6,6 +6,7 @@
 //  Copyright © 2016 Yellow Fork Technologies. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import FacebookCore
 import FacebookLogin
@@ -39,6 +40,13 @@ class ViewController: UIViewController, AuthCompleteListener {
         
         facebookButton.titleLabel?.textAlignment = .center
         familysearchButton.titleLabel?.textAlignment = .center
+        
+        let accessToken = UserDefaults.standard.string(forKey: "accessToken")
+        if accessToken != nil {
+            service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
+            service?.sessionId = accessToken
+            FamilyTreeService.getInstance().remoteService = service
+        }
         
         if FacebookService.getInstance().isAuthenticated() {
             // User is logged in, use 'accessToken' here.
@@ -85,8 +93,14 @@ class ViewController: UIViewController, AuthCompleteListener {
         self.view.addSubview(authDialog!)
     }
     
-    func AuthComplete(accessToken:String?) {
+    func AuthComplete(acessToken accessToken:String?) {
         authDialog?.removeFromSuperview()
+        //-- store access token
+        if accessToken != nil {
+            UserDefaults.standard.set(accessToken, forKey: "accessToken")
+            FamilyTreeService.getInstance().remoteService = service
+            self.gotoMenuView()
+        }
     }
     
     func AuthCanceled() {

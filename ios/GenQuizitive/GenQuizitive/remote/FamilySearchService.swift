@@ -324,6 +324,60 @@ class FamilySearchService : RemoteService {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
+    
+    func getAncestorTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        if (sessionId != nil) {
+            var headers = [String: String]()
+            headers["Authorization"] = "Bearer \(sessionId!)"
+            headers["Accept"] = "application/x-fs-v1+json"
+            
+            var path = FS_PLATFORM_PATH + "tree/ancestry?person=\(personId)&generations=\(generations)"
+            if spouse != nil {
+                path += "&spouse=\(spouse)"
+            }
+            if details {
+                path += "personDetails="
+            }
+            makeHTTPGetRequest(path, headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 && !noCache {
+                    for person in persons {
+                        self.personCache[personId] = person
+                    }
+                }
+                onCompletion(persons, err)
+            })
+        } else {
+            onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+        }
+    }
+    
+    func getDescendancyTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        if (sessionId != nil) {
+            var headers = [String: String]()
+            headers["Authorization"] = "Bearer \(sessionId!)"
+            headers["Accept"] = "application/x-fs-v1+json"
+            
+            var path = FS_PLATFORM_PATH + "tree/descendancy?person=\(personId)&generations=\(generations)"
+            if spouse != nil {
+                path += "&spouse=\(spouse)"
+            }
+            if details {
+                path += "personDetails="
+            }
+            makeHTTPGetRequest(path, headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 && !noCache {
+                    for person in persons {
+                        self.personCache[personId] = person
+                    }
+                }
+                onCompletion(persons, err)
+            })
+        } else {
+            onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+        }
+    }
 	
 	func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse) {
 		if (sessionId != nil) {

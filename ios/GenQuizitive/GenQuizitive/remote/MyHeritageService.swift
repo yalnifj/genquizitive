@@ -407,6 +407,14 @@ class MyHeritageService: RemoteService {
 		}
     }
     
+    func getAncestorTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        onCompletion(nil, NSError(domain: "MyHeritageService", code: 501, userInfo: ["message":"getAncestorTree is not supported by MyHeritageService"]))
+    }
+    
+    func getDescendancyTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        onCompletion(nil, NSError(domain: "MyHeritageService", code: 501, userInfo: ["message":"getDescendancyTree is not supported by MyHeritageService"]))
+    }
+
     func getPagedMemories(_ path: String, onCompletion: @escaping SourceDescriptionsResponse) {
         var media = [SourceDescription]()
         getData(path, onCompletion: {data, err in

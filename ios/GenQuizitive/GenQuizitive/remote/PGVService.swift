@@ -470,6 +470,14 @@ class PGVService : RemoteService {
 			onCompletion(nil, NSError(domain: "PGVService", code: 401, userInfo: ["message":"Not authenticated with PhpGedView"]))
 		}
 	}
+    
+    func getAncestorTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        onCompletion(nil, NSError(domain: "PGVService", code: 501, userInfo: ["message":"getAncestorTree is not supported by PGVService"]))
+    }
+    
+    func getDescendancyTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
+        onCompletion(nil, NSError(domain: "PGVService", code: 501, userInfo: ["message":"getDescendancyTree is not supported by PGVService"]))
+    }
 	
 	func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse) {
 		if (sessionId != nil) {

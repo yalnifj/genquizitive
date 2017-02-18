@@ -23,6 +23,8 @@ protocol RemoteService {
 	func getParents(_ personId: String, onCompletion: @escaping RelationshipsResponse)
 	func getChildren(_ personId: String, onCompletion: @escaping RelationshipsResponse)
 	func getSpouses(_ personId: String, onCompletion: @escaping RelationshipsResponse)
+    func getAncestorTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void)
+    func getDescendancyTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void)
 	func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse)
 	func downloadImage(_ uri: String, folderName: String, fileName: String, onCompletion: @escaping StringResponse)
 	func getPersonUrl(_ personId: String) -> String

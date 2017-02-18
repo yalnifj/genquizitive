@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol AuthCompleteListener {
-    func AuthComplete(acessToken:String!)
+    func AuthComplete(acessToken:String?)
     func AuthCanceled()
 }
 
