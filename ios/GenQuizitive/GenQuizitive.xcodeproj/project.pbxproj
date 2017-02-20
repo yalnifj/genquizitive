@@ -44,6 +44,9 @@
 		93105A6C1E4BE262005D4512 /* PGVService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A481E4BE262005D4512 /* PGVService.swift */; };
 		93105A6D1E4BE262005D4512 /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A491E4BE262005D4512 /* RemoteService.swift */; };
 		93105A6E1E4BE262005D4512 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */; };
+		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
+		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
+		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
 		939078FC1DB2EFC90010E0A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */; };
 		939078FE1DB2EFC90010E0A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FD1DB2EFC90010E0A0 /* ViewController.swift */; };
 		939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 939078FF1DB2EFC90010E0A0 /* Main.storyboard */; };
@@ -157,6 +160,9 @@
 		93105A481E4BE262005D4512 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVService.swift; sourceTree = "<group>"; };
 		93105A491E4BE262005D4512 /* RemoteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
+		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
 		939078F81DB2EFC90010E0A0 /* GenQuizitive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenQuizitive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		939078FD1DB2EFC90010E0A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -319,20 +325,20 @@
 		939078FA1DB2EFC90010E0A0 /* GenQuizitive */ = {
 			isa = PBXGroup;
 			children = (
-				93105A251E4BE262005D4512 /* remote */,
-				93E8A9C51DC9913200C25D4E /* assets */,
 				939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */,
-				93105A211E4A9873005D4512 /* FacebookService.swift */,
-				93B670B31E58C83800F22A20 /* FamilyTreeService.swift */,
+				93E8A9C51DC9913200C25D4E /* assets */,
+				939079021DB2EFC90010E0A0 /* Assets.xcassets */,
 				939F50451E4A8FCC0049167B /* AvatarBadge.swift */,
 				939F50431E4A8ECE0049167B /* AvatarBadge.xib */,
-				939F50411E4A89ED0049167B /* MenuViewController.swift */,
-				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
-				939078FF1DB2EFC90010E0A0 /* Main.storyboard */,
-				939079021DB2EFC90010E0A0 /* Assets.xcassets */,
-				939079041DB2EFC90010E0A0 /* LaunchScreen.storyboard */,
-				939079071DB2EFC90010E0A0 /* Info.plist */,
+				93105A211E4A9873005D4512 /* FacebookService.swift */,
+				93B670B31E58C83800F22A20 /* FamilyTreeService.swift */,
 				93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */,
+				939079071DB2EFC90010E0A0 /* Info.plist */,
+				939079041DB2EFC90010E0A0 /* LaunchScreen.storyboard */,
+				939078FF1DB2EFC90010E0A0 /* Main.storyboard */,
+				939F50411E4A89ED0049167B /* MenuViewController.swift */,
+				93105A251E4BE262005D4512 /* remote */,
+				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
 				93AEE5F01E4A3A1400700AB6 /* views */,
 				93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */,
 			);
@@ -360,6 +366,8 @@
 		93AEE5F01E4A3A1400700AB6 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				935F09291E5B4E9800A26692 /* NotificationView.swift */,
+				935F092B1E5B4F1100A26692 /* NotificationView.xib */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -367,6 +375,7 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				935F092D1E5B50B300A26692 /* notification_background.png */,
 				939F503F1E4A86510049167B /* pole_circle.png */,
 				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
 				93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */,
@@ -519,6 +528,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				935F092E1E5B50B300A26692 /* notification_background.png in Resources */,
 				93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */,
 				93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */,
 				93E8A9CF1DC9913200C25D4E /* home_arrow3.png in Resources */,
@@ -532,6 +542,7 @@
 				93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */,
 				93E8A9D21DC9913200C25D4E /* pole1.png in Resources */,
 				93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */,
+				935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */,
 				939079031DB2EFC90010E0A0 /* Assets.xcassets in Resources */,
 				93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */,
 				93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */,
@@ -729,6 +740,7 @@
 				93105A651E4BE262005D4512 /* SourceReference.swift in Sources */,
 				93105A501E4BE262005D4512 /* DisplayProperties.swift in Sources */,
 				93105A4C1E4BE262005D4512 /* CitationField.swift in Sources */,
+				935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */,
 				93105A581E4BE262005D4512 /* Identifier.swift in Sources */,
 				93105A5A1E4BE262005D4512 /* Name.swift in Sources */,
 				93105A551E4BE262005D4512 /* Field.swift in Sources */,

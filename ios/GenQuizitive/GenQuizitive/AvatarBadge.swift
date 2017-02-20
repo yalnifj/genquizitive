@@ -31,7 +31,6 @@ class AvatarBadge: UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        self.view.layoutIfNeeded()
         profileImage.layer.cornerRadius = profileImage.frame.size.width/2
         profileImage.clipsToBounds = true
         
@@ -40,6 +39,8 @@ class AvatarBadge: UIView {
         label.layer.borderColor = UIColor.black.cgColor
         label.layer.borderWidth = 1
         label.isHidden = true
+        
+        self.view.layoutIfNeeded()
     }
     
     func loadViewFromNib() -> UIView {

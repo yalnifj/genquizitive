@@ -22,31 +22,31 @@
                 <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_badge.png" translatesAutoresizingMaskIntoConstraints="NO" id="tZO-P1-hca">
                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFi-Wv-79X">
-                    <rect key="frame" x="5" y="0.0" width="90" height="90"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="yFi-Wv-79X">
+                    <rect key="frame" x="15" y="9" width="70" height="70"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="90" id="bVD-gc-aLV"/>
-                        <constraint firstAttribute="height" constant="90" id="hru-W1-jN5"/>
+                        <constraint firstAttribute="width" constant="70" id="Svq-Rj-U3M"/>
+                        <constraint firstAttribute="height" constant="70" id="xi4-if-u0i"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lef-c2-tA0">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lef-c2-tA0">
                     <rect key="frame" x="0.0" y="70" width="100" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.92156862750000001" green="0.91372549020000005" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0DV-CJ-MiI"/>
-                <constraint firstAttribute="bottom" secondItem="yFi-Wv-79X" secondAttribute="bottom" constant="10" id="19p-4s-hip"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="3Ak-J9-Pa5"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="centerX" secondItem="tZO-P1-hca" secondAttribute="centerX" id="Auv-8a-AJy"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="tZO-P1-hca" secondAttribute="top" id="H4r-aH-5sr"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="e8C-zg-vgL"/>
-                <constraint firstAttribute="bottom" secondItem="tZO-P1-hca" secondAttribute="bottom" id="iYy-6E-8mb"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="Lef-c2-tA0" secondAttribute="leading" id="5VH-TP-zpF"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ft1-qx-jhs"/>
+                <constraint firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="GXK-K0-nYA"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="trailing" secondItem="Lef-c2-tA0" secondAttribute="trailing" id="VyR-O1-2yu"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="YfC-WN-dYv"/>
+                <constraint firstItem="Lef-c2-tA0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="70" id="hLL-NH-g5K"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="hhU-t8-Bvv"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="vyZ-JK-k14"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xu6-AX-w8m"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-84" y="301"/>
@@ -54,5 +54,6 @@
     </objects>
     <resources>
         <image name="avatar_badge.png" width="100" height="89"/>
+        <image name="home_background.jpg" width="743" height="640"/>
     </resources>
 </document>

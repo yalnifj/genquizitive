@@ -48,14 +48,20 @@ class ViewController: UIViewController, AuthCompleteListener {
             FamilyTreeService.getInstance().remoteService = service
         }
         
-        if FacebookService.getInstance().isAuthenticated() {
-            // User is logged in, use 'accessToken' here.
-            print("Already logged in to facebook")
-            
-            self.gotoMenuView()
-        } else {
-            print("Not logged into facebook")
-        }
+        FacebookService.getInstance().isAuthenticated(onCompletion: {isAuth in
+            if isAuth {
+                // User is logged in, use 'accessToken' here.
+                print("Already logged in to facebook")
+                
+                self.gotoMenuView()
+            } else {
+                print("Not logged into facebook")
+                if accessToken != nil {
+                    print("Already logged into FamilySearch")
+                    self.gotoMenuView()
+                }
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +85,8 @@ class ViewController: UIViewController, AuthCompleteListener {
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in! \(accessToken)")
+                
+                UserDefaults.standard.set(accessToken, forKey: "fbAccessToken")
                 
                 self.gotoMenuView()
             }

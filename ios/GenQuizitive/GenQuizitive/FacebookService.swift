@@ -49,11 +49,22 @@ class FacebookService {
         return instance!
     }
     
-    func isAuthenticated() -> Bool {
+    func isAuthenticated(onCompletion: @escaping (Bool)->Void) {
         if AccessToken.current != nil {
-            return true
+            onCompletion(true)
         } else {
-            return false
+            let fbAccessToken:AccessToken? = UserDefaults.standard.object(forKey: "fbAccessToken") as? AccessToken
+            if fbAccessToken != nil {
+                AccessToken.current = fbAccessToken!
+                AccessToken.refreshCurrentToken({accessToken, err in
+                    if accessToken != nil {
+                        onCompletion(true)
+                    } else {
+                        onCompletion(false)
+                    }
+                })
+            }
+            onCompletion(false)
         }
     }
 
