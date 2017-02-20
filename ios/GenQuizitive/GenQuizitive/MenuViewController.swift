@@ -13,6 +13,8 @@ class MenuViewController: UIViewController {
     
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var avatarBadge: AvatarBadge!
+    @IBOutlet weak var fsConnectBtn: UIButton!
+    @IBOutlet weak var fbConnectButton: UIButton!
     
     var familyTreeService:FamilyTreeService!
     var facebookService:FacebookService!
@@ -30,6 +32,9 @@ class MenuViewController: UIViewController {
         arrows.animationDuration = 1.0
         arrows.startAnimating()
         
+        fbConnectButton.titleLabel?.textAlignment = .center
+        fsConnectBtn.titleLabel?.textAlignment = .center
+        
         familyTreeService = FamilyTreeService.getInstance()
         if familyTreeService.remoteService == nil {
             let accessToken = UserDefaults.standard.string(forKey: "accessToken")
@@ -37,6 +42,8 @@ class MenuViewController: UIViewController {
                 let service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
                 service.sessionId = accessToken
                 familyTreeService.remoteService = service
+            } else {
+                fsConnectBtn.isHidden = false
             }
         }
 
@@ -57,8 +64,12 @@ class MenuViewController: UIViewController {
                                 }
                             }
                         }
+                    } else {
+                        self.fbConnectButton.isHidden = false
                     }
                 }
+            } else {
+                self.fbConnectButton.isHidden = false
             }
         })
     }
