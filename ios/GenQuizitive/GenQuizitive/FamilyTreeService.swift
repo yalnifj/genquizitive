@@ -74,7 +74,7 @@ class FamilyTreeService {
                     if self.people.count < 40 {
                         self.getSpouses(personId: person!.id!, onCompletion: {spouses, err in
                             if spouses != nil {
-                                for spouse in spouses {
+                                for spouse in spouses! {
                                     self.getAncestorTree(personId: person!.id!, generations: 8, details: true, spouse: nil, noCache: false, onCompletion: {speople, err in
                                         //-- nothing to do now
                                     })
@@ -147,18 +147,18 @@ class FamilyTreeService {
                 let queue = DispatchQueue.global()
                 let group = DispatchGroup()
                 
-                let spouses = [Person]()
+                var spouses = [Person]()
                 for rel in relationships! {
                     if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
                         group.enter()
                         self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
                             if person != nil {
-                                self.people[person.id!] = person
-                                self.usedPeople[person.id!] = true
+                                self.people[person!.id!] = person
+                                self.usedPeople[person!.id!] = true
                                 self.backgroundQ.append({()->Void in
-                                    self.getPersonPortrait(personId: person.id!, onCompletion: {path in })
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
                                 })
-                                spouses.append(person)
+                                spouses.append(person!)
                             }
                             group.leave()
                         })
@@ -167,12 +167,12 @@ class FamilyTreeService {
                         group.enter()
                         self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
                             if person != nil {
-                                self.people[person.id!] = person
-                                self.usedPeople[person.id!] = true
+                                self.people[person!.id!] = person
+                                self.usedPeople[person!.id!] = true
                                 self.backgroundQ.append({()->Void in
-                                    self.getPersonPortrait(personId: person.id!, onCompletion: {path in })
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
                                 })
-                                spouses.append(person)
+                                spouses.append(person!)
                             }
                             group.leave()
                         })
@@ -216,7 +216,7 @@ class FamilyTreeService {
     }
     
     func getRandomPerson(useLiving:Bool, difficulty:Int)->Person? {
-        let peopleIds = self.people.keys
+        let peopleIds = Array(self.people.keys)
         
         var max = peopleIds.count
         if (difficulty < 5) {
@@ -228,7 +228,7 @@ class FamilyTreeService {
         var person:Person? = nil
         var count = 0
         while count < 5 && person == nil {
-            let r = arc4random_uniform(UInt32(max))
+            let r = Int(arc4random_uniform(UInt32(max)))
             var randomId = peopleIds[r]
             if self.usedPeople[randomId] == nil {
                 person = self.people[randomId]
@@ -244,7 +244,7 @@ class FamilyTreeService {
     
     func getRandomPersonWithPortrait(useLiving:Bool, difficulty:Int, onCompletion: @escaping PersonResponse) {
         if self.portraits.count > 1 {
-            var peopleIds = self.portraits.keys
+            var peopleIds = Array(self.portraits.keys)
             var max = peopleIds.count
             if (difficulty < 5) {
                 if max > self.difficultyLevels[difficulty] {
@@ -254,11 +254,11 @@ class FamilyTreeService {
             var person:Person? = nil
             var count = 0
             while count < 5 && person == nil {
-                let r = arc4random_uniform(UInt32(max))
+                let r = Int(arc4random_uniform(UInt32(max)))
                 var randomId = peopleIds[r]
                 if self.usedPeople[randomId] == nil {
                     person = self.people[randomId]
-                    if person != nil && !useLiving && person!.living {
+                    if person != nil && !useLiving && person!.living! {
                         person = nil
                     }
                 }
@@ -272,21 +272,21 @@ class FamilyTreeService {
         }
         
         if self.people.count > 1 {
-            var peopleIds = self.people.keys
+            var peopleIds = Array(self.people.keys)
             var max = peopleIds.count
             if (difficulty < 5) {
                 if max > self.difficultyLevels[difficulty] {
-                    max = this.difficultyLevels[difficulty]
+                    max = self.difficultyLevels[difficulty]
                 }
             }
             var person:Person? = nil
             var count = 0
             while count < 5 && person == nil {
-                let r = arc4random_uniform(UInt32(max))
+                let r = Int(arc4random_uniform(UInt32(max)))
                 var randomId = peopleIds[r]
                 if self.usedPeople[randomId] == nil && self.checkedPortraits[randomId] == nil {
                     person = self.people[randomId]
-                    if person != nil && !useLiving && person!.living {
+                    if person != nil && !useLiving && person!.living! {
                         person = nil
                     }
                 }
@@ -305,7 +305,7 @@ class FamilyTreeService {
         }
     }
     
-    func getRandomPeopleNear(person:Person, num:Int, useLiving:Bool, ignoreGender:Bool, onCompletion: ([Person]?, NSError)->Void) {
+    func getRandomPeopleNear(person:Person, num:Int, useLiving:Bool, ignoreGender:Bool, onCompletion: @escaping ([Person]?, NSError?)->Void) {
         
         self.remoteService!.getCloseRelatives(person.id!, onCompletion: {relationships, err in
             var people = [String:Person]()
@@ -315,16 +315,16 @@ class FamilyTreeService {
                     max = relationships!.count
                 }
                 if max > relationships!.count {
-                    max = relationships.count
+                    max = relationships!.count
                 }
-                var r = arc4random_uniform(UInt32(relationships.count))
+                var r = Int(arc4random_uniform(UInt32(relationships!.count)))
                 var count = 0
                 while count < max {
-                    let rel = relationships[r]
+                    let rel = relationships![r]
                     
-                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId! != personId {
+                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId! != person.id! {
                         let rperson:Person? = self.people[rel.person1!.resourceId!]
-                        if rperson != nil && (!useLiving || !rperson!.living) {
+                        if rperson != nil && (!useLiving || !rperson!.living!) {
                             if ignoreGender || rperson!.gender != person.gender {
                                 people[rperson!.id!] = rperson!
                             }
@@ -346,7 +346,7 @@ class FamilyTreeService {
                     count += 1
                 }
                 
-                onCompletion(people.values, nil)
+                onCompletion(Array(people.values), nil)
             } else {
                 var count = 0
                 var max = num
@@ -358,7 +358,7 @@ class FamilyTreeService {
                     count += 1
                 }
                 
-                onCompletion(people.values, err)
+                onCompletion(Array(people.values), err)
             }
         })
     }

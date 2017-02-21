@@ -1,8 +1,7 @@
 import Foundation
 
 class Person : Subject {
-  var isPrivate:Bool?
-  var living:Bool?
+  var living:Bool!
   var principal:Bool?
   var gender:GenderType?
   var names = [Name]()

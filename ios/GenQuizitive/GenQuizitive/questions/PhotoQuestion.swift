@@ -11,7 +11,8 @@ import UIKit
 
 class PhotoQuestion : MultipleChoiceQuestion {
     
-    init() {
+    override init() {
+        super.init()
         self.name  = "photo1"
         self.letter = "P"
         self.background = "background1.jpg"
@@ -20,7 +21,7 @@ class PhotoQuestion : MultipleChoiceQuestion {
         self.person = nil
     }
     
-    override func setup(difficulty:Int, useLiving:Bool, onCompletion: (Question, Error?) -> Void) {
+    override func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?) -> Void) {
         self.difficulty = difficulty
         self.questionText = "Who is shown in this picture?"
         let familyTreeService = FamilyTreeService.getInstance()
@@ -31,7 +32,7 @@ class PhotoQuestion : MultipleChoiceQuestion {
                 familyTreeService.getRandomPeopleNear(person: person!, num: 3, useLiving: useLiving, ignoreGender: false, onCompletion: {people, err in
                     if people != nil {
                         for p in people! {
-                            self.answerPeople.push(p)
+                            self.answerPeople.append(p)
                         }
                         onCompletion(self, nil)
                     } else {
@@ -56,7 +57,7 @@ class PhotoQuestionView : UIView {
     @IBOutlet weak var answerBtn4: UIButton!
     
     var question:PhotoQuestion!
-    var answers:[Person]!
+    var answers = [Person]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,27 +103,30 @@ class PhotoQuestionView : UIView {
         self.questionText.text = question.questionText
         
         FamilyTreeService.getInstance().getPersonPortrait(personId: question.person!.id!, onCompletion: { path in
-            let fileManager = FileManager.default
-            let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let photoUrl = url.appendingPathComponent(path)
-            let data = try? Data(contentsOf: photoUrl)
-            if data != nil {
-                let uiImage = UIImage(data: data!)
-                if uiImage != nil {
-                    self.setPhotoImage(photo: uiImage)
+            if path != nil {
+                let fileManager = FileManager.default
+                let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let photoUrl = url.appendingPathComponent(path!)
+                let data = try? Data(contentsOf: photoUrl)
+                if data != nil {
+                    let uiImage = UIImage(data: data!)
+                    if uiImage != nil {
+                        self.setPhotoImage(photo: uiImage!)
+                        return
+                    }
                 }
             }
             print("Unable to load data for \(path)")
         })
         
         answers = [Person]()
-        answers.push(question.person)
+        answers.append(question.person!)
         for p in question.answerPeople {
-            answers.push(p)
+            answers.append(p)
         }
         
         for i in 0..<answers.count {
-            let r = arc4random_uniform(UInt32(answers.count))
+            let r = Int(arc4random_uniform(UInt32(answers.count)))
             let p = answers[i]
             answers[i] = answers[r]
             answers[r] = p

@@ -17,7 +17,7 @@ class Question {
     
     var questionText:String!
     
-    func setup(difficulty:Int, useLiving:Bool, onCompletion: (Question, Error?)->Void) {
+    func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?)->Void) {
         onCompletion(self, NSError(domain: "Question", code: 1, userInfo: ["message":"Setup method must be overridden in a subclass"]))
     }
 }
