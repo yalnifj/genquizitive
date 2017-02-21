@@ -62,7 +62,7 @@
 		93A950781E5B7542004BBDDD /* PhotoQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950771E5B7542004BBDDD /* PhotoQuestion.swift */; };
 		93A9507A1E5B75DB004BBDDD /* PhotoQuestion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */; };
 		93A9507F1E5B76DA004BBDDD /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A9507C1E5B76DA004BBDDD /* back.png */; };
-		93A950801E5B76DA004BBDDD /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93A9507D1E5B76DA004BBDDD /* background.jpg */; };
+		93A950801E5B76DA004BBDDD /* background1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93A9507D1E5B76DA004BBDDD /* background1.jpg */; };
 		93A950811E5B76DA004BBDDD /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A9507E1E5B76DA004BBDDD /* star.png */; };
 		93A950831E5B79D3004BBDDD /* pole2.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A950821E5B79D3004BBDDD /* pole2.png */; };
 		93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */; };
@@ -191,7 +191,7 @@
 		93A950771E5B7542004BBDDD /* PhotoQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoQuestion.swift; sourceTree = "<group>"; };
 		93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoQuestion.xib; sourceTree = "<group>"; };
 		93A9507C1E5B76DA004BBDDD /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		93A9507D1E5B76DA004BBDDD /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		93A9507D1E5B76DA004BBDDD /* background1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background1.jpg; sourceTree = "<group>"; };
 		93A9507E1E5B76DA004BBDDD /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		93A950821E5B79D3004BBDDD /* pole2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pole2.png; sourceTree = "<group>"; };
 		93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -392,7 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				93A9507C1E5B76DA004BBDDD /* back.png */,
-				93A9507D1E5B76DA004BBDDD /* background.jpg */,
+				93A9507D1E5B76DA004BBDDD /* background1.jpg */,
 				93A9507E1E5B76DA004BBDDD /* star.png */,
 			);
 			path = photoQuestion;
@@ -566,7 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				935F092E1E5B50B300A26692 /* notification_background.png in Resources */,
-				93A950801E5B76DA004BBDDD /* background.jpg in Resources */,
+				93A950801E5B76DA004BBDDD /* background1.jpg in Resources */,
 				93A950811E5B76DA004BBDDD /* star.png in Resources */,
 				93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */,
 				93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */,

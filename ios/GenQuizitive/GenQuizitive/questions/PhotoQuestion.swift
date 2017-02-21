@@ -9,11 +9,37 @@
 import Foundation
 import UIKit
 
-class PhotoQuestion : Question {
-    var person:Person?
+class PhotoQuestion : MultipleChoiceQuestion {
     
-    override func setup(onCompletion: (Question?, Error?) -> Void) {
-        
+    init() {
+        self.name  = "photo1"
+        self.letter = "P"
+        self.background = "background1.jpg"
+        self.hints = ["fifty","lifesaver","freeze","skip","rollback"]
+        self.answerPeople = [Person]()
+        self.person = nil
+    }
+    
+    override func setup(difficulty:Int, useLiving:Bool, onCompletion: (Question, Error?) -> Void) {
+        self.difficulty = difficulty
+        self.questionText = "Who is shown in this picture?"
+        let familyTreeService = FamilyTreeService.getInstance()
+        familyTreeService.getRandomPersonWithPortrait(useLiving: useLiving, difficulty: self.difficulty, onCompletion: {person, err in
+            if person != nil {
+                self.person = person
+                familyTreeService.markUsed(personId: person!.id!)
+                familyTreeService.getRandomPeopleNear(person: person!, num: 3, useLiving: useLiving, ignoreGender: false, onCompletion: {people, err in
+                    if people != nil {
+                        for p in people! {
+                            self.answerPeople.push(p)
+                        }
+                        onCompletion(self, nil)
+                    } else {
+                        onCompletion(self, err)
+                    }
+                })
+            }
+        })
     }
 }
 
@@ -28,6 +54,9 @@ class PhotoQuestionView : UIView {
     @IBOutlet weak var answerBtn2: UIButton!
     @IBOutlet weak var answerBtn3: UIButton!
     @IBOutlet weak var answerBtn4: UIButton!
+    
+    var question:PhotoQuestion!
+    var answers:[Person]!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,6 +95,49 @@ class PhotoQuestionView : UIView {
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
+    }
+    
+    func showQuestion(question:PhotoQuestion) {
+        self.question = question
+        self.questionText.text = question.questionText
+        
+        FamilyTreeService.getInstance().getPersonPortrait(personId: question.person!.id!, onCompletion: { path in
+            let fileManager = FileManager.default
+            let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let photoUrl = url.appendingPathComponent(path)
+            let data = try? Data(contentsOf: photoUrl)
+            if data != nil {
+                let uiImage = UIImage(data: data!)
+                if uiImage != nil {
+                    self.setPhotoImage(photo: uiImage)
+                }
+            }
+            print("Unable to load data for \(path)")
+        })
+        
+        answers = [Person]()
+        answers.push(question.person)
+        for p in question.answerPeople {
+            answers.push(p)
+        }
+        
+        for i in 0..<answers.count {
+            let r = arc4random_uniform(UInt32(answers.count))
+            let p = answers[i]
+            answers[i] = answers[r]
+            answers[r] = p
+        }
+        
+        answerBtn1.setTitle(answers[0].getFullName(), for: .normal)
+        if answers.count > 0 {
+            answerBtn2.setTitle(answers[1].getFullName(), for: .normal)
+        }
+        if answers.count > 1 {
+            answerBtn3.setTitle(answers[2].getFullName(), for: .normal)
+        }
+        if answers.count > 2 {
+            answerBtn4.setTitle(answers[3].getFullName(), for: .normal)
+        }
     }
 
     func setPhotoImage(photo:UIImage) {

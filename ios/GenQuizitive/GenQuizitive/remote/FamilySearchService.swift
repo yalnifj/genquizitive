@@ -324,7 +324,7 @@ class FamilySearchService : RemoteService {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
-    
+
     func getAncestorTree(personId: String, generations: Int, details:Bool, spouse:String?, noCache:Bool, onCompletion: @escaping ([Person]?, NSError?) -> Void) {
         if (sessionId != nil) {
             var headers = [String: String]()

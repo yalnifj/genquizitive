@@ -26,7 +26,10 @@ class FamilyTreeService {
     
     var people:[String:Person] = [String:Person]()
     var portraits:[String:String] = [String:String]()
+    var checkedPortraits:[String:Bool] = [String:Bool]()
     var usedPeople:[String:Bool] = [String:Bool]()
+    
+    var difficultyLevels = [8, 16, 32, 64, 128]
     
     var fsUser:Person?
     
@@ -67,8 +70,19 @@ class FamilyTreeService {
                             count += 1
                         }
                     }
+                    //-- try to load spouse trees if there are not many people
+                    if self.people.count < 40 {
+                        self.getSpouses(personId: person!.id!, onCompletion: {spouses, err in
+                            if spouses != nil {
+                                for spouse in spouses {
+                                    self.getAncestorTree(personId: person!.id!, generations: 8, details: true, spouse: nil, noCache: false, onCompletion: {speople, err in
+                                        //-- nothing to do now
+                                    })
+                                }
+                            }
+                        })
+                    }
                 })
-                //-- get spouses?
             }
             else {
                 onCompletion(nil, err)
@@ -122,16 +136,70 @@ class FamilyTreeService {
         })
     }
     
+    func getSpouses(personId:String, onCompletion: @escaping ([Person]?, NSError?)->Void) {
+        if remoteService == nil {
+            onCompletion(nil, NSError(domain: "FamilyTreeService", code: 401, userInfo: ["message":"RemoteService Required"]))
+            return
+        }
+        
+        self.remoteService!.getSpouses(personId, onCompletion: {relationships, err in
+            if relationships != nil {
+                let queue = DispatchQueue.global()
+                let group = DispatchGroup()
+                
+                let spouses = [Person]()
+                for rel in relationships! {
+                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person.id!] = person
+                                self.usedPeople[person.id!] = true
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person.id!, onCompletion: {path in })
+                                })
+                                spouses.append(person)
+                            }
+                            group.leave()
+                        })
+                    }
+                    else if rel.person2 != nil && rel.person2!.resourceId != nil && rel.person2!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person.id!] = person
+                                self.usedPeople[person.id!] = true
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person.id!, onCompletion: {path in })
+                                })
+                                spouses.append(person)
+                            }
+                            group.leave()
+                        })
+                    }
+                }
+                
+                group.notify(queue: queue) {
+                    onCompletion(spouses, nil)
+                }
+            } else {
+                onCompletion(nil, err)
+            }
+        })
+    }
+    
     func getPersonPortrait(personId:String, onCompletion: @escaping (String?)->Void) {
         if self.portraits[personId] != nil {
             onCompletion(self.portraits[personId]!)
+        } else if self.checkedPortraits[personId] != nil {
+            onCompletion(nil)
         } else {
             self.remoteService!.getPersonPortrait(personId, onCompletion: {link, err in
                 if link != nil && link!.href != nil {
                     self.remoteService!.downloadImage(link!.href!, folderName: "portraits", fileName: personId, onCompletion: { path, err2 in
                         if path == nil {
-                            self.portraits[personId] = ""
-                            onCompletion("")
+                            self.checkedPortraits[personId] = true
+                            onCompletion(nil)
                         } else {
                             self.portraits[personId] = path
                             onCompletion(path)
@@ -145,6 +213,158 @@ class FamilyTreeService {
                 }
             })
         }
+    }
+    
+    func getRandomPerson(useLiving:Bool, difficulty:Int)->Person? {
+        let peopleIds = self.people.keys
+        
+        var max = peopleIds.count
+        if (difficulty < 5) {
+            if max > self.difficultyLevels[difficulty] {
+                max = self.difficultyLevels[difficulty]
+            }
+        }
+        
+        var person:Person? = nil
+        var count = 0
+        while count < 5 && person == nil {
+            let r = arc4random_uniform(UInt32(max))
+            var randomId = peopleIds[r]
+            if self.usedPeople[randomId] == nil {
+                person = self.people[randomId]
+                if person != nil && !useLiving && person!.living {
+                    person = nil
+                }
+            }
+            count += 1
+        }
+        
+        return person
+    }
+    
+    func getRandomPersonWithPortrait(useLiving:Bool, difficulty:Int, onCompletion: @escaping PersonResponse) {
+        if self.portraits.count > 1 {
+            var peopleIds = self.portraits.keys
+            var max = peopleIds.count
+            if (difficulty < 5) {
+                if max > self.difficultyLevels[difficulty] {
+                    max = self.difficultyLevels[difficulty]
+                }
+            }
+            var person:Person? = nil
+            var count = 0
+            while count < 5 && person == nil {
+                let r = arc4random_uniform(UInt32(max))
+                var randomId = peopleIds[r]
+                if self.usedPeople[randomId] == nil {
+                    person = self.people[randomId]
+                    if person != nil && !useLiving && person!.living {
+                        person = nil
+                    }
+                }
+                count += 1
+            }
+            
+            if person != nil {
+                onCompletion(person, nil)
+                return
+            }
+        }
+        
+        if self.people.count > 1 {
+            var peopleIds = self.people.keys
+            var max = peopleIds.count
+            if (difficulty < 5) {
+                if max > self.difficultyLevels[difficulty] {
+                    max = this.difficultyLevels[difficulty]
+                }
+            }
+            var person:Person? = nil
+            var count = 0
+            while count < 5 && person == nil {
+                let r = arc4random_uniform(UInt32(max))
+                var randomId = peopleIds[r]
+                if self.usedPeople[randomId] == nil && self.checkedPortraits[randomId] == nil {
+                    person = self.people[randomId]
+                    if person != nil && !useLiving && person!.living {
+                        person = nil
+                    }
+                }
+                count += 1
+            }
+            
+            if person != nil {
+                self.getPersonPortrait(personId: person!.id!, onCompletion: {path in
+                    if path != nil {
+                        onCompletion(person, nil)
+                    } else {
+                        onCompletion(nil, NSError(domain: "FamilyTreeService", code: 404, userInfo: ["message":"Unable to find a random portrait"]))
+                    }
+                })
+            }
+        }
+    }
+    
+    func getRandomPeopleNear(person:Person, num:Int, useLiving:Bool, ignoreGender:Bool, onCompletion: ([Person]?, NSError)->Void) {
+        
+        self.remoteService!.getCloseRelatives(person.id!, onCompletion: {relationships, err in
+            var people = [String:Person]()
+            if relationships != nil {
+                var max = num
+                if max <= 0 {
+                    max = relationships!.count
+                }
+                if max > relationships!.count {
+                    max = relationships.count
+                }
+                var r = arc4random_uniform(UInt32(relationships.count))
+                var count = 0
+                while count < max {
+                    let rel = relationships[r]
+                    
+                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId! != personId {
+                        let rperson:Person? = self.people[rel.person1!.resourceId!]
+                        if rperson != nil && (!useLiving || !rperson!.living) {
+                            if ignoreGender || rperson!.gender != person.gender {
+                                people[rperson!.id!] = rperson!
+                            }
+                        }
+                    }
+                    
+                    r += 1
+                    if r >= relationships!.count {
+                        r = 0
+                    }
+                    count += 1
+                }
+                
+                while people.count < max && count < num * 4 {
+                    var rPerson = self.getRandomPerson(useLiving: useLiving, difficulty: 4)
+                    if rPerson != nil && people[rPerson!.id!] == nil && (ignoreGender || rPerson!.gender != person.gender) {
+                        people[rPerson!.id!] = rPerson!
+                    }
+                    count += 1
+                }
+                
+                onCompletion(people.values, nil)
+            } else {
+                var count = 0
+                var max = num
+                while people.count < max && count < num * 4 {
+                    var rPerson = self.getRandomPerson(useLiving: useLiving, difficulty: 4)
+                    if rPerson != nil && people[rPerson!.id!] == nil && (ignoreGender || rPerson!.gender != person.gender) {
+                        people[rPerson!.id!] = rPerson!
+                    }
+                    count += 1
+                }
+                
+                onCompletion(people.values, err)
+            }
+        })
+    }
+    
+    func markUsed(personId:String) {
+        self.usedPeople[personId] = true
     }
     
     @objc func processBackgroundTimer() {
