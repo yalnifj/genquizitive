@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D25a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RoundDetailView" customModule="GenQuizitive" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timer.png" translatesAutoresizingMaskIntoConstraints="NO" id="AVR-QN-u7Z">
+                    <rect key="frame" x="137" y="0.0" width="101" height="51"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SI7-n1-4R1">
+                    <rect key="frame" x="137" y="0.0" width="101" height="51"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guage_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="n2j-SB-Mmk">
+                    <rect key="frame" x="16" y="2" width="50" height="50"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guage_hand.png" translatesAutoresizingMaskIntoConstraints="NO" id="JJf-aZ-F2j">
+                    <rect key="frame" x="16" y="2" width="50" height="50"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_yellow_circle.png" translatesAutoresizingMaskIntoConstraints="NO" id="80K-my-Lmj">
+                    <rect key="frame" x="309" y="2" width="50" height="50"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="P" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAV-oU-2IO">
+                    <rect key="frame" x="314" y="10" width="44" height="37"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="NJz-WL-qCC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="aAV-oU-2IO" firstAttribute="leading" secondItem="SI7-n1-4R1" secondAttribute="trailing" constant="76" id="AyV-rm-DJx"/>
+                <constraint firstItem="aAV-oU-2IO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JNg-BL-bMz"/>
+                <constraint firstItem="SI7-n1-4R1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="KZ9-8J-gnM"/>
+                <constraint firstAttribute="trailing" secondItem="80K-my-Lmj" secondAttribute="trailing" constant="16" id="LSg-wl-Pgb"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="bottom" secondItem="n2j-SB-Mmk" secondAttribute="bottom" id="NRE-eH-qoj"/>
+                <constraint firstItem="AVR-QN-u7Z" firstAttribute="leading" secondItem="SI7-n1-4R1" secondAttribute="leading" id="Nll-1g-wPh"/>
+                <constraint firstAttribute="bottom" secondItem="AVR-QN-u7Z" secondAttribute="bottom" constant="4" id="OmN-Vx-Idf"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="trailing" secondItem="n2j-SB-Mmk" secondAttribute="trailing" id="RJu-EJ-IYD"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="top" secondItem="80K-my-Lmj" secondAttribute="top" id="SJH-Uy-Ere"/>
+                <constraint firstItem="n2j-SB-Mmk" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ufw-g9-MXJ"/>
+                <constraint firstItem="n2j-SB-Mmk" firstAttribute="leading" secondItem="JJf-aZ-F2j" secondAttribute="leading" id="Whg-mD-i6d"/>
+                <constraint firstItem="80K-my-Lmj" firstAttribute="leading" secondItem="SI7-n1-4R1" secondAttribute="trailing" constant="71" id="aNB-Ih-UOJ"/>
+                <constraint firstItem="AVR-QN-u7Z" firstAttribute="top" secondItem="SI7-n1-4R1" secondAttribute="top" id="dZa-dl-G7t"/>
+                <constraint firstItem="SI7-n1-4R1" firstAttribute="bottom" secondItem="AVR-QN-u7Z" secondAttribute="bottom" id="gep-XC-Cf1"/>
+                <constraint firstItem="aAV-oU-2IO" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottomMargin" id="hwq-ov-IO7"/>
+                <constraint firstItem="SI7-n1-4R1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="m0P-oy-9eA"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="mTR-Vz-Qyw"/>
+                <constraint firstAttribute="trailing" secondItem="aAV-oU-2IO" secondAttribute="trailing" constant="17" id="pL9-JN-YrC"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="q8g-XY-l8x"/>
+                <constraint firstItem="SI7-n1-4R1" firstAttribute="leading" secondItem="n2j-SB-Mmk" secondAttribute="trailing" constant="71" id="sZY-R6-ARi"/>
+                <constraint firstItem="SI7-n1-4R1" firstAttribute="trailing" secondItem="AVR-QN-u7Z" secondAttribute="trailing" id="tqR-lO-4YD"/>
+                <constraint firstItem="JJf-aZ-F2j" firstAttribute="bottom" secondItem="80K-my-Lmj" secondAttribute="bottom" id="wO5-I7-cSq"/>
+                <constraint firstItem="n2j-SB-Mmk" firstAttribute="top" secondItem="JJf-aZ-F2j" secondAttribute="top" id="zdL-hN-OI5"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="28.5" y="-252"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="button_yellow_circle.png" width="72" height="74"/>
+        <image name="guage_back.png" width="98" height="98"/>
+        <image name="guage_hand.png" width="98" height="98"/>
+        <image name="timer.png" width="150" height="87"/>
+    </resources>
+</document>

@@ -28,7 +28,6 @@ class MenuViewController: UIViewController {
         arrowsArr.append(UIImage(named: "home_arrow2")!)
         arrowsArr.append(UIImage(named: "home_arrow1")!)
         arrows.animationImages = arrowsArr
-        arrows.animationDuration = 0.3
         arrows.animationDuration = 1.0
         arrows.startAnimating()
         
@@ -98,9 +97,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func hintBtnClick(_ sender: Any) {
-        if !self.facebookIsAuth {
-            self.showNotification(title: "Social Network Required", message: "This feature requires a connection to a Social Network. Please connect to Facebook and try again.")
-        }
+       
     }
     
     func showNotification(title:String, message:String) {

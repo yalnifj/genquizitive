@@ -29,7 +29,6 @@ class ViewController: UIViewController, AuthCompleteListener {
         arrowsArr.append(UIImage(named: "home_arrow2")!)
         arrowsArr.append(UIImage(named: "home_arrow1")!)
         arrows.animationImages = arrowsArr
-        arrows.animationDuration = 0.3
         arrows.animationDuration = 1.0
         arrows.startAnimating()
         

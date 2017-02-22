@@ -148,13 +148,49 @@ class PhotoQuestionView : UIView {
         photoImage.image = photo
         self.view.layoutIfNeeded()
     }
+    
     @IBAction func answerBtn1Click(_ sender: Any) {
+        if answers.count > 0 && answers[0].id == question.person!.id {
+            print("correct")
+            EventHandler.getInstance().publish("questionCorrect", data: question)
+        } else {
+            print("incorrect")
+            answerBtn1.isEnabled = false
+            EventHandler.getInstance().publish("questionIncorrect", data: question)
+        }
     }
+    
     @IBAction func answerBtn2Click(_ sender: Any) {
+        if answers.count > 1 && answers[1].id == question.person!.id {
+            print("correct")
+            EventHandler.getInstance().publish("questionCorrect", data: question)
+        } else {
+            print("incorrect")
+            answerBtn2.isEnabled = false
+            EventHandler.getInstance().publish("questionIncorrect", data: question)
+        }
     }
+    
     @IBAction func answerBtn3Click(_ sender: Any) {
+        if answers.count > 2 && answers[2].id == question.person!.id {
+            print("correct")
+            EventHandler.getInstance().publish("questionCorrect", data: question)
+        } else {
+            print("incorrect")
+            answerBtn3.isEnabled = false
+            EventHandler.getInstance().publish("questionIncorrect", data: question)
+        }
     }
+    
     @IBAction func answerBtn4Click(_ sender: Any) {
+        if answers.count > 3 && answers[3].id == question.person!.id {
+            print("correct")
+            EventHandler.getInstance().publish("questionCorrect", data: question)
+        } else {
+            print("incorrect")
+            answerBtn4.isEnabled = false
+            EventHandler.getInstance().publish("questionIncorrect", data: question)
+        }
     }
     
 }

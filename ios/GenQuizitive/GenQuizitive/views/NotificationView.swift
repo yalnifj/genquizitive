@@ -71,18 +71,23 @@ class NotificationView: UIView {
         )
     }
     
-    @IBAction func closeBtnClick(_ sender: Any) {
+    func hideMessage() {
         UIView.animate(withDuration: 0.5,
-           delay: 0,
-           options: UIViewAnimationOptions.curveEaseIn,
-           animations: { () -> Void in
+               delay: 0,
+               options: UIViewAnimationOptions.curveEaseIn,
+               animations: { () -> Void in
                 self.frame = CGRect(x: self.frame.origin.x, y: -self.frame.height, width: self.frame.width, height: self.frame.height)
                 self.superview?.layoutIfNeeded()
             },
-            completion: { (finished) -> Void in
+               completion: { (finished) -> Void in
                 self.removeFromSuperview()
             }
         )
+
+    }
+    
+    @IBAction func closeBtnClick(_ sender: Any) {
+        self.hideMessage()
     }
     
 }
