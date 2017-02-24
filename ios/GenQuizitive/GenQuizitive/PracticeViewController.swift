@@ -17,9 +17,21 @@ class PracticeViewController: UIViewController, EventListener {
     @IBOutlet weak var roundDetailView: RoundDetailView!
     
     var notif:NotificationView?
+    var loadingView:LoadingView?
+    
+    var questions = [Question]()
+    var currentQuestion:Int = 0
+    var maxQuestions = 5
+    var setupCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var question = QuestionService.getInstance().getRandomQuestion()
+        questions.append(question)
+        setupQuestion(currentQuestion)
+        var question2 = QuestionService.getInstance().getRandomQuestion()
+        questions.append(question2)
     }
     
     override func didReceiveMemoryWarning() {
@@ -41,8 +53,46 @@ class PracticeViewController: UIViewController, EventListener {
         EventHandler.getInstance().unSubscribe("questionIncorrect", listener: self)
     }
     
+    func setupQuestion(num:Int) {
+        print("Setting up question \(num)")
+        var question = questions[num]
+        question.setup(difficulty: num+1, useLiving: true, onCompletion: {question, err in
+            if err != nil {
+                print("Error setting up question \(question.name) \(err!)")
+                setupCount += 1
+                if setupCount < 5 {
+                    self.setupQuestion()
+                } else {
+                    print("Unable to setup question \(question.name).  Giving up after 5 tries.")
+                    setupCount = 0
+                    questions[num] = QuestionService.getInstance().getRandomQuestion()
+                    self.setupQuestion()
+                }
+            }
+        })
+    }
+    
+    func nextQuestion() {
+        currentQuestion += 1
+        if currentQuestion < maxQuestions-1 {
+            var question = QuestionService.getInstance().getRandomQuestion()
+            questions.append(question)
+            setupQuestion(num: currentQuestion + 1)
+            
+        } else if currentQuestion < maxQuestions {
+            
+        } else {
+            print("Round complete")
+            // show round complete
+        }
+    }
+    
     func onEvent(_ topic:String, data:Any?) {
         
+    }
+    var listenerIndex:Int?
+    func setListenerIndex(_ index:Int) {
+        listenerIndex = index
     }
     
     @IBAction func startBtnClick(_ sender: Any) {
@@ -66,6 +116,7 @@ class PracticeViewController: UIViewController, EventListener {
                     self.startHolder.superview?.layoutIfNeeded()
                },
                completion: { (finished) -> Void in
+                    self.roundDetailView.isHidden = false
                     self.startHolder.removeFromSuperview()
                }
             )
@@ -84,9 +135,37 @@ class PracticeViewController: UIViewController, EventListener {
         notif!.showMessage(title: title, message: message, showButton: false, duration: 0.7)
     }
     
-    var listenerIndex:Int?
-    func setListenerIndex(_ index:Int) {
-        listenerIndex = index
+    func showLoading() {
+        let x = (self.view.frame.width - 250) / 2
+        let frame = CGRect(x: x, y: self.view.frame.height, width: 250, height: 350)
+        loadingView = NotificationView(frame: frame)
+        self.view.addSubview(loadingView!)
+        
+        UIView.animate(withDuration: 0.5,
+            delay: 0,
+            options: UIViewAnimationOptions.curveEaseIn,
+            animations: { () -> Void in
+                self.loadingView!.frame = CGRect(x: self.loadingView!.frame.origin.x, y: self.view.frame.height - 250, width: self.loadingView!.frame.width, height: self.loadingView!.frame.height)
+                self.loadingView!.superview?.layoutIfNeeded()
+            },
+            completion: { (finished) -> Void in
+            }
+        )
     }
     
+    func hideLoading() {
+        if self.loadingView != nil {
+            UIView.animate(withDuration: 0.5,
+               delay: 0,
+               options: UIViewAnimationOptions.curveEaseIn,
+               animations: { () -> Void in
+                self.loadingView!.frame = CGRect(x: self.loadingView!.frame.origin.x, y: self.view.frame.height, width: self.loadingView!.frame.width, height: self.loadingView!.frame.height)
+                self.loadingView!.superview?.layoutIfNeeded()
+            },
+                completion: { (finished) -> Void in
+            }
+            )
+        }
+    }
+
 }

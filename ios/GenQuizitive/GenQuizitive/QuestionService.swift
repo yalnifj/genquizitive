@@ -28,5 +28,32 @@ class MultipleChoiceQuestion : Question {
 }
 
 class QuestionService {
+ 
+    var questionTypes = ["photo"]
     
+    private static var instance:QuestionService?
+    
+    private init() {
+        
+    }
+    
+    static func getInstance() -> QuestionService {
+        if instance == nil {
+            instance = QuestionService()
+        }
+        return instance!
+    }
+    
+    func getRandomQuestion() -> Question {
+        let r = Int(arc4random_uniform(UInt32(self.questionTypes.count)))
+        let questionType = questionTypes[r]
+        
+        var question:Question? = nil
+        switch questionType {
+            case "photo":
+                question = PhotoQuestion()
+                break
+        }
+        return question!
+    }
 }
