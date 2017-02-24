@@ -395,10 +395,10 @@
 				939078FF1DB2EFC90010E0A0 /* Main.storyboard */,
 				939F50411E4A89ED0049167B /* MenuViewController.swift */,
 				93A950861E5C8B48004BBDDD /* PracticeViewController.swift */,
+				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
 				93A950731E5B74C4004BBDDD /* QuestionService.swift */,
 				93A950761E5B74FE004BBDDD /* questions */,
 				93105A251E4BE262005D4512 /* remote */,
-				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
 				93AEE5F01E4A3A1400700AB6 /* views */,
 				93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */,
 			);

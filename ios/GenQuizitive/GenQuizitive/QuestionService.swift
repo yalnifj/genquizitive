@@ -14,6 +14,7 @@ class Question {
     var background:String!
     var difficulty:Int = 1
     var hints:[String]!
+    var isReady = false
     
     var questionText:String!
     
@@ -50,7 +51,7 @@ class QuestionService {
         
         var question:Question? = nil
         switch questionType {
-            case "photo":
+            case "photo1":
                 question = PhotoQuestion()
                 break
         }

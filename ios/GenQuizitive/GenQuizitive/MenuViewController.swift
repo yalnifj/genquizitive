@@ -81,7 +81,12 @@ class MenuViewController: UIViewController {
     @IBAction func practiceBtnClick(_ sender: Any) {
         if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
             self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
+        } else {
+            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as UIViewController
+            
+            self.present(viewController, animated: false, completion: nil)
         }
+        
     }
     
     @IBAction func challengeBtnClick(_ sender: Any) {

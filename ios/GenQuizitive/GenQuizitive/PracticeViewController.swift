@@ -18,6 +18,7 @@ class PracticeViewController: UIViewController, EventListener {
     
     var notif:NotificationView?
     var loadingView:LoadingView?
+    var questionView:UIView?
     
     var questions = [Question]()
     var currentQuestion:Int = 0
@@ -31,6 +32,9 @@ class PracticeViewController: UIViewController, EventListener {
         questions.append(question)
         setupQuestion(currentQuestion)
         var question2 = QuestionService.getInstance().getRandomQuestion()
+        /*while question2.name == question.name {
+            question2 = QuestionService.getInstance().getRandomQuestion()
+        }*/
         questions.append(question2)
     }
     
@@ -61,12 +65,16 @@ class PracticeViewController: UIViewController, EventListener {
                 print("Error setting up question \(question.name) \(err!)")
                 setupCount += 1
                 if setupCount < 5 {
-                    self.setupQuestion()
+                    self.setupQuestion(num)
                 } else {
                     print("Unable to setup question \(question.name).  Giving up after 5 tries.")
                     setupCount = 0
                     questions[num] = QuestionService.getInstance().getRandomQuestion()
-                    self.setupQuestion()
+                    self.setupQuestion(num)
+                }
+            } else {
+                if num == self.currentQuestion && self.loadingView != nil {
+                    self.showCurrentQuestion()
                 }
             }
         })
@@ -78,17 +86,24 @@ class PracticeViewController: UIViewController, EventListener {
             var question = QuestionService.getInstance().getRandomQuestion()
             questions.append(question)
             setupQuestion(num: currentQuestion + 1)
-            
+            showCurrentQuestion()
         } else if currentQuestion < maxQuestions {
-            
+            showCurrentQuestion()
         } else {
             print("Round complete")
             // show round complete
+            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as UIViewController
+            
+            self.present(viewController, animated: false, completion: nil)
         }
     }
     
     func onEvent(_ topic:String, data:Any?) {
-        
+        if topic == "questionIncorrect" {
+            roundDetailView.addPenalty()
+        } else if topic == "questionCorrect" {
+            nextQuestion()
+        }
     }
     var listenerIndex:Int?
     func setListenerIndex(_ index:Int) {
@@ -161,11 +176,59 @@ class PracticeViewController: UIViewController, EventListener {
                animations: { () -> Void in
                 self.loadingView!.frame = CGRect(x: self.loadingView!.frame.origin.x, y: self.view.frame.height, width: self.loadingView!.frame.width, height: self.loadingView!.frame.height)
                 self.loadingView!.superview?.layoutIfNeeded()
-            },
-                completion: { (finished) -> Void in
-            }
+               },
+               completion: { (finished) -> Void in
+                    self.loadingView = nil
+               }
             )
         }
     }
 
+    func showCurrentQuestion() {
+        //-- remove existing question
+        if questionView != nil {
+            let oldQuestion = questionView!
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: UIViewAnimationOptions.curveEaseIn,
+                           animations: { () -> Void in
+                            oldQuestion.frame = CGRect(x: -oldQuestion.frame.width, y: oldQuestion.frame.origin.y, width: oldQuestion.frame.width, height: oldQuestion.frame.height)
+                            oldQuestion.superview?.layoutIfNeeded()
+            },
+                           completion: { (finished) -> Void in
+                            oldQuestion.removeFromSuperview()
+            }
+            )
+        }
+        
+        var question = questions[currentQuestion]
+        if !question.isReady {
+            questionView = nil
+            showLoading()
+        } else {
+            if loadingView != nil {
+                hideLoading()
+            }
+            
+            let x = self.view.frame.width
+            let frame = CGRect(x: x, y: roundDetailView.frame.height, width: self.view.frame.width, height: self.view.frame.height - roundDetailView.frame.height)
+            
+            print("showing question \(question.name)")
+            if question.name == "photo1" {
+                questionView = PhotoQuestionView(frame: frame)
+            }
+            
+            self.view.addSubview(questionView!)
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: UIViewAnimationOptions.curveEaseIn,
+                           animations: { () -> Void in
+                            self.questionView!.frame = CGRect(x: 0, y: self.questionView!.frame.origin.y, width: self.questionView!.frame.width, height: self.questionView!.frame.height)
+                            self.questionView!.superview?.layoutIfNeeded()
+            },
+                           completion: { (finished) -> Void in
+            }
+            )
+        }
+    }
 }

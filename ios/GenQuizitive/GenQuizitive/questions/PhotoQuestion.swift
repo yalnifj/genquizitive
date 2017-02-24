@@ -34,6 +34,7 @@ class PhotoQuestion : MultipleChoiceQuestion {
                         for p in people! {
                             self.answerPeople.append(p)
                         }
+                        self.isReady = true
                         onCompletion(self, nil)
                     } else {
                         onCompletion(self, err)
