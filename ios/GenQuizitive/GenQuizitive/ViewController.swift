@@ -39,10 +39,13 @@ class ViewController: UIViewController, AuthCompleteListener {
         
         facebookButton.titleLabel?.textAlignment = .center
         familysearchButton.titleLabel?.textAlignment = .center
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         if accessToken != nil {
-            service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
+            print("Already Logged into FamilySearch with access_token \(accessToken)")
+            service = FamilySearchService(env: "integration", applicationKey: "a02j000000KSRxHAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
             service?.sessionId = accessToken
             FamilyTreeService.getInstance().remoteService = service
         }
@@ -69,7 +72,7 @@ class ViewController: UIViewController, AuthCompleteListener {
     }
     
     func gotoMenuView() {
-        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as UIViewController
+        let viewController:MenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         
         self.present(viewController, animated: false, completion: nil)
     }
@@ -93,25 +96,50 @@ class ViewController: UIViewController, AuthCompleteListener {
     }
 
     @IBAction func onFSBtnClick(_ sender: Any) {
-        service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
+        //ios key a02j000000KSRxHAAX
+        //web key a02j000000JERmSAAX
+        service = FamilySearchService(env: "integration", applicationKey: "a02j000000KSRxHAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
         authDialog = AuthDialogView(frame: self.view.bounds)
         authDialog?.remoteService = service
         authDialog?.listener = self
         self.view.addSubview(authDialog!)
+        
+        authDialog?.startOAuth()
     }
     
     func AuthComplete(acessToken accessToken:String?) {
-        authDialog?.removeFromSuperview()
-        //-- store access token
-        if accessToken != nil {
-            UserDefaults.standard.set(accessToken, forKey: "accessToken")
-            FamilyTreeService.getInstance().remoteService = service
-            self.gotoMenuView()
+        DispatchQueue.main.async {
+            self.authDialog?.removeFromSuperview()
+            //-- store access token
+            if accessToken != nil {
+                UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                FamilyTreeService.getInstance().remoteService = self.service
+                self.gotoMenuView()
+            }
         }
     }
     
     func AuthCanceled() {
-        authDialog?.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.authDialog?.removeFromSuperview()
+        }
+    }
+    
+    func onAuthError(errorMessage:String) {
+        showNotification(title: "Authentication Error", message: errorMessage)
+    }
+    
+    func showNotification(title:String, message:String) {
+        DispatchQueue.main.async {
+            let screenSize = UIScreen.main.bounds
+            let width = screenSize.width * 0.90
+            let ratio = CGFloat(200.0 / 350.0)
+            let height = width * ratio
+            let frame = CGRect(x: 10, y: 10, width: width, height: height)
+            let notif = NotificationView(frame: frame)
+            self.view.addSubview(notif)
+            notif.showMessage(title: title, message: message, showButton: true, duration: 0.5)
+        }
     }
 }
 

@@ -12,6 +12,7 @@ import UIKit
 protocol AuthCompleteListener {
     func AuthComplete(acessToken:String?)
     func AuthCanceled()
+    func onAuthError(errorMessage:String)
 }
 
 class AuthDialogView : UIView, UIWebViewDelegate {
@@ -43,12 +44,6 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         webView.delegate = self
         webView.isUserInteractionEnabled = true
         webView.scrollView.isScrollEnabled = true
-        
-        if remoteService != nil {
-            let url = URL(string: remoteService!.oAuthUrl)
-            let request = URLRequest(url: url!)
-            webView.loadRequest(request)
-        }
     }
     
     func loadViewFromNib() -> UIView {
@@ -57,6 +52,21 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
+    }
+    
+    func startOAuth() {
+        if remoteService != nil {
+            let url = URL(string: remoteService!.oAuthUrl)
+            if url != nil {
+                let request = URLRequest(url: url!)
+                webView.loadRequest(request)
+            } else {
+                print("invalid oauth url \(remoteService!.oAuthUrl)")
+                if self.listener != nil {
+                    self.listener!.onAuthError(errorMessage: "invalid oauth url \(remoteService!.oAuthUrl)")
+                }
+            }
+        }
     }
     
     public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -84,10 +94,13 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         print("finished loading")
         print(webView.request!)//Sent after a web view finishes loading a frame.
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if webView.request!.url!.absoluteString.contains(remoteService!.oAuthCompleteUrl) {
+        if webView.request!.url!.absoluteString != remoteService!.oAuthUrl && webView.request!.url!.absoluteString.contains(remoteService!.oAuthCompleteUrl) {
             remoteService?.processOathResponse(webview: webView, onCompletion: { accessToken, err in
                 if err != nil {
                     print("error authenticating with remote service \(err)")
+                    if self.listener != nil {
+                        self.listener!.onAuthError(errorMessage: "Error authenticating with remote service \(err)")
+                    }
                 }
                 if self.listener != nil {
                     self.listener!.AuthComplete(acessToken: accessToken)
@@ -100,6 +113,9 @@ class AuthDialogView : UIView, UIWebViewDelegate {
         //Sent if a web view failed to load a frame.
         print("failed to load")
         print(error)
+        if self.listener != nil {
+            self.listener!.onAuthError(errorMessage: "Failed to load \(error)")
+        }
     }
     
     @IBAction func cancelBtnClicked(_ sender: Any) {

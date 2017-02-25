@@ -26,9 +26,9 @@ class LoadingView: UIView {
     
     func setup() {
         view = loadViewFromNib()
-        view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
-        addSubview(view)
+        view!.frame = bounds
+        view!.autoresizingMask = UIViewAutoresizing.flexibleWidth
+        addSubview(view!)
         
         var loadingImages = [UIImage]()
         loadingImages.append(UIImage(named: "loading1")!)
@@ -38,7 +38,7 @@ class LoadingView: UIView {
         loadingImg.animationDuration = 1.5
         loadingImg.startAnimating()
         
-        self.view.layoutIfNeeded()
+        self.view!.layoutIfNeeded()
     }
     
     func loadViewFromNib() -> UIView {

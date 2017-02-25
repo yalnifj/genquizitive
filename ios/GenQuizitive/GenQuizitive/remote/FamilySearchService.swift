@@ -8,7 +8,7 @@ class FamilySearchService : RemoteService {
 	let FS_PLATFORM_PATH_PROD = "https://familysearch.org/platform/"
     var FS_PLATFORM_PATH:String
 	
-	let FS_OAUTH2_PATH_SAND = "https://integration.familysearch.org/cis-web/oauth2/v3/"
+    let FS_OAUTH2_PATH_SAND = "https://identint.familysearch.org/cis-web/oauth2/v3/"
     let FS_OAUTH2_PATH_BETA = "https://identbeta.familysearch.org/cis-web/oauth2/v3/"
 	let FS_OAUTH2_PATH_PROD = "https://ident.familysearch.org/cis-web/oauth2/v3/"
     var FS_OAUTH2_PATH:String
@@ -19,7 +19,7 @@ class FamilySearchService : RemoteService {
     var sessionId: String?
     var oAuthUrl:String {
         get {
-            return "\(FS_OAUTH2_PATH)authorization?response_type=code&client_id=\(FS_APP_KEY)&redirect_uri=\(FS_REDIRECT_URL)"
+            return "\(FS_OAUTH2_PATH)authorization?client_id=\(FS_APP_KEY!)&redirect_uri=\(FS_REDIRECT_URL!)&response_type=code"
         }
     }
     var oAuthCompleteUrl:String {
@@ -43,8 +43,8 @@ class FamilySearchService : RemoteService {
         let urlComps = URLComponents(url: url!, resolvingAgainstBaseURL: false)
         let code = urlComps?.queryItems?.filter { $0.name == "code" }.first
         if code != nil {
-            var params:[String:String] = [
-                "code": code!.description,
+            let params:[String:String] = [
+                "code": code!.value!,
                 "redirect_uri": FS_REDIRECT_URL,
                 "grant_type": "authorization_code",
                 "client_id": FS_APP_KEY

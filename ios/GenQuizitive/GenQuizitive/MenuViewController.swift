@@ -82,7 +82,7 @@ class MenuViewController: UIViewController {
         if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
             self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
         } else {
-            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as UIViewController
+            let viewController:PracticeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as! PracticeViewController
             
             self.present(viewController, animated: false, completion: nil)
         }
@@ -106,13 +106,15 @@ class MenuViewController: UIViewController {
     }
     
     func showNotification(title:String, message:String) {
-        let screenSize = UIScreen.main.bounds
-        let width = screenSize.width * 0.90
-        let ratio = CGFloat(200.0 / 350.0)
-        let height = width * ratio
-        let frame = CGRect(x: 10, y: 10, width: width, height: height)
-        let notif = NotificationView(frame: frame)
-        self.view.addSubview(notif)
-        notif.showMessage(title: title, message: message, showButton: true, duration: 0.5)
+        DispatchQueue.main.async {
+            let screenSize = UIScreen.main.bounds
+            let width = screenSize.width * 0.90
+            let ratio = CGFloat(200.0 / 350.0)
+            let height = width * ratio
+            let frame = CGRect(x: 10, y: 10, width: width, height: height)
+            let notif = NotificationView(frame: frame)
+            self.view.addSubview(notif)
+            notif.showMessage(title: title, message: message, showButton: true, duration: 0.5)
+        }
     }
 }

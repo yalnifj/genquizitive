@@ -28,10 +28,11 @@ class PracticeViewController: UIViewController, EventListener {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var question = QuestionService.getInstance().getRandomQuestion()
+        let question = QuestionService.getInstance().getRandomQuestion()
         questions.append(question)
-        setupQuestion(currentQuestion)
-        var question2 = QuestionService.getInstance().getRandomQuestion()
+        setupQuestion(num: currentQuestion)
+        let question2 = QuestionService.getInstance().getRandomQuestion()
+        //-- prevent 2 of the same question types in a row
         /*while question2.name == question.name {
             question2 = QuestionService.getInstance().getRandomQuestion()
         }*/
@@ -59,18 +60,18 @@ class PracticeViewController: UIViewController, EventListener {
     
     func setupQuestion(num:Int) {
         print("Setting up question \(num)")
-        var question = questions[num]
+        let question = questions[num]
         question.setup(difficulty: num+1, useLiving: true, onCompletion: {question, err in
             if err != nil {
                 print("Error setting up question \(question.name) \(err!)")
-                setupCount += 1
-                if setupCount < 5 {
-                    self.setupQuestion(num)
+                self.setupCount += 1
+                if self.setupCount < 5 {
+                    self.setupQuestion(num: num)
                 } else {
                     print("Unable to setup question \(question.name).  Giving up after 5 tries.")
-                    setupCount = 0
-                    questions[num] = QuestionService.getInstance().getRandomQuestion()
-                    self.setupQuestion(num)
+                    self.setupCount = 0
+                    self.questions[num] = QuestionService.getInstance().getRandomQuestion()
+                    self.setupQuestion(num: num)
                 }
             } else {
                 if num == self.currentQuestion && self.loadingView != nil {
@@ -83,9 +84,12 @@ class PracticeViewController: UIViewController, EventListener {
     func nextQuestion() {
         currentQuestion += 1
         if currentQuestion < maxQuestions-1 {
-            var question = QuestionService.getInstance().getRandomQuestion()
+            let question = QuestionService.getInstance().getRandomQuestion()
+            //-- prevent 2 of the same question types in a row
+            /*while question2.name == question.name {
+             question2 = QuestionService.getInstance().getRandomQuestion()
+             }*/
             questions.append(question)
-            setupQuestion(num: currentQuestion + 1)
             showCurrentQuestion()
         } else if currentQuestion < maxQuestions {
             showCurrentQuestion()
@@ -153,7 +157,7 @@ class PracticeViewController: UIViewController, EventListener {
     func showLoading() {
         let x = (self.view.frame.width - 250) / 2
         let frame = CGRect(x: x, y: self.view.frame.height, width: 250, height: 350)
-        loadingView = NotificationView(frame: frame)
+        loadingView = LoadingView(frame: frame)
         self.view.addSubview(loadingView!)
         
         UIView.animate(withDuration: 0.5,
@@ -201,7 +205,7 @@ class PracticeViewController: UIViewController, EventListener {
             )
         }
         
-        var question = questions[currentQuestion]
+        let question = questions[currentQuestion]
         if !question.isReady {
             questionView = nil
             showLoading()
@@ -210,12 +214,18 @@ class PracticeViewController: UIViewController, EventListener {
                 hideLoading()
             }
             
+            if currentQuestion < maxQuestions - 1 {
+                setupQuestion(num: currentQuestion + 1)
+            }
+            
             let x = self.view.frame.width
             let frame = CGRect(x: x, y: roundDetailView.frame.height, width: self.view.frame.width, height: self.view.frame.height - roundDetailView.frame.height)
             
             print("showing question \(question.name)")
             if question.name == "photo1" {
-                questionView = PhotoQuestionView(frame: frame)
+                let photoQuestionView = PhotoQuestionView(frame: frame)
+                photoQuestionView.showQuestion(question: question as! PhotoQuestion)
+                questionView = photoQuestionView
             }
             
             self.view.addSubview(questionView!)
