@@ -75,13 +75,15 @@ class FamilyTreeService {
                         self.getSpouses(personId: person!.id!, onCompletion: {spouses, err in
                             if spouses != nil {
                                 for spouse in spouses! {
-                                    self.getAncestorTree(personId: person!.id!, generations: 8, details: true, spouse: nil, noCache: false, onCompletion: {speople, err in
+                                    self.getAncestorTree(personId: spouse.id!, generations: 8, details: true, spouse: nil, noCache: false, onCompletion: {speople, err in
                                         //-- nothing to do now
                                     })
                                 }
                             }
                         })
                     }
+                    print("Loaded \(self.people.count) people so far.")
+                    onCompletion(person!, nil)
                 })
             }
             else {
@@ -255,7 +257,7 @@ class FamilyTreeService {
             var count = 0
             while count < 5 && person == nil {
                 let r = Int(arc4random_uniform(UInt32(max)))
-                var randomId = peopleIds[r]
+                let randomId = peopleIds[r]
                 if self.usedPeople[randomId] == nil {
                     person = self.people[randomId]
                     if person != nil && !useLiving && person!.living! {
@@ -301,6 +303,8 @@ class FamilyTreeService {
                         onCompletion(nil, NSError(domain: "FamilyTreeService", code: 404, userInfo: ["message":"Unable to find a random portrait"]))
                     }
                 })
+            } else {
+                onCompletion(nil, NSError(domain: "FamilyTreeService", code: 405, userInfo: ["message":"Not enough unused people"]))
             }
         }
     }
@@ -365,6 +369,10 @@ class FamilyTreeService {
     
     func markUsed(personId:String) {
         self.usedPeople[personId] = true
+    }
+    
+    func clearUsed() {
+        self.usedPeople.removeAll()
     }
     
     @objc func processBackgroundTimer() {

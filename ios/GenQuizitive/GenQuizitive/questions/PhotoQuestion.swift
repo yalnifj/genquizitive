@@ -40,6 +40,13 @@ class PhotoQuestion : MultipleChoiceQuestion {
                         onCompletion(self, err)
                     }
                 })
+            } else {
+                if err != nil {
+                    onCompletion(self, err)
+                } else {
+                    let error = NSError(domain: "PhototQuestion", code: 404, userInfo: ["message":"Unable to find a person with a photo"])
+                    onCompletion(self, error)
+                }
             }
         })
     }

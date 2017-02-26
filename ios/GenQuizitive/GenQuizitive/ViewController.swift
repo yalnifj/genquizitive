@@ -20,6 +20,7 @@ class ViewController: UIViewController, AuthCompleteListener {
     var service : RemoteService?
     
     var authDialog:AuthDialogView?
+    var loadingView:LoadingView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +46,31 @@ class ViewController: UIViewController, AuthCompleteListener {
         let accessToken = UserDefaults.standard.string(forKey: "accessToken")
         if accessToken != nil {
             print("Already Logged into FamilySearch with access_token \(accessToken)")
+            showLoading()
             service = FamilySearchService(env: "integration", applicationKey: "a02j000000KSRxHAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
             service?.sessionId = accessToken
             FamilyTreeService.getInstance().remoteService = service
+            FamilyTreeService.getInstance().loadInitialData(onCompletion: {person, err in
+                if person != nil {
+                    print("found current person")
+                } else if err != nil && err?.code == 401 {
+                    print("access token invalid")
+                    self.service?.sessionId = nil
+                    FamilyTreeService.getInstance().remoteService = nil
+                    UserDefaults.standard.removeObject(forKey: "accessToken")
+                }
+                self.authFacebook()
+            })
+        } else {
+            authFacebook()
         }
-        
+    }
+    
+    func authFacebook() {
         FacebookService.getInstance().isAuthenticated(onCompletion: {isAuth in
+            self.hideLoading()
+            self.facebookButton.isHidden = false
+            self.familysearchButton.isHidden = false
             if isAuth {
                 // User is logged in, use 'accessToken' here.
                 print("Already logged in to facebook")
@@ -58,7 +78,7 @@ class ViewController: UIViewController, AuthCompleteListener {
                 self.gotoMenuView()
             } else {
                 print("Not logged into facebook")
-                if accessToken != nil {
+                if self.service != nil && self.service?.sessionId != nil {
                     print("Already logged into FamilySearch")
                     self.gotoMenuView()
                 }
@@ -107,14 +127,54 @@ class ViewController: UIViewController, AuthCompleteListener {
         authDialog?.startOAuth()
     }
     
+    func showLoading() {
+        let x = (self.view.frame.width - 250) / 2
+        let frame = CGRect(x: x, y: self.view.frame.height, width: 250, height: self.view.frame.height/2)
+        loadingView = LoadingView(frame: frame)
+        self.view.addSubview(loadingView!)
+        
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: UIViewAnimationOptions.curveEaseIn,
+                       animations: { () -> Void in
+                        self.loadingView!.frame = CGRect(x: self.loadingView!.frame.origin.x, y: self.view.frame.height - 250, width: self.loadingView!.frame.width, height: self.loadingView!.frame.height)
+                        self.loadingView!.superview?.layoutIfNeeded()
+        },
+                       completion: { (finished) -> Void in
+        }
+        )
+    }
+    
+    func hideLoading() {
+        if self.loadingView != nil {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: UIViewAnimationOptions.curveEaseIn,
+                           animations: { () -> Void in
+                            self.loadingView!.frame = CGRect(x: self.loadingView!.frame.origin.x, y: self.view.frame.height, width: self.loadingView!.frame.width, height: self.loadingView!.frame.height)
+                            self.loadingView!.superview?.layoutIfNeeded()
+            },
+                           completion: { (finished) -> Void in
+                            self.loadingView = nil
+            }
+            )
+        }
+    }
+
+    
     func AuthComplete(acessToken accessToken:String?) {
         DispatchQueue.main.async {
             self.authDialog?.removeFromSuperview()
             //-- store access token
             if accessToken != nil {
-                UserDefaults.standard.set(accessToken, forKey: "accessToken")
                 FamilyTreeService.getInstance().remoteService = self.service
-                self.gotoMenuView()
+                FamilyTreeService.getInstance().loadInitialData(onCompletion: {person, err in
+                    if person != nil {
+                        UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                        self.gotoMenuView()
+                    }
+                })
+                
             }
         }
     }

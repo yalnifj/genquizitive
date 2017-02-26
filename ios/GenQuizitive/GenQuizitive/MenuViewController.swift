@@ -8,8 +8,10 @@
 
 import Foundation
 import FacebookCore
+import FacebookCore
+import FacebookLogin
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController, AuthCompleteListener {
     
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var avatarBadge: AvatarBadge!
@@ -19,6 +21,10 @@ class MenuViewController: UIViewController {
     var familyTreeService:FamilyTreeService!
     var facebookService:FacebookService!
     var facebookIsAuth:Bool = false
+    
+    var service : RemoteService?
+    
+    var authDialog:AuthDialogView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +111,36 @@ class MenuViewController: UIViewController {
        
     }
     
+    @IBAction func facebookBtnClick(_ sender: Any) {
+        let loginManager = LoginManager(loginBehavior: .systemAccount, defaultAudience: .friends)
+        loginManager.logIn([ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                print("Logged in! \(accessToken)")
+                
+                UserDefaults.standard.set(accessToken, forKey: "fbAccessToken")
+                
+                self.fsConnectBtn.isHidden = true
+            }
+        }
+    }
+    
+    @IBAction func familysearchBtnClick(_ sender: Any) {
+        //ios key a02j000000KSRxHAAX
+        //web key a02j000000JERmSAAX
+        service = FamilySearchService(env: "integration", applicationKey: "a02j000000KSRxHAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
+        authDialog = AuthDialogView(frame: self.view.bounds)
+        authDialog?.remoteService = service
+        authDialog?.listener = self
+        self.view.addSubview(authDialog!)
+        
+        authDialog?.startOAuth()
+    }
+    
     func showNotification(title:String, message:String) {
         DispatchQueue.main.async {
             let screenSize = UIScreen.main.bounds
@@ -117,4 +153,32 @@ class MenuViewController: UIViewController {
             notif.showMessage(title: title, message: message, showButton: true, duration: 0.5)
         }
     }
+    
+    func AuthComplete(acessToken accessToken:String?) {
+        DispatchQueue.main.async {
+            self.authDialog?.removeFromSuperview()
+            //-- store access token
+            if accessToken != nil {
+                self.fsConnectBtn.isHidden = true
+                FamilyTreeService.getInstance().remoteService = self.service
+                FamilyTreeService.getInstance().loadInitialData(onCompletion: {person, err in
+                    if person != nil {
+                        UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                    }
+                })
+                
+            }
+        }
+    }
+    
+    func AuthCanceled() {
+        DispatchQueue.main.async {
+            self.authDialog?.removeFromSuperview()
+        }
+    }
+    
+    func onAuthError(errorMessage:String) {
+        showNotification(title: "Authentication Error", message: errorMessage)
+    }
+    
 }

@@ -126,7 +126,18 @@ class FamilySearchService : RemoteService {
                     let person = persons[0]
 					onCompletion(person, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find current person"]))
+                    if err != nil {
+                        onCompletion(nil, err)
+                    } else {
+                        let errors = json["errors"].array
+                        if errors != nil && errors!.count > 0 {
+                            let eson = errors![0]
+                            let error = NSError(domain: "FamilySearchService", code: eson["code"].int!, userInfo: ["message": eson["message"].string!])
+                            onCompletion(nil, error)
+                        } else {
+                            onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find current person"]))
+                        }
+                    }
 				}
 			})
 		} else {

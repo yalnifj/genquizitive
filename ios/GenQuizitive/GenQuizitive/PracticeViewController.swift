@@ -50,7 +50,7 @@ class PracticeViewController: UIViewController, EventListener {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        showNotification(title: "", message: "")
+        showNotification(title: "Practice GenQuiz", message: "Practice a GenQuiz on your family tree then challenge your family and friends. Answer the questions as quickly as you can.  Try not to make any mistakes or you will receive a time penalty.")
     }
     
     override func viewWillDisappear(_ animated:Bool) {
@@ -64,6 +64,7 @@ class PracticeViewController: UIViewController, EventListener {
         question.setup(difficulty: num+1, useLiving: true, onCompletion: {question, err in
             if err != nil {
                 print("Error setting up question \(question.name) \(err!)")
+                FamilyTreeService.getInstance().clearUsed()
                 self.setupCount += 1
                 if self.setupCount < 5 {
                     self.setupQuestion(num: num)
@@ -126,6 +127,8 @@ class PracticeViewController: UIViewController, EventListener {
         countDownImg.animationRepeatCount = 1
         countDownImg.startAnimating()
         
+        notif?.hideMessage()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             UIView.animate(withDuration: 0.5,
                delay: 0,
@@ -137,6 +140,7 @@ class PracticeViewController: UIViewController, EventListener {
                completion: { (finished) -> Void in
                     self.roundDetailView.isHidden = false
                     self.startHolder.removeFromSuperview()
+                    self.showCurrentQuestion()
                }
             )
 
@@ -156,7 +160,7 @@ class PracticeViewController: UIViewController, EventListener {
     
     func showLoading() {
         let x = (self.view.frame.width - 250) / 2
-        let frame = CGRect(x: x, y: self.view.frame.height, width: 250, height: 350)
+        let frame = CGRect(x: x, y: self.view.frame.height, width: 250, height: self.view.frame.height/2)
         loadingView = LoadingView(frame: frame)
         self.view.addSubview(loadingView!)
         
