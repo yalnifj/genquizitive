@@ -212,10 +212,14 @@ class PracticeViewController: UIViewController, EventListener {
         let question = questions[currentQuestion]
         if !question.isReady {
             questionView = nil
+            self.roundDetailView.pauseTimer()
             showLoading()
         } else {
             if loadingView != nil {
                 hideLoading()
+            }
+            if !roundDetailView.isTimerRunning {
+                self.roundDetailView.startTimer()
             }
             
             if currentQuestion < maxQuestions - 1 {
@@ -223,7 +227,7 @@ class PracticeViewController: UIViewController, EventListener {
             }
             
             let x = self.view.frame.width
-            let frame = CGRect(x: x, y: roundDetailView.frame.height, width: self.view.frame.width, height: self.view.frame.height - roundDetailView.frame.height)
+            let frame = CGRect(x: x, y: roundDetailView.frame.height, width: self.view.frame.width - 40, height: self.view.frame.height - roundDetailView.frame.height)
             
             print("showing question \(question.name)")
             if question.name == "photo1" {
@@ -237,10 +241,11 @@ class PracticeViewController: UIViewController, EventListener {
                            delay: 0,
                            options: UIViewAnimationOptions.curveEaseIn,
                            animations: { () -> Void in
-                            self.questionView!.frame = CGRect(x: 0, y: self.questionView!.frame.origin.y, width: self.questionView!.frame.width, height: self.questionView!.frame.height)
+                            self.questionView!.frame = CGRect(x: 20, y: self.questionView!.frame.origin.y, width: self.questionView!.frame.width, height: self.questionView!.frame.height)
                             self.questionView!.superview?.layoutIfNeeded()
             },
                            completion: { (finished) -> Void in
+                            
             }
             )
         }

@@ -24,6 +24,7 @@ class RoundDetailView: UIView {
     var penaltyCount:Int = 0
     var timer:Timer?
     var timeElapsed:TimeInterval = 0
+    var isTimerRunning = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -101,6 +102,7 @@ class RoundDetailView: UIView {
         if timer != nil {
             timer!.invalidate()
         }
+        isTimerRunning = false
     }
     
     func startTimer() {
@@ -108,6 +110,7 @@ class RoundDetailView: UIView {
             let aSelector : Selector = #selector(RoundDetailView.updateTimer)
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: aSelector, userInfo: nil, repeats: true)
         }
+        isTimerRunning = true
     }
     
     func resetTimer() {

@@ -141,13 +141,13 @@ class PhotoQuestionView : UIView {
         }
         
         answerBtn1.setTitle(answers[0].getFullName(), for: .normal)
-        if answers.count > 0 {
+        if answers.count > 1 {
             answerBtn2.setTitle(answers[1].getFullName(), for: .normal)
         }
-        if answers.count > 1 {
+        if answers.count > 2 {
             answerBtn3.setTitle(answers[2].getFullName(), for: .normal)
         }
-        if answers.count > 2 {
+        if answers.count > 3 {
             answerBtn4.setTitle(answers[3].getFullName(), for: .normal)
         }
     }
