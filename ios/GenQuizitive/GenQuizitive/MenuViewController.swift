@@ -50,6 +50,7 @@ class MenuViewController: UIViewController, AuthCompleteListener {
             } else {
                 fsConnectBtn.isHidden = false
             }
+            self.view.layoutIfNeeded()
         }
 
 
@@ -76,6 +77,7 @@ class MenuViewController: UIViewController, AuthCompleteListener {
             } else {
                 self.fbConnectButton.isHidden = false
             }
+            self.view.layoutIfNeeded()
         })
     }
     
