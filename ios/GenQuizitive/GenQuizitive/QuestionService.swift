@@ -30,7 +30,7 @@ class MultipleChoiceQuestion : Question {
 
 class QuestionService {
  
-    var questionTypes = ["photo1"]
+    var questionTypes = ["photo1", "fact"]
     
     private static var instance:QuestionService?
     
@@ -53,6 +53,9 @@ class QuestionService {
         switch questionType {
             case "photo1":
                 question = PhotoQuestion()
+                break
+            case "fact":
+                question = FactQuestion()
                 break
             default:
                 break

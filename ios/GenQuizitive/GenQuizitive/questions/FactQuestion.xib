@@ -86,7 +86,7 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="NxX-wd-OJy" secondAttribute="height" multiplier="157:73" id="Y6a-0V-ecP"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" backgroundImage="button_yellow_rect.png">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
@@ -99,7 +99,7 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="IRR-Wj-vUr" secondAttribute="height" multiplier="157:73" id="U1k-ou-8xs"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" backgroundImage="button_yellow_rect.png">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
@@ -112,7 +112,7 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="YIm-oU-og0" secondAttribute="height" multiplier="157:73" id="diU-ep-AsY"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" backgroundImage="button_yellow_rect.png">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
@@ -125,7 +125,7 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="7eb-hH-huw" secondAttribute="height" multiplier="157:73" id="u3O-St-wUo"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" backgroundImage="button_yellow_rect.png">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>

@@ -228,7 +228,7 @@ class PracticeViewController: UIViewController, EventListener {
             if !roundDetailView.isTimerRunning {
                 self.roundDetailView.startTimer()
             }
-            roundDetailView.setGuageProgress(progress: currentQuestion / 5.0)
+            roundDetailView.setGuageProgress(progress: Double(currentQuestion) / 5.0)
             
             if currentQuestion < maxQuestions - 1 {
                 setupQuestion(num: currentQuestion + 1)
@@ -242,6 +242,11 @@ class PracticeViewController: UIViewController, EventListener {
                 let photoQuestionView = PhotoQuestionView(frame: frame)
                 photoQuestionView.showQuestion(question: question as! PhotoQuestion)
                 questionView = photoQuestionView
+            }
+            else if question.name == "fact" {
+                let factQuestionView = FactQuestionView(frame: frame)
+                factQuestionView.showQuestion(question: question as! FactQuestion)
+                questionView = factQuestionView
             }
             
             self.view.addSubview(questionView!)

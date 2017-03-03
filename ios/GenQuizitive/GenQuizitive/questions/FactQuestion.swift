@@ -100,7 +100,7 @@ class FactQuestion : MultipleChoiceQuestion {
                     
                     if (self.fact != nil) {
                         let factLang = languageService.facts[self.fact!.type!]!
-                        self.questionText = "Who \(factLang.pastVerb)"
+                        self.questionText = "Who \(factLang.pastVerb!)"
                         if (self.fact!.value != nil) {
                             self.questionText = self.questionText.appending(" \(self.fact!.value!)")
                         }
