@@ -231,7 +231,7 @@ class FamilyTreeService {
         var count = 0
         while count < 5 && person == nil {
             let r = Int(arc4random_uniform(UInt32(max)))
-            var randomId = peopleIds[r]
+            let randomId = peopleIds[r]
             if self.usedPeople[randomId] == nil {
                 person = self.people[randomId]
                 if person != nil && !useLiving && person!.living {

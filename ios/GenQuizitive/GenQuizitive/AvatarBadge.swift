@@ -11,6 +11,7 @@ import UIKit
 
 class AvatarBadge: UIView {
     
+    @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var label: UILabel!
     var view:UIView!
@@ -49,6 +50,14 @@ class AvatarBadge: UIView {
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
+    }
+    
+    func showAncestorBackground() {
+        background.image = UIImage(named: "ancestor_badge")
+    }
+    
+    func showFriendBackground() {
+        background.image = UIImage(named: "avatar_badge")
     }
 
     func setProfileImage(image: UIImage) {

@@ -17,8 +17,10 @@ class PracticeViewController: UIViewController, EventListener {
     @IBOutlet weak var roundDetailView: RoundDetailView!
     
     var notif:NotificationView?
+    @IBOutlet weak var background: UIImageView!
     var loadingView:LoadingView?
     var questionView:UIView?
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     var questions = [Question]()
     var currentQuestion:Int = 0
@@ -149,7 +151,10 @@ class PracticeViewController: UIViewController, EventListener {
     
     func showNotification(title:String, message:String) {
         let screenSize = UIScreen.main.bounds
-        let width = screenSize.width * 0.90
+        var width = screenSize.width * 0.90
+        if screenSize.width > screenSize.height {
+            width = screenSize.height * 0.90
+        }
         let ratio = CGFloat(200.0 / 350.0)
         let height = width * ratio
         let frame = CGRect(x: 10, y: 10, width: width, height: height)
@@ -218,9 +223,12 @@ class PracticeViewController: UIViewController, EventListener {
             if loadingView != nil {
                 hideLoading()
             }
+            
+            backgroundImage.image = UIImage(named: question.background)
             if !roundDetailView.isTimerRunning {
                 self.roundDetailView.startTimer()
             }
+            roundDetailView.setGuageProgress(progress: currentQuestion / 5.0)
             
             if currentQuestion < maxQuestions - 1 {
                 setupQuestion(num: currentQuestion + 1)

@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
             <connections>
+                <outlet property="background" destination="tZO-P1-hca" id="Jhl-fL-rKU"/>
                 <outlet property="label" destination="Lef-c2-tA0" id="X7V-6S-ksh"/>
                 <outlet property="profileImage" destination="yFi-Wv-79X" id="X7e-pz-9cf"/>
             </connections>

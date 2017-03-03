@@ -44,6 +44,12 @@
 		93105A6C1E4BE262005D4512 /* PGVService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A481E4BE262005D4512 /* PGVService.swift */; };
 		93105A6D1E4BE262005D4512 /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A491E4BE262005D4512 /* RemoteService.swift */; };
 		93105A6E1E4BE262005D4512 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */; };
+		9324C5411E66677300B8E634 /* FactQuestion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5401E66677300B8E634 /* FactQuestion.xib */; };
+		9324C5431E6667AF00B8E634 /* FactQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C5421E6667AF00B8E634 /* FactQuestion.swift */; };
+		9324C54B1E66693300B8E634 /* fact_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5491E66693300B8E634 /* fact_background.jpg */; };
+		9324C54C1E66693300B8E634 /* fact_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C54A1E66693300B8E634 /* fact_back.png */; };
+		9324C54E1E68693000B8E634 /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C54D1E68692F00B8E634 /* LanguageService.swift */; };
+		9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C54F1E690C4F00B8E634 /* ancestor_badge.png */; };
 		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
 		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
@@ -188,6 +194,12 @@
 		93105A481E4BE262005D4512 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVService.swift; sourceTree = "<group>"; };
 		93105A491E4BE262005D4512 /* RemoteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		9324C5401E66677300B8E634 /* FactQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactQuestion.xib; sourceTree = "<group>"; };
+		9324C5421E6667AF00B8E634 /* FactQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactQuestion.swift; sourceTree = "<group>"; };
+		9324C5491E66693300B8E634 /* fact_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fact_background.jpg; sourceTree = "<group>"; };
+		9324C54A1E66693300B8E634 /* fact_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fact_back.png; sourceTree = "<group>"; };
+		9324C54D1E68692F00B8E634 /* LanguageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
+		9324C54F1E690C4F00B8E634 /* ancestor_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ancestor_badge.png; sourceTree = "<group>"; };
 		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
@@ -356,6 +368,15 @@
 			path = data;
 			sourceTree = "<group>";
 		};
+		9324C5441E66687700B8E634 /* factQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				9324C5491E66693300B8E634 /* fact_background.jpg */,
+				9324C54A1E66693300B8E634 /* fact_back.png */,
+			);
+			path = factQuestion;
+			sourceTree = "<group>";
+		};
 		939078EF1DB2EFC90010E0A0 = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +417,7 @@
 				939F50411E4A89ED0049167B /* MenuViewController.swift */,
 				93A950861E5C8B48004BBDDD /* PracticeViewController.swift */,
 				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
+				9324C54D1E68692F00B8E634 /* LanguageService.swift */,
 				93A950731E5B74C4004BBDDD /* QuestionService.swift */,
 				93A950761E5B74FE004BBDDD /* questions */,
 				93105A251E4BE262005D4512 /* remote */,
@@ -428,6 +450,8 @@
 			children = (
 				93A950771E5B7542004BBDDD /* PhotoQuestion.swift */,
 				93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */,
+				9324C5421E6667AF00B8E634 /* FactQuestion.swift */,
+				9324C5401E66677300B8E634 /* FactQuestion.xib */,
 			);
 			path = questions;
 			sourceTree = "<group>";
@@ -458,22 +482,21 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				93DEF1651E5DDC4500C8E2D1 /* button_yellow_circle.png */,
-				93DEF1661E5DDC4500C8E2D1 /* green_light_off.png */,
-				93DEF1671E5DDC4500C8E2D1 /* green_light_on.png */,
-				93DEF1681E5DDC4500C8E2D1 /* guage_back.png */,
-				93DEF1691E5DDC4500C8E2D1 /* guage_hand.png */,
-				93DEF16A1E5DDC4500C8E2D1 /* red_light_off.png */,
-				93DEF16B1E5DDC4500C8E2D1 /* red_light_on.png */,
-				93DEF16C1E5DDC4500C8E2D1 /* timer.png */,
+				9324C54F1E690C4F00B8E634 /* ancestor_badge.png */,
 				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
 				93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */,
 				93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */,
 				93E8A9DC1DCAB6AD00C25D4E /* button_sign_arrow_left.png */,
 				93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */,
+				93DEF1651E5DDC4500C8E2D1 /* button_yellow_circle.png */,
 				93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */,
 				93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */,
+				9324C5441E66687700B8E634 /* factQuestion */,
 				93DEF1531E5D444000C8E2D1 /* gear_sign.png */,
+				93DEF1661E5DDC4500C8E2D1 /* green_light_off.png */,
+				93DEF1671E5DDC4500C8E2D1 /* green_light_on.png */,
+				93DEF1681E5DDC4500C8E2D1 /* guage_back.png */,
+				93DEF1691E5DDC4500C8E2D1 /* guage_hand.png */,
 				93E8A9C61DC9913200C25D4E /* home_arrow1.png */,
 				93E8A9C71DC9913200C25D4E /* home_arrow2.png */,
 				93E8A9C81DC9913200C25D4E /* home_arrow3.png */,
@@ -490,6 +513,9 @@
 				939F503F1E4A86510049167B /* pole_circle.png */,
 				93E8A9CB1DC9913200C25D4E /* pole1.png */,
 				93A950821E5B79D3004BBDDD /* pole2.png */,
+				93DEF16A1E5DDC4500C8E2D1 /* red_light_off.png */,
+				93DEF16B1E5DDC4500C8E2D1 /* red_light_on.png */,
+				93DEF16C1E5DDC4500C8E2D1 /* timer.png */,
 				93E8A9CC1DC9913200C25D4E /* yft_logo.png */,
 			);
 			path = assets;
@@ -635,6 +661,7 @@
 				93DEF16D1E5DDC4500C8E2D1 /* button_yellow_circle.png in Resources */,
 				93A950811E5B76DA004BBDDD /* star.png in Resources */,
 				93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */,
+				9324C54B1E66693300B8E634 /* fact_background.jpg in Resources */,
 				93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */,
 				93E8A9CF1DC9913200C25D4E /* home_arrow3.png in Resources */,
 				93DEF1741E5DDC4500C8E2D1 /* timer.png in Resources */,
@@ -646,6 +673,7 @@
 				93DEF1731E5DDC4500C8E2D1 /* red_light_on.png in Resources */,
 				93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */,
 				93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */,
+				9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */,
 				93DEF15F1E5D484C00C8E2D1 /* number2.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,
@@ -665,6 +693,7 @@
 				93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */,
 				93DEF15C1E5D484C00C8E2D1 /* loading2.png in Resources */,
 				93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */,
+				9324C5411E66677300B8E634 /* FactQuestion.xib in Resources */,
 				93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */,
 				93DEF1601E5D484C00C8E2D1 /* number3.png in Resources */,
 				93DEF1641E5DDB3900C8E2D1 /* RoundDetailView.xib in Resources */,
@@ -672,6 +701,7 @@
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */,
 				93DEF1541E5D444000C8E2D1 /* gear_sign.png in Resources */,
+				9324C54C1E66693300B8E634 /* fact_back.png in Resources */,
 				93E8A9E31DCAB6AD00C25D4E /* button_sign_arrow_left.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,7 +888,9 @@
 				93105A221E4A9873005D4512 /* FacebookService.swift in Sources */,
 				93105A571E4BE262005D4512 /* HypermediaEnabledData.swift in Sources */,
 				939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */,
+				9324C5431E6667AF00B8E634 /* FactQuestion.swift in Sources */,
 				93A950851E5C893E004BBDDD /* EventHandler.swift in Sources */,
+				9324C54E1E68693000B8E634 /* LanguageService.swift in Sources */,
 				93A950871E5C8B48004BBDDD /* PracticeViewController.swift in Sources */,
 				93105A6E1E4BE262005D4512 /* SwiftyJSON.swift in Sources */,
 				93105A5D1E4BE262005D4512 /* Note.swift in Sources */,

@@ -409,7 +409,9 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqm-Gj-Tp2" customClass="RoundDetailView" customModule="GenQuizitive" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="10" width="375" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="Kom-fa-cGP"/>
+                                    <constraint firstAttribute="height" constant="70" id="Kom-fa-cGP">
+                                        <variation key="widthClass=regular" constant="100"/>
+                                    </constraint>
                                 </constraints>
                             </view>
                         </subviews>
@@ -430,6 +432,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="background" destination="KqM-lN-RbL" id="Law-UA-ecU"/>
+                        <outlet property="backgroundImage" destination="KqM-lN-RbL" id="yz8-Mu-fgv"/>
                         <outlet property="countDownImg" destination="FiG-PS-hkq" id="cuw-Fm-teW"/>
                         <outlet property="roundDetailView" destination="sqm-Gj-Tp2" id="OPy-8l-AbH"/>
                         <outlet property="startBtn" destination="0bm-DH-Nj7" id="RD4-tb-Zna"/>

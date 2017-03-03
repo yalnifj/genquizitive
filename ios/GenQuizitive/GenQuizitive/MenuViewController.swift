@@ -146,7 +146,10 @@ class MenuViewController: UIViewController, AuthCompleteListener {
     func showNotification(title:String, message:String) {
         DispatchQueue.main.async {
             let screenSize = UIScreen.main.bounds
-            let width = screenSize.width * 0.90
+            var width = screenSize.width * 0.90
+            if screenSize.width > screenSize.height {
+                width = screenSize.height * 0.90
+            }
             let ratio = CGFloat(200.0 / 350.0)
             let height = width * ratio
             let frame = CGRect(x: 10, y: 10, width: width, height: height)
