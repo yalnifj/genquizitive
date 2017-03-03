@@ -248,6 +248,11 @@ class PracticeViewController: UIViewController, EventListener {
                 factQuestionView.showQuestion(question: question as! FactQuestion)
                 questionView = factQuestionView
             }
+            else if question.name == "relationship" {
+                let relationshipQuestionView = RelationshipQuestionView(frame: frame)
+                relationshipQuestionView.showQuestion(question: question as! RelationshipQuestion)
+                questionView = relationshipQuestionView
+            }
             
             self.view.addSubview(questionView!)
             UIView.animate(withDuration: 0.5,

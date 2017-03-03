@@ -50,6 +50,10 @@
 		9324C54C1E66693300B8E634 /* fact_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C54A1E66693300B8E634 /* fact_back.png */; };
 		9324C54E1E68693000B8E634 /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C54D1E68692F00B8E634 /* LanguageService.swift */; };
 		9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C54F1E690C4F00B8E634 /* ancestor_badge.png */; };
+		9324C5521E69B79500B8E634 /* RelationshipQuestion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5511E69B79500B8E634 /* RelationshipQuestion.xib */; };
+		9324C5541E69B7B100B8E634 /* RelationshipQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C5531E69B7B100B8E634 /* RelationshipQuestion.swift */; };
+		9324C55A1E69B8F200B8E634 /* r_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5581E69B8F200B8E634 /* r_back.png */; };
+		9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5591E69B8F200B8E634 /* r_background.jpg */; };
 		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
 		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
@@ -200,6 +204,10 @@
 		9324C54A1E66693300B8E634 /* fact_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fact_back.png; sourceTree = "<group>"; };
 		9324C54D1E68692F00B8E634 /* LanguageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
 		9324C54F1E690C4F00B8E634 /* ancestor_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ancestor_badge.png; sourceTree = "<group>"; };
+		9324C5511E69B79500B8E634 /* RelationshipQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelationshipQuestion.xib; sourceTree = "<group>"; };
+		9324C5531E69B7B100B8E634 /* RelationshipQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipQuestion.swift; sourceTree = "<group>"; };
+		9324C5581E69B8F200B8E634 /* r_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = r_back.png; sourceTree = "<group>"; };
+		9324C5591E69B8F200B8E634 /* r_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = r_background.jpg; sourceTree = "<group>"; };
 		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
@@ -377,6 +385,15 @@
 			path = factQuestion;
 			sourceTree = "<group>";
 		};
+		9324C5571E69B8F200B8E634 /* relationshipQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				9324C5581E69B8F200B8E634 /* r_back.png */,
+				9324C5591E69B8F200B8E634 /* r_background.jpg */,
+			);
+			path = relationshipQuestion;
+			sourceTree = "<group>";
+		};
 		939078EF1DB2EFC90010E0A0 = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +469,8 @@
 				93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */,
 				9324C5421E6667AF00B8E634 /* FactQuestion.swift */,
 				9324C5401E66677300B8E634 /* FactQuestion.xib */,
+				9324C5511E69B79500B8E634 /* RelationshipQuestion.xib */,
+				9324C5531E69B7B100B8E634 /* RelationshipQuestion.swift */,
 			);
 			path = questions;
 			sourceTree = "<group>";
@@ -482,6 +501,7 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				9324C5571E69B8F200B8E634 /* relationshipQuestion */,
 				9324C54F1E690C4F00B8E634 /* ancestor_badge.png */,
 				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
 				93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */,
@@ -671,6 +691,7 @@
 				93A950831E5B79D3004BBDDD /* pole2.png in Resources */,
 				93A9507A1E5B75DB004BBDDD /* PhotoQuestion.xib in Resources */,
 				93DEF1731E5DDC4500C8E2D1 /* red_light_on.png in Resources */,
+				9324C55A1E69B8F200B8E634 /* r_back.png in Resources */,
 				93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */,
 				93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */,
 				9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */,
@@ -689,6 +710,7 @@
 				93DEF15E1E5D484C00C8E2D1 /* number1.png in Resources */,
 				93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */,
 				935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */,
+				9324C5521E69B79500B8E634 /* RelationshipQuestion.xib in Resources */,
 				939079031DB2EFC90010E0A0 /* Assets.xcassets in Resources */,
 				93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */,
 				93DEF15C1E5D484C00C8E2D1 /* loading2.png in Resources */,
@@ -700,6 +722,7 @@
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */,
+				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
 				93DEF1541E5D444000C8E2D1 /* gear_sign.png in Resources */,
 				9324C54C1E66693300B8E634 /* fact_back.png in Resources */,
 				93E8A9E31DCAB6AD00C25D4E /* button_sign_arrow_left.png in Resources */,
@@ -866,6 +889,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93105A5E1E4BE262005D4512 /* Person.swift in Sources */,
+				9324C5541E69B7B100B8E634 /* RelationshipQuestion.swift in Sources */,
 				93105A661E4BE262005D4512 /* Subject.swift in Sources */,
 				93105A5B1E4BE262005D4512 /* NameForm.swift in Sources */,
 				93105A4E1E4BE262005D4512 /* Coverage.swift in Sources */,
