@@ -34,8 +34,12 @@ class RelationshipQuestionView : UIView {
     @IBOutlet weak var answerBtn2: UIButton!
     @IBOutlet weak var answerBtn3: UIButton!
     @IBOutlet weak var answerBtn4: UIButton!
+    @IBOutlet weak var avatar1: AvatarBadge!
+    @IBOutlet weak var avatar2: AvatarBadge!
+    @IBOutlet weak var avatar3: AvatarBadge!
+    @IBOutlet weak var avatar4: AvatarBadge!
     
-    var question:FactQuestion!
+    var question:RelationshipQuestion!
     var answers = [Person]()
     
     override init(frame: CGRect) {
@@ -65,33 +69,50 @@ class RelationshipQuestionView : UIView {
         return view
     }
     
+    func loadPersonAvatar(person: Person, num:Int) {
+        FamilyTreeService.getInstance().getPersonPortrait(personId: person.id!, onCompletion: { path in
+            if path != nil {
+                let fileManager = FileManager.default
+                let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let photoUrl = url.appendingPathComponent(path!)
+                let data = try? Data(contentsOf: photoUrl)
+                if data != nil {
+                    let uiImage = UIImage(data: data!)
+                    if uiImage != nil {
+                        var avatar:AvatarBadge? = nil
+                        if num == 0  {
+                            avatar = self.avatar1
+                        } else if num==1 {
+                            avatar = self.avatar2
+                        } else if num==2 {
+                            avatar = self.avatar3
+                        } else if num==3 {
+                            avatar = self.avatar4
+                        }
+                        if avatar != nil {
+                            avatar?.isHidden = true
+                            avatar?.showAncestorBackground()
+                            avatar?.setProfileImage(image: uiImage)
+                        }
+                        return
+                    }
+                }
+            }
+            print("Unable to load data for \(path)")
+        })
+    }
+    
     func showQuestion(question:RelationshipQuestion) {
         self.question = question
         self.questionText.text = question.questionText
         
         answers = [Person]()
         answers.append(question.person!)
+        var num = 0
         for p in question.answerPeople {
             answers.append(p)
-            /*
-             FamilyTreeService.getInstance().getPersonPortrait(personId: p.id!, onCompletion: { path in
-             if path != nil {
-             let fileManager = FileManager.default
-             let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-             let photoUrl = url.appendingPathComponent(path!)
-             let data = try? Data(contentsOf: photoUrl)
-             if data != nil {
-             let uiImage = UIImage(data: data!)
-             if uiImage != nil {
-             self.setPhotoImage(photo: uiImage!)
-             return
-             }
-             }
-             }
-             print("Unable to load data for \(path)")
-             })
-             */
-            
+            loadPersonAvatar(p, num)
+            num += 1
         }
         
         for i in 0..<answers.count {

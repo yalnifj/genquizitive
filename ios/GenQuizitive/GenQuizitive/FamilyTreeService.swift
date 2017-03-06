@@ -75,6 +75,7 @@ class FamilyTreeService {
                         self.getSpouses(personId: person!.id!, onCompletion: {spouses, err in
                             if spouses != nil {
                                 for spouse in spouses! {
+                                    self.usedPeople[spouse.id!] = true
                                     self.getAncestorTree(personId: spouse.id!, generations: 8, details: true, spouse: nil, noCache: false, onCompletion: {speople, err in
                                         //-- nothing to do now
                                     })
@@ -156,7 +157,6 @@ class FamilyTreeService {
                         self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
                             if person != nil {
                                 self.people[person!.id!] = person
-                                self.usedPeople[person!.id!] = true
                                 self.backgroundQ.append({()->Void in
                                     self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
                                 })
@@ -170,7 +170,6 @@ class FamilyTreeService {
                         self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
                             if person != nil {
                                 self.people[person!.id!] = person
-                                self.usedPeople[person!.id!] = true
                                 self.backgroundQ.append({()->Void in
                                     self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
                                 })
@@ -188,6 +187,115 @@ class FamilyTreeService {
                 onCompletion(nil, err)
             }
         })
+    }
+    
+    func getParents(personId:String, onCompletion: @escaping ([Person]?, NSError?)->Void) {
+        if remoteService == nil {
+            onCompletion(nil, NSError(domain: "FamilyTreeService", code: 401, userInfo: ["message":"RemoteService Required"]))
+            return
+        }
+        
+        self.remoteService!.getParents(personId, onCompletion: {relationships, err in
+            if relationships != nil {
+                let queue = DispatchQueue.global()
+                let group = DispatchGroup()
+                
+                var parents = [Person]()
+                for rel in relationships! {
+                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person!.id!] = person
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                })
+                                parents.append(person!)
+                            }
+                            group.leave()
+                        })
+                    }
+                    else if rel.person2 != nil && rel.person2!.resourceId != nil && rel.person2!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person!.id!] = person
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                })
+                                parents.append(person!)
+                            }
+                            group.leave()
+                        })
+                    }
+                }
+                
+                group.notify(queue: queue) {
+                    onCompletion(parents, nil)
+                }
+            } else {
+                onCompletion(nil, err)
+            }
+        })
+    }
+    
+    func getChildren(personId:String, onCompletion: @escaping ([Person]?, NSError?)->Void) {
+        if remoteService == nil {
+            onCompletion(nil, NSError(domain: "FamilyTreeService", code: 401, userInfo: ["message":"RemoteService Required"]))
+            return
+        }
+        
+        self.remoteService!.getChildren(personId, onCompletion: {relationships, err in
+            if relationships != nil {
+                let queue = DispatchQueue.global()
+                let group = DispatchGroup()
+                
+                var children = [Person]()
+                for rel in relationships! {
+                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person!.id!] = person
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                })
+                                children.append(person!)
+                            }
+                            group.leave()
+                        })
+                    }
+                    else if rel.person2 != nil && rel.person2!.resourceId != nil && rel.person2!.resourceId != personId {
+                        group.enter()
+                        self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                            if person != nil {
+                                self.people[person!.id!] = person
+                                self.backgroundQ.append({()->Void in
+                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                })
+                                children.append(person!)
+                            }
+                            group.leave()
+                        })
+                    }
+                }
+                
+                group.notify(queue: queue) {
+                    onCompletion(children, nil)
+                }
+            } else {
+                onCompletion(nil, err)
+            }
+        })
+    }
+
+    
+    func getPersonRelationships(personId:String, onCompletion: RelationshipsResponse) {
+        if remoteService == nil {
+            onCompletion(nil, NSError(domain: "FamilyTreeService", code: 401, userInfo: ["message":"RemoteService Required"]))
+            return
+        }
+        remoteService?.getCloseRelatives(personId, onCompletion: onCompletion)
     }
     
     func getPersonPortrait(personId:String, onCompletion: @escaping (String?)->Void) {
