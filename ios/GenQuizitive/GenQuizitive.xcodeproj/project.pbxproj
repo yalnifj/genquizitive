@@ -185,7 +185,7 @@
 		93105A3A1E4BE262005D4512 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		93105A3B1E4BE262005D4512 /* PlaceReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceReference.swift; sourceTree = "<group>"; };
 		93105A3C1E4BE262005D4512 /* Qualifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Qualifier.swift; sourceTree = "<group>"; };
-		93105A3D1E4BE262005D4512 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
+		93105A3D1E4BE262005D4512 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Relationship.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		93105A3E1E4BE262005D4512 /* ResourceReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceReference.swift; sourceTree = "<group>"; };
 		93105A3F1E4BE262005D4512 /* SourceCitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceCitation.swift; sourceTree = "<group>"; };
 		93105A401E4BE262005D4512 /* SourceDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceDescription.swift; sourceTree = "<group>"; };
@@ -195,8 +195,8 @@
 		93105A441E4BE262005D4512 /* FamilyGraphJsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyGraphJsonConverter.swift; sourceTree = "<group>"; };
 		93105A451E4BE262005D4512 /* FamilySearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilySearchService.swift; sourceTree = "<group>"; };
 		93105A461E4BE262005D4512 /* GedcomParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GedcomParser.swift; sourceTree = "<group>"; };
-		93105A471E4BE262005D4512 /* MyHeritageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageService.swift; sourceTree = "<group>"; };
-		93105A481E4BE262005D4512 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVService.swift; sourceTree = "<group>"; };
+		93105A471E4BE262005D4512 /* MyHeritageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MyHeritageService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		93105A481E4BE262005D4512 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PGVService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		93105A491E4BE262005D4512 /* RemoteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		93105A4A1E4BE262005D4512 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		9324C5401E66677300B8E634 /* FactQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactQuestion.xib; sourceTree = "<group>"; };

@@ -1,6 +1,9 @@
 import Foundation
 
 class Relationship : Subject {
+    static var REL_TYPE_COUPLE = "http://gedcomx.org/Couple"
+    static var REL_TYPE_PARENTCHILD = "http://gedcomx.org/ParentChild"
+    
 	var type:String?
 	var person1:ResourceReference?
 	var person2:ResourceReference?

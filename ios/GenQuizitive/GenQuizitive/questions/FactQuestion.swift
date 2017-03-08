@@ -25,7 +25,7 @@ class FactQuestion : MultipleChoiceQuestion {
     
     override func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?) -> Void) {
         self.difficulty = difficulty
-        self.questionText = "Who is shown in this picture?"
+        self.questionText = ""
         let familyTreeService = FamilyTreeService.getInstance()
         self.person = familyTreeService.getRandomPerson(useLiving: useLiving, difficulty: self.difficulty)
         //-- make sure we have a person with facts

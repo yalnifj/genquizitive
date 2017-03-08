@@ -195,7 +195,7 @@ class MyHeritageService: RemoteService {
                             let type = relDict["relationship_type"].string
                             if type == "wife" || type == "husband" {
                                 let relationship = Relationship()
-                                relationship.type = "http://gedcomx.org/Couple"
+                                relationship.type = Relationship.REL_TYPE_COUPLE
                                 let rr = ResourceReference()
                                 let indi = relDict["individual"]
                                 rr.resourceId = indi["id"].string
@@ -208,7 +208,7 @@ class MyHeritageService: RemoteService {
                             
                             if type == "mother" || type == "father" {
                                 let relationship = Relationship()
-                                relationship.type = "http://gedcomx.org/ParentChild"
+                                relationship.type = Relationship.REL_TYPE_PARENTCHILD
                                 let rr = ResourceReference()
                                 let indi = relDict["individual"]
                                 rr.resourceId = indi["id"].string
@@ -221,7 +221,7 @@ class MyHeritageService: RemoteService {
                             
                             if type == "daughter" || type == "son" {
                                 let relationship = Relationship()
-                                relationship.type = "http://gedcomx.org/ParentChild"
+                                relationship.type = Relationship.REL_TYPE_PARENTCHILD
                                 let rr = ResourceReference()
                                 let indi = relDict["individual"]
                                 rr.resourceId = personId
@@ -270,7 +270,7 @@ class MyHeritageService: RemoteService {
                                         let relId = link.href
                                         if relId != personId {
                                             let relationship = Relationship()
-                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            relationship.type = Relationship.REL_TYPE_PARENTCHILD
                                             let rr = ResourceReference()
                                             rr.resourceId = relId
                                             relationship.person1 = rr
@@ -325,7 +325,7 @@ class MyHeritageService: RemoteService {
                                         let relId = link.href
                                         if relId != personId {
                                             let relationship = Relationship()
-                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            relationship.type = Relationship.REL_TYPE_PARENTCHILD
                                             let rr = ResourceReference()
                                             rr.resourceId = personId
                                             relationship.person1 = rr
@@ -379,7 +379,7 @@ class MyHeritageService: RemoteService {
                                         let relId = link.href
                                         if relId != personId {
                                             let relationship = Relationship()
-                                            relationship.type = "http://gedcomx.org/Couple"
+                                            relationship.type = Relationship.REL_TYPE_COUPLE
                                             let rr = ResourceReference()
                                             rr.resourceId = relId
                                             relationship.person1 = rr

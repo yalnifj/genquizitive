@@ -251,7 +251,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/ParentChild"
+                                                    rel.type = Relationship.REL_TYPE_PARENTCHILD
                                                     let rr = ResourceReference()
                                                     rr.resourceId = relid
                                                     rel.person1 = rr
@@ -268,7 +268,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/Couple"
+                                                    rel.type = Relationship.REL_TYPE_COUPLE
                                                     let rr = ResourceReference()
                                                     rr.resourceId = relid
                                                     rel.person1 = rr
@@ -283,7 +283,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/ParentChild"
+                                                    rel.type = Relationship.REL_TYPE_PARENTCHILD
                                                     let rr = ResourceReference()
                                                     rr.resourceId = personId
                                                     rel.person1 = rr
@@ -336,7 +336,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/ParentChild"
+                                                    rel.type = Relationship.REL_TYPE_PARENTCHILD
                                                     let rr = ResourceReference()
                                                     rr.resourceId = relid
                                                     rel.person1 = rr
@@ -389,7 +389,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/ParentChild"
+                                                    rel.type = Relationship.REL_TYPE_PARENTCHILD
                                                     let rr = ResourceReference()
                                                     rr.resourceId = personId
                                                     rel.person1 = rr
@@ -442,7 +442,7 @@ class PGVService : RemoteService {
                                                 let relid = StringUtils.replaceAll(text: href, regex: "@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
-                                                    rel.type = "http://gedcomx.org/Couple"
+                                                    rel.type = Relationship.REL_TYPE_COUPLE
                                                     let rr = ResourceReference()
                                                     rr.resourceId = relid
                                                     rel.person1 = rr

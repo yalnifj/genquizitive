@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class RelationshipQuestion : MultipleChoiceQuestion {
+    var path:[Relationship]?
+    var relationshipText:String?
     
     override init() {
         super.init()
@@ -23,6 +25,36 @@ class RelationshipQuestion : MultipleChoiceQuestion {
     
     override func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?) -> Void) {
         self.difficulty = difficulty
+        let length = difficulty + 1
+        let familyTreeService = FamilyTreeService.getInstance()
+        let relationshipService = RelationshipService.getInstance()
+        self.isReady = false
+        self.questionText = ""
+        
+        let results = relationshipService.getRandomRelationshipPath(person: familyTreeService.fsUser!, length: length, useLiving: useLiving)
+        self.path = results["path"] as? [Relationship]
+        self.person = results["lastPerson"] as? Person
+        
+        if self.path == nil || self.person == nil || self.person?.id == familyTreeService.fsUser?.id {
+            let error = NSError(domain: "RelationshipQuestion", code: 404, userInfo: ["message":"Unable to find a random relationship path"])
+            onCompletion(self, error)
+            return
+        }
+        
+        relationshipText = relationshipService.verbalizePath(startPerson: familyTreeService.fsUser!, path: path!)
+        self.questionText = "Who is your \(relationshipText!)"
+        familyTreeService.markUsed(personId: self.person!.id!)
+        familyTreeService.getRandomPeopleNear(person: self.person!, num: 3, useLiving: useLiving, ignoreGender: false, onCompletion: {rpeople, err in
+            if rpeople != nil {
+                for p in rpeople! {
+                    self.answerPeople.append(p)
+                }
+                self.isReady = true
+                onCompletion(self, nil)
+            } else {
+                onCompletion(self, err)
+            }
+        })
     }
 }
 
@@ -92,7 +124,7 @@ class RelationshipQuestionView : UIView {
                         if avatar != nil {
                             avatar?.isHidden = true
                             avatar?.showAncestorBackground()
-                            avatar?.setProfileImage(image: uiImage)
+                            avatar?.setProfileImage(image: uiImage!)
                         }
                         return
                     }
@@ -111,7 +143,7 @@ class RelationshipQuestionView : UIView {
         var num = 0
         for p in question.answerPeople {
             answers.append(p)
-            loadPersonAvatar(p, num)
+            loadPersonAvatar(person: p, num: num)
             num += 1
         }
         
