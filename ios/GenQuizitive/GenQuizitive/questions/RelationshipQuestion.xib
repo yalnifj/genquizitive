@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -116,28 +115,29 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xai-Ju-Uh6" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
                     <rect key="frame" x="176" y="286" width="50" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="Xai-Ju-Uh6" secondAttribute="height" multiplier="1:1" id="pZK-B4-lhk"/>
+                        <constraint firstAttribute="width" constant="50" id="3jo-2j-f3f"/>
                         <constraint firstAttribute="height" constant="50" id="zxP-kr-0m2"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFG-6K-W1o" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFG-6K-W1o" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
                     <rect key="frame" x="176" y="388" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="6Qn-wl-pq5"/>
-                        <constraint firstAttribute="width" secondItem="cFG-6K-W1o" secondAttribute="height" multiplier="1:1" id="BFx-UK-mUf"/>
+                        <constraint firstAttribute="width" constant="50" id="Dtm-IQ-4fQ"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bpR-mC-kAo" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
                     <rect key="frame" x="123" y="335" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="DYG-WU-g42"/>
-                        <constraint firstAttribute="width" secondItem="bpR-mC-kAo" secondAttribute="height" multiplier="1:1" id="pvC-Dr-0n6"/>
+                        <constraint firstAttribute="width" constant="50" id="i65-B6-sX1"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VvZ-jR-6s8" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
-                    <rect key="frame" x="123" y="433" width="50" height="50"/>
+                    <rect key="frame" x="133" y="433" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="M24-Jr-6CW"/>
+                        <constraint firstAttribute="width" constant="50" id="tXX-gm-f7b"/>
                     </constraints>
                 </view>
             </subviews>
@@ -163,8 +163,8 @@
                 <constraint firstItem="VvZ-jR-6s8" firstAttribute="top" secondItem="EJg-Ga-dao" secondAttribute="bottom" id="aQZ-nU-kY9"/>
                 <constraint firstItem="ipa-zm-RPC" firstAttribute="top" secondItem="Zdh-YJ-xM0" secondAttribute="bottom" constant="88" id="bGS-LF-43I"/>
                 <constraint firstItem="KXj-0J-SlA" firstAttribute="top" secondItem="ipa-zm-RPC" secondAttribute="bottom" constant="92" id="cXu-sK-poF"/>
+                <constraint firstItem="a1b-fQ-zg0" firstAttribute="leading" secondItem="VvZ-jR-6s8" secondAttribute="trailing" constant="10" id="cYS-ZE-Ejf"/>
                 <constraint firstItem="a1b-fQ-zg0" firstAttribute="top" secondItem="3e5-18-Wrd" secondAttribute="bottom" constant="46" id="d6B-2d-Kkb"/>
-                <constraint firstItem="VvZ-jR-6s8" firstAttribute="width" secondItem="VvZ-jR-6s8" secondAttribute="height" multiplier="1:1" id="f5V-dg-8Fl"/>
                 <constraint firstItem="3e5-18-Wrd" firstAttribute="trailing" secondItem="a1b-fQ-zg0" secondAttribute="trailing" id="fih-bb-NR6"/>
                 <constraint firstAttribute="bottom" secondItem="L0G-oH-6Fh" secondAttribute="bottom" constant="61" id="hTW-61-iIs"/>
                 <constraint firstItem="ipa-zm-RPC" firstAttribute="leading" secondItem="KXj-0J-SlA" secondAttribute="leading" id="hTr-Nb-JEj"/>
@@ -179,7 +179,6 @@
                 <constraint firstItem="o1a-XC-ehY" firstAttribute="leading" secondItem="EJg-Ga-dao" secondAttribute="leading" id="mAm-l9-2uj"/>
                 <constraint firstItem="Xai-Ju-Uh6" firstAttribute="top" secondItem="ipa-zm-RPC" secondAttribute="bottom" id="o7m-qf-LxJ"/>
                 <constraint firstItem="EJg-Ga-dao" firstAttribute="top" secondItem="XmL-Hz-P41" secondAttribute="bottom" constant="32" id="o9v-t9-xvk"/>
-                <constraint firstItem="cFG-6K-W1o" firstAttribute="leading" secondItem="VvZ-jR-6s8" secondAttribute="trailing" constant="3" id="oWQ-ye-xXO"/>
                 <constraint firstItem="3e5-18-Wrd" firstAttribute="top" secondItem="eq7-zQ-sMi" secondAttribute="bottom" constant="37" id="oje-yr-Ahk"/>
                 <constraint firstItem="Zdh-YJ-xM0" firstAttribute="leading" secondItem="o1a-XC-ehY" secondAttribute="leading" id="tG0-vS-XRY"/>
                 <constraint firstItem="EJg-Ga-dao" firstAttribute="top" secondItem="o1a-XC-ehY" secondAttribute="bottom" constant="88" id="wdS-Va-5Ez"/>

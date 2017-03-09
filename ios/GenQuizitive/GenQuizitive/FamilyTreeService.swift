@@ -47,7 +47,12 @@ class FamilyTreeService {
             return
         }
         
-        remoteService!.getCurrentPerson(onCompletion)
+        remoteService!.getCurrentPerson({person, err  in
+            if person != nil {
+                self.fsUser = person
+            }
+            onCompletion(person, err)
+        })
     }
     
     func loadInitialData(onCompletion: @escaping PersonResponse) {

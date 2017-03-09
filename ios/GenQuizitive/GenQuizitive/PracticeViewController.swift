@@ -33,11 +33,11 @@ class PracticeViewController: UIViewController, EventListener {
         let question = QuestionService.getInstance().getRandomQuestion()
         questions.append(question)
         setupQuestion(num: currentQuestion)
-        let question2 = QuestionService.getInstance().getRandomQuestion()
+        var question2 = QuestionService.getInstance().getRandomQuestion()
         //-- prevent 2 of the same question types in a row
-        /*while question2.name == question.name {
+        while question2.name == question.name {
             question2 = QuestionService.getInstance().getRandomQuestion()
-        }*/
+        }
         questions.append(question2)
     }
     
@@ -78,7 +78,9 @@ class PracticeViewController: UIViewController, EventListener {
                 }
             } else {
                 if num == self.currentQuestion && self.loadingView != nil {
-                    self.showCurrentQuestion()
+                    DispatchQueue.main.async(execute: {
+                        self.showCurrentQuestion()
+                    })
                 }
             }
         })
@@ -87,11 +89,11 @@ class PracticeViewController: UIViewController, EventListener {
     func nextQuestion() {
         currentQuestion += 1
         if currentQuestion < maxQuestions-1 {
-            let question = QuestionService.getInstance().getRandomQuestion()
+            var question = QuestionService.getInstance().getRandomQuestion()
             //-- prevent 2 of the same question types in a row
-            /*while question2.name == question.name {
-             question2 = QuestionService.getInstance().getRandomQuestion()
-             }*/
+            while question.name == questions[currentQuestion].name {
+                question = QuestionService.getInstance().getRandomQuestion()
+            }
             questions.append(question)
             showCurrentQuestion()
         } else if currentQuestion < maxQuestions {

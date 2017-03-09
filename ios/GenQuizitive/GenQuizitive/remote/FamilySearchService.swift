@@ -239,7 +239,7 @@ class FamilySearchService : RemoteService {
 					}
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id \(personId)"]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
 				}
 			})
 		} else {

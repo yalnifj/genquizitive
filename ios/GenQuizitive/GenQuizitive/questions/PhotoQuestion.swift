@@ -22,6 +22,7 @@ class PhotoQuestion : MultipleChoiceQuestion {
     }
     
     override func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?) -> Void) {
+        print("Setting up question \(self.name)")
         self.difficulty = difficulty
         self.questionText = "Who is shown in this picture?"
         let familyTreeService = FamilyTreeService.getInstance()

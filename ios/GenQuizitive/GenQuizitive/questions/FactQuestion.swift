@@ -24,6 +24,7 @@ class FactQuestion : MultipleChoiceQuestion {
     }
     
     override func setup(difficulty:Int, useLiving:Bool, onCompletion: @escaping (Question, Error?) -> Void) {
+        print("Setting up question \(self.name)")
         self.difficulty = difficulty
         self.questionText = ""
         let familyTreeService = FamilyTreeService.getInstance()
