@@ -19,6 +19,16 @@ class Person : Subject {
     }
     return nil;
   }
+    
+    func getFactsByType(type:String) -> [Fact] {
+        var facts = [Fact]()
+        for f in self.facts {
+            if f.type == type {
+                facts.append(f)
+            }
+        }
+        return facts
+    }
   
   static func convertJsonToPersons(_ json:JSON) -> [Person] {
 		var persons = [Person]()

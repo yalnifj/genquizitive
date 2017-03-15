@@ -120,6 +120,7 @@ class FamilyGraphJsonConverter {
                     let date = GedcomDate()
                     date.formal = "+\(datej["date"])"
                     date.original = datej["gedcom"].string
+                    date.parseDate()
                     fact.date = date
                 }
                 

@@ -55,6 +55,14 @@ class TimelineQuestion : Question {
 class TimelineQuestionView : UIView {
     var view:UIView!
     
+    @IBOutlet weak var factContainer: UIView!
+    @IBOutlet weak var avatarBadge: AvatarBadge!
+    @IBOutlet weak var textShadow: UIView!
+    @IBOutlet weak var questionText: UILabel!
+    
+    var sortedFacts:[Fact]!
+    var facts:[Fact]!
+    
     var question:TimelineQuestion!
     
     override init(frame: CGRect) {
@@ -73,6 +81,13 @@ class TimelineQuestionView : UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
+        questionText.layer.cornerRadius = 20
+        questionText.clipsToBounds = true
+        questionText.text = ""
+        
+        textShadow.layer.cornerRadius = 20
+        textShadow.clipsToBounds = true
+        
         self.view.layoutIfNeeded()
     }
     
@@ -86,5 +101,25 @@ class TimelineQuestionView : UIView {
 
     func showQuestion(question:TimelineQuestion) {
         self.question = question
+        
+        questionText.text = question.questionText
+        if question.person != nil {
+            sortedFacts = LanguageService.getInstance().sortFacts(facts: question.person!.facts)
+            while sortedFacts.count > question.difficulty + 2 {
+                sortedFacts.remove(at: sortedFacts.count / 2)
+            }
+            
+            facts = [Fact]()
+            for f in sortedFacts {
+                facts.append(f)
+            }
+            
+            for i in 0..<facts.count {
+                let r = Int(arc4random_uniform(UInt32(facts.count)))
+                let p = facts[i]
+                facts[i] = facts[r]
+                facts[r] = p
+            }
+        }
     }
 }

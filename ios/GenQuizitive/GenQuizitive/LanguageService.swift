@@ -139,4 +139,82 @@ class LanguageService {
         }
         return ""
     };
+    
+    func getFactLabel(factType:String) -> String {
+        if (self.facts[factType] != nil && self.facts[factType]!.label != nil) {
+            return self.facts[factType]!.label!;
+        }
+        else if (factType.hasPrefix("data:")) {
+            let index = factType.index(factType.startIndex, offsetBy: 5)
+            var label = factType.substring(from: index)
+            let range = label.range(of: ",")
+            if range != nil {
+                label = label.substring(to: range!.lowerBound)
+            }
+            return label
+        } else if (factType.hasPrefix("http://familysearch.org/v1/")) {
+            let range = factType.range(of: "http://familysearch.org/v1/")
+            let index = factType.index(range!.upperBound, offsetBy: 1)
+            let label = factType.substring(from: index)
+            return label
+        }
+        if (factType.hasPrefix("http://gedcomx.org/")) {
+            let range = factType.range(of: "http://gedcomx.org/")
+            let index = factType.index(range!.upperBound, offsetBy: 1)
+            let label = factType.substring(from: index)
+            return label
+        }
+        return factType
+    }
+    
+    func sortFacts(facts:[Fact]) -> [Fact]{
+        var datedFacts = [Fact]()
+        var nonDatedFacts = [Fact]()
+        for fact in facts {
+            if fact.date != nil && fact.date?.parsedDate != nil {
+                datedFacts.append(fact)
+            }
+            else {
+                nonDatedFacts.append(fact)
+            }
+        }
+        
+        datedFacts.sort(by: {f1, f2 in
+            return f1.date!.parsedDate! < f2.date!.parsedDate!
+        })
+        nonDatedFacts.sort(by: {f1, f2 in
+            if self.facts[f1.type!] == nil {
+                return false
+            }
+            if self.facts[f2.type!] == nil {
+                return true
+            }
+            return self.facts[f1.type!]!.order < self.facts[f2.type!]!.order
+        })
+        var sortedFacts = [Fact]()
+        while datedFacts.count > 0 {
+            if nonDatedFacts.count == 0 {
+                sortedFacts.append(datedFacts.removeFirst())
+            } else {
+                let df = datedFacts.first!
+                let nf = nonDatedFacts.first!
+                if self.facts[df.type!] == nil {
+                    sortedFacts.append(nonDatedFacts.removeFirst())
+                }
+                else if self.facts[nf.type!] == nil {
+                    sortedFacts.append(datedFacts.removeFirst())
+                } else {
+                    if self.facts[df.type!]!.order < self.facts[nf.type!]!.order {
+                        sortedFacts.append(datedFacts.removeFirst())
+                    } else {
+                        sortedFacts.append(nonDatedFacts.removeFirst())
+                    }
+                }
+            }
+        }
+        if nonDatedFacts.count > 0 {
+            sortedFacts.append(contentsOf: nonDatedFacts)
+        }
+        return sortedFacts
+    }
 }

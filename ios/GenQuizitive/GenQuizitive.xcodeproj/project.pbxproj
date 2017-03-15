@@ -354,7 +354,6 @@
 		93105A261E4BE262005D4512 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				93D489AE1E52B83400FAE6F5 /* GenderType.swift */,
 				93105A271E4BE262005D4512 /* Attribution.swift */,
 				93105A281E4BE262005D4512 /* CitationField.swift */,
 				93105A291E4BE262005D4512 /* Conclusion.swift */,
@@ -367,6 +366,7 @@
 				93105A301E4BE262005D4512 /* FamilyHolder.swift */,
 				93105A311E4BE262005D4512 /* Field.swift */,
 				93105A321E4BE262005D4512 /* FieldValue.swift */,
+				93D489AE1E52B83400FAE6F5 /* GenderType.swift */,
 				93105A331E4BE262005D4512 /* HypermediaEnabledData.swift */,
 				93105A341E4BE262005D4512 /* Identifier.swift */,
 				93105A351E4BE262005D4512 /* Link.swift */,

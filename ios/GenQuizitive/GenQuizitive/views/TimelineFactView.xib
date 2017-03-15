@@ -100,6 +100,15 @@
                 <constraint firstItem="X5p-5d-7AC" firstAttribute="leading" secondItem="GQJ-vM-2v0" secondAttribute="leading" id="x1E-Hr-A1P"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="ageLbl" destination="0V3-oN-bpO" id="Yhm-bs-SEW"/>
+                <outlet property="ageLbl2" destination="wJZ-aa-kKf" id="Ojc-OK-29I"/>
+                <outlet property="backgroundView" destination="Rb5-OF-5ZF" id="H4y-00-Hjx"/>
+                <outlet property="dayMonthLbl" destination="X5p-5d-7AC" id="fCL-9f-J89"/>
+                <outlet property="factLbl" destination="ngc-OY-8Eg" id="t7I-8Y-juM"/>
+                <outlet property="placeLbl" destination="rGg-qb-EDN" id="G26-is-NvJ"/>
+                <outlet property="yearLbl" destination="GQJ-vM-2v0" id="apD-jB-gwG"/>
+            </connections>
             <point key="canvasLocation" x="-4" y="126"/>
         </view>
     </objects>

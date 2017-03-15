@@ -346,6 +346,7 @@ class GedcomParser {
                 if ps[1] == "DATE" && fact.date == nil {
                     let date = GedcomDate()
                     date.original = ps[2]
+                    date.parseDate()
                     fact.date = date
                 }
                 if ps[1] == "PLAC" && fact.place == nil {
