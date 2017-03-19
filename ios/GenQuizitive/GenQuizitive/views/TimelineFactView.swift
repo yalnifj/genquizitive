@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class TimelineFactView : UIView {
+class TimelineFactView : UICollectionViewCell {
     var view:UIView!
-    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var dayMonthLbl: UILabel!
     @IBOutlet weak var yearLbl: UILabel!
     @IBOutlet weak var ageLbl: UILabel!
@@ -37,8 +37,8 @@ class TimelineFactView : UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        backgroundView.layer.cornerRadius = backgroundView.frame.height / 2
-        backgroundView.clipsToBounds = true
+        backView.layer.cornerRadius = backView.frame.height / 2
+        backView.clipsToBounds = true
         
         self.view.layoutIfNeeded()
     }
@@ -65,6 +65,9 @@ class TimelineFactView : UIView {
         
         ageLbl.isHidden = true
         ageLbl2.isHidden = true
+        dayMonthLbl.isHidden = true
+        yearLbl.isHidden = true
+        ageLbl.text = nil
         if fact.date != nil && fact.date!.parsedDate != nil {
             let dateFormatter = DateFormatter()
             if fact.date!.hasDateParts["d"]! {
@@ -87,8 +90,6 @@ class TimelineFactView : UIView {
                         let diff = fact.date!.parsedDate!.timeIntervalSince(birth.date!.parsedDate!)
                         let age = Int(diff / (60*60*24*365))
                         if age > 0 {
-                            ageLbl.isHidden = false
-                            ageLbl2.isHidden = false
                             ageLbl.text = age.description
                         }
                     }
@@ -104,5 +105,14 @@ class TimelineFactView : UIView {
         }
         
         self.view.layoutIfNeeded()
+    }
+    
+    func showDates(showHide:Bool) {
+        if ageLbl.text != nil && ageLbl.text != "" {
+            ageLbl.isHidden = showHide
+            ageLbl2.isHidden = showHide
+        }
+        dayMonthLbl.isHidden = showHide
+        yearLbl.isHidden = showHide
     }
 }

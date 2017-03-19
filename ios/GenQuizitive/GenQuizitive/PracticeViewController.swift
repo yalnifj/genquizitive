@@ -230,6 +230,7 @@ class PracticeViewController: UIViewController, EventListener {
             if !roundDetailView.isTimerRunning {
                 self.roundDetailView.startTimer()
             }
+            roundDetailView.setLetter(letter: question.letter)
             roundDetailView.setGuageProgress(progress: Double(currentQuestion) / 5.0)
             
             if currentQuestion < maxQuestions - 1 {
@@ -254,6 +255,11 @@ class PracticeViewController: UIViewController, EventListener {
                 let relationshipQuestionView = RelationshipQuestionView(frame: frame)
                 relationshipQuestionView.showQuestion(question: question as! RelationshipQuestion)
                 questionView = relationshipQuestionView
+            }
+            else if question.name == "timeline" {
+                let timelineQuestionView = TimelineQuestionView(frame: frame)
+                timelineQuestionView.showQuestion(question: question as! TimelineQuestion)
+                questionView = timelineQuestionView
             }
             
             self.view.addSubview(questionView!)

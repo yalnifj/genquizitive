@@ -32,9 +32,6 @@ class AvatarBadge: UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        profileImage.layer.cornerRadius = profileImage.frame.size.width/2
-        profileImage.clipsToBounds = true
-        
         label.layer.cornerRadius = 10
         label.clipsToBounds = true
         label.layer.borderColor = UIColor.black.cgColor
@@ -62,6 +59,8 @@ class AvatarBadge: UIView {
 
     func setProfileImage(image: UIImage) {
         profileImage.image = image
+        profileImage.layer.cornerRadius = profileImage.frame.size.width/2
+        profileImage.clipsToBounds = true
     }
     
     func setLabel(text: String) {

@@ -211,7 +211,7 @@
                                             <action selector="familysearchBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="H9A-dN-5mC"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Vis-9H-0ZB">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vis-9H-0ZB">
                                         <rect key="frame" x="-12" y="26" width="246" height="52"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Vis-9H-0ZB" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="5TB-nk-WIe"/>
@@ -224,7 +224,7 @@
                                             <action selector="practiceBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="SnF-eg-xAd"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bC6-t3-IKL">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bC6-t3-IKL">
                                         <rect key="frame" x="-12" y="146" width="246" height="52"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="bC6-t3-IKL" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="w96-VF-f04"/>
@@ -237,7 +237,7 @@
                                             <action selector="continueBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="RA6-c5-6Fw"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="lQW-xU-y3x">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQW-xU-y3x">
                                         <rect key="frame" x="17" y="86" width="246" height="52"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="lQW-xU-y3x" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="L5f-sj-nSi"/>
@@ -250,7 +250,7 @@
                                             <action selector="challengeBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="Jdr-S0-tyh"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="V6h-I3-KJv">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6h-I3-KJv">
                                         <rect key="frame" x="17" y="206" width="246" height="52"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="V6h-I3-KJv" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="haf-kc-QPa"/>

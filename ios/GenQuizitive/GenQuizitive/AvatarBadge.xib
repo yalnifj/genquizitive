@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,14 +24,13 @@
                 <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_badge.png" translatesAutoresizingMaskIntoConstraints="NO" id="tZO-P1-hca">
                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="yFi-Wv-79X">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guage_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="yFi-Wv-79X">
                     <rect key="frame" x="15" y="9" width="70" height="70"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="Svq-Rj-U3M"/>
-                        <constraint firstAttribute="height" constant="70" id="xi4-if-u0i"/>
+                        <constraint firstAttribute="width" secondItem="yFi-Wv-79X" secondAttribute="height" multiplier="1:1" id="t7C-TZ-a0f"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lef-c2-tA0">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lef-c2-tA0">
                     <rect key="frame" x="0.0" y="70" width="100" height="30"/>
                     <color key="backgroundColor" red="0.92156862750000001" green="0.91372549020000005" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -39,15 +39,18 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="Lef-c2-tA0" secondAttribute="leading" id="5VH-TP-zpF"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ft1-qx-jhs"/>
-                <constraint firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="GXK-K0-nYA"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="trailing" secondItem="Lef-c2-tA0" secondAttribute="trailing" id="VyR-O1-2yu"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="YfC-WN-dYv"/>
-                <constraint firstItem="Lef-c2-tA0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="70" id="hLL-NH-g5K"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="hhU-t8-Bvv"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="vyZ-JK-k14"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xu6-AX-w8m"/>
+                <constraint firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="2J2-Kl-knr"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="trailing" secondItem="Lef-c2-tA0" secondAttribute="trailing" id="HVk-Lk-taF"/>
+                <constraint firstItem="Lef-c2-tA0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="70" id="LsW-QL-gxN"/>
+                <constraint firstAttribute="bottom" secondItem="yFi-Wv-79X" secondAttribute="bottom" constant="21" id="NSf-tv-Zhn"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="centerX" secondItem="Lef-c2-tA0" secondAttribute="centerX" id="QFa-0W-tR3"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="QXe-hr-GNI"/>
+                <constraint firstAttribute="trailing" secondItem="tZO-P1-hca" secondAttribute="trailing" id="Tem-2M-rsN"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VpS-bo-tNt"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="mIG-6i-Eph"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qCE-ft-uKZ"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="Lef-c2-tA0" secondAttribute="leading" id="w4b-KS-TCQ"/>
+                <constraint firstItem="Lef-c2-tA0" firstAttribute="bottom" secondItem="tZO-P1-hca" secondAttribute="bottom" id="zPr-sj-Qh3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-84" y="301"/>
@@ -55,6 +58,6 @@
     </objects>
     <resources>
         <image name="avatar_badge.png" width="100" height="89"/>
-        <image name="home_background.jpg" width="743" height="640"/>
+        <image name="guage_back.png" width="98" height="98"/>
     </resources>
 </document>

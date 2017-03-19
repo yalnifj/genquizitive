@@ -70,6 +70,7 @@
 		939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50411E4A89ED0049167B /* MenuViewController.swift */; };
 		939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939F50431E4A8ECE0049167B /* AvatarBadge.xib */; };
 		939F50461E4A8FCC0049167B /* AvatarBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50451E4A8FCC0049167B /* AvatarBadge.swift */; };
+		93A142251E7E04DE007E2759 /* TimelineQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */; };
 		93A950741E5B74C4004BBDDD /* QuestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950731E5B74C4004BBDDD /* QuestionService.swift */; };
 		93A950781E5B7542004BBDDD /* PhotoQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950771E5B7542004BBDDD /* PhotoQuestion.swift */; };
 		93A9507A1E5B75DB004BBDDD /* PhotoQuestion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */; };
@@ -120,7 +121,6 @@
 		93E8A9E41DCAB6AD00C25D4E /* button_sign_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */; };
 		93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */; };
 		93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */; };
-		93EFF16D1E72608800914B8A /* TimelineQuestion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF16C1E72608800914B8A /* TimelineQuestion.xib */; };
 		93EFF16F1E72633A00914B8A /* TimelineFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFF16E1E72633A00914B8A /* TimelineFactView.swift */; };
 		93EFF1711E7263B700914B8A /* TimelineFactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF1701E7263B700914B8A /* TimelineFactView.xib */; };
 		93EFF1731E72643200914B8A /* chrome_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF1721E72643200914B8A /* chrome_badge.png */; };
@@ -236,6 +236,7 @@
 		939F50411E4A89ED0049167B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		939F50431E4A8ECE0049167B /* AvatarBadge.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AvatarBadge.xib; path = ../AvatarBadge.xib; sourceTree = "<group>"; };
 		939F50451E4A8FCC0049167B /* AvatarBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarBadge.swift; path = ../AvatarBadge.swift; sourceTree = "<group>"; };
+		93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineQuestionView.xib; sourceTree = "<group>"; };
 		93A950731E5B74C4004BBDDD /* QuestionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionService.swift; sourceTree = "<group>"; };
 		93A950771E5B7542004BBDDD /* PhotoQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoQuestion.swift; sourceTree = "<group>"; };
 		93A950791E5B75DB004BBDDD /* PhotoQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoQuestion.xib; sourceTree = "<group>"; };
@@ -285,7 +286,6 @@
 		93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_sign_arrow_right.png; sourceTree = "<group>"; };
 		93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_rect.png; sourceTree = "<group>"; };
 		93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_trap1.png; sourceTree = "<group>"; };
-		93EFF16C1E72608800914B8A /* TimelineQuestion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineQuestion.xib; sourceTree = "<group>"; };
 		93EFF16E1E72633A00914B8A /* TimelineFactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineFactView.swift; sourceTree = "<group>"; };
 		93EFF1701E7263B700914B8A /* TimelineFactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineFactView.xib; sourceTree = "<group>"; };
 		93EFF1721E72643200914B8A /* chrome_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chrome_badge.png; sourceTree = "<group>"; };
@@ -483,7 +483,7 @@
 				9324C5511E69B79500B8E634 /* RelationshipQuestion.xib */,
 				9324C5531E69B7B100B8E634 /* RelationshipQuestion.swift */,
 				93822C601E71A06100545DB7 /* TimelineQuestion.swift */,
-				93EFF16C1E72608800914B8A /* TimelineQuestion.xib */,
+				93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */,
 			);
 			path = questions;
 			sourceTree = "<group>";
@@ -718,12 +718,12 @@
 				93DEF15F1E5D484C00C8E2D1 /* number2.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,
-				93EFF16D1E72608800914B8A /* TimelineQuestion.xib in Resources */,
 				939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */,
 				93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */,
 				93A9507F1E5B76DA004BBDDD /* back.png in Resources */,
 				93DEF1781E5FEFF500C8E2D1 /* LoadingView.xib in Resources */,
 				93DEF15D1E5D484C00C8E2D1 /* loading3.png in Resources */,
+				93A142251E7E04DE007E2759 /* TimelineQuestionView.xib in Resources */,
 				93E8A9E41DCAB6AD00C25D4E /* button_sign_arrow_right.png in Resources */,
 				93DEF1711E5DDC4500C8E2D1 /* guage_hand.png in Resources */,
 				93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */,

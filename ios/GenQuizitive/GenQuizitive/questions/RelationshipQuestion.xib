@@ -89,6 +89,9 @@
                     <state key="normal" backgroundImage="button_yellow_trap1.png">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="answerBtn1Click:" destination="-1" eventType="touchUpInside" id="KX9-EI-mQt"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0G-oH-6Fh">
                     <rect key="frame" x="0.0" y="432" width="157" height="57"/>
