@@ -11,6 +11,7 @@ import UIKit
 
 class TimelineQuestion : Question {
     var person:Person?
+    var facts:[Fact]?
     
     override init() {
         super.init()
@@ -34,10 +35,12 @@ class TimelineQuestion : Question {
             min = 3
         }
         var person = self.person!
-        while(counter < 10 && (self.person!.facts.count < min)) {
+        self.facts = self.filterFacts(facts: person.facts)
+        while(counter < 10 && (self.facts!.count < min)) {
             person = familyTreeService.getRandomPerson(useLiving: useLiving, difficulty: self.difficulty)!
-            if person.facts.count > self.person!.facts.count {
+            if person.facts.count > self.facts!.count {
                 self.person = person
+                self.facts = self.filterFacts(facts: person.facts)
             }
             counter += 1
         }
@@ -50,18 +53,37 @@ class TimelineQuestion : Question {
             onCompletion(self, nil)
         }
     }
+    
+    func filterFacts(facts:[Fact]) -> [Fact] {
+        var skipFacts = ["http://gedcomx.org/Caste":true,"http://gedcomx.org/Clan":true,"http://gedcomx.org/Ethnicity":true,
+                    "http://gedcomx.org/Language":true,"http://gedcomx.org/Living":true,"http://gedcomx.org/NationalId":true,
+                    "http://gedcomx.org/Nationality":true,"http://gedcomx.org/NumberOfMarriages":true,
+                    "http://gedcomx.org/PhysicalDescription":true,"http://gedcomx.org/Religion":true,
+                    "http://gedcomx.org/Residence":true,"http://gedcomx.org/Stillbirth":true,
+                    "http://gedcomx.org/NumberOfChildren":true,"http://familysearch.org/v1/TribeName":true]
+        var newfacts = [Fact]()
+        for fact in facts {
+            if skipFacts[fact.type!] != nil {
+                newfacts.append(fact)
+            }
+        }
+        return newfacts
+    }
 }
 
-class TimelineQuestionView : UIView, UICollectionViewDataSource, UICollectionViewDelegate {
+class TimelineQuestionView : UIView {
     var view:UIView!
     
     @IBOutlet weak var avatarBadge: AvatarBadge!
     @IBOutlet weak var textShadow: UIView!
     @IBOutlet weak var questionText: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
+    var poleImage: UIImageView?
+    @IBOutlet weak var factScroller: UIScrollView!
+    
     
     var sortedFacts:[Fact] = [Fact]()
     var facts:[Fact] = [Fact]()
+    var timelineFactViews = [TimelineFactView]()
     
     var question:TimelineQuestion!
     
@@ -87,14 +109,6 @@ class TimelineQuestionView : UIView, UICollectionViewDataSource, UICollectionVie
         
         textShadow.layer.cornerRadius = 10
         textShadow.clipsToBounds = true
-        
-        let cellNib = UINib(nibName: "TimelineFactView", bundle: nil)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: "TimelineFactView")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(moveFact))
-        collectionView.addGestureRecognizer(gesture)
         
         avatarBadge.isHidden = true
         
@@ -131,7 +145,7 @@ class TimelineQuestionView : UIView, UICollectionViewDataSource, UICollectionVie
                 }
             })
             
-            sortedFacts = LanguageService.getInstance().sortFacts(facts: question.person!.facts)
+            sortedFacts = LanguageService.getInstance().sortFacts(facts: question.facts!)
             while sortedFacts.count > question.difficulty + 2 {
                 sortedFacts.remove(at: sortedFacts.count / 2)
             }
@@ -150,80 +164,41 @@ class TimelineQuestionView : UIView, UICollectionViewDataSource, UICollectionVie
                 }
             }
             
-            collectionView.reloadData()
+            for tfv in timelineFactViews {
+                tfv.removeFromSuperview()
+            }
+            timelineFactViews.removeAll()
+            
+            if poleImage != nil {
+                poleImage!.removeFromSuperview()
+            }
+            
+            var y = CGFloat(5)
+            let ratio = CGFloat(75.0 / 350.0)
+            let fh = factScroller.frame.width * ratio
+            for fact in facts {
+                let frame = CGRect(x: 0, y: y, width: factScroller.frame.width, height: fh)
+                let tfv = TimelineFactView(frame: frame)
+                tfv.showFact(fact: fact, person: question.person!)
+                timelineFactViews.append(tfv)
+                factScroller.addSubview(tfv)
+                y = y + fh + 3
+            }
+            
+            poleImage = UIImageView(image: UIImage(named: "pole1"))
+            poleImage?.frame = CGRect(x: (fh / 2) - 5, y: fh / 2, width: 10, height: y - fh)
+            factScroller.insertSubview(poleImage!, at: 0)
         }
     }
     
     func checkComplete() -> Bool {
         var complete = true
         for i in 0..<facts.count {
-            if sortedFacts[i].id == facts[i].id {
+            if sortedFacts[i].id != facts[i].id {
                 complete = false
                 break
             }
         }
         return complete
-    }
-    
-    @objc func moveFact(gesture:UIPanGestureRecognizer) {
-        switch(gesture.state) {
-        case UIGestureRecognizerState.began:
-            guard let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
-                break
-            }
-            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
-            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case UIGestureRecognizerState.ended:
-            collectionView.endInteractiveMovement()
-        default:
-            collectionView.cancelInteractiveMovement()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.facts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TimelineFactView", for: indexPath) as! TimelineFactView
-        let ratio = cell.frame.width / cell.frame.height
-        cell.frame.size.width = collectionView.frame.width
-        cell.frame.size.height = cell.frame.size.width / ratio
-        let fact = facts[indexPath.item]
-        cell.showFact(fact: fact, person: self.question.person!)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                                 moveItemAt sourceIndexPath: IndexPath,
-                                 to destinationIndexPath: IndexPath) {
-        let f1 = self.facts[destinationIndexPath.item]
-        let f2 = self.facts[sourceIndexPath.item]
-        self.facts[destinationIndexPath.item] = f2
-        self.facts[sourceIndexPath.item] = f1
-        
-        let factView2 = collectionView.cellForItem(at: destinationIndexPath) as! TimelineFactView
-        let factView1 = collectionView.cellForItem(at: sourceIndexPath) as! TimelineFactView
-        
-        let sf1 = sortedFacts[sourceIndexPath.item]
-        let sf2 = sortedFacts[destinationIndexPath.item]
-        
-        if sf1.id == f1.id {
-            factView1.showDates(showHide: true)
-        } else {
-            factView1.showDates(showHide: false)
-        }
-        
-        if sf2.id == f2.id {
-            factView2.showDates(showHide: true)
-        } else {
-            factView2.showDates(showHide: false)
-        }
-        
-        if checkComplete() {
-            print("correct")
-            EventHandler.getInstance().publish("questionCorrect", data: question)
-        }
     }
 }

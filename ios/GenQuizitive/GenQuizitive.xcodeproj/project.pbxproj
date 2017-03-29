@@ -55,6 +55,7 @@
 		9324C55A1E69B8F200B8E634 /* r_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5581E69B8F200B8E634 /* r_back.png */; };
 		9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5591E69B8F200B8E634 /* r_background.jpg */; };
 		9324C55D1E6B6AD800B8E634 /* RelationshipService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C55C1E6B6AD800B8E634 /* RelationshipService.swift */; };
+		93557DEF1E8B6AA100B50FE7 /* TimelineFactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */; };
 		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
 		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
@@ -122,7 +123,6 @@
 		93E8A9E51DCAB6AD00C25D4E /* button_yellow_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */; };
 		93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */; };
 		93EFF16F1E72633A00914B8A /* TimelineFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFF16E1E72633A00914B8A /* TimelineFactView.swift */; };
-		93EFF1711E7263B700914B8A /* TimelineFactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF1701E7263B700914B8A /* TimelineFactView.xib */; };
 		93EFF1731E72643200914B8A /* chrome_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF1721E72643200914B8A /* chrome_badge.png */; };
 		A0B65178F435DA5EBBD0508C /* Pods_GenQuizitiveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1792C585315086F2689B31 /* Pods_GenQuizitiveUITests.framework */; };
 		D871EDBE3B1E6352B97E7B5B /* Pods_GenQuizitive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743EE7371AE5C578165F430C /* Pods_GenQuizitive.framework */; };
@@ -215,6 +215,7 @@
 		9324C5581E69B8F200B8E634 /* r_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = r_back.png; sourceTree = "<group>"; };
 		9324C5591E69B8F200B8E634 /* r_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = r_background.jpg; sourceTree = "<group>"; };
 		9324C55C1E6B6AD800B8E634 /* RelationshipService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipService.swift; sourceTree = "<group>"; };
+		93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineFactView.xib; sourceTree = "<group>"; };
 		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
@@ -287,7 +288,6 @@
 		93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_rect.png; sourceTree = "<group>"; };
 		93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yellow_trap1.png; sourceTree = "<group>"; };
 		93EFF16E1E72633A00914B8A /* TimelineFactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineFactView.swift; sourceTree = "<group>"; };
-		93EFF1701E7263B700914B8A /* TimelineFactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineFactView.xib; sourceTree = "<group>"; };
 		93EFF1721E72643200914B8A /* chrome_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chrome_badge.png; sourceTree = "<group>"; };
 		A6AC800AA64ECC472EDAADEA /* Pods-GenQuizitiveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveUITests/Pods-GenQuizitiveUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D08979E228780F355A967C4A /* Pods-GenQuizitiveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveTests/Pods-GenQuizitiveTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -510,7 +510,7 @@
 				93DEF1751E5FEFA400C8E2D1 /* LoadingView.swift */,
 				93DEF1771E5FEFF500C8E2D1 /* LoadingView.xib */,
 				93EFF16E1E72633A00914B8A /* TimelineFactView.swift */,
-				93EFF1701E7263B700914B8A /* TimelineFactView.xib */,
+				93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -712,9 +712,9 @@
 				93DEF1731E5DDC4500C8E2D1 /* red_light_on.png in Resources */,
 				9324C55A1E69B8F200B8E634 /* r_back.png in Resources */,
 				93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */,
+				93557DEF1E8B6AA100B50FE7 /* TimelineFactView.xib in Resources */,
 				93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */,
 				9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */,
-				93EFF1711E7263B700914B8A /* TimelineFactView.xib in Resources */,
 				93DEF15F1E5D484C00C8E2D1 /* number2.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,

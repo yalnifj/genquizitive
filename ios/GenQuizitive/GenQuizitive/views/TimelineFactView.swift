@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TimelineFactView : UICollectionViewCell {
+class TimelineFactView : UIView {
     var view:UIView!
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var dayMonthLbl: UILabel!
@@ -37,7 +37,7 @@ class TimelineFactView : UICollectionViewCell {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        backView.layer.cornerRadius = backView.frame.height / 2
+        backView.layer.cornerRadius = backView.frame.height * 0.8
         backView.clipsToBounds = true
         
         self.view.layoutIfNeeded()

@@ -154,13 +154,13 @@ class LanguageService {
             return label
         } else if (factType.hasPrefix("http://familysearch.org/v1/")) {
             let range = factType.range(of: "http://familysearch.org/v1/")
-            let index = factType.index(range!.upperBound, offsetBy: 1)
+            let index = factType.index(range!.upperBound, offsetBy: 0)
             let label = factType.substring(from: index)
             return label
         }
         if (factType.hasPrefix("http://gedcomx.org/")) {
             let range = factType.range(of: "http://gedcomx.org/")
-            let index = factType.index(range!.upperBound, offsetBy: 1)
+            let index = factType.index(range!.upperBound, offsetBy: 0)
             let label = factType.substring(from: index)
             return label
         }

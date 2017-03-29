@@ -74,6 +74,12 @@ class PracticeViewController: UIViewController, EventListener {
                     print("Unable to setup question \(question.name).  Giving up after 5 tries.")
                     self.setupCount = 0
                     self.questions[num] = QuestionService.getInstance().getRandomQuestion()
+                    if num > 0 {
+                        let prev = num - 1
+                        while self.questions[num].name == self.questions[prev].name {
+                            self.questions[num] = QuestionService.getInstance().getRandomQuestion()
+                        }
+                    }
                     self.setupQuestion(num: num)
                 }
             } else {
