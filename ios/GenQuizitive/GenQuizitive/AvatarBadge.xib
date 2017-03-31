@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,14 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_badge.png" translatesAutoresizingMaskIntoConstraints="NO" id="tZO-P1-hca">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_badge.png" translatesAutoresizingMaskIntoConstraints="NO" id="tZO-P1-hca">
                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guage_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="yFi-Wv-79X">
-                    <rect key="frame" x="15" y="9" width="70" height="70"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="yFi-Wv-79X" secondAttribute="height" multiplier="1:1" id="t7C-TZ-a0f"/>
-                    </constraints>
+                    <rect key="frame" x="16" y="14" width="70" height="70"/>
                 </imageView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lef-c2-tA0">
                     <rect key="frame" x="0.0" y="70" width="100" height="30"/>
@@ -39,17 +35,17 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="2J2-Kl-knr"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="trailing" secondItem="Lef-c2-tA0" secondAttribute="trailing" id="HVk-Lk-taF"/>
-                <constraint firstItem="Lef-c2-tA0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="70" id="LsW-QL-gxN"/>
-                <constraint firstAttribute="bottom" secondItem="yFi-Wv-79X" secondAttribute="bottom" constant="21" id="NSf-tv-Zhn"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="QXe-hr-GNI"/>
-                <constraint firstAttribute="trailing" secondItem="tZO-P1-hca" secondAttribute="trailing" id="Tem-2M-rsN"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VpS-bo-tNt"/>
-                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="mIG-6i-Eph"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qCE-ft-uKZ"/>
-                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="Lef-c2-tA0" secondAttribute="leading" id="w4b-KS-TCQ"/>
-                <constraint firstItem="Lef-c2-tA0" firstAttribute="bottom" secondItem="tZO-P1-hca" secondAttribute="bottom" id="zPr-sj-Qh3"/>
+                <constraint firstAttribute="trailing" secondItem="yFi-Wv-79X" secondAttribute="trailing" constant="14" id="3Pu-Wh-fp2"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Dd4-07-lvZ"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="Hpq-XV-UOC"/>
+                <constraint firstItem="Lef-c2-tA0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="70" id="Ll5-85-6Vl"/>
+                <constraint firstAttribute="bottom" secondItem="yFi-Wv-79X" secondAttribute="bottom" constant="16" id="Lsz-pA-Igk"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="X01-Df-Gya"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="leading" secondItem="Lef-c2-tA0" secondAttribute="leading" id="bR7-bM-rgl"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ct3-Y4-q3a"/>
+                <constraint firstItem="yFi-Wv-79X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="j42-W7-x8T"/>
+                <constraint firstItem="tZO-P1-hca" firstAttribute="trailing" secondItem="Lef-c2-tA0" secondAttribute="trailing" id="rSu-GX-ARa"/>
+                <constraint firstAttribute="bottom" secondItem="Lef-c2-tA0" secondAttribute="bottom" id="yFo-o4-V3z"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-84" y="301"/>

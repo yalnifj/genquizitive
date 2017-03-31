@@ -63,7 +63,7 @@ class TimelineQuestion : Question {
                     "http://gedcomx.org/NumberOfChildren":true,"http://familysearch.org/v1/TribeName":true]
         var newfacts = [Fact]()
         for fact in facts {
-            if skipFacts[fact.type!] != nil {
+            if skipFacts[fact.type!] == nil {
                 newfacts.append(fact)
             }
         }
@@ -77,13 +77,7 @@ class TimelineQuestionView : UIView {
     @IBOutlet weak var avatarBadge: AvatarBadge!
     @IBOutlet weak var textShadow: UIView!
     @IBOutlet weak var questionText: UILabel!
-    var poleImage: UIImageView?
-    @IBOutlet weak var factScroller: UIScrollView!
-    
-    
-    var sortedFacts:[Fact] = [Fact]()
-    var facts:[Fact] = [Fact]()
-    var timelineFactViews = [TimelineFactView]()
+    @IBOutlet weak var factScroller: TimelineFactScroller!
     
     var question:TimelineQuestion!
     
@@ -109,6 +103,7 @@ class TimelineQuestionView : UIView {
         
         textShadow.layer.cornerRadius = 10
         textShadow.clipsToBounds = true
+        textShadow.alpha = 0.7
         
         avatarBadge.isHidden = true
         
@@ -145,60 +140,8 @@ class TimelineQuestionView : UIView {
                 }
             })
             
-            sortedFacts = LanguageService.getInstance().sortFacts(facts: question.facts!)
-            while sortedFacts.count > question.difficulty + 2 {
-                sortedFacts.remove(at: sortedFacts.count / 2)
-            }
-            
-            facts = [Fact]()
-            for f in sortedFacts {
-                facts.append(f)
-            }
-            
-            while checkComplete() {
-                for i in 0..<facts.count {
-                    let r = Int(arc4random_uniform(UInt32(facts.count)))
-                    let p = facts[i]
-                    facts[i] = facts[r]
-                    facts[r] = p
-                }
-            }
-            
-            for tfv in timelineFactViews {
-                tfv.removeFromSuperview()
-            }
-            timelineFactViews.removeAll()
-            
-            if poleImage != nil {
-                poleImage!.removeFromSuperview()
-            }
-            
-            var y = CGFloat(5)
-            let ratio = CGFloat(75.0 / 350.0)
-            let fh = factScroller.frame.width * ratio
-            for fact in facts {
-                let frame = CGRect(x: 0, y: y, width: factScroller.frame.width, height: fh)
-                let tfv = TimelineFactView(frame: frame)
-                tfv.showFact(fact: fact, person: question.person!)
-                timelineFactViews.append(tfv)
-                factScroller.addSubview(tfv)
-                y = y + fh + 3
-            }
-            
-            poleImage = UIImageView(image: UIImage(named: "pole1"))
-            poleImage?.frame = CGRect(x: (fh / 2) - 5, y: fh / 2, width: 10, height: y - fh)
-            factScroller.insertSubview(poleImage!, at: 0)
+            factScroller.showQuestion(question: question)
         }
     }
     
-    func checkComplete() -> Bool {
-        var complete = true
-        for i in 0..<facts.count {
-            if sortedFacts[i].id != facts[i].id {
-                complete = false
-                break
-            }
-        }
-        return complete
-    }
 }

@@ -25,6 +25,7 @@ class RoundDetailView: UIView {
     var timer:Timer?
     var timeElapsed:TimeInterval = 0
     var isTimerRunning = false
+    var startDate:Date!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,7 +85,8 @@ class RoundDetailView: UIView {
     }
 
     func updateTimer() {
-        timeElapsed += 1.0
+        timeElapsed -= startDate.timeIntervalSinceNow
+        startDate = Date()
         let minutes = Int(timeElapsed / 60)
         let seconds = Int(timeElapsed - Double(minutes * 60))
         var secText = "\(seconds)"
@@ -107,6 +109,7 @@ class RoundDetailView: UIView {
     
     func startTimer() {
         if timer == nil || !timer!.isValid {
+            startDate = Date()
             let aSelector : Selector = #selector(RoundDetailView.updateTimer)
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: aSelector, userInfo: nil, repeats: true)
         }
@@ -115,6 +118,7 @@ class RoundDetailView: UIView {
     
     func resetTimer() {
         timeElapsed = 0
+        startDate = Date()
     }
     
     func setGuageProgress(progress:Double) {

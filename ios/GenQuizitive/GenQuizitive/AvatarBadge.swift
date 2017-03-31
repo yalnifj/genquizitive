@@ -59,7 +59,7 @@ class AvatarBadge: UIView {
 
     func setProfileImage(image: UIImage) {
         profileImage.image = image
-        profileImage.layer.cornerRadius = profileImage.frame.size.width/2
+        profileImage.layer.cornerRadius = min(profileImage.frame.size.width/2, profileImage.frame.size.height/2)
         profileImage.clipsToBounds = true
     }
     

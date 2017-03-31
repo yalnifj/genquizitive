@@ -37,7 +37,7 @@ class TimelineFactView : UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        backView.layer.cornerRadius = backView.frame.height * 0.8
+        backView.layer.cornerRadius = backView.frame.height * 0.5
         backView.clipsToBounds = true
         
         self.view.layoutIfNeeded()
@@ -52,6 +52,7 @@ class TimelineFactView : UIView {
     }
 
     func showFact(fact:Fact, person:Person) {
+        self.fact = fact
         let langService = LanguageService.getInstance()
         var text = ""
         if fact.type != nil {
@@ -60,6 +61,10 @@ class TimelineFactView : UIView {
         
         if fact.value != nil {
             text += " \(fact.value!)"
+        }
+        if text == "" && fact.type != nil {
+            print("missing text for fact \(fact.id)")
+            text = fact.type!
         }
         factLbl.text = text
         
@@ -109,10 +114,10 @@ class TimelineFactView : UIView {
     
     func showDates(showHide:Bool) {
         if ageLbl.text != nil && ageLbl.text != "" {
-            ageLbl.isHidden = showHide
-            ageLbl2.isHidden = showHide
+            ageLbl.isHidden = !showHide
+            ageLbl2.isHidden = !showHide
         }
-        dayMonthLbl.isHidden = showHide
-        yearLbl.isHidden = showHide
+        dayMonthLbl.isHidden = !showHide
+        yearLbl.isHidden = !showHide
     }
 }

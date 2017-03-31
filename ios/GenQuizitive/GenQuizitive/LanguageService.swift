@@ -142,15 +142,16 @@ class LanguageService {
     
     func getFactLabel(factType:String) -> String {
         if (self.facts[factType] != nil && self.facts[factType]!.label != nil) {
-            return self.facts[factType]!.label!;
+            return self.facts[factType]!.label!
         }
         else if (factType.hasPrefix("data:")) {
             let index = factType.index(factType.startIndex, offsetBy: 5)
             var label = factType.substring(from: index)
             let range = label.range(of: ",")
             if range != nil {
-                label = label.substring(to: range!.lowerBound)
+                label = label.substring(from: label.index(after: range!.lowerBound))
             }
+            label = StringUtils.replaceAll(text: label, regex: "%20", replace: " ")
             return label
         } else if (factType.hasPrefix("http://familysearch.org/v1/")) {
             let range = factType.range(of: "http://familysearch.org/v1/")
