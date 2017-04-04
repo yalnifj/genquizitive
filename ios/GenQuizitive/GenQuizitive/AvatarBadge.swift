@@ -16,6 +16,8 @@ class AvatarBadge: UIView {
     @IBOutlet weak var label: UILabel!
     var view:UIView!
     
+    var person:Person?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()

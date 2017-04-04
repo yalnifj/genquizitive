@@ -68,6 +68,10 @@ class TreeQuestionView : UIView {
     var people = [Person]()
     var selected:AvatarBadge?
     var lastLocation = CGPoint(x: 0, y: 0)
+    var originalLocation = CGPoint(x: 0, y: 0)
+    var signs = [UIImageView]()
+    var correctSigns = [UIImageView]()
+    var correctAvatars = [AvatarBadge]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,6 +110,24 @@ class TreeQuestionView : UIView {
             people.removeAll()
         }
         
+        if correctAvatars.count > 0 {
+            for avatar in correctAvatars {
+                avatar.removeFromSuperview()
+            }
+            correctAvatars.removeAll()
+        }
+        
+        signs.removeAll()
+        signs.append(sign1)
+        signs.append(sign2)
+        signs.append(sign3)
+        signs.append(sign4)
+        signs.append(sign5)
+        signs.append(sign6)
+        signs.append(sign7)
+
+        correctSigns.removeAll()
+        
         var x = bigSign.frame.origin.x + 5
         var y = bigSign.frame.origin.y + 30
         let width = sign1.frame.height
@@ -119,18 +141,32 @@ class TreeQuestionView : UIView {
                 y = y + width + 5
             }
         }
+        
+        for a in 0..<avatars.count {
+            let r = arc4random_uniform(UInt32(avatars.count))
+            let newOrigin = CGPoint(avatars[r].frame.origin)
+            let oldOrigin = avatars[a].frame.origin
+            avatars[a].frame.origin = newOrigin
+            avatars[r].frame.origin = oldOrigin
+        }
+        
+        //-- place random people according to difficulty
+        for i in 0..<((people.count - 4) - question.difficulty) {
+            
+        }
     }
     
     func addPerson(person:Person, x:CGFloat, y:CGFloat) {
         self.people.append(person)
+        let width = self.sign1.frame.height
+        let frame = CGRect(x: x, y: y, width: width, height: width)
+        let avatar = AvatarBadge(frame: frame)
+        avatar.showAncestorBackground()
+        avatar.setLabel(text: person.display!.name!)
+        avatar.person = person
+        self.addSubview(avatar)
         
         FamilyTreeService.getInstance().getPersonPortrait(personId: person.id, onCompletion: {path in
-            let width = self.sign1.frame.height
-            let frame = CGRect(x: x, y: y, width: width, height: width)
-            let avatar = AvatarBadge(frame: frame)
-            avatar.showAncestorBackground()
-            avatar.setLabel(text: person.display!.name!)
-
             if path != nil {
                 let fileManager = FileManager.default
                 let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -143,8 +179,6 @@ class TreeQuestionView : UIView {
                     }
                 }
             }
-            
-            self.addSubview(avatar)
         })
     }
     
@@ -186,12 +220,14 @@ class TreeQuestionView : UIView {
             self.selected!.superview?.bringSubview(toFront: self.selected!)
             // Remember original location
             lastLocation = point
+            originalLocation = self.selected!.frame.origin
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         if selected != nil {
+            checkPlace()
             if checkComplete() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
@@ -204,6 +240,7 @@ class TreeQuestionView : UIView {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         if selected != nil {
+            checkPlace()
             if checkComplete() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
@@ -212,8 +249,49 @@ class TreeQuestionView : UIView {
         }
         selected = nil
     }
+    
+    func checkPlace() {
+        var found = false
+        var i = 0
+        for sign in signs {
+            if sign.frame.contains(selected!.center) && !correctSigns.contains(sign) {
+                selected.center = sign.center
+                for j in 0..<people.count {
+                    if people[j] == selected!.person {
+                        if j == i {
+                            //-- highlight correct spot
+                            correctSigns.append(sign)
+                            //-- disable dragging
+                            correctAvatars.append(selected)
+                            let index = avatars.index(of: selected)
+                            avatars.remove(at: index)
+                        } else {
+                            //-- highlight incorrect spot
+                        }
+                    }
+                }
+                found = true
+                break
+            }
+            i += 1
+        }
+        if !found {
+            let view = self.selected!
+            UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseIn,
+               animations: { () -> Void in
+                view.frame.origin = self.originalLocation
+                self.layoutIfNeeded()
+            },
+               completion: { (finished) -> Void in
+                            
+            })
+        }
+    }
 
     func checkComplete() -> Bool {
+        if correctAvatars.count == people.count {
+            return true
+        }
         return false
     }
 }
