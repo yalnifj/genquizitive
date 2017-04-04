@@ -70,7 +70,6 @@ class TreeQuestionView : UIView {
     var lastLocation = CGPoint(x: 0, y: 0)
     var originalLocation = CGPoint(x: 0, y: 0)
     var signs = [UIImageView]()
-    var correctSigns = [UIImageView]()
     var correctAvatars = [AvatarBadge]()
     
     override init(frame: CGRect) {
@@ -125,8 +124,6 @@ class TreeQuestionView : UIView {
         signs.append(sign5)
         signs.append(sign6)
         signs.append(sign7)
-
-        correctSigns.removeAll()
         
         var x = bigSign.frame.origin.x + 5
         var y = bigSign.frame.origin.y + 30
@@ -143,16 +140,57 @@ class TreeQuestionView : UIView {
         }
         
         for a in 0..<avatars.count {
-            let r = arc4random_uniform(UInt32(avatars.count))
-            let newOrigin = CGPoint(avatars[r].frame.origin)
+            let r = Int(arc4random_uniform(UInt32(avatars.count)))
+            let newOrigin = CGPoint(x: avatars[r].frame.origin.x, y: avatars[r].frame.origin.y)
             let oldOrigin = avatars[a].frame.origin
             avatars[a].frame.origin = newOrigin
             avatars[r].frame.origin = oldOrigin
         }
         
         //-- place random people according to difficulty
-        for i in 0..<((people.count - 4) - question.difficulty) {
-            
+        for _ in 0..<((people.count - 4) - question.difficulty) {
+            let avatar = avatars.removeLast()
+            correctAvatars.append(avatar)
+            for p in 0..<people.count {
+                if avatar.person!.id == people[p].id {
+                    if p == 0 {
+                        avatar.center = sign1.center
+                        sign1.layer.borderWidth = 3
+                        sign1.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 1 {
+                        avatar.center = sign2.center
+                        sign2.layer.borderWidth = 3
+                        sign2.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 2 {
+                        avatar.center = sign3.center
+                        sign3.layer.borderWidth = 3
+                        sign3.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 3 {
+                        avatar.center = sign4.center
+                        sign4.layer.borderWidth = 3
+                        sign4.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 4 {
+                        avatar.center = sign5.center
+                        sign5.layer.borderWidth = 3
+                        sign5.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 5 {
+                        avatar.center = sign6.center
+                        sign6.layer.borderWidth = 3
+                        sign6.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    if p == 6 {
+                        avatar.center = sign7.center
+                        sign7.layer.borderWidth = 3
+                        sign7.layer.borderColor = UIColor.yellow.cgColor
+                    }
+                    break
+                }
+            }
         }
     }
     
@@ -254,22 +292,22 @@ class TreeQuestionView : UIView {
         var found = false
         var i = 0
         for sign in signs {
-            if sign.layer.borderWidth == 0 && sign.frame.contains(selected!.center) && !correctSigns.contains(sign) {
-                selected.center = sign.center
+            if sign.layer.borderWidth == 0 && sign.frame.contains(selected!.center) {
+                selected?.center = sign.center
                 for j in 0..<people.count {
-                    if people[j] == selected!.person {
+                    let p = people[j]
+                    if p.id == selected!.person!.id {
                         if j == i {
                             //-- highlight correct spot
-                            correctSigns.append(sign)
-                            sign.layer.borderColor = UIColor.yellow
+                            sign.layer.borderColor = UIColor.yellow.cgColor
                             sign.layer.borderWidth = 3
                             //-- disable dragging
-                            correctAvatars.append(selected)
-                            let index = avatars.index(of: selected)
-                            avatars.remove(at: index)
+                            correctAvatars.append(selected!)
+                            let index = avatars.index(of: selected!)
+                            avatars.remove(at: index!)
                         } else {
                             //-- highlight incorrect spot
-                            sign.layer.borderColor = UIColor.red
+                            sign.layer.borderColor = UIColor.red.cgColor
                             sign.layer.borderWidth = 3
                         }
                     }

@@ -63,7 +63,7 @@ class AvatarBadge: UIView {
         if profileImage != nil {
             profileImage?.removeFromSuperview()
         }
-        let frame = CGRect(x: self.frame.width * 0.16, y: self.frame.height * 0.14, width: self.frame.width * 0.68, height: self.frame.height * 68)
+        let frame = CGRect(x: self.frame.width * 0.16, y: self.frame.height * 0.14, width: self.frame.width * 0.69, height: self.frame.height * 0.69)
         profileImage = UIImageView(frame: frame)
         profileImage?.image = image
         profileImage?.layer.cornerRadius = min(profileImage!.frame.size.width/2, profileImage!.frame.size.height/2)
