@@ -111,10 +111,23 @@ class TimelineFactScroller : UIScrollView {
                     y += selectedFact!.frame.height + padding
                     spaceAdded = true
                 }
-                view.frame.origin.y = y
+                if y != view.frame.origin.y {
+                    animateView(view: view, y: y)
+                }
                 y += selectedFact!.frame.height + padding
             }
         }
+    }
+    
+    func animateView(view:TimelineFactView, y:CGFloat) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions.curveEaseIn,
+            animations: { () -> Void in
+            view.frame.origin.y = y
+            self.layoutIfNeeded()
+        },
+        completion: { (finished) -> Void in
+                        
+        })
     }
     
     func snapFacts() {
@@ -178,7 +191,9 @@ class TimelineFactScroller : UIScrollView {
         if selectedFact != nil {
             snapFacts()
             if checkComplete() {
-                EventHandler.getInstance().publish("questionCorrect", data: self.question!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    EventHandler.getInstance().publish("questionCorrect", data: self.question!)
+                }
             }
         }
         selectedFact = nil

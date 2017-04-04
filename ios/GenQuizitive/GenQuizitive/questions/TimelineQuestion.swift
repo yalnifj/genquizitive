@@ -16,7 +16,7 @@ class TimelineQuestion : Question {
     override init() {
         super.init()
         self.name  = "timeline"
-        self.letter = "T"
+        self.letter = "L"
         self.background = "fact_background.jpg"
         self.hints = ["freeze","skip","rollback"]
         self.person = nil

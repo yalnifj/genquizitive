@@ -12,7 +12,7 @@ import UIKit
 class AvatarBadge: UIView {
     
     @IBOutlet weak var background: UIImageView!
-    @IBOutlet weak var profileImage: UIImageView!
+    var profileImage: UIImageView?
     @IBOutlet weak var label: UILabel!
     var view:UIView!
     
@@ -58,9 +58,15 @@ class AvatarBadge: UIView {
     }
 
     func setProfileImage(image: UIImage) {
-        profileImage.image = image
-        profileImage.layer.cornerRadius = min(profileImage.frame.size.width/2, profileImage.frame.size.height/2)
-        profileImage.clipsToBounds = true
+        if profileImage != nil {
+            profileImage?.removeFromSuperview()
+        }
+        let frame = CGRect(x: self.frame.width * 0.16, y: self.frame.height * 0.14, width: self.frame.width * 0.68, height: self.frame.height * 68)
+        profileImage = UIImageView(frame: frame)
+        profileImage?.image = image
+        profileImage?.layer.cornerRadius = min(profileImage!.frame.size.width/2, profileImage!.frame.size.height/2)
+        profileImage?.clipsToBounds = true
+        self.addSubview(profileImage!)
     }
     
     func setLabel(text: String) {

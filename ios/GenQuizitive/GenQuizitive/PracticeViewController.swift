@@ -267,6 +267,11 @@ class PracticeViewController: UIViewController, EventListener {
                 timelineQuestionView.showQuestion(question: question as! TimelineQuestion)
                 questionView = timelineQuestionView
             }
+            else if question.name == "tree" {
+                let treelineQuestionView = TreeQuestionView(frame: frame)
+                treelineQuestionView.showQuestion(question: question as! TreeQuestion)
+                questionView = treelineQuestionView
+            }
             
             self.view.addSubview(questionView!)
             UIView.animate(withDuration: 0.5,
@@ -278,8 +283,7 @@ class PracticeViewController: UIViewController, EventListener {
             },
                            completion: { (finished) -> Void in
                             
-            }
-            )
+            })
         }
     }
 }

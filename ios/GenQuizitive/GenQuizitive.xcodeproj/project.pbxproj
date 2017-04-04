@@ -84,6 +84,12 @@
 		93A950871E5C8B48004BBDDD /* PracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950861E5C8B48004BBDDD /* PracticeViewController.swift */; };
 		93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */; };
 		93B670B41E58C83800F22A20 /* FamilyTreeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B670B31E58C83800F22A20 /* FamilyTreeService.swift */; };
+		93C3F19E1E8EBE0C003025FC /* TreeQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93C3F19D1E8EBE0C003025FC /* TreeQuestionView.xib */; };
+		93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C3F19F1E8EC3C2003025FC /* lamp.png */; };
+		93C3F1A31E8EC3C2003025FC /* roadsign.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C3F1A01E8EC3C2003025FC /* roadsign.png */; };
+		93C3F1A41E8EC3C2003025FC /* button_green_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C3F1A11E8EC3C2003025FC /* button_green_rect.png */; };
+		93C3F1A61E8EC3E3003025FC /* tree_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93C3F1A51E8EC3E3003025FC /* tree_background.jpg */; };
+		93C3F1A81E8EC404003025FC /* TreeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3F1A71E8EC404003025FC /* TreeQuestion.swift */; };
 		93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93CC31731E4CE805006AA26B /* AuthDialogView.xib */; };
 		93CC31761E4CE8DA006AA26B /* AuthDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */; };
 		93D489AD1E52AFEB00FAE6F5 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */; };
@@ -251,6 +257,12 @@
 		93A950861E5C8B48004BBDDD /* PracticeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PracticeViewController.swift; sourceTree = "<group>"; };
 		93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93B670B31E58C83800F22A20 /* FamilyTreeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyTreeService.swift; sourceTree = "<group>"; };
+		93C3F19D1E8EBE0C003025FC /* TreeQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TreeQuestionView.xib; sourceTree = "<group>"; };
+		93C3F19F1E8EC3C2003025FC /* lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lamp.png; sourceTree = "<group>"; };
+		93C3F1A01E8EC3C2003025FC /* roadsign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roadsign.png; sourceTree = "<group>"; };
+		93C3F1A11E8EC3C2003025FC /* button_green_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_green_rect.png; sourceTree = "<group>"; };
+		93C3F1A51E8EC3E3003025FC /* tree_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tree_background.jpg; path = treeQuestion/tree_background.jpg; sourceTree = "<group>"; };
+		93C3F1A71E8EC404003025FC /* TreeQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeQuestion.swift; sourceTree = "<group>"; };
 		93CC31731E4CE805006AA26B /* AuthDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthDialogView.xib; sourceTree = "<group>"; };
 		93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDialogView.swift; sourceTree = "<group>"; };
 		93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
@@ -486,6 +498,8 @@
 				9324C5531E69B7B100B8E634 /* RelationshipQuestion.swift */,
 				93822C601E71A06100545DB7 /* TimelineQuestion.swift */,
 				93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */,
+				93C3F1A71E8EC404003025FC /* TreeQuestion.swift */,
+				93C3F19D1E8EBE0C003025FC /* TreeQuestionView.xib */,
 			);
 			path = questions;
 			sourceTree = "<group>";
@@ -521,6 +535,10 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				93C3F1A51E8EC3E3003025FC /* tree_background.jpg */,
+				93C3F19F1E8EC3C2003025FC /* lamp.png */,
+				93C3F1A01E8EC3C2003025FC /* roadsign.png */,
+				93C3F1A11E8EC3C2003025FC /* button_green_rect.png */,
 				93EFF1721E72643200914B8A /* chrome_badge.png */,
 				9324C5571E69B8F200B8E634 /* relationshipQuestion */,
 				9324C54F1E690C4F00B8E634 /* ancestor_badge.png */,
@@ -712,7 +730,9 @@
 				93DEF1701E5DDC4500C8E2D1 /* guage_back.png in Resources */,
 				93A950831E5B79D3004BBDDD /* pole2.png in Resources */,
 				93A9507A1E5B75DB004BBDDD /* PhotoQuestion.xib in Resources */,
+				93C3F1A61E8EC3E3003025FC /* tree_background.jpg in Resources */,
 				93DEF1731E5DDC4500C8E2D1 /* red_light_on.png in Resources */,
+				93C3F1A31E8EC3C2003025FC /* roadsign.png in Resources */,
 				9324C55A1E69B8F200B8E634 /* r_back.png in Resources */,
 				93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */,
 				93557DEF1E8B6AA100B50FE7 /* TimelineFactView.xib in Resources */,
@@ -735,6 +755,7 @@
 				93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */,
 				935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */,
 				9324C5521E69B79500B8E634 /* RelationshipQuestion.xib in Resources */,
+				93C3F19E1E8EBE0C003025FC /* TreeQuestionView.xib in Resources */,
 				939079031DB2EFC90010E0A0 /* Assets.xcassets in Resources */,
 				93E8A9CD1DC9913200C25D4E /* home_arrow1.png in Resources */,
 				93DEF15C1E5D484C00C8E2D1 /* loading2.png in Resources */,
@@ -742,8 +763,10 @@
 				9324C5411E66677300B8E634 /* FactQuestion.xib in Resources */,
 				93E8A9E61DCAB6AD00C25D4E /* button_yellow_trap1.png in Resources */,
 				93DEF1601E5D484C00C8E2D1 /* number3.png in Resources */,
+				93C3F1A41E8EC3C2003025FC /* button_green_rect.png in Resources */,
 				93DEF1641E5DDB3900C8E2D1 /* RoundDetailView.xib in Resources */,
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
+				93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */,
 				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
@@ -961,6 +984,7 @@
 				93105A521E4BE262005D4512 /* ExtensibleData.swift in Sources */,
 				93105A5F1E4BE262005D4512 /* PlaceReference.swift in Sources */,
 				93105A4B1E4BE262005D4512 /* Attribution.swift in Sources */,
+				93C3F1A81E8EC404003025FC /* TreeQuestion.swift in Sources */,
 				93D489AF1E52B83400FAE6F5 /* GenderType.swift in Sources */,
 				93105A561E4BE262005D4512 /* FieldValue.swift in Sources */,
 				93D489AD1E52AFEB00FAE6F5 /* StringUtils.swift in Sources */,
