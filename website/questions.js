@@ -793,6 +793,52 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				q.places = pPlaces;
 				return q;
 			}
+		},
+		{
+			name: 'connect',
+			letter: 'C',
+			background: 'questions/tree/background.jpg',
+			difficulty: 2,
+			error: null,
+			hints: ['freeze','skip','rollback'],
+			setup: function(difficulty, useLiving) {
+				var question = this;
+				question.deferred = $q.defer();				
+				question.isReady = false;
+				question.difficulty = difficulty;
+				question.startPerson = familysearchService.fsUser;
+				this.timeOffset = 0;
+				
+				var length = 1 + difficulty;
+				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving, 'parents').then(function(path) {
+					var lastRel = path[path.length-1];
+					if (!lastRel || !lastRel.person1 || !lastRel.person2) {
+						console.log('relationship missing person');
+						deferred.reject(question);
+						return;
+					}
+
+					var rel = path[path.length-1];
+					
+					familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
+						question.person = person1;
+						question.questionText = 'Connect the tree path to '+question.person.display.name;
+						familysearchService.markUsed(question.person);						
+						question.isReady = true;
+						question.deferred.resolve(question);
+					}, function(error) {
+						console.log(error);
+						question.error = error;
+						question.deferred.reject(question);
+					});
+				}, function(error){
+					console.log(error);
+					question.error = error;
+					question.deferred.reject(question);
+				});
+				
+				return question.deferred.promise;
+			}
 		}
 	];
 	
@@ -812,20 +858,20 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		{
 			name: "freeze",
 			img: "hints/freeze.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2','connect'],
 			description: 'The Freeze hint will pause the timer for 20 seconds while you consider how to answer a problem.',
 			time: 20
 		},
 		{
 			name: "skip",
 			img: "hints/skip.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2','connect'],
 			description: 'The Skip hint will allow you to skip to the next question, but it will keep the current amount of time that you have spent on the question.'
 		},
 		{
 			name: "rollback",
 			img: "hints/rollback.png",
-			questions: ['photo1','multi1','multi2','tree','timeline','map','map2'],
+			questions: ['photo1','multi1','multi2','tree','timeline','map','map2','connect'],
 			description: 'The Rollback hint will subtract 15 seconds of time from the current question. If there are not 15 seconds available it will reduce the time to 0.',
 			time: 15
 		}
@@ -889,6 +935,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		L: 'Timeline Sort Question',
 		M: 'Map the Facts Question',
 		B: 'Map People by Birth Place',
+		C: 'Connect the tree path',
 		U: 'Unknown'
 	};
 	
@@ -1637,5 +1684,45 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			google.maps.event.clearInstanceListeners($scope.map);
 		}
 	});
+})
+.controller('connectController', function($scope, QuestionService, languageService, familysearchService) {
+	$scope.questionText = '';
+	
+	$scope.$watch('question.person', function() {
+		if ($scope.question.person) {
+			$scope.questionText = $scope.question.questionText;
+			$scope.levels = [];	
+			var level = {
+				person = question.person
+			};
+			$scope.fillLevel(level);
+			$scope.levels.push(level);
+		}
+	});
+	
+	$scope.fillLevel = function(level) {
+		familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+			level.person.portrait = res.src;
+		});
+		
+		familysearchService.getPersonParents(personId).then(function(parents) {
+			if (parents && parents.length > 0) {
+				var parent1 = parents[0];
+				level.parent1 = parent1;
+				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+					level.parent1.portrait = res.src;
+				});
+			}
+			if (parents && parents.length > 1) {
+				var parent2 = parents[1];
+				level.parent2 = parent2;
+				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+					level.parent2.portrait = res.src;
+				});
+			}
+		}, function(error) { 
+			console.log(error);
+		});
+	};
 })
 ;

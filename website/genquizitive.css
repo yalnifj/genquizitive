@@ -954,6 +954,13 @@ body {
 	margin: 3px;
 }
 
+.connect-tree-block {
+	background-color: #ebe9d5;
+	border-radius: 10px;
+	width: 400px;
+    padding: 20px;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;
