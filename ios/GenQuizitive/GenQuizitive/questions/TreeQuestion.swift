@@ -254,19 +254,23 @@ class TreeQuestionView : UIView {
         var found = false
         var i = 0
         for sign in signs {
-            if sign.frame.contains(selected!.center) && !correctSigns.contains(sign) {
+            if sign.layer.borderWidth == 0 && sign.frame.contains(selected!.center) && !correctSigns.contains(sign) {
                 selected.center = sign.center
                 for j in 0..<people.count {
                     if people[j] == selected!.person {
                         if j == i {
                             //-- highlight correct spot
                             correctSigns.append(sign)
+                            sign.layer.borderColor = UIColor.yellow
+                            sign.layer.borderWidth = 3
                             //-- disable dragging
                             correctAvatars.append(selected)
                             let index = avatars.index(of: selected)
                             avatars.remove(at: index)
                         } else {
                             //-- highlight incorrect spot
+                            sign.layer.borderColor = UIColor.red
+                            sign.layer.borderWidth = 3
                         }
                     }
                 }
@@ -285,6 +289,13 @@ class TreeQuestionView : UIView {
                completion: { (finished) -> Void in
                             
             })
+        } else {
+            for sign in signs {
+                if sign.frame.contains(originalLocation) {
+                    sign.layer.borderWidth = 0
+                    break
+                }
+            }
         }
     }
 
