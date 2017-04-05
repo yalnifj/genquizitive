@@ -301,7 +301,7 @@ class TreeQuestionView : UIView {
                 for j in 0..<people.count {
                     let p = people[j]
                     if p.id == selected!.person!.id {
-                        if j == i {
+                        if p.display?.ascendancyNumber! == String(i + 1) {
                             //-- highlight correct spot
                             sign.layer.borderColor = UIColor.yellow.cgColor
                             sign.layer.borderWidth = 3

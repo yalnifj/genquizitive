@@ -52,7 +52,7 @@ class AvatarBadge: UIView {
         if profileImage != nil {
             profileImage?.removeFromSuperview()
         }
-        let frame = CGRect(x: 0, y: 0, width: self.frame.width * 0.68, height: self.frame.width * 0.68)
+        let frame = CGRect(x: 0, y: 0, width: self.frame.width * 0.65, height: self.frame.width * 0.65)
         profileImage = UIImageView(frame: frame)
         profileImage?.center = background.center
         profileImage?.image = image
@@ -62,7 +62,7 @@ class AvatarBadge: UIView {
         self.addSubview(profileImage!)
         
         if label != nil {
-            self.bringSubview(toFront: label)
+            self.bringSubview(toFront: label!)
         }
         self.layoutIfNeeded()
     }
