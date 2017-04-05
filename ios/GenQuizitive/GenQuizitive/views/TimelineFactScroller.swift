@@ -191,7 +191,7 @@ class TimelineFactScroller : UIScrollView {
         if selectedFact != nil {
             snapFacts()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }
@@ -204,7 +204,7 @@ class TimelineFactScroller : UIScrollView {
         if selectedFact != nil {
             snapFacts()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }

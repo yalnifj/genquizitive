@@ -218,4 +218,35 @@ class LanguageService {
         }
         return sortedFacts
     }
+    
+    func shortenName(name:String) -> String {
+        let nameParts = StringUtils.split(text: name, splitter: "\\s")
+        if nameParts.count < 3 {
+            return name
+        }
+        var newParts = [String]()
+        for part in nameParts {
+            let l = part.lowercased()
+            if !l.hasPrefix("dr") && !l.hasPrefix("mr") && !l.hasPrefix("mrs") && !l.hasPrefix("ms") && !l.hasPrefix("jr") && !l.hasPrefix("sr") {
+                newParts.append(part)
+            }
+        }
+        while newParts.count > 2 {
+            var n = Int(newParts.count / 2)
+            if n == 0 {
+                n = 1
+            }
+            newParts.remove(at: n)
+        }
+        var newname = ""
+        var c = 0
+        for part in newParts {
+            if c > 0 {
+                newname += " "
+            }
+            newname += part
+            c += 1
+        }
+        return newname
+    }
 }

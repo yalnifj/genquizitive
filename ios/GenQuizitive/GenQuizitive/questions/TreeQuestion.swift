@@ -203,7 +203,8 @@ class TreeQuestionView : UIView {
         let frame = CGRect(x: x, y: y, width: width, height: width)
         let avatar = AvatarBadge(frame: frame)
         avatar.showAncestorBackground()
-        avatar.setLabel(text: person.display!.name!)
+        let name = LanguageService.getInstance().shortenName(name: person.display!.name!)
+        avatar.setLabel(text: name)
         avatar.person = person
         self.addSubview(avatar)
         self.avatars.append(avatar)
@@ -271,7 +272,7 @@ class TreeQuestionView : UIView {
         if selected != nil {
             checkPlace()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }
@@ -284,7 +285,7 @@ class TreeQuestionView : UIView {
         if selected != nil {
             checkPlace()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }
