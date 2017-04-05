@@ -356,7 +356,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		});
 	}
 
-	this.recursivePath = function(personId, path, length, useLiving) {
+	this.recursivePath = function(personId, path, length, useLiving, relationshipType) {
 		var pathstr = "[";
 		for(var p=0; p<path.length; p++) pathstr += path[p].person1.resourceId+"="+path[p].type.substring(19)+"="+path[p].person2.resourceId+" -> ";
 		pathstr += "]";
@@ -391,7 +391,13 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			var temp = this;
 			
 			var promise;
-			promise = familysearchService.getPersonRelationships(personId);
+			if (relationshipType=='parents') {
+				promise = familysearchService.getPersonParents(personId, true);
+			} else if (relationshipType=='children') {
+				promise = familysearchService.getPersonChildrenRelationships(personId);
+			} else {
+				promise = familysearchService.getPersonRelationships(personId);
+			}
 			promise.then(function(relationships) {
 				temp.processRelationships(deferred, relationships, personId, path, length, useLiving);
 			}, function(error) { 
@@ -405,11 +411,17 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return deferred.promise;
 	};
 
-	this.getRandomRelationshipPath = function(personId, length, useLiving) {
+	this.getRandomRelationshipPath = function(personId, length, useLiving, relationshipType) {
 		var path = [];
 		var deferred = $q.defer();
 		
-		this.recursivePath(personId, path, length, useLiving).then(function(path) {
+		if (!relationshipType) {
+			relationshipType = 'all';
+		}
+		if (relationshipType != 'all' || relationshipType != 'parents' || relationshipType != 'children') {
+			relationshipType = 'all';
+		}
+		this.recursivePath(personId, path, length, useLiving, relationshipType).then(function(path) {
 			deferred.resolve(path);
 		}, function(path) { 
 			deferred.resolve(path); 
