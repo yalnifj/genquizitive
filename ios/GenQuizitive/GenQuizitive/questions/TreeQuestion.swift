@@ -125,8 +125,8 @@ class TreeQuestionView : UIView {
         signs.append(sign6)
         signs.append(sign7)
         
-        var x = bigSign.frame.origin.x + 5
-        var y = bigSign.frame.origin.y + 30
+        var x = bigSign.frame.origin.x + 15
+        var y = bigSign.frame.origin.y + 35
         let width = sign1.frame.height
         
         for person in question.people {
@@ -134,7 +134,7 @@ class TreeQuestionView : UIView {
             
             x = x + width + 5
             if x + width > bigSign.frame.origin.x + bigSign.frame.width {
-                x = bigSign.frame.origin.x + 5
+                x = bigSign.frame.origin.x + 15
                 y = y + width + 5
             }
         }
@@ -148,47 +148,50 @@ class TreeQuestionView : UIView {
         }
         
         //-- place random people according to difficulty
-        for _ in 0..<((people.count - 4) - question.difficulty) {
-            let avatar = avatars.removeLast()
-            correctAvatars.append(avatar)
-            for p in 0..<people.count {
-                if avatar.person!.id == people[p].id {
-                    if p == 0 {
-                        avatar.center = sign1.center
-                        sign1.layer.borderWidth = 3
-                        sign1.layer.borderColor = UIColor.yellow.cgColor
+        let upper = ((people.count - 4) - question.difficulty)
+        if upper >= 0 {
+            for _ in 0..<upper {
+                let avatar = avatars.removeLast()
+                correctAvatars.append(avatar)
+                for p in 0..<people.count {
+                    if avatar.person!.id == people[p].id {
+                        if p == 0 {
+                            avatar.center = sign1.center
+                            sign1.layer.borderWidth = 3
+                            sign1.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 1 {
+                            avatar.center = sign2.center
+                            sign2.layer.borderWidth = 3
+                            sign2.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 2 {
+                            avatar.center = sign3.center
+                            sign3.layer.borderWidth = 3
+                            sign3.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 3 {
+                            avatar.center = sign4.center
+                            sign4.layer.borderWidth = 3
+                            sign4.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 4 {
+                            avatar.center = sign5.center
+                            sign5.layer.borderWidth = 3
+                            sign5.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 5 {
+                            avatar.center = sign6.center
+                            sign6.layer.borderWidth = 3
+                            sign6.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        if p == 6 {
+                            avatar.center = sign7.center
+                            sign7.layer.borderWidth = 3
+                            sign7.layer.borderColor = UIColor.yellow.cgColor
+                        }
+                        break
                     }
-                    if p == 1 {
-                        avatar.center = sign2.center
-                        sign2.layer.borderWidth = 3
-                        sign2.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    if p == 2 {
-                        avatar.center = sign3.center
-                        sign3.layer.borderWidth = 3
-                        sign3.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    if p == 3 {
-                        avatar.center = sign4.center
-                        sign4.layer.borderWidth = 3
-                        sign4.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    if p == 4 {
-                        avatar.center = sign5.center
-                        sign5.layer.borderWidth = 3
-                        sign5.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    if p == 5 {
-                        avatar.center = sign6.center
-                        sign6.layer.borderWidth = 3
-                        sign6.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    if p == 6 {
-                        avatar.center = sign7.center
-                        sign7.layer.borderWidth = 3
-                        sign7.layer.borderColor = UIColor.yellow.cgColor
-                    }
-                    break
                 }
             }
         }
@@ -203,6 +206,7 @@ class TreeQuestionView : UIView {
         avatar.setLabel(text: person.display!.name!)
         avatar.person = person
         self.addSubview(avatar)
+        self.avatars.append(avatar)
         
         FamilyTreeService.getInstance().getPersonPortrait(personId: person.id, onCompletion: {path in
             if path != nil {
@@ -239,7 +243,7 @@ class TreeQuestionView : UIView {
             if x > self.frame.width - selected!.frame.width {
                 x = self.frame.width - selected!.frame.width
             }
-            self.selected!.frame.origin = CGPoint(x: self.selected!.frame.origin.x, y: y)
+            self.selected!.frame.origin = CGPoint(x: x, y: y)
         }
     }
     
@@ -267,7 +271,7 @@ class TreeQuestionView : UIView {
         if selected != nil {
             checkPlace()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }
@@ -280,7 +284,7 @@ class TreeQuestionView : UIView {
         if selected != nil {
             checkPlace()
             if checkComplete() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 }
             }
@@ -319,7 +323,7 @@ class TreeQuestionView : UIView {
         }
         if !found {
             let view = self.selected!
-            UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseIn,
+            UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions.curveEaseIn,
                animations: { () -> Void in
                 view.frame.origin = self.originalLocation
                 self.layoutIfNeeded()

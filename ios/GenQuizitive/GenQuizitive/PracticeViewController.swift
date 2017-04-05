@@ -52,7 +52,7 @@ class PracticeViewController: UIViewController, EventListener {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        showNotification(title: "Practice GenQuiz", message: "Practice a GenQuiz on your family tree then challenge your family and friends. Answer the questions as quickly as you can.  Try not to make any mistakes or you will receive a time penalty.")
+        showNotification(title: "Solo GenQuiz", message: "Learn more about your relatives as you play a Solo GenQuiz on your family tree. Answer the questions as quickly as you can.  Try not to make any mistakes or you will receive a time penalty.")
     }
     
     override func viewWillDisappear(_ animated:Bool) {

@@ -217,7 +217,7 @@
                                             <constraint firstAttribute="width" secondItem="Vis-9H-0ZB" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="5TB-nk-WIe"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                        <state key="normal" title="Practice GenQuiz" backgroundImage="button_sign_arrow_left.png">
+                                        <state key="normal" title="Solo GenQuiz" backgroundImage="button_sign_arrow_left.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>

@@ -70,7 +70,6 @@
 		9390791C1DB2EFC90010E0A0 /* GenQuizitiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9390791B1DB2EFC90010E0A0 /* GenQuizitiveUITests.swift */; };
 		939F50401E4A86510049167B /* pole_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 939F503F1E4A86510049167B /* pole_circle.png */; };
 		939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50411E4A89ED0049167B /* MenuViewController.swift */; };
-		939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939F50431E4A8ECE0049167B /* AvatarBadge.xib */; };
 		939F50461E4A8FCC0049167B /* AvatarBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50451E4A8FCC0049167B /* AvatarBadge.swift */; };
 		93A142251E7E04DE007E2759 /* TimelineQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */; };
 		93A950741E5B74C4004BBDDD /* QuestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950731E5B74C4004BBDDD /* QuestionService.swift */; };
@@ -243,7 +242,6 @@
 		9390791D1DB2EFC90010E0A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939F503F1E4A86510049167B /* pole_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pole_circle.png; sourceTree = "<group>"; };
 		939F50411E4A89ED0049167B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		939F50431E4A8ECE0049167B /* AvatarBadge.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AvatarBadge.xib; path = ../AvatarBadge.xib; sourceTree = "<group>"; };
 		939F50451E4A8FCC0049167B /* AvatarBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarBadge.swift; path = ../AvatarBadge.swift; sourceTree = "<group>"; };
 		93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineQuestionView.xib; sourceTree = "<group>"; };
 		93A950731E5B74C4004BBDDD /* QuestionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionService.swift; sourceTree = "<group>"; };
@@ -518,7 +516,6 @@
 			isa = PBXGroup;
 			children = (
 				939F50451E4A8FCC0049167B /* AvatarBadge.swift */,
-				939F50431E4A8ECE0049167B /* AvatarBadge.xib */,
 				935F09291E5B4E9800A26692 /* NotificationView.swift */,
 				935F092B1E5B4F1100A26692 /* NotificationView.xib */,
 				93DEF1611E5DDAAB00C8E2D1 /* RoudDetailView.swift */,
@@ -768,7 +765,6 @@
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
 				93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
-				939F50441E4A8ECE0049167B /* AvatarBadge.xib in Resources */,
 				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
 				93DEF1541E5D444000C8E2D1 /* gear_sign.png in Resources */,
 				9324C54C1E66693300B8E634 /* fact_back.png in Resources */,

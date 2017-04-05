@@ -123,7 +123,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Complete the family tree." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEK-aL-znt">
-                    <rect key="frame" x="41" y="60" width="268" height="21"/>
+                    <rect key="frame" x="41" y="50" width="268" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="oZZ-KV-da5"/>
                     </constraints>
@@ -175,8 +175,8 @@
                 <constraint firstItem="SdA-xd-Szw" firstAttribute="top" secondItem="9ig-Ai-ntO" secondAttribute="top" id="BEf-JR-4a9"/>
                 <constraint firstItem="9ig-Ai-ntO" firstAttribute="bottom" secondItem="rK5-Ra-xg2" secondAttribute="bottom" id="Bze-Qz-K4W"/>
                 <constraint firstItem="AVr-Br-CUI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="126" id="DWg-ga-s6a"/>
-                <constraint firstItem="GvC-s7-zO1" firstAttribute="top" secondItem="xEK-aL-znt" secondAttribute="bottom" constant="34" id="Dkv-aR-qd5"/>
-                <constraint firstItem="xEK-aL-znt" firstAttribute="top" secondItem="rK5-Ra-xg2" secondAttribute="bottom" constant="4" id="Fa4-Yk-wzr"/>
+                <constraint firstItem="GvC-s7-zO1" firstAttribute="top" secondItem="xEK-aL-znt" secondAttribute="bottom" constant="44" id="Dkv-aR-qd5"/>
+                <constraint firstItem="xEK-aL-znt" firstAttribute="top" secondItem="rK5-Ra-xg2" secondAttribute="bottom" constant="-6" id="Fa4-Yk-wzr"/>
                 <constraint firstItem="pDm-1f-7kg" firstAttribute="top" secondItem="aPY-jD-a9E" secondAttribute="bottom" constant="8" symbolic="YES" id="HLq-Gs-vt7"/>
                 <constraint firstItem="7Hc-pk-7VG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="IKL-60-ohr"/>
                 <constraint firstItem="WhO-4g-hd0" firstAttribute="centerX" secondItem="YfA-Wa-87a" secondAttribute="centerX" id="IZ8-cC-S6a"/>
@@ -194,7 +194,7 @@
                 <constraint firstItem="gGV-EK-W41" firstAttribute="top" secondItem="7Hc-pk-7VG" secondAttribute="bottom" constant="99" id="QtM-qS-yQ8"/>
                 <constraint firstItem="MOb-hX-kHo" firstAttribute="top" secondItem="16Q-aR-Y7V" secondAttribute="top" id="TIG-y3-76p"/>
                 <constraint firstItem="WhO-4g-hd0" firstAttribute="top" secondItem="vfd-HW-PIW" secondAttribute="top" id="TK7-sU-Glw"/>
-                <constraint firstItem="xEK-aL-znt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="60" id="VgM-lf-50i"/>
+                <constraint firstItem="xEK-aL-znt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="VgM-lf-50i"/>
                 <constraint firstItem="7Hc-pk-7VG" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="VgU-WQ-3nc"/>
                 <constraint firstItem="Jit-qc-w5q" firstAttribute="bottom" secondItem="gfE-EG-6wQ" secondAttribute="bottom" id="VhB-J8-i0e"/>
                 <constraint firstItem="gfE-EG-6wQ" firstAttribute="leading" secondItem="Jit-qc-w5q" secondAttribute="trailing" constant="2" id="XDi-7f-mOh"/>

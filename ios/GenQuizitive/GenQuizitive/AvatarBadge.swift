@@ -11,10 +11,9 @@ import UIKit
 
 class AvatarBadge: UIView {
     
-    @IBOutlet weak var background: UIImageView!
+    var background: UIImageView!
     var profileImage: UIImageView?
-    @IBOutlet weak var label: UILabel!
-    var view:UIView!
+    var label: UILabel?
     
     var person:Person?
     
@@ -29,26 +28,16 @@ class AvatarBadge: UIView {
     }
     
     func setup() {
-        view = loadViewFromNib()
-        view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
-        addSubview(view)
+        self.backgroundColor = UIColor.clear
         
-        label.layer.cornerRadius = 10
-        label.clipsToBounds = true
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 1
-        label.isHidden = true
+        let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
+        background = UIImageView(frame: frame)
+        background.image = UIImage(named: "avatar_badge")
+        background.backgroundColor = UIColor.clear
+        background.contentMode = .scaleAspectFit
+        self.addSubview(background)
         
-        self.view.layoutIfNeeded()
-    }
-    
-    func loadViewFromNib() -> UIView {
-        let bundle = Bundle(for:type(of: self))
-        let nib = UINib(nibName: "AvatarBadge", bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        
-        return view
+        self.layoutIfNeeded()
     }
     
     func showAncestorBackground() {
@@ -63,16 +52,34 @@ class AvatarBadge: UIView {
         if profileImage != nil {
             profileImage?.removeFromSuperview()
         }
-        let frame = CGRect(x: self.frame.width * 0.16, y: self.frame.height * 0.14, width: self.frame.width * 0.69, height: self.frame.height * 0.69)
+        let frame = CGRect(x: 0, y: 0, width: self.frame.width * 0.68, height: self.frame.width * 0.68)
         profileImage = UIImageView(frame: frame)
+        profileImage?.center = background.center
         profileImage?.image = image
         profileImage?.layer.cornerRadius = min(profileImage!.frame.size.width/2, profileImage!.frame.size.height/2)
         profileImage?.clipsToBounds = true
+        profileImage?.contentMode = .scaleAspectFit
         self.addSubview(profileImage!)
+        
+        if label != nil {
+            self.bringSubview(toFront: label)
+        }
+        self.layoutIfNeeded()
     }
     
     func setLabel(text: String) {
-        label.text = text
-        label.isHidden = false
+        let frame = CGRect(x: 0, y: self.frame.height - 20, width: self.frame.width, height: 20)
+        label = UILabel(frame: frame)
+        label?.layer.cornerRadius = 5
+        label?.clipsToBounds = true
+        //label?.layer.borderColor = UIColor.black.cgColor
+        //label?.layer.borderWidth = 1
+        label?.text = text
+        label?.textAlignment = .center
+        label?.numberOfLines = 2
+        label?.adjustsFontSizeToFitWidth = true
+        label?.backgroundColor = UIColor(red: 0.925, green: 0.909, blue: 0.745, alpha: 1.0)
+        self.addSubview(label!)
+        self.layoutIfNeeded()
     }
 }
