@@ -7,7 +7,11 @@
 	
 	<div class="connect-tree-block" style="position: relative; top: 175px; left: 35px;">
 		<div ng-repeat="level in levels">
-			
+			<div>
+				<div avatar-badge ng-click="selectLevel(level, person1, $index)" class="avatar ancestor-avatar avatar-small" src="level.parent1.portrait" label="level.parent1.display.name"></div>
+				<div avatar-badge ng-click="selectLevel(level, person2, $index)" class="avatar ancestor-avatar avatar-small" src="level.parent2.portrait" label="level.parent2.display.name"></div>
+			</div>
+			<div ng-if="level.person.id==question.startPerson.id" avatar-badge class="avatar ancestor-avatar avatar-small" src="level.person.portrait" label="level.person.display.name"></div>
 		</div>
 	</div>
 </div>

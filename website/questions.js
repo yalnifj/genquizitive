@@ -1693,7 +1693,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.questionText = $scope.question.questionText;
 			$scope.levels = [];	
 			var level = {
-				person = question.person
+				person = question.startPerson
 			};
 			$scope.fillLevel(level);
 			$scope.levels.push(level);
@@ -1723,6 +1723,22 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 		}, function(error) { 
 			console.log(error);
 		});
+	};
+	
+	$scope.selectLevel = function(level, parent, index) {
+		if (parent.id == $scope.question.person.id) {
+			console.log('connect question complete');
+			$scope.$emit('questionCorrect', $scope.question);
+		} else {
+			if (index < $scope.levels.length) {
+				$scope.levels = $scope.levels.slice(index);
+			}
+			var level = {
+				person = parent;
+			};
+			$scope.fillLevel(level);
+			$scope.levels.unshift(level);
+		}
 	};
 })
 ;
