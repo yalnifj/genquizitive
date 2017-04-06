@@ -1,4 +1,4 @@
-angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
+angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 .service ('QuestionService', ['familysearchService', 'languageService', 'relationshipService', '$http', '$sce', '$q', '$templateCache', 
 		function(familysearchService, languageService, relationshipService, $http, $sce, $q, $templateCache) {
 	this.questions = [
@@ -1693,7 +1693,8 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.questionText = $scope.question.questionText;
 			$scope.levels = [];	
 			var level = {
-				person: $scope.question.startPerson
+				person: $scope.question.startPerson,
+				css: 'connect-center'
 			};
 			$scope.fillLevel(level);
 			$scope.levels.push(level);
@@ -1733,11 +1734,17 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			if (index < $scope.levels.length) {
 				$scope.levels = $scope.levels.slice(index);
 			}
-			var level = {
-				person: parent
+			if (parent.id == level.parent1.id) {
+				level.css = 'connect-left';
+			} else {
+				level.css = 'connect-right';
+			}
+			var nextlevel = {
+				person: parent,
+				css: 'connect-center'
 			};
-			$scope.fillLevel(level);
-			$scope.levels.unshift(level);
+			$scope.fillLevel(nextlevel);
+			$scope.levels.unshift(nextlevel);
 		}
 	};
 })

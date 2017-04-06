@@ -1,0 +1,32 @@
+<div class="text-center" ng-controller="livefamilytree">
+	<div class="center-logo">
+		<img id="home_pole" src="pole1.png" />
+		<img id="home_arrows" src="home_arrow1.png" />
+		<img id="home_sign" src="home_sign.png" />
+
+		<div ng-show="loading" loading-sign="" class="loading-sign" style="position: relative; top: 400px; left: 25px; width:250px; height: 170px;"></div>
+
+		<div class="notification" style="left: 30%; top: 40%;">
+			<div class="title">Family Tree Required</div>
+			<div class="message">
+				<p>A family tree account is required in order to create a new GenQuizitive Live game.
+				By logging into FamilySearch you agree to allow GenQuizitive to read your
+				family tree data.  Your family tree data will not be sent to 3rd parties.
+				You also agree to allow GenQuizitive to share your family tree data in the form
+				of questions with those who join your game. When you create a GenQuizitive Live game,
+				your game will be given a game ID.  Only those with whom you share this game ID will
+				be able to join your game and see your data.</p>
+				<p>
+				Click the FamilySearch button below to connect with FamilySearch and begin your game.
+				</p>
+			</div>
+		</div>
+		<div ng-click="fsLogin()" class="big-blue-button clickable" style="">
+			Connect to<br />FamilySearch
+		</div>
+		<a class="arrow-button" href="#/" style="margin-top: 100px;">
+			<img src="button_sign_arrow_left.png" />
+			<div class="button-text">Back to Home</div>
+		</a>
+	</div>
+</div>

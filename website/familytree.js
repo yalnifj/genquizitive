@@ -1,4 +1,4 @@
-angular.module('genquiz.familytree', ['genquizitive'])
+angular.module('genquiz.familytree', [])
 .service('languageService', ['$filter',function($filter) {
 	this.facts = {
 		'http://gedcomx.org/Adoption':{ pastVerb: 'was adopted', order: 1 },
@@ -662,7 +662,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  environment: 'beta',
 	  //environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
+	  redirectUri: FS_REDIRECT_URL,
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10

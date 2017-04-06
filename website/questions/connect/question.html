@@ -7,7 +7,14 @@
 	
 	<div class="connect-tree-block" style="position: relative; top: 145px; left: 35px; width: 500px;">
 		<div ng-repeat="level in levels" style="min-height: 70px;">
-			<div ng-class="level.class">
+			<svg style="position: absolute; width: 140px; height: 80px;">
+				<line x1="40" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-center'"></line>
+				<line x1="100" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-center'"></line>
+				<line x1="70" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css!='connect-center'"></line>
+				<line x1="40" y1="50" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-right'"></line>
+				<line x1="100" y1="50" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-left'"></line>
+			</svg>
+			<div ng-class="level.css">
 				<div avatar-badge ng-click="selectLevel(level, level.parent1, $index)" class="avatar ancestor-avatar avatar-small clickable" src="level.parent1.portrait" label="level.parent1.display.name"></div>
 				<div avatar-badge ng-click="selectLevel(level, level.parent2, $index)" class="avatar ancestor-avatar avatar-small clickable" src="level.parent2.portrait" label="level.parent2.display.name"></div>
 			</div>

@@ -191,6 +191,15 @@ body {
 	right: 20px;
 	bottom: 20px;
 }
+.big-blue-button {
+	background: url('button_blue_oval.png');
+	position: relative;
+	display: inline-block;
+	width: 250px;
+	height: 100px;
+	color: white;
+	font-size: 160%;
+}
 .countdown {
 	background-image: url('gear_sign.png');
 	width: 400px;
@@ -959,6 +968,14 @@ body {
 	border-radius: 10px;
 	width: 400px;
     padding: 20px;
+}
+
+.connect-left {
+	padding-left: 70px;
+}
+
+.connect-right {
+	padding-right: 70px;
 }
 
 @media (max-width: 767px) {
