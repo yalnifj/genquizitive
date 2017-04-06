@@ -809,7 +809,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				question.startPerson = familysearchService.fsUser;
 				this.timeOffset = 0;
 				
-				var length = 1 + difficulty;
+				var length = 2 + difficulty;
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving, 'parents').then(function(path) {
 					var lastRel = path[path.length-1];
 					if (!lastRel || !lastRel.person1 || !lastRel.person2) {
@@ -1693,7 +1693,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 			$scope.questionText = $scope.question.questionText;
 			$scope.levels = [];	
 			var level = {
-				person = question.startPerson
+				person: $scope.question.startPerson
 			};
 			$scope.fillLevel(level);
 			$scope.levels.push(level);
@@ -1701,22 +1701,22 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 	});
 	
 	$scope.fillLevel = function(level) {
-		familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+		familysearchService.getPersonPortrait(level.person.id).then(function(res) {
 			level.person.portrait = res.src;
 		});
 		
-		familysearchService.getPersonParents(personId).then(function(parents) {
+		familysearchService.getPersonParents(level.person.id).then(function(parents) {
 			if (parents && parents.length > 0) {
 				var parent1 = parents[0];
 				level.parent1 = parent1;
-				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+				familysearchService.getPersonPortrait(level.parent1.id).then(function(res) {
 					level.parent1.portrait = res.src;
 				});
 			}
 			if (parents && parents.length > 1) {
 				var parent2 = parents[1];
 				level.parent2 = parent2;
-				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
+				familysearchService.getPersonPortrait(level.parent2.id).then(function(res) {
 					level.parent2.portrait = res.src;
 				});
 			}
@@ -1734,7 +1734,7 @@ angular.module('genquiz.questions', ['genquizitive', 'ui.bootstrap'])
 				$scope.levels = $scope.levels.slice(index);
 			}
 			var level = {
-				person = parent;
+				person: parent
 			};
 			$scope.fillLevel(level);
 			$scope.levels.unshift(level);
