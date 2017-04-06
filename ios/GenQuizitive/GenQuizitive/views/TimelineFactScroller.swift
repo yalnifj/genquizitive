@@ -16,7 +16,7 @@ class TimelineFactScroller : UIScrollView {
     
     var lastLocation = CGPoint(x: 0, y: 0)
     var maxY = CGFloat(5)
-    var padding = CGFloat(10)
+    var padding = CGFloat(6)
     
     var sortedFacts:[Fact] = [Fact]()
     var facts:[Fact] = [Fact]()
@@ -66,8 +66,10 @@ class TimelineFactScroller : UIScrollView {
             }
             
             var y = CGFloat(5)
-            let ratio = CGFloat(75.0 / 350.0)
-            let fh = self.frame.width * ratio
+            var fh = (self.frame.height / CGFloat(facts.count)) - padding
+            if fh > 75 {
+                fh = 75
+            }
             for i in 0..<facts.count {
                 let fact = facts[i]
                 let frame = CGRect(x: 0, y: y, width: self.frame.width, height: fh)
