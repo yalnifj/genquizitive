@@ -671,13 +671,13 @@ angular.module('genquiz.familytree', [])
 	if (!this.fs.getAccessToken()) {
 		var token = $cookies.get(this.fs.tokenCookie);
 		if (token) {
-			alert('set access token from cookie');
+			console.log('set access token from cookie');
 			this.fs.setAccessToken(token);
 		} else {
 			$.get('/fs-proxy.php?getToken=true', function(data){
 				if (data) {
 					token = data.trim();
-					alert('set access token from session '+token);
+					console.log('set access token from session '+token);
 					this.fs.setAccessToken(token);
 				}
 			});

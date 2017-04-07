@@ -195,10 +195,12 @@ body {
 	background: url('button_blue_oval.png');
 	position: relative;
 	display: inline-block;
-	width: 250px;
-	height: 100px;
+	width: 220px;
+	height: 90px;
 	color: white;
 	font-size: 160%;
+	padding-top: 10px;
+	background-size: cover;
 }
 .countdown {
 	background-image: url('gear_sign.png');
@@ -969,13 +971,17 @@ body {
 	width: 400px;
     padding: 20px;
 }
-
+.connect-center {
+	min-height: 80px;
+}
 .connect-left {
 	padding-left: 70px;
+	min-height: 80px;
 }
 
 .connect-right {
 	padding-right: 70px;
+	min-height: 80px;
 }
 
 @media (max-width: 767px) {
