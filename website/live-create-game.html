@@ -1,0 +1,43 @@
+<div class="text-center" ng-controller="liveCreateGame">
+	<div class="center-logo">
+		Select someone from your tree to be the central person for your GenQuiz Live game.
+		<!-- provide search feature -->
+		<form class="form-inline">
+				<input type="text" ng-model="search.firstName" placeholder="First name" />
+				<input type="text" ng-model="search.lastName" placeholder="Last name" />
+				<input type="text" ng-model="search.birthDate" placeholder="Birth date" />
+				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" />
+				<button class="btn btn-default" ng-click="searchForPerson()">Search</button>
+		</form>
+		<div class="tree text-center">
+			<div>
+				<div avatar-badge ng-repeat="n in [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+			</div>
+			<div>
+				<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+			</div>
+			<div>
+				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+			</div>
+			<div>
+				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+			</div>
+			<div>
+				<div avatar-badge class="avatar ancestor-avatar avatar-small" src="tree[1].portrait" label="tree[1].display.name" 
+					ng-click="selectPerson(tree[1])"></div>
+			</div>
+		</div>
+	</div>
+	<div class="small-logo" style="left: 5%">
+		<img id="home_arrows" src="home_arrow1.png" />
+		<img id="home_sign" src="home_sign.png" />
+		<a class="arrow-button" href="#/" style="top: 270px; left: -100px">
+			<img src="button_sign_arrow_left.png" />
+			<div class="button-text">Back to Home</div>
+		</a>
+	</div>
+</div>

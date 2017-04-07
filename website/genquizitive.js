@@ -135,6 +135,7 @@ angular.module('genquizitive', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap'
 			if (fsUser.display) {
 				$scope.fsLoggedIn = true;
 				$scope.fsUserName = fsUser.display.name;
+				familysearchService.loadInitialData(fsUser.id);
 				facebookService.fbLoginStatus().then(function(fbUser){
 					$scope.fbUserName = languageService.shortenName(fbUser.name);
 					$scope.fbLoggedIn = true;

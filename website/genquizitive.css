@@ -977,11 +977,13 @@ body {
 .connect-left {
 	padding-left: 70px;
 	min-height: 80px;
+	transition: 0.3s padding;
 }
 
 .connect-right {
 	padding-right: 70px;
 	min-height: 80px;
+	transition: 0.3s padding;
 }
 
 @media (max-width: 767px) {
