@@ -1,4 +1,4 @@
-angular.module('genquiz.familytree', ['genquizitive'])
+angular.module('genquiz.familytree', [])
 .service('languageService', ['$filter',function($filter) {
 	this.facts = {
 		'http://gedcomx.org/Adoption':{ pastVerb: 'was adopted', order: 1 },
@@ -291,7 +291,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		return true;
 	}
 
-	this.processRelationships = function(deferred, relationships, personId, path, length, useLiving) {
+	this.processRelationships = function(deferred, relationships, personId, path, length, useLiving, relationshipType) {
 		if (relationships.length<=0) {
 			deferred.reject(path);
 			return;
@@ -322,7 +322,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		}
 		var temp = this;
 		var maxPath = null;
-		temp.recursivePath(nextPerson, path, length, useLiving).then(function(newpath) {
+		temp.recursivePath(nextPerson, path, length, useLiving, relationshipType).then(function(newpath) {
 			if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
 			if (maxPath.length >= length) {
 				deferred.resolve(maxPath);
@@ -332,14 +332,14 @@ angular.module('genquiz.familytree', ['genquizitive'])
 			}
 			else {
 				newpath.pop();
-				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
+				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving, relationshipType);
 			}
 		}, function(newpath) {
 			var lastRel = newpath[newpath.length-1];
 			if (lastRel && lastRel.living) {
 				newpath.pop();
 				if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
-				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
+				temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving, relationshipType);
 			} else {
 				if (!maxPath || maxPath.length < newpath.length) maxPath = newpath.slice();
 				if (maxPath.length >= length) {
@@ -350,7 +350,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				}
 				else {
 					newpath.pop();
-					temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving);
+					temp.processRelationships(deferred, relationships, personId, newpath, length, useLiving, relationshipType);
 				}
 			}
 		});
@@ -399,10 +399,10 @@ angular.module('genquiz.familytree', ['genquizitive'])
 				promise = familysearchService.getPersonRelationships(personId);
 			}
 			promise.then(function(relationships) {
-				temp.processRelationships(deferred, relationships, personId, path, length, useLiving);
+				temp.processRelationships(deferred, relationships, personId, path, length, useLiving, relationshipType);
 			}, function(error) { 
 				familysearchService.getPersonParents(personId, true).then(function(relationships) {
-					temp.processRelationships(deferred, relationships, personId, path, length, useLiving);
+					temp.processRelationships(deferred, relationships, personId, path, length, useLiving, relationshipType);
 				}, function(error) {
 					deferred.reject(path);
 				});
@@ -418,7 +418,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 		if (!relationshipType) {
 			relationshipType = 'all';
 		}
-		if (relationshipType != 'all' || relationshipType != 'parents' || relationshipType != 'children') {
+		if (relationshipType != 'all' && relationshipType != 'parents' && relationshipType != 'children') {
 			relationshipType = 'all';
 		}
 		this.recursivePath(personId, path, length, useLiving, relationshipType).then(function(path) {
@@ -662,7 +662,7 @@ angular.module('genquiz.familytree', ['genquizitive'])
 	  environment: 'beta',
 	  //environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
-	  redirectUri: 'https://www.genquizitive.com/fs-login.html',
+	  redirectUri: FS_REDIRECT_URL,
 	  saveAccessToken: true,
 	  tokenCookie: 'FS_AUTH_TOKEN',
 	  maxThrottledRetries: 10

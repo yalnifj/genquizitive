@@ -1,15 +1,22 @@
 <div class="question-holder" ng-controller="connectController">
 	
-	<div class="question-block" style="position: absolute; left: 35px; top: 10px; width: 500px; height: 150px;">
+	<div class="question-block" style="position: absolute; left: 35px; top: 10px; width: 500px; height: 120px;">
 		{{questionText}}
 	</div>
 	<div avatar-badge ng-if="question.person.portrait" class="avatar ancestor-avatar" src="question.person.portrait" style="position: absolute; left: 510px; top: 40px;"></div>
 	
-	<div class="connect-tree-block" style="position: relative; top: 175px; left: 35px;">
-		<div ng-repeat="level in levels">
-			<div>
-				<div avatar-badge ng-click="selectLevel(level, person1, $index)" class="avatar ancestor-avatar avatar-small" src="level.parent1.portrait" label="level.parent1.display.name"></div>
-				<div avatar-badge ng-click="selectLevel(level, person2, $index)" class="avatar ancestor-avatar avatar-small" src="level.parent2.portrait" label="level.parent2.display.name"></div>
+	<div class="connect-tree-block" style="position: relative; top: 145px; left: 35px; width: 500px;">
+		<div ng-repeat="level in levels" style="min-height: 70px;">
+			<svg style="position: absolute; width: 140px; height: 80px;">
+				<line x1="40" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-center'"></line>
+				<line x1="100" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-center'"></line>
+				<line x1="70" y1="20" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css!='connect-center'"></line>
+				<line x1="40" y1="50" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-right'"></line>
+				<line x1="100" y1="50" x2="70" y2="80" style="stroke:#157376;stroke-width:3" ng-if="level.css=='connect-left'"></line>
+			</svg>
+			<div ng-class="level.css">
+				<div avatar-badge ng-click="selectLevel(level, level.parent1, $index)" class="avatar ancestor-avatar avatar-small clickable" src="level.parent1.portrait" label="level.parent1.display.name"></div>
+				<div avatar-badge ng-click="selectLevel(level, level.parent2, $index)" class="avatar ancestor-avatar avatar-small clickable" src="level.parent2.portrait" label="level.parent2.display.name"></div>
 			</div>
 			<div ng-if="level.person.id==question.startPerson.id" avatar-badge class="avatar ancestor-avatar avatar-small" src="level.person.portrait" label="level.person.display.name"></div>
 		</div>

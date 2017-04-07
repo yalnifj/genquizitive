@@ -1,0 +1,18 @@
+<div class="text-center" ng-controller="livestart">
+	<div class="center-logo">
+		<img id="home_pole" src="pole1.png" />
+		<img id="home_arrows" src="home_arrow1.png" />
+		<img id="home_sign" src="home_sign.png" />
+
+		<div ng-show="loading" loading-sign="" class="loading-sign" style="position: relative; top: 400px; left: 25px; width:250px; height: 170px;"></div>
+
+		<img ng-show="!loading" id="button1" src="button_blue_oval.png" />
+		<div ng-show="!loading" id="facebook" class="sign-button" ng-click="createGame()">
+			<span>Create a<br/>New Game</span>
+		</div>
+		<img ng-show="!loading" id="button2" class="sign-button" src="button_blue_oval.png" />
+		<div ng-show="!loading" id="familysearch" ng-click="joinGame()">
+			<span>Join a<br/>Game</span>
+		</div>
+	</div>
+</div>
