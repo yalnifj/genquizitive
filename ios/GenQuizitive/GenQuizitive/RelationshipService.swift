@@ -20,7 +20,7 @@ class RelationshipService {
         
     }
     
-    func getRandomRelationshipPath(person:Person, length:Int, useLiving:Bool, onCompletion: @escaping ([String:Any?])->Void) {
+    func getRandomRelationshipPath(person:Person, length:Int, useLiving:Bool, relationshipType:String, onCompletion: @escaping ([String:Any?])->Void) {
         DispatchQueue.global().async {
             var path = [Relationship]()
             var pathPeople = [Person]()
@@ -30,20 +30,30 @@ class RelationshipService {
             var counter = 0
             var personCount = 0
             var lastRand = -1
+            
             let semaphore = DispatchSemaphore(value: 0)
             while (path.count < length || (!useLiving && currentPerson.living)) && counter < length * 5 {
                 let lastPath = path.last
                 var rand = Int(arc4random_uniform(4))
-                if rand > 2 && lastPath?.type == Relationship.REL_TYPE_COUPLE {
-                    rand = lastRand
-                }
-                while rand == lastRand {
-                    rand = Int(arc4random_uniform(4))
+                
+                if relationshipType == "parents" {
+                    rand = 1
+                } else if relationshipType == "children" {
+                    rand = 2
+                } else if relationshipType == "spouses" {
+                    rand = 3
+                } else {
                     if rand > 2 && lastPath?.type == Relationship.REL_TYPE_COUPLE {
                         rand = lastRand
                     }
+                    while rand == lastRand {
+                        rand = Int(arc4random_uniform(4))
+                        if rand > 2 && lastPath?.type == Relationship.REL_TYPE_COUPLE {
+                            rand = lastRand
+                        }
+                    }
+                    lastRand = rand
                 }
-                lastRand = rand
                 
                 nextPerson = nil
                 

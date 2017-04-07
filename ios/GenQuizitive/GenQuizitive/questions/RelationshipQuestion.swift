@@ -32,7 +32,7 @@ class RelationshipQuestion : MultipleChoiceQuestion {
         self.isReady = false
         self.questionText = ""
         
-        relationshipService.getRandomRelationshipPath(person: familyTreeService.fsUser!, length: length, useLiving: useLiving, onCompletion: {results in
+        relationshipService.getRandomRelationshipPath(person: familyTreeService.fsUser!, length: length, useLiving: useLiving, relationshipType: "all", onCompletion: {results in
             self.path = results["path"] as? [Relationship]
             self.person = results["lastPerson"] as? Person
             familyTreeService.markUsed(personId: self.person!.id!)

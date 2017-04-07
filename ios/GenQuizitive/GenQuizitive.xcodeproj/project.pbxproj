@@ -60,6 +60,8 @@
 		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
 		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
+		937036DE1E973D2000D5BDA7 /* ConnectQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 937036DD1E973D2000D5BDA7 /* ConnectQuestionView.xib */; };
+		937036E01E973D7600D5BDA7 /* ConnectQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937036DF1E973D7600D5BDA7 /* ConnectQuestion.swift */; };
 		93822C611E71A06100545DB7 /* TimelineQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93822C601E71A06100545DB7 /* TimelineQuestion.swift */; };
 		939078FC1DB2EFC90010E0A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */; };
 		939078FE1DB2EFC90010E0A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FD1DB2EFC90010E0A0 /* ViewController.swift */; };
@@ -226,6 +228,8 @@
 		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
+		937036DD1E973D2000D5BDA7 /* ConnectQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectQuestionView.xib; sourceTree = "<group>"; };
+		937036DF1E973D7600D5BDA7 /* ConnectQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectQuestion.swift; sourceTree = "<group>"; };
 		93822C601E71A06100545DB7 /* TimelineQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineQuestion.swift; sourceTree = "<group>"; };
 		939078F81DB2EFC90010E0A0 /* GenQuizitive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenQuizitive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -498,6 +502,8 @@
 				93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */,
 				93C3F1A71E8EC404003025FC /* TreeQuestion.swift */,
 				93C3F19D1E8EBE0C003025FC /* TreeQuestionView.xib */,
+				937036DD1E973D2000D5BDA7 /* ConnectQuestionView.xib */,
+				937036DF1E973D7600D5BDA7 /* ConnectQuestion.swift */,
 			);
 			path = questions;
 			sourceTree = "<group>";
@@ -763,6 +769,7 @@
 				93C3F1A41E8EC3C2003025FC /* button_green_rect.png in Resources */,
 				93DEF1641E5DDB3900C8E2D1 /* RoundDetailView.xib in Resources */,
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
+				937036DE1E973D2000D5BDA7 /* ConnectQuestionView.xib in Resources */,
 				93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
@@ -954,6 +961,7 @@
 				93DEF1621E5DDAAB00C8E2D1 /* RoudDetailView.swift in Sources */,
 				93105A691E4BE262005D4512 /* FamilySearchService.swift in Sources */,
 				93105A511E4BE262005D4512 /* EvidenceReference.swift in Sources */,
+				937036E01E973D7600D5BDA7 /* ConnectQuestion.swift in Sources */,
 				93105A221E4A9873005D4512 /* FacebookService.swift in Sources */,
 				93105A571E4BE262005D4512 /* HypermediaEnabledData.swift in Sources */,
 				939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */,
