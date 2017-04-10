@@ -12,6 +12,7 @@ import UIKit
 class ConnectQuestion : Question {
     var relationshipText:String?
     var startPerson:Person?
+    var person:Person?
     
     override init() {
         super.init()
@@ -42,10 +43,9 @@ class ConnectQuestion : Question {
                 return
             }
 			
-			self.questionText = "Connect the tree path to \(self.person!.display!.name!)"
+			self.questionText = "Follow the tree path up to \(self.person!.display!.name!)"
             familyTreeService.markUsed(personId: self.person!.id!)
-            
-            print(self.path!.description)
+
             self.isReady = true
 			onCompletion(self, nil)
         })
@@ -55,12 +55,20 @@ class ConnectQuestion : Question {
 class ConnectionLevel {
 	var parent1:AvatarBadge!
 	var parent2:AvatarBadge!
-	var lines:LineView!
-	init(p1:AvatarBadge, p2:AvatarBadge, ls:TreeLineView) {
+	var lines:TreeLineView!
+    var index:Int!
+    init(p1:AvatarBadge, p2:AvatarBadge, ls:TreeLineView, index:Int) {
 		parent1 = p1
 		parent2 = p2
 		lines = ls
+        self.index = index
 	}
+    func targetParent1() {
+        
+    }
+    func targetParent2() {
+        
+    }
 }
 
 class TreeLineView : UIView {
@@ -102,7 +110,7 @@ class TreeLineView : UIView {
     }
 }
 
-class ConnectQuestionView : UIView {
+class ConnectQuestionView : UIView, EventListener {
     var view:UIView!
 	@IBOutlet weak var scroller: UIScrollView!
     
@@ -127,6 +135,8 @@ class ConnectQuestionView : UIView {
         view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
+        EventHandler.getInstance().subscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
+        
         self.view.layoutIfNeeded()
     }
     
@@ -143,44 +153,44 @@ class ConnectQuestionView : UIView {
 
 		if question.startPerson != nil && question.person != nil {
 			let width = scroller.frame.width / 4
-			let frame = CGRect(x: scroller.center.x, y: width * 3, width: width, height: width)
+			let frame = CGRect(x: scroller.center.x - width / 2, y: width * 3, width: width, height: width)
 			self.startAvatar = AvatarBadge(frame: frame)
 			self.startAvatar?.showAncestorBackground()
 			let name = LanguageService.getInstance().shortenName(name: question.startPerson!.display!.name!)
 			self.startAvatar?.setLabel(text: name)
 			self.startAvatar?.person = question.startPerson
-			getAvatarPortrait(self.startAvatar!)
+			getAvatarPortrait(avatar: self.startAvatar!)
 			scroller.addSubview(self.startAvatar!)
 			
 		
 			let familyTreeService = FamilyTreeService.getInstance()
 			familyTreeService.getParents(personId: question.startPerson!.id!, onCompletion: {parents, err in
 				if parents != nil && parents!.count > 0 {
-					let frame1 = CGRect(x: scroller.center.x - width * CGFloat(1.2), y: width * CGFloat(1.5), width: width: height: width)
+					let frame1 = CGRect(x: self.scroller.center.x - width * CGFloat(1.2), y: width * CGFloat(1.5), width: width, height: width)
 					let parent1 = AvatarBadge(frame: frame1)
 					parent1.showAncestorBackground()
 					let name1 = LanguageService.getInstance().shortenName(name: parents![0].display!.name!)
 					parent1.setLabel(text: name1)
-					parent1.person = parents[0]
-					getAvatarPortrait(parent1)
-					scroller.addSubview(parent1)
+					parent1.person = parents![0]
+					self.getAvatarPortrait(avatar: parent1)
+					self.scroller.addSubview(parent1)
 					
-					let frame2 = CGRect(x: scroller.center.x + width*1.2, y: width * 1.5, width: width: height: width)
+					let frame2 = CGRect(x: self.scroller.center.x + width * CGFloat(1.2), y: width * CGFloat(1.5), width: width, height: width)
 					let parent2 = AvatarBadge(frame: frame2)
 					parent2.showAncestorBackground()
 					if parents!.count > 1 {
-						let name2 = LanguageService.getInstance().shortenName(name: parents[1].display!.name!)
+						let name2 = LanguageService.getInstance().shortenName(name: parents![1].display!.name!)
 						parent2.setLabel(text: name2)
-						parent2.person = parents[1]
-						getAvatarPortrait(parent2)
+						parent2.person = parents![1]
+						self.getAvatarPortrait(avatar: parent2)
 					}
-					scroller.addSubview(parent2)
+					self.scroller.addSubview(parent2)
 					
 					let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: width * CGFloat(2.4), height: width)
 					let lines = TreeLineView(frame: lineFrame)
-					scroller.addSubview(lines)
+					self.scroller.addSubview(lines)
 				
-					let level = ConnectionLevel(p1: parent1, p2: parent2: lines: lines)
+                    let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
 					self.levels.append(level)
 				}
 			})
@@ -205,4 +215,39 @@ class ConnectQuestionView : UIView {
 			})
 		}
 	}
+    
+    func getLevelForAvatar(avatar: AvatarBadge) -> ConnectionLevel? {
+        for level in self.levels {
+            if level.parent1 == avatar || level.parent2 == avatar {
+                return level
+            }
+        }
+        return nil
+    }
+    
+    func onEvent(_ topic:String, data:Any?) {
+        if topic == AvatarBadge.TOPIC_PERSON_TAPPED {
+            let avatar = data as! AvatarBadge
+            if avatar.person != nil {
+                if avatar.person = self.question?.person {
+                    EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
+                    EventHandler.getInstance().publish("questionCorrect", data: self.question!)
+                } else {
+                    let level = getLevelForAvatar(avatar: avatar)
+                    if level != nil {
+                        while self.levels.last!.index > level.index {
+                            let last = self.levels.removeLast()
+                            last.parent1.removeFromSuperview()
+                            last.parent2.removeFromSuperview()
+                            last.lines.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var listenerIndex:Int?
+    func setListenerIndex(_ index:Int) {
+        listenerIndex = index
+    }
 }

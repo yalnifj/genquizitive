@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 
 class AvatarBadge: UIView {
+    static var TOPIC_PERSON_TAPPED = "topicPersonTapped"
     
     var background: UIImageView!
     var profileImage: UIImageView?
     var label: UILabel?
     
     var person:Person?
+    var touchBegan = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,4 +84,18 @@ class AvatarBadge: UIView {
         self.addSubview(label!)
         self.layoutIfNeeded()
     }
+    
+    override func touchesBegan(_ touches: (Set<UITouch>!), with event: UIEvent!) {
+        super.touchesBegan(touches, with: event)
+        touchBegan = true
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        if touchBegan {
+            EventHandler.getInstance().publish(AvatarBadge.TOPIC_PERSON_TAPPED, data: self)
+        }
+        touchBegan = false
+    }
+
 }
