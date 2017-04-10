@@ -822,7 +822,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					
 					familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
 						question.person = person1;
-						question.questionText = 'Connect the tree path to '+question.person.display.name;
+						question.questionText = 'Follow the tree path up to '+question.person.display.name;
 						familysearchService.markUsed(question.person);						
 						question.isReady = true;
 						question.deferred.resolve(question);
