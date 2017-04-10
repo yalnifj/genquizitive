@@ -3,24 +3,26 @@
 		Select someone from your tree to be the central person for your GenQuiz Live game.
 		<!-- provide search feature -->
 		<form class="form-inline">
-				<input type="text" ng-model="search.firstName" placeholder="First name" />
-				<input type="text" ng-model="search.lastName" placeholder="Last name" />
-				<input type="text" ng-model="search.birthDate" placeholder="Birth date" />
-				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" />
+				<input type="text" ng-model="search.firstName" placeholder="First name" style="width: 120px;" />
+				<input type="text" ng-model="search.lastName" placeholder="Last name" style="width: 120px;" />
+				<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" />
+				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" />
 				<button class="btn btn-default" ng-click="searchForPerson()">Search</button>
 		</form>
 		<div class="tree text-center">
+		<!--
 			<div>
 				<div avatar-badge ng-repeat="n in [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
 			</div>
+		-->
 			<div>
 				<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
 			</div>
 			<div>
 				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])" class="{{n==5?'large-spacer':''}}"></div>
 			</div>
 			<div>
 				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 

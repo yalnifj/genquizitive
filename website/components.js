@@ -109,7 +109,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		}
 	}
 }])
-.directive('avatarBadge', ['facebookService', function(facebookService) {
+.directive('avatarBadge', [function() {
 	return {
 		scope: {
 			src: '=',
