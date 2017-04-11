@@ -64,10 +64,26 @@ class ConnectionLevel {
         self.index = index
 	}
     func targetParent1() {
-        
+        parent1.frame.origin.x = parent1.frame.origin.x + parent1.frame.width * 0.7
+        parent2.frame.origin.x = parent2.frame.origin.x + parent2.frame.width * 0.7
+        lines.style = "right"
     }
     func targetParent2() {
-        
+        parent1.frame.origin.x = parent1.frame.origin.x - parent1.frame.width * 0.7
+        parent2.frame.origin.x = parent2.frame.origin.x - parent2.frame.width * 0.7
+        lines.style = "left"
+    }
+    func targetParent(avatar:AvatarBadge) {
+        if avatar == parent1 {
+            targetParent1()
+        } else if avatar == parent2 {
+            targetParent2()
+        }
+    }
+    func adjustY(y:CGFloat) {
+        parent1.frame.y += y
+        paretn2.frame.y += y
+        lines.frame.y += y
     }
 }
 
@@ -105,7 +121,7 @@ class TreeLineView : UIView {
 		if color == nil {
 			color = UIColor(red: 0.082, green: 0.451, blue: 0.463, alpha: 1.0)
 		}
-        color.set()
+        color!.set()
         aPath.stroke()
     }
 }
@@ -162,39 +178,45 @@ class ConnectQuestionView : UIView, EventListener {
 			getAvatarPortrait(avatar: self.startAvatar!)
 			scroller.addSubview(self.startAvatar!)
 			
-		
-			let familyTreeService = FamilyTreeService.getInstance()
-			familyTreeService.getParents(personId: question.startPerson!.id!, onCompletion: {parents, err in
-				if parents != nil && parents!.count > 0 {
-					let frame1 = CGRect(x: self.scroller.center.x - width * CGFloat(1.2), y: width * CGFloat(1.5), width: width, height: width)
-					let parent1 = AvatarBadge(frame: frame1)
-					parent1.showAncestorBackground()
-					let name1 = LanguageService.getInstance().shortenName(name: parents![0].display!.name!)
-					parent1.setLabel(text: name1)
-					parent1.person = parents![0]
-					self.getAvatarPortrait(avatar: parent1)
-					self.scroller.addSubview(parent1)
-					
-					let frame2 = CGRect(x: self.scroller.center.x + width * CGFloat(1.2), y: width * CGFloat(1.5), width: width, height: width)
-					let parent2 = AvatarBadge(frame: frame2)
-					parent2.showAncestorBackground()
-					if parents!.count > 1 {
-						let name2 = LanguageService.getInstance().shortenName(name: parents![1].display!.name!)
-						parent2.setLabel(text: name2)
-						parent2.person = parents![1]
-						self.getAvatarPortrait(avatar: parent2)
-					}
-					self.scroller.addSubview(parent2)
-					
-					let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: width * CGFloat(2.4), height: width)
-					let lines = TreeLineView(frame: lineFrame)
-					self.scroller.addSubview(lines)
-				
-                    let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
-					self.levels.append(level)
-				}
-			})
+            let y = width * CGFloat(1.5)
+            self.addLevel(person: question.startPerson!, y: y)
 		}
+    }
+    
+    func addLevel(person:Person, y: CGFloat) {
+        let width = scroller.frame.width / 4
+        let familyTreeService = FamilyTreeService.getInstance()
+        familyTreeService.getParents(personId: person.id!, onCompletion: {parents, err in
+            if parents != nil && parents!.count > 0 {
+                let frame1 = CGRect(x: self.scroller.center.x - width * CGFloat(1.2), y: y, width: width, height: width)
+                let parent1 = AvatarBadge(frame: frame1)
+                parent1.showAncestorBackground()
+                let name1 = LanguageService.getInstance().shortenName(name: parents![0].display!.name!)
+                parent1.setLabel(text: name1)
+                parent1.person = parents![0]
+                self.getAvatarPortrait(avatar: parent1)
+                
+                let frame2 = CGRect(x: self.scroller.center.x + width * CGFloat(1.2), y: y, width: width, height: width)
+                let parent2 = AvatarBadge(frame: frame2)
+                parent2.showAncestorBackground()
+                if parents!.count > 1 {
+                    let name2 = LanguageService.getInstance().shortenName(name: parents![1].display!.name!)
+                    parent2.setLabel(text: name2)
+                    parent2.person = parents![1]
+                    self.getAvatarPortrait(avatar: parent2)
+                }
+                
+                let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: width * CGFloat(2.4), height: width)
+                let lines = TreeLineView(frame: lineFrame)
+                
+                self.scroller.addSubview(lines)
+                self.scroller.addSubview(parent1)
+                self.scroller.addSubview(parent2)
+                
+                let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
+                self.levels.append(level)
+            }
+        })
     }
 	
 	func getAvatarPortrait(avatar:AvatarBadge) {
@@ -229,19 +251,25 @@ class ConnectQuestionView : UIView, EventListener {
         if topic == AvatarBadge.TOPIC_PERSON_TAPPED {
             let avatar = data as! AvatarBadge
             if avatar.person != nil {
-                if avatar.person = self.question?.person {
+                if avatar.person! == self.question!.person! {
                     EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 } else {
                     let level = getLevelForAvatar(avatar: avatar)
                     if level != nil {
-                        while self.levels.last!.index > level.index {
+                        while self.levels.last!.index > level!.index {
                             let last = self.levels.removeLast()
                             last.parent1.removeFromSuperview()
                             last.parent2.removeFromSuperview()
                             last.lines.removeFromSuperview()
                         }
                     }
+                    level?.targetParent(avatar: avatar)
+                    
+                    let y = width * CGFloat(1.5)
+                    self.addLevel(person: question.startPerson!, y: y)
+                    
+                    
                 }
             }
         }
