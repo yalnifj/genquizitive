@@ -272,6 +272,11 @@ class PracticeViewController: UIViewController, EventListener {
                 treelineQuestionView.showQuestion(question: question as! TreeQuestion)
                 questionView = treelineQuestionView
             }
+            else if question.name == "connect" {
+                let connectQuestionView = ConnectQuestionView(frame: frame)
+                connectQuestionView.showQuestion(question: question as! ConnectQuestion)
+                questionView = connectQuestionView
+            }
             
             self.view.addSubview(questionView!)
             UIView.animate(withDuration: 0.5,

@@ -81,9 +81,9 @@ class ConnectionLevel {
         }
     }
     func adjustY(y:CGFloat) {
-        parent1.frame.y += y
-        paretn2.frame.y += y
-        lines.frame.y += y
+        parent1.frame.origin.y += y
+        parent2.frame.origin.y += y
+        lines.frame.origin.y += y
     }
 }
 
@@ -129,6 +129,7 @@ class TreeLineView : UIView {
 class ConnectQuestionView : UIView, EventListener {
     var view:UIView!
 	@IBOutlet weak var scroller: UIScrollView!
+    @IBOutlet weak var questionText: UILabel!
     
 	var startAvatar:AvatarBadge?
 	var levels = [ConnectionLevel]()
@@ -168,6 +169,8 @@ class ConnectQuestionView : UIView, EventListener {
         self.question = question
 
 		if question.startPerson != nil && question.person != nil {
+            questionText.text = question.questionText
+            
 			let width = scroller.frame.width / 4
 			let frame = CGRect(x: scroller.center.x - width / 2, y: width * 3, width: width, height: width)
 			self.startAvatar = AvatarBadge(frame: frame)
@@ -247,11 +250,22 @@ class ConnectQuestionView : UIView, EventListener {
         return nil
     }
     
+    func positionLevels() {
+        let width = scroller.frame.width / 4
+        let y = width * CGFloat(1.5)
+        
+        for level in self.levels.reversed() {
+            level.parent1.frame.origin.y = y
+            level.parent2.frame.origin.y = y
+            level.lines.frame.origin.y = level.parent1.center.y
+        }
+    }
+    
     func onEvent(_ topic:String, data:Any?) {
         if topic == AvatarBadge.TOPIC_PERSON_TAPPED {
             let avatar = data as! AvatarBadge
             if avatar.person != nil {
-                if avatar.person! == self.question!.person! {
+                if avatar.person!.id == self.question!.person!.id {
                     EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
                     EventHandler.getInstance().publish("questionCorrect", data: self.question!)
                 } else {
@@ -266,10 +280,11 @@ class ConnectQuestionView : UIView, EventListener {
                     }
                     level?.targetParent(avatar: avatar)
                     
+                    let width = scroller.frame.width / 4
                     let y = width * CGFloat(1.5)
-                    self.addLevel(person: question.startPerson!, y: y)
+                    self.addLevel(person: avatar.person!, y: y)
                     
-                    
+                    positionLevels()
                 }
             }
         }

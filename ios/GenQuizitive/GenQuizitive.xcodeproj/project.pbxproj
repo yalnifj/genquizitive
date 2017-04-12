@@ -62,6 +62,9 @@
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
 		937036DE1E973D2000D5BDA7 /* ConnectQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 937036DD1E973D2000D5BDA7 /* ConnectQuestionView.xib */; };
 		937036E01E973D7600D5BDA7 /* ConnectQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937036DF1E973D7600D5BDA7 /* ConnectQuestion.swift */; };
+		937036E21E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937036E11E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift */; };
+		937036E41E9DCE9F00D5BDA7 /* challenge_review_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 937036E31E9DCE9F00D5BDA7 /* challenge_review_background.jpg */; };
+		937036E61E9DD14A00D5BDA7 /* genquiz_score.png in Resources */ = {isa = PBXBuildFile; fileRef = 937036E51E9DD14A00D5BDA7 /* genquiz_score.png */; };
 		93822C611E71A06100545DB7 /* TimelineQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93822C601E71A06100545DB7 /* TimelineQuestion.swift */; };
 		939078FC1DB2EFC90010E0A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */; };
 		939078FE1DB2EFC90010E0A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939078FD1DB2EFC90010E0A0 /* ViewController.swift */; };
@@ -230,6 +233,9 @@
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
 		937036DD1E973D2000D5BDA7 /* ConnectQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectQuestionView.xib; sourceTree = "<group>"; };
 		937036DF1E973D7600D5BDA7 /* ConnectQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectQuestion.swift; sourceTree = "<group>"; };
+		937036E11E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PracticeRoundReviewController.swift; sourceTree = "<group>"; };
+		937036E31E9DCE9F00D5BDA7 /* challenge_review_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = challenge_review_background.jpg; sourceTree = "<group>"; };
+		937036E51E9DD14A00D5BDA7 /* genquiz_score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genquiz_score.png; sourceTree = "<group>"; };
 		93822C601E71A06100545DB7 /* TimelineQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineQuestion.swift; sourceTree = "<group>"; };
 		939078F81DB2EFC90010E0A0 /* GenQuizitive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenQuizitive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -459,6 +465,7 @@
 				939078FF1DB2EFC90010E0A0 /* Main.storyboard */,
 				939F50411E4A89ED0049167B /* MenuViewController.swift */,
 				93A950861E5C8B48004BBDDD /* PracticeViewController.swift */,
+				937036E11E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift */,
 				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
 				9324C54D1E68692F00B8E634 /* LanguageService.swift */,
 				93A950731E5B74C4004BBDDD /* QuestionService.swift */,
@@ -538,21 +545,19 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				93C3F1A51E8EC3E3003025FC /* tree_background.jpg */,
-				93C3F19F1E8EC3C2003025FC /* lamp.png */,
-				93C3F1A01E8EC3C2003025FC /* roadsign.png */,
-				93C3F1A11E8EC3C2003025FC /* button_green_rect.png */,
-				93EFF1721E72643200914B8A /* chrome_badge.png */,
-				9324C5571E69B8F200B8E634 /* relationshipQuestion */,
+				937036E51E9DD14A00D5BDA7 /* genquiz_score.png */,
 				9324C54F1E690C4F00B8E634 /* ancestor_badge.png */,
 				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
 				93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */,
+				93C3F1A11E8EC3C2003025FC /* button_green_rect.png */,
 				93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */,
 				93E8A9DC1DCAB6AD00C25D4E /* button_sign_arrow_left.png */,
 				93E8A9DD1DCAB6AD00C25D4E /* button_sign_arrow_right.png */,
 				93DEF1651E5DDC4500C8E2D1 /* button_yellow_circle.png */,
 				93E8A9DE1DCAB6AD00C25D4E /* button_yellow_rect.png */,
 				93E8A9DF1DCAB6AD00C25D4E /* button_yellow_trap1.png */,
+				937036E31E9DCE9F00D5BDA7 /* challenge_review_background.jpg */,
+				93EFF1721E72643200914B8A /* chrome_badge.png */,
 				9324C5441E66687700B8E634 /* factQuestion */,
 				93DEF1531E5D444000C8E2D1 /* gear_sign.png */,
 				93DEF1661E5DDC4500C8E2D1 /* green_light_off.png */,
@@ -564,6 +569,7 @@
 				93E8A9C81DC9913200C25D4E /* home_arrow3.png */,
 				93E8A9C91DC9913200C25D4E /* home_background.jpg */,
 				93E8A9CA1DC9913200C25D4E /* home_sign.png */,
+				93C3F19F1E8EC3C2003025FC /* lamp.png */,
 				93DEF1551E5D484C00C8E2D1 /* loading1.png */,
 				93DEF1561E5D484C00C8E2D1 /* loading2.png */,
 				93DEF1571E5D484C00C8E2D1 /* loading3.png */,
@@ -577,7 +583,10 @@
 				93A950821E5B79D3004BBDDD /* pole2.png */,
 				93DEF16A1E5DDC4500C8E2D1 /* red_light_off.png */,
 				93DEF16B1E5DDC4500C8E2D1 /* red_light_on.png */,
+				9324C5571E69B8F200B8E634 /* relationshipQuestion */,
+				93C3F1A01E8EC3C2003025FC /* roadsign.png */,
 				93DEF16C1E5DDC4500C8E2D1 /* timer.png */,
+				93C3F1A51E8EC3E3003025FC /* tree_background.jpg */,
 				93E8A9CC1DC9913200C25D4E /* yft_logo.png */,
 			);
 			path = assets;
@@ -744,6 +753,7 @@
 				93DEF15F1E5D484C00C8E2D1 /* number2.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,
+				937036E61E9DD14A00D5BDA7 /* genquiz_score.png in Resources */,
 				939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */,
 				93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */,
 				93A9507F1E5B76DA004BBDDD /* back.png in Resources */,
@@ -771,6 +781,7 @@
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
 				937036DE1E973D2000D5BDA7 /* ConnectQuestionView.xib in Resources */,
 				93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */,
+				937036E41E9DCE9F00D5BDA7 /* challenge_review_background.jpg in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
 				93DEF1541E5D444000C8E2D1 /* gear_sign.png in Resources */,
@@ -953,6 +964,7 @@
 				93105A4F1E4BE262005D4512 /* Date.swift in Sources */,
 				93105A4D1E4BE262005D4512 /* Conclusion.swift in Sources */,
 				93822C611E71A06100545DB7 /* TimelineQuestion.swift in Sources */,
+				937036E21E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift in Sources */,
 				93105A6D1E4BE262005D4512 /* RemoteService.swift in Sources */,
 				93105A5C1E4BE262005D4512 /* NamePart.swift in Sources */,
 				939078FE1DB2EFC90010E0A0 /* ViewController.swift in Sources */,
