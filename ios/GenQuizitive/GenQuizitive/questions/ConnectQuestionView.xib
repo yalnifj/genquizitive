@@ -39,7 +39,7 @@
                 </label>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vYy-mW-Ru3">
                     <rect key="frame" x="17" y="114" width="324" height="436"/>
-                    <color key="backgroundColor" cyan="0.095325248109999997" magenta="0.041127387430000002" yellow="0.028390634800000002" black="0.0" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                    <color key="backgroundColor" red="0.85962337255477905" green="0.88944476842880249" blue="0.90804004669189453" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

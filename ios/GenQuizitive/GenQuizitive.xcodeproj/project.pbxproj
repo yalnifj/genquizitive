@@ -73,6 +73,8 @@
 		939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 939079041DB2EFC90010E0A0 /* LaunchScreen.storyboard */; };
 		939079111DB2EFC90010E0A0 /* GenQuizitiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939079101DB2EFC90010E0A0 /* GenQuizitiveTests.swift */; };
 		9390791C1DB2EFC90010E0A0 /* GenQuizitiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9390791B1DB2EFC90010E0A0 /* GenQuizitiveUITests.swift */; };
+		9398CC981E9EF48F0039FCBE /* PracticeReviewRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9398CC971E9EF48F0039FCBE /* PracticeReviewRow.xib */; };
+		9398CC9A1E9EF96C0039FCBE /* PractiveReviewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CC991E9EF96C0039FCBE /* PractiveReviewRow.swift */; };
 		939F50401E4A86510049167B /* pole_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 939F503F1E4A86510049167B /* pole_circle.png */; };
 		939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50411E4A89ED0049167B /* MenuViewController.swift */; };
 		939F50461E4A8FCC0049167B /* AvatarBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939F50451E4A8FCC0049167B /* AvatarBadge.swift */; };
@@ -250,6 +252,8 @@
 		939079171DB2EFC90010E0A0 /* GenQuizitiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenQuizitiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9390791B1DB2EFC90010E0A0 /* GenQuizitiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenQuizitiveUITests.swift; sourceTree = "<group>"; };
 		9390791D1DB2EFC90010E0A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9398CC971E9EF48F0039FCBE /* PracticeReviewRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PracticeReviewRow.xib; sourceTree = "<group>"; };
+		9398CC991E9EF96C0039FCBE /* PractiveReviewRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PractiveReviewRow.swift; sourceTree = "<group>"; };
 		939F503F1E4A86510049167B /* pole_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pole_circle.png; sourceTree = "<group>"; };
 		939F50411E4A89ED0049167B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		939F50451E4A8FCC0049167B /* AvatarBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarBadge.swift; path = ../AvatarBadge.swift; sourceTree = "<group>"; };
@@ -538,6 +542,8 @@
 				93EFF16E1E72633A00914B8A /* TimelineFactView.swift */,
 				93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */,
 				93557DF41E8DFC7E00B50FE7 /* TimelineFactScroller.swift */,
+				9398CC971E9EF48F0039FCBE /* PracticeReviewRow.xib */,
+				9398CC991E9EF96C0039FCBE /* PractiveReviewRow.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -756,6 +762,7 @@
 				937036E61E9DD14A00D5BDA7 /* genquiz_score.png in Resources */,
 				939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */,
 				93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */,
+				9398CC981E9EF48F0039FCBE /* PracticeReviewRow.xib in Resources */,
 				93A9507F1E5B76DA004BBDDD /* back.png in Resources */,
 				93DEF1781E5FEFF500C8E2D1 /* LoadingView.xib in Resources */,
 				93DEF15D1E5D484C00C8E2D1 /* loading3.png in Resources */,
@@ -961,6 +968,7 @@
 				93105A671E4BE262005D4512 /* TextValue.swift in Sources */,
 				93105A601E4BE262005D4512 /* Qualifier.swift in Sources */,
 				93105A6A1E4BE262005D4512 /* GedcomParser.swift in Sources */,
+				9398CC9A1E9EF96C0039FCBE /* PractiveReviewRow.swift in Sources */,
 				93105A4F1E4BE262005D4512 /* Date.swift in Sources */,
 				93105A4D1E4BE262005D4512 /* Conclusion.swift in Sources */,
 				93822C611E71A06100545DB7 /* TimelineQuestion.swift in Sources */,

@@ -108,14 +108,17 @@ class TreeLineView : UIView {
 		if style == "center" {
 			aPath.move(to: CGPoint(x:0, y:0))
 			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		} else if style == "left" {
 			aPath.move(to: CGPoint(x:self.center.x, y:0))
 			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:0, y:0))
 		} else if style == "right" {
 			aPath.move(to: CGPoint(x:self.center.x, y:0))
 			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		}
         aPath.close()
@@ -185,7 +188,7 @@ class ConnectQuestionView : UIView, EventListener {
             questionText.text = question.questionText
             
 			avatarWidth = scroller.frame.width / 5
-			let frame = CGRect(x: scroller.center.x - avatarWidth / 2, y: avatarWidth * 3, width: avatarWidth, height: avatarWidth)
+			let frame = CGRect(x: scroller.center.x - (avatarWidth / 1.9), y: avatarWidth * 3, width: avatarWidth, height: avatarWidth)
 			self.startAvatar = AvatarBadge(frame: frame)
 			self.startAvatar?.showAncestorBackground()
 			let name = LanguageService.getInstance().shortenName(name: question.startPerson!.display!.name!)
@@ -194,7 +197,7 @@ class ConnectQuestionView : UIView, EventListener {
 			getAvatarPortrait(avatar: self.startAvatar!)
 			scroller.addSubview(self.startAvatar!)
 			
-            let y = avatarWidth * CGFloat(1.5)
+            let y = avatarWidth * 2
             self.addLevel(person: question.startPerson!, y: y)
 		}
     }
@@ -203,7 +206,7 @@ class ConnectQuestionView : UIView, EventListener {
         let familyTreeService = FamilyTreeService.getInstance()
         familyTreeService.getParents(personId: person.id!, onCompletion: {parents, err in
             if parents != nil && parents!.count > 0 {
-                let frame1 = CGRect(x: self.scroller.center.x - avatarWidth * CGFloat(1.2), y: y, width: avatarWidth, height: avatarWidth)
+                let frame1 = CGRect(x: self.scroller.center.x - (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
                 let parent1 = AvatarBadge(frame: frame1)
                 parent1.showAncestorBackground()
                 let name1 = LanguageService.getInstance().shortenName(name: parents![0].display!.name!)
@@ -211,7 +214,7 @@ class ConnectQuestionView : UIView, EventListener {
                 parent1.person = parents![0]
                 self.getAvatarPortrait(avatar: parent1)
                 
-                let frame2 = CGRect(x: self.scroller.center.x + avatarWidth * CGFloat(1.2), y: y, width: avatarWidth, height: avatarWidth)
+                let frame2 = CGRect(x: self.scroller.center.x + (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
                 let parent2 = AvatarBadge(frame: frame2)
                 parent2.showAncestorBackground()
                 if parents!.count > 1 {
@@ -221,7 +224,7 @@ class ConnectQuestionView : UIView, EventListener {
                     self.getAvatarPortrait(avatar: parent2)
                 }
                 
-                let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: avatarWidth * CGFloat(2.4), height: avatarWidth)
+                let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: self.avatarWidth * 2, height: self.avatarWidth)
                 let lines = TreeLineView(frame: lineFrame)
                 
                 self.scroller.addSubview(lines)
@@ -230,6 +233,8 @@ class ConnectQuestionView : UIView, EventListener {
                 
                 let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
                 self.levels.append(level)
+            } else {
+                print("Error getting parents")
             }
         })
     }

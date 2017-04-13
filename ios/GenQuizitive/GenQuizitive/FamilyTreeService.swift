@@ -229,31 +229,33 @@ class FamilyTreeService {
                 
                 var parents = [Person]()
                 for rel in relationships! {
-                    if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
-                        group.enter()
-                        self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
-                            if person != nil {
-                                self.people[person!.id!] = person
-                                self.backgroundQ.append({()->Void in
-                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
-                                })
-                                parents.append(person!)
-                            }
-                            group.leave()
-                        })
-                    }
-                    else if rel.person2 != nil && rel.person2!.resourceId != nil && rel.person2!.resourceId != personId {
-                        group.enter()
-                        self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
-                            if person != nil {
-                                self.people[person!.id!] = person
-                                self.backgroundQ.append({()->Void in
-                                    self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
-                                })
-                                parents.append(person!)
-                            }
-                            group.leave()
-                        })
+                    if rel.type == Relationship.REL_TYPE_PARENTCHILD {
+                        if rel.person1 != nil && rel.person1!.resourceId != nil && rel.person1!.resourceId != personId {
+                            group.enter()
+                            self.remoteService!.getPerson(rel.person1!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                                if person != nil {
+                                    self.people[person!.id!] = person
+                                    self.backgroundQ.append({()->Void in
+                                        self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                    })
+                                    parents.append(person!)
+                                }
+                                group.leave()
+                            })
+                        }
+                        else if rel.person2 != nil && rel.person2!.resourceId != nil && rel.person2!.resourceId != personId {
+                            group.enter()
+                            self.remoteService!.getPerson(rel.person2!.resourceId!, ignoreCache: false, onCompletion: {person, err in
+                                if person != nil {
+                                    self.people[person!.id!] = person
+                                    self.backgroundQ.append({()->Void in
+                                        self.getPersonPortrait(personId: person!.id!, onCompletion: {path in })
+                                    })
+                                    parents.append(person!)
+                                }
+                                group.leave()
+                            })
+                        }
                     }
                 }
                 

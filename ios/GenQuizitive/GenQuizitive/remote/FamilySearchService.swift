@@ -29,6 +29,7 @@ class FamilySearchService : RemoteService {
     }
     
     var personCache = [String: Person]()
+    var relationshipCache = [String : [String : [Relationship]]]()
     
     init(env: String, applicationKey: String, redirectUrl: String) {
         self.FS_APP_KEY = applicationKey
@@ -277,6 +278,10 @@ class FamilySearchService : RemoteService {
 	}
 	
 	func getParents(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
+        if relationshipCache[personId] != nil && relationshipCache[personId]?["parents"] != nil {
+            onCompletion(relationshipCache[personId]?["parents"], nil)
+            return
+        }
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -289,6 +294,11 @@ class FamilySearchService : RemoteService {
                     }
                 }
 				let relationships = Relationship.convertJsonToRelationships(json)
+                if self.relationshipCache[personId] == nil {
+                    self.relationshipCache[personId] = ["parents" : relationships]
+                } else {
+                    self.relationshipCache[personId]?["parents"] = relationships
+                }
 				onCompletion(relationships, err)
 			})
 		} else {
@@ -297,6 +307,10 @@ class FamilySearchService : RemoteService {
 	}
 	
 	func getChildren(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
+        if relationshipCache[personId] != nil && relationshipCache[personId]?["children"] != nil {
+            onCompletion(relationshipCache[personId]?["children"], nil)
+            return
+        }
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -309,6 +323,11 @@ class FamilySearchService : RemoteService {
                     }
                 }
 				let relationships = Relationship.convertJsonToRelationships(json)
+                if self.relationshipCache[personId] == nil {
+                    self.relationshipCache[personId] = ["children" : relationships]
+                } else {
+                    self.relationshipCache[personId]?["children"] = relationships
+                }
 				onCompletion(relationships, err)
 			})
 		} else {
@@ -317,6 +336,10 @@ class FamilySearchService : RemoteService {
 	}
 	
 	func getSpouses(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
+        if relationshipCache[personId] != nil && relationshipCache[personId]?["spouses"] != nil {
+            onCompletion(relationshipCache[personId]?["spouses"], nil)
+            return
+        }
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -329,6 +352,11 @@ class FamilySearchService : RemoteService {
                     }
                 }
 				let relationships = Relationship.convertJsonToRelationships(json)
+                if self.relationshipCache[personId] == nil {
+                    self.relationshipCache[personId] = ["spouses" : relationships]
+                } else {
+                    self.relationshipCache[personId]?["spouses"] = relationships
+                }
 				onCompletion(relationships, err)
 			})
 		} else {
