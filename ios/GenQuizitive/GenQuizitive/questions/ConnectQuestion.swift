@@ -12,7 +12,6 @@ import UIKit
 class ConnectQuestion : Question {
     var relationshipText:String?
     var startPerson:Person?
-    var person:Person?
     
     override init() {
         super.init()
@@ -190,12 +189,8 @@ class ConnectQuestionView : UIView, EventListener {
 			avatarWidth = scroller.frame.width / 5
 			let frame = CGRect(x: scroller.center.x - (avatarWidth / 1.9), y: avatarWidth * 3, width: avatarWidth, height: avatarWidth)
 			self.startAvatar = AvatarBadge(frame: frame)
-			self.startAvatar?.showAncestorBackground()
-			let name = LanguageService.getInstance().shortenName(name: question.startPerson!.display!.name!)
-			self.startAvatar?.setLabel(text: name)
-			self.startAvatar?.person = question.startPerson
-			getAvatarPortrait(avatar: self.startAvatar!)
-			scroller.addSubview(self.startAvatar!)
+            self.startAvatar!.showPerson(person: question.startPerson!)
+            scroller.addSubview(self.startAvatar!)
 			
             let y = avatarWidth * 2
             self.addLevel(person: question.startPerson!, y: y)
@@ -208,20 +203,13 @@ class ConnectQuestionView : UIView, EventListener {
             if parents != nil && parents!.count > 0 {
                 let frame1 = CGRect(x: self.scroller.center.x - (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
                 let parent1 = AvatarBadge(frame: frame1)
-                parent1.showAncestorBackground()
-                let name1 = LanguageService.getInstance().shortenName(name: parents![0].display!.name!)
-                parent1.setLabel(text: name1)
-                parent1.person = parents![0]
-                self.getAvatarPortrait(avatar: parent1)
-                
+                parent1.showPerson(person: parents![0])
+                                
                 let frame2 = CGRect(x: self.scroller.center.x + (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
                 let parent2 = AvatarBadge(frame: frame2)
                 parent2.showAncestorBackground()
                 if parents!.count > 1 {
-                    let name2 = LanguageService.getInstance().shortenName(name: parents![1].display!.name!)
-                    parent2.setLabel(text: name2)
-                    parent2.person = parents![1]
-                    self.getAvatarPortrait(avatar: parent2)
+                    parent2.showPerson(person: parents![1])
                 }
                 
                 let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: self.avatarWidth * 2, height: self.avatarWidth)
@@ -238,25 +226,6 @@ class ConnectQuestionView : UIView, EventListener {
             }
         })
     }
-	
-	func getAvatarPortrait(avatar:AvatarBadge) {
-		if avatar.person != nil {
-			FamilyTreeService.getInstance().getPersonPortrait(personId: avatar.person!.id, onCompletion: {path in
-				if path != nil {
-					let fileManager = FileManager.default
-					let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-					let photoUrl = url.appendingPathComponent(path!)
-					let data = try? Data(contentsOf: photoUrl)
-					if data != nil {
-						let uiImage = UIImage(data: data!)
-						if uiImage != nil {
-							avatar.setProfileImage(image: uiImage!)
-						}
-					}
-				}
-			})
-		}
-	}
     
     func getLevelForAvatar(avatar: AvatarBadge) -> ConnectionLevel? {
         for level in self.levels {

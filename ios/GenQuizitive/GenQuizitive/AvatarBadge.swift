@@ -85,6 +85,28 @@ class AvatarBadge: UIView {
         self.layoutIfNeeded()
     }
     
+    func showPerson(person:Person) {
+        self.person = person
+        self.showAncestorBackground()
+        FamilyTreeService.getInstance().getPersonPortrait(personId: self.person!.id, onCompletion: {path in
+            if path != nil {
+                let fileManager = FileManager.default
+                let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let photoUrl = url.appendingPathComponent(path!)
+                let data = try? Data(contentsOf: photoUrl)
+                if data != nil {
+                    let uiImage = UIImage(data: data!)
+                    if uiImage != nil {
+                        self.setProfileImage(image: uiImage!)
+                    }
+                }
+            }
+        })
+        let name = LanguageService.getInstance().shortenName(name: self.person!.display!.name!)
+        self.setLabel(text: name)
+
+    }
+    
     override func touchesBegan(_ touches: (Set<UITouch>!), with event: UIEvent!) {
         super.touchesBegan(touches, with: event)
         touchBegan = true

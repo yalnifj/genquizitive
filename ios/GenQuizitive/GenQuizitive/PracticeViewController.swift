@@ -26,6 +26,7 @@ class PracticeViewController: UIViewController, EventListener {
     var currentQuestion:Int = 0
     var maxQuestions = 5
     var setupCount = 0
+    var lastTime:TimeInterval = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +94,8 @@ class PracticeViewController: UIViewController, EventListener {
     }
     
     func nextQuestion() {
+        questions[currentQuestion].myTime = roundDetailView.timeElapsed - lastTime
+        lastTime = roundDetailView.timeElapsed
         currentQuestion += 1
         if currentQuestion < maxQuestions-1 {
             var question = QuestionService.getInstance().getRandomQuestion()
@@ -106,15 +109,20 @@ class PracticeViewController: UIViewController, EventListener {
             showCurrentQuestion()
         } else {
             print("Round complete")
-            // show round complete
-            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as UIViewController
             
+            let round = GenQuizRound(questions: questions)
+            
+            // show round complete
+            let viewController:PracticeRoundReviewViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeRoundReviewViewController") as PracticeRoundReviewViewController
+            
+            viewController.genQuiz = round
             self.present(viewController, animated: false, completion: nil)
         }
     }
     
     func onEvent(_ topic:String, data:Any?) {
         if topic == "questionIncorrect" {
+            questions[currentQuestion].myIncorrectCount += 1
             roundDetailView.addPenalty()
         } else if topic == "questionCorrect" {
             nextQuestion()

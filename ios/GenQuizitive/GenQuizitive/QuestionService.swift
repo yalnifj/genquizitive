@@ -15,6 +15,11 @@ class Question {
     var difficulty:Int = 1
     var hints:[String]!
     var isReady = false
+    var person:Person?
+    var myTime:TimeInterval?
+    var friendTime:TimeInterval?
+    var myIncorrectCount:Int = 0
+    var friendIncorrectCount:Int = 0
     
     var questionText:String!
     
@@ -24,8 +29,32 @@ class Question {
 }
 
 class MultipleChoiceQuestion : Question {
-    var person:Person?
     var answerPeople:[Person]!
+}
+
+class GenQuizRound {
+    var questions:[Question]
+    var myTotalTime:TimeInterval
+    var friendTotalTime:TimeInterval
+    var myTotalIncorrect:Int = 0
+    var friendTotalIncorrect:Int = 0
+    
+    
+    init(questions:[Question]) {
+        self.questions = questions
+        myTotalTime = 0
+        friendTotalTime = 0
+        for q in questions {
+            if q.myTime != nil {
+                myTotalTime += q.myTime!
+            }
+            if q.friendTime != nil {
+                friendTotalTime += q.friendTime!
+            }
+            myTotalIncorrect += q.myIncorrectCount
+            friendTotalIncorrect += q.friendIncorrectCount
+        }
+    }
 }
 
 class QuestionService {

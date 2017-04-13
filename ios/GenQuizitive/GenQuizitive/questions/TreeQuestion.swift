@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class TreeQuestion : Question {
-    var person:Person?
     var setupCount = 0
     var people = [Person]()
     
@@ -202,27 +201,9 @@ class TreeQuestionView : UIView {
         let width = self.sign1.frame.height
         let frame = CGRect(x: x, y: y, width: width, height: width)
         let avatar = AvatarBadge(frame: frame)
-        avatar.showAncestorBackground()
-        let name = LanguageService.getInstance().shortenName(name: person.display!.name!)
-        avatar.setLabel(text: name)
-        avatar.person = person
+        avatar.showPerson(person: person)
         self.addSubview(avatar)
         self.avatars.append(avatar)
-        
-        FamilyTreeService.getInstance().getPersonPortrait(personId: person.id, onCompletion: {path in
-            if path != nil {
-                let fileManager = FileManager.default
-                let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let photoUrl = url.appendingPathComponent(path!)
-                let data = try? Data(contentsOf: photoUrl)
-                if data != nil {
-                    let uiImage = UIImage(data: data!)
-                    if uiImage != nil {
-                        avatar.setProfileImage(image: uiImage!)
-                    }
-                }
-            }
-        })
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
