@@ -113,7 +113,7 @@ class PracticeViewController: UIViewController, EventListener {
             let round = GenQuizRound(questions: questions)
             
             // show round complete
-            let viewController:PracticeRoundReviewViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeRoundReviewViewController") as PracticeRoundReviewViewController
+            let viewController:PracticeRoundReviewViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeRoundReviewViewController") as! PracticeRoundReviewViewController
             
             viewController.genQuiz = round
             self.present(viewController, animated: false, completion: nil)

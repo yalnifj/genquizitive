@@ -55,7 +55,7 @@ class FactQuestion : MultipleChoiceQuestion {
                         let r = Int(arc4random_uniform(UInt32(self.person!.facts.count)))
                         self.fact = self.person!.facts[r];
                         var good = true
-                        if (self.fact!.date == nil && self.fact!.place == nil && self.fact!.type=="http://gedcomx.org/Residence") {
+                        if ((self.fact!.date == nil && self.fact!.place == nil) || self.fact!.type=="http://gedcomx.org/Residence") {
                             good = false
                             count += 1
                         }

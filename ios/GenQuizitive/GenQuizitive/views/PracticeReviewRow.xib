@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -35,6 +36,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soc-ur-RKH" customClass="AvatarBadge" customModule="GenQuizitive" customModuleProvider="target">
                     <rect key="frame" x="97" y="2" width="70" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="soc-ur-RKH" secondAttribute="height" multiplier="1:1" id="qaC-C8-AZ2"/>
+                    </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kKz-BL-kOd">
                     <rect key="frame" x="175" y="12" width="109" height="56"/>
@@ -61,7 +65,7 @@
                 <constraint firstItem="soc-ur-RKH" firstAttribute="leading" secondItem="gui-dH-iMP" secondAttribute="trailing" constant="20" id="slX-UK-alg"/>
                 <constraint firstItem="gui-dH-iMP" firstAttribute="trailing" secondItem="FQH-VV-gmz" secondAttribute="trailing" id="tC3-eP-UZY"/>
                 <constraint firstItem="gui-dH-iMP" firstAttribute="centerY" secondItem="soc-ur-RKH" secondAttribute="centerY" id="w8H-If-v3r"/>
-                <constraint firstAttribute="trailing" secondItem="kKz-BL-kOd" secondAttribute="trailing" constant="16" id="ynG-T6-3aK"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kKz-BL-kOd" secondAttribute="trailing" constant="16" id="ynG-T6-3aK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="2" y="-97.5"/>

@@ -63,13 +63,17 @@ class ConnectionLevel {
         self.index = index
 	}
     func targetParent1() {
-        parent1.frame.origin.x = parent1.frame.origin.x + parent1.frame.width * 0.7
-        parent2.frame.origin.x = parent2.frame.origin.x + parent2.frame.width * 0.7
+        let center = (parent1.superview!.frame.width / 2) - (parent1.frame.width / 2)
+        parent1.frame.origin.x = center
+        parent2.frame.origin.x = center + (2 * (parent2.frame.width / 1.5))
+        lines.frame.origin.x = parent1.center.x
         lines.style = "right"
     }
     func targetParent2() {
-        parent1.frame.origin.x = parent1.frame.origin.x - parent1.frame.width * 0.7
-        parent2.frame.origin.x = parent2.frame.origin.x - parent2.frame.width * 0.7
+        let center = (parent1.superview!.frame.width / 2) - (parent1.frame.width / 2)
+        parent1.frame.origin.x = center - (2 * (parent2.frame.width / 1.5))
+        parent2.frame.origin.x = center
+        lines.frame.origin.x = parent1.center.x
         lines.style = "left"
     }
     func targetParent(avatar:AvatarBadge) {
@@ -106,18 +110,18 @@ class TreeLineView : UIView {
 		aPath.lineWidth = self.lineWidth
 		if style == "center" {
 			aPath.move(to: CGPoint(x:0, y:0))
-			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
-            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
+			aPath.addLine(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		} else if style == "left" {
-			aPath.move(to: CGPoint(x:self.center.x, y:0))
-			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
-            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
+			aPath.move(to: CGPoint(x:self.frame.width / 2, y:0))
+			aPath.addLine(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:0, y:0))
 		} else if style == "right" {
-			aPath.move(to: CGPoint(x:self.center.x, y:0))
-			aPath.addLine(to: CGPoint(x:self.center.x, y:self.frame.height))
-            aPath.move(to: CGPoint(x:self.center.x, y:self.frame.height))
+			aPath.move(to: CGPoint(x:self.frame.width / 2, y:0))
+			aPath.addLine(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		}
         aPath.close()
@@ -187,40 +191,48 @@ class ConnectQuestionView : UIView, EventListener {
             questionText.text = question.questionText
             
 			avatarWidth = scroller.frame.width / 5
-			let frame = CGRect(x: scroller.center.x - (avatarWidth / 1.9), y: avatarWidth * 3, width: avatarWidth, height: avatarWidth)
+			let frame = CGRect(x: (scroller.frame.width / 2) - (avatarWidth / 2), y: 5 + avatarWidth * 2, width: avatarWidth, height: avatarWidth)
 			self.startAvatar = AvatarBadge(frame: frame)
             self.startAvatar!.showPerson(person: question.startPerson!)
             scroller.addSubview(self.startAvatar!)
 			
-            let y = avatarWidth * 2
+            let y = avatarWidth
             self.addLevel(person: question.startPerson!, y: y)
 		}
+        
+        self.startAvatar?.superview?.bringSubview(toFront: self.startAvatar!)
+        self.layoutIfNeeded()
     }
     
     func addLevel(person:Person, y: CGFloat) {
         let familyTreeService = FamilyTreeService.getInstance()
         familyTreeService.getParents(personId: person.id!, onCompletion: {parents, err in
             if parents != nil && parents!.count > 0 {
-                let frame1 = CGRect(x: self.scroller.center.x - (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
-                let parent1 = AvatarBadge(frame: frame1)
-                parent1.showPerson(person: parents![0])
-                                
-                let frame2 = CGRect(x: self.scroller.center.x + (self.avatarWidth * CGFloat(1.2)), y: y, width: self.avatarWidth, height: self.avatarWidth)
-                let parent2 = AvatarBadge(frame: frame2)
-                parent2.showAncestorBackground()
-                if parents!.count > 1 {
-                    parent2.showPerson(person: parents![1])
+                DispatchQueue.main.async {
+                    let frame1 = CGRect(x: self.startAvatar!.frame.origin.x - (self.avatarWidth / 1.5), y: y, width: self.avatarWidth, height: self.avatarWidth)
+                    let parent1 = AvatarBadge(frame: frame1)
+                    parent1.showPerson(person: parents![0])
+                                    
+                    let frame2 = CGRect(x: self.startAvatar!.frame.origin.x + (self.avatarWidth / 1.5), y: y, width: self.avatarWidth, height: self.avatarWidth)
+                    let parent2 = AvatarBadge(frame: frame2)
+                    parent2.showAncestorBackground()
+                    if parents!.count > 1 {
+                        parent2.showPerson(person: parents![1])
+                    }
+                    
+                    let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: parent2.center.x - parent1.center.x, height: self.avatarWidth)
+                    let lines = TreeLineView(frame: lineFrame)
+                    lines.contentMode = .redraw
+                    
+                    self.scroller.addSubview(lines)
+                    self.scroller.addSubview(parent1)
+                    self.scroller.addSubview(parent2)
+                    
+                    let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
+                    self.levels.append(level)
+                    
+                    self.positionLevels()
                 }
-                
-                let lineFrame = CGRect(x: parent1.center.x, y: parent1.center.y, width: self.avatarWidth * 2, height: self.avatarWidth)
-                let lines = TreeLineView(frame: lineFrame)
-                
-                self.scroller.addSubview(lines)
-                self.scroller.addSubview(parent1)
-                self.scroller.addSubview(parent2)
-                
-                let level = ConnectionLevel(p1: parent1, p2: parent2, ls: lines, index: self.levels.count)
-                self.levels.append(level)
             } else {
                 print("Error getting parents")
             }
@@ -237,38 +249,42 @@ class ConnectQuestionView : UIView, EventListener {
     }
     
     func positionLevels() {
-        let y = avatarWidth * CGFloat(1.5)
+        var y = avatarWidth
         
         for level in self.levels.reversed() {
             level.parent1.frame.origin.y = y
             level.parent2.frame.origin.y = y
             level.lines.frame.origin.y = level.parent1.center.y
+             y = y + self.avatarWidth + 5
         }
+        self.startAvatar?.frame.origin.y = y
+        self.startAvatar?.superview?.bringSubview(toFront: self.startAvatar!)
+        self.scroller.layoutSubviews()
     }
     
     func onEvent(_ topic:String, data:Any?) {
         if topic == AvatarBadge.TOPIC_PERSON_TAPPED {
-            let avatar = data as! AvatarBadge
-            if avatar.person != nil {
-                if avatar.person!.id == self.question!.person!.id {
-                    EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
-                    EventHandler.getInstance().publish("questionCorrect", data: self.question!)
-                } else {
-                    let level = getLevelForAvatar(avatar: avatar)
-                    if level != nil {
-                        while self.levels.last!.index > level!.index {
-                            let last = self.levels.removeLast()
-                            last.parent1.removeFromSuperview()
-                            last.parent2.removeFromSuperview()
-                            last.lines.removeFromSuperview()
+            DispatchQueue.main.async {
+                let avatar = data as! AvatarBadge
+                if avatar != self.startAvatar && avatar.person != nil {
+                    if avatar.person!.id == self.question!.person!.id {
+                        EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
+                        EventHandler.getInstance().publish("questionCorrect", data: self.question!)
+                    } else {
+                        let level = self.getLevelForAvatar(avatar: avatar)
+                        if level != nil {
+                            while self.levels.last!.index > level!.index {
+                                let last = self.levels.removeLast()
+                                last.parent1.removeFromSuperview()
+                                last.parent2.removeFromSuperview()
+                                last.lines.removeFromSuperview()
+                            }
                         }
+                        level?.targetParent(avatar: avatar)
+                        
+                        let y = self.avatarWidth
+                        self.addLevel(person: avatar.person!, y: y)
                     }
-                    level?.targetParent(avatar: avatar)
-                    
-                    let y = avatarWidth * CGFloat(1.5)
-                    self.addLevel(person: avatar.person!, y: y)
-                    
-                    positionLevels()
                 }
             }
         }

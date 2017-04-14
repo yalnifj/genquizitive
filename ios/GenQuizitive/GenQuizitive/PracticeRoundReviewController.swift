@@ -20,9 +20,8 @@ class PracticeRoundReviewViewController: UIViewController {
         
         let facebookService = FacebookService.getInstance();
         facebookService.isAuthenticated(onCompletion: {isAuth in
-            self.facebookIsAuth = isAuth
             if isAuth {
-                self.facebookService.getCurrentUser { (fsUser, error) in
+                facebookService.getCurrentUser { (fsUser, error) in
                     if fsUser != nil {
                         if fsUser?.picture != nil {
                             let url = NSURL(string: fsUser!.picture)
@@ -60,15 +59,33 @@ class PracticeRoundReviewViewController: UIViewController {
             timerLbl.text = "\(minText):\(secText)"
             
             var y:CGFloat = 0
+            var count = 0
             for question in genQuiz!.questions {
-                let frame = CGRect(x: 0, y: y, width: scroller.frame.width, height: 75)
-                let row = PracticeReviewRow(frame: frame)
-                row.showQuestion(question: question)
-                scroller.addSubview(row)
-                
-                y = y + frame.height + 5
+                let row = self.addRow(question: question, y: y, delay: count)
+                y = y + row.frame.height + 5
+                count += 1
             }
         }
+    }
+    
+    func addRow(question:Question, y: CGFloat, delay: Int) -> PracticeReviewRow {
+        let frame = CGRect(x: 0, y: scroller.frame.height, width: scroller.frame.width, height: 75)
+        let row = PracticeReviewRow(frame: frame)
+        row.showQuestion(question: question)
+        scroller.addSubview(row)
+        
+        UIView.animate(withDuration: 1.0,
+            delay: 2 + Double(delay) / 2.0,
+            options: UIViewAnimationOptions.curveEaseIn,
+            animations: { () -> Void in
+                row.frame = CGRect(x: 0, y: y, width: row.frame.width, height: row.frame.height)
+                row.superview?.layoutIfNeeded()
+            },
+            completion: { (finished) -> Void in
+            }
+        )
+
+        return row
     }
     
     override func didReceiveMemoryWarning() {

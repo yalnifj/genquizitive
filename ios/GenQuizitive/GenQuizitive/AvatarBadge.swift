@@ -54,7 +54,8 @@ class AvatarBadge: UIView {
         if profileImage != nil {
             profileImage?.removeFromSuperview()
         }
-        let frame = CGRect(x: 0, y: 0, width: self.frame.width * 0.65, height: self.frame.width * 0.65)
+        let width = min(self.frame.height, self.frame.width)
+        let frame = CGRect(x: 0, y: 0, width: width * 0.65, height: width * 0.65)
         profileImage = UIImageView(frame: frame)
         profileImage?.center = background.center
         profileImage?.image = image
@@ -70,7 +71,8 @@ class AvatarBadge: UIView {
     }
     
     func setLabel(text: String) {
-        let frame = CGRect(x: 0, y: self.frame.height - 20, width: self.frame.width, height: 20)
+        let width = min(self.frame.height, self.frame.width)
+        let frame = CGRect(x: 0, y: self.frame.height - 20, width: width, height: 20)
         label = UILabel(frame: frame)
         label?.layer.cornerRadius = 5
         label?.clipsToBounds = true

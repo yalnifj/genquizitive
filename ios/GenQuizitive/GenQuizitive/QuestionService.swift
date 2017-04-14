@@ -53,6 +53,9 @@ class GenQuizRound {
             }
             myTotalIncorrect += q.myIncorrectCount
             friendTotalIncorrect += q.friendIncorrectCount
+            
+            myTotalTime += q.myIncorrectCount * 20
+            friendTotalTime += q.friendIncorrectCount * 20
         }
     }
 }

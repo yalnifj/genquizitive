@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class TimelineQuestion : Question {
-    var person:Person?
     var facts:[Fact]?
     
     override init() {
