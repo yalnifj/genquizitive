@@ -68,6 +68,7 @@ class ConnectionLevel {
         parent2.frame.origin.x = center + (2 * (parent2.frame.width / 1.5))
         lines.frame.origin.x = parent1.center.x
         lines.style = "right"
+        lines.setNeedsDisplay()
     }
     func targetParent2() {
         let center = (parent1.superview!.frame.width / 2) - (parent1.frame.width / 2)
@@ -75,6 +76,7 @@ class ConnectionLevel {
         parent2.frame.origin.x = center
         lines.frame.origin.x = parent1.center.x
         lines.style = "left"
+        lines.setNeedsDisplay()
     }
     func targetParent(avatar:AvatarBadge) {
         if avatar == parent1 {
@@ -114,14 +116,14 @@ class TreeLineView : UIView {
             aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		} else if style == "left" {
-			aPath.move(to: CGPoint(x:self.frame.width / 2, y:0))
-			aPath.addLine(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
-            aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
-			aPath.addLine(to: CGPoint(x:0, y:0))
+			aPath.move(to: CGPoint(x:0, y:0))
+			aPath.addLine(to: CGPoint(x:self.frame.width, y:self.frame.height))
+            aPath.move(to: CGPoint(x:self.frame.width, y:self.frame.height))
+			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		} else if style == "right" {
-			aPath.move(to: CGPoint(x:self.frame.width / 2, y:0))
-			aPath.addLine(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
-            aPath.move(to: CGPoint(x:self.frame.width / 2, y:self.frame.height))
+			aPath.move(to: CGPoint(x:0, y:0))
+			aPath.addLine(to: CGPoint(x:0, y:self.frame.height))
+            aPath.move(to: CGPoint(x:0, y:self.frame.height))
 			aPath.addLine(to: CGPoint(x:self.frame.width, y:0))
 		}
         aPath.close()
@@ -253,7 +255,9 @@ class ConnectQuestionView : UIView, EventListener {
         
         for level in self.levels.reversed() {
             level.parent1.frame.origin.y = y
+            level.parent1.superview?.bringSubview(toFront: level.parent1)
             level.parent2.frame.origin.y = y
+            level.parent2.superview?.bringSubview(toFront: level.parent2)
             level.lines.frame.origin.y = level.parent1.center.y
              y = y + self.avatarWidth + 5
         }

@@ -164,6 +164,7 @@ class FamilySearchService : RemoteService {
 				if persons.count > 0 {
 					let person = persons[0]
                     self.personCache[personId] = person
+                    self.personCache[person.id] = person
 					onCompletion(person, err)
 				} else {
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId.description]))

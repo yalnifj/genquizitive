@@ -39,8 +39,41 @@ class PracticeRoundReviewViewController: UIViewController {
             self.view.layoutIfNeeded()
         })
         
-        let lights = [light1,light2,light3,light4,light5,light6]
+    }
+    
+    func addRow(question:Question, y: CGFloat, delay: Int) -> PracticeReviewRow {
+        let frame = CGRect(x: 0, y: scroller.frame.height, width: scroller.frame.width, height: 75)
+        let row = PracticeReviewRow(frame: frame)
+        row.showQuestion(question: question)
+        scroller.addSubview(row)
+        
+        UIView.animate(withDuration: 1.0,
+            delay: Double(delay) / 2.0,
+            options: UIViewAnimationOptions.curveEaseIn,
+            animations: { () -> Void in
+                row.frame = CGRect(x: 0, y: y, width: row.frame.width, height: row.frame.height)
+                row.superview?.layoutIfNeeded()
+            },
+            completion: { (finished) -> Void in
+            }
+        )
 
+        return row
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated:Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let lights = [light1,light2,light3,light4,light5,light6]
+        
         if genQuiz != nil {
             for i in 0..<genQuiz!.myTotalIncorrect {
                 lights[i]?.image = UIImage(named: "red_light_on")
@@ -66,39 +99,6 @@ class PracticeRoundReviewViewController: UIViewController {
                 count += 1
             }
         }
-    }
-    
-    func addRow(question:Question, y: CGFloat, delay: Int) -> PracticeReviewRow {
-        let frame = CGRect(x: 0, y: scroller.frame.height, width: scroller.frame.width, height: 75)
-        let row = PracticeReviewRow(frame: frame)
-        row.showQuestion(question: question)
-        scroller.addSubview(row)
-        
-        UIView.animate(withDuration: 1.0,
-            delay: 2 + Double(delay) / 2.0,
-            options: UIViewAnimationOptions.curveEaseIn,
-            animations: { () -> Void in
-                row.frame = CGRect(x: 0, y: y, width: row.frame.width, height: row.frame.height)
-                row.superview?.layoutIfNeeded()
-            },
-            completion: { (finished) -> Void in
-            }
-        )
-
-        return row
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(_ animated:Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated:Bool) {
