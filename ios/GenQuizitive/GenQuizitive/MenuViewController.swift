@@ -10,8 +10,12 @@ import Foundation
 import FacebookCore
 import FacebookCore
 import FacebookLogin
+import Firebase
+import FirebaseAuthUI
+import FirebaseGoogleAuthUI
+import FirebaseFacebookAuthUI
 
-class MenuViewController: UIViewController, AuthCompleteListener {
+class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegate {
     
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var avatarBadge: AvatarBadge!
@@ -23,11 +27,24 @@ class MenuViewController: UIViewController, AuthCompleteListener {
     var facebookIsAuth:Bool = false
     
     var service : RemoteService?
-    
+
+    var isUserLoggedIn = false
+    var authUI:FUIAuth?
     var authDialog:AuthDialogView?
+    
+    var handle: FIRAuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        authUI = FUIAuth.defaultAuthUI()
+        let providers: [FUIAuthProvider] = [
+            FUIGoogleAuth(),
+            FUIFacebookAuth()
+        ]
+        authUI?.providers = providers
+        let kFirebaseTermsOfService = URL(string: "https://www.genquizitive.com/privacy.html")!
+        authUI?.tosurl = kFirebaseTermsOfService
         
         var arrowsArr = [UIImage]()
         arrowsArr.append(UIImage(named: "home_arrow3")!)
@@ -54,6 +71,7 @@ class MenuViewController: UIViewController, AuthCompleteListener {
         }
 
 
+        /*
         facebookService = FacebookService.getInstance();
         facebookService.isAuthenticated(onCompletion: {isAuth in
             self.facebookIsAuth = isAuth
@@ -79,11 +97,25 @@ class MenuViewController: UIViewController, AuthCompleteListener {
             }
             self.view.layoutIfNeeded()
         })
+ */
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        handle = FIRAuth.auth()?.addStateDidChangeListener() { (auth, user) in
+            if user != nil {
+                self.isUserLoggedIn = true
+                FirebaseService.getInstance().firebaseUser = user
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        FIRAuth.auth()?.removeStateDidChangeListener(handle!)
     }
     
     @IBAction func practiceBtnClick(_ sender: Any) {
@@ -98,14 +130,25 @@ class MenuViewController: UIViewController, AuthCompleteListener {
     }
     
     @IBAction func challengeBtnClick(_ sender: Any) {
-        if !self.facebookIsAuth {
-            self.showNotification(title: "Social Network Required", message: "This feature requires a connection to a Social Network. Please connect to Facebook and try again.")
+        if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
+            self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
+        }
+        if !isUserLoggedIn {
+            // Present the auth view controller and then implement the sign in callback.
+            let authViewController = authUI!.authViewController()
+            self.present(authViewController, animated: false, completion: nil)
+        } else {
+            
         }
     }
     
     @IBAction func continueBtnClick(_ sender: Any) {
-        if !self.facebookIsAuth {
-            self.showNotification(title: "Social Network Required", message: "This feature requires a connection to a Social Network. Please connect to Facebook and try again.")
+        if !isUserLoggedIn {
+            // Present the auth view controller and then implement the sign in callback.
+            let authViewController = authUI!.authViewController()
+            self.present(authViewController, animated: false, completion: nil)
+        } else {
+            
         }
     }
     
@@ -186,4 +229,10 @@ class MenuViewController: UIViewController, AuthCompleteListener {
         showNotification(title: "Authentication Error", message: errorMessage)
     }
     
+    func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
+        // handle user and error as necessary
+        if user != nil {
+            FirebaseService.getInstance().firebaseUser = user
+        }
+    }
 }

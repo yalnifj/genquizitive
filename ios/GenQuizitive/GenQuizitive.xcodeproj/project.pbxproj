@@ -55,8 +55,19 @@
 		9324C55A1E69B8F200B8E634 /* r_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5581E69B8F200B8E634 /* r_back.png */; };
 		9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9324C5591E69B8F200B8E634 /* r_background.jpg */; };
 		9324C55D1E6B6AD800B8E634 /* RelationshipService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9324C55C1E6B6AD800B8E634 /* RelationshipService.swift */; };
+		934972811EA1AD0F00D02C71 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934972801EA1AD0F00D02C71 /* FirebaseService.swift */; };
 		93557DEF1E8B6AA100B50FE7 /* TimelineFactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */; };
 		93557DF51E8DFC7E00B50FE7 /* TimelineFactScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93557DF41E8DFC7E00B50FE7 /* TimelineFactScroller.swift */; };
+		935826FF1EA3117C00C6C572 /* challenge_a_friend.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826F81EA3117C00C6C572 /* challenge_a_friend.png */; };
+		935827001EA3117C00C6C572 /* lights1.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826F91EA3117C00C6C572 /* lights1.png */; };
+		935827011EA3117C00C6C572 /* lights2.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826FA1EA3117C00C6C572 /* lights2.png */; };
+		935827021EA3117C00C6C572 /* lights3.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826FB1EA3117C00C6C572 /* lights3.png */; };
+		935827031EA3117C00C6C572 /* lightsv1.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826FC1EA3117C00C6C572 /* lightsv1.png */; };
+		935827041EA3117C00C6C572 /* lightsv2.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826FD1EA3117C00C6C572 /* lightsv2.png */; };
+		935827051EA3117C00C6C572 /* lightsv3.png in Resources */ = {isa = PBXBuildFile; fileRef = 935826FE1EA3117C00C6C572 /* lightsv3.png */; };
+		935827071EA31E6400C6C572 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935827061EA31E6400C6C572 /* ChallengeViewController.swift */; };
+		935827091EA3202200C6C572 /* continue_game.png in Resources */ = {isa = PBXBuildFile; fileRef = 935827081EA3202200C6C572 /* continue_game.png */; };
+		9358270B1EA3206900C6C572 /* ContinueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358270A1EA3206900C6C572 /* ContinueViewController.swift */; };
 		935F092A1E5B4E9800A26692 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F09291E5B4E9800A26692 /* NotificationView.swift */; };
 		935F092C1E5B4F1100A26692 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 935F092B1E5B4F1100A26692 /* NotificationView.xib */; };
 		935F092E1E5B50B300A26692 /* notification_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 935F092D1E5B50B300A26692 /* notification_background.png */; };
@@ -228,8 +239,19 @@
 		9324C5581E69B8F200B8E634 /* r_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = r_back.png; sourceTree = "<group>"; };
 		9324C5591E69B8F200B8E634 /* r_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = r_background.jpg; sourceTree = "<group>"; };
 		9324C55C1E6B6AD800B8E634 /* RelationshipService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipService.swift; sourceTree = "<group>"; };
+		934972801EA1AD0F00D02C71 /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		93557DEE1E8B6AA100B50FE7 /* TimelineFactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineFactView.xib; sourceTree = "<group>"; };
 		93557DF41E8DFC7E00B50FE7 /* TimelineFactScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineFactScroller.swift; sourceTree = "<group>"; };
+		935826F81EA3117C00C6C572 /* challenge_a_friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = challenge_a_friend.png; sourceTree = "<group>"; };
+		935826F91EA3117C00C6C572 /* lights1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lights1.png; sourceTree = "<group>"; };
+		935826FA1EA3117C00C6C572 /* lights2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lights2.png; sourceTree = "<group>"; };
+		935826FB1EA3117C00C6C572 /* lights3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lights3.png; sourceTree = "<group>"; };
+		935826FC1EA3117C00C6C572 /* lightsv1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightsv1.png; sourceTree = "<group>"; };
+		935826FD1EA3117C00C6C572 /* lightsv2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightsv2.png; sourceTree = "<group>"; };
+		935826FE1EA3117C00C6C572 /* lightsv3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightsv3.png; sourceTree = "<group>"; };
+		935827061EA31E6400C6C572 /* ChallengeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		935827081EA3202200C6C572 /* continue_game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = continue_game.png; sourceTree = "<group>"; };
+		9358270A1EA3206900C6C572 /* ContinueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinueViewController.swift; sourceTree = "<group>"; };
 		935F09291E5B4E9800A26692 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		935F092B1E5B4F1100A26692 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
 		935F092D1E5B50B300A26692 /* notification_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_background.png; sourceTree = "<group>"; };
@@ -275,6 +297,7 @@
 		93C3F1A11E8EC3C2003025FC /* button_green_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_green_rect.png; sourceTree = "<group>"; };
 		93C3F1A51E8EC3E3003025FC /* tree_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tree_background.jpg; path = treeQuestion/tree_background.jpg; sourceTree = "<group>"; };
 		93C3F1A71E8EC404003025FC /* TreeQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeQuestion.swift; sourceTree = "<group>"; };
+		93C8D1421EA1BD6800D028D8 /* GenQuizitive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GenQuizitive.entitlements; sourceTree = "<group>"; };
 		93CC31731E4CE805006AA26B /* AuthDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthDialogView.xib; sourceTree = "<group>"; };
 		93CC31751E4CE8DA006AA26B /* AuthDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDialogView.swift; sourceTree = "<group>"; };
 		93D489AC1E52AFEB00FAE6F5 /* StringUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
@@ -457,17 +480,21 @@
 		939078FA1DB2EFC90010E0A0 /* GenQuizitive */ = {
 			isa = PBXGroup;
 			children = (
+				93C8D1421EA1BD6800D028D8 /* GenQuizitive.entitlements */,
 				939078FB1DB2EFC90010E0A0 /* AppDelegate.swift */,
 				93E8A9C51DC9913200C25D4E /* assets */,
 				939079021DB2EFC90010E0A0 /* Assets.xcassets */,
 				93A950841E5C893E004BBDDD /* EventHandler.swift */,
 				93105A211E4A9873005D4512 /* FacebookService.swift */,
 				93B670B31E58C83800F22A20 /* FamilyTreeService.swift */,
+				934972801EA1AD0F00D02C71 /* FirebaseService.swift */,
 				93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */,
 				939079071DB2EFC90010E0A0 /* Info.plist */,
 				939079041DB2EFC90010E0A0 /* LaunchScreen.storyboard */,
 				939078FF1DB2EFC90010E0A0 /* Main.storyboard */,
 				939F50411E4A89ED0049167B /* MenuViewController.swift */,
+				935827061EA31E6400C6C572 /* ChallengeViewController.swift */,
+				9358270A1EA3206900C6C572 /* ContinueViewController.swift */,
 				93A950861E5C8B48004BBDDD /* PracticeViewController.swift */,
 				937036E11E9DCE7D00D5BDA7 /* PracticeRoundReviewController.swift */,
 				939078FD1DB2EFC90010E0A0 /* ViewController.swift */,
@@ -551,6 +578,14 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				935827081EA3202200C6C572 /* continue_game.png */,
+				935826F81EA3117C00C6C572 /* challenge_a_friend.png */,
+				935826F91EA3117C00C6C572 /* lights1.png */,
+				935826FA1EA3117C00C6C572 /* lights2.png */,
+				935826FB1EA3117C00C6C572 /* lights3.png */,
+				935826FC1EA3117C00C6C572 /* lightsv1.png */,
+				935826FD1EA3117C00C6C572 /* lightsv2.png */,
+				935826FE1EA3117C00C6C572 /* lightsv3.png */,
 				937036E51E9DD14A00D5BDA7 /* genquiz_score.png */,
 				9324C54F1E690C4F00B8E634 /* ancestor_badge.png */,
 				93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */,
@@ -691,6 +726,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = KXJU72995U;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					9390790B1DB2EFC90010E0A0 = {
 						CreatedOnToolsVersion = 8.0;
@@ -734,6 +774,7 @@
 				935F092E1E5B50B300A26692 /* notification_background.png in Resources */,
 				93A950801E5B76DA004BBDDD /* background1.jpg in Resources */,
 				93DEF1721E5DDC4500C8E2D1 /* red_light_off.png in Resources */,
+				935826FF1EA3117C00C6C572 /* challenge_a_friend.png in Resources */,
 				93DEF15B1E5D484C00C8E2D1 /* loading1.png in Resources */,
 				93DEF16D1E5DDC4500C8E2D1 /* button_yellow_circle.png in Resources */,
 				93A950811E5B76DA004BBDDD /* star.png in Resources */,
@@ -757,11 +798,15 @@
 				93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */,
 				9324C5501E690C4F00B8E634 /* ancestor_badge.png in Resources */,
 				93DEF15F1E5D484C00C8E2D1 /* number2.png in Resources */,
+				935827051EA3117C00C6C572 /* lightsv3.png in Resources */,
+				935827011EA3117C00C6C572 /* lights2.png in Resources */,
 				93E8A9CE1DC9913200C25D4E /* home_arrow2.png in Resources */,
+				935827041EA3117C00C6C572 /* lightsv2.png in Resources */,
 				93E8A9D01DC9913200C25D4E /* home_background.jpg in Resources */,
 				937036E61E9DD14A00D5BDA7 /* genquiz_score.png in Resources */,
 				939079061DB2EFC90010E0A0 /* LaunchScreen.storyboard in Resources */,
 				93CC31741E4CE805006AA26B /* AuthDialogView.xib in Resources */,
+				935827031EA3117C00C6C572 /* lightsv1.png in Resources */,
 				9398CC981E9EF48F0039FCBE /* PracticeReviewRow.xib in Resources */,
 				93A9507F1E5B76DA004BBDDD /* back.png in Resources */,
 				93DEF1781E5FEFF500C8E2D1 /* LoadingView.xib in Resources */,
@@ -786,14 +831,17 @@
 				93C3F1A41E8EC3C2003025FC /* button_green_rect.png in Resources */,
 				93DEF1641E5DDB3900C8E2D1 /* RoundDetailView.xib in Resources */,
 				939079011DB2EFC90010E0A0 /* Main.storyboard in Resources */,
+				935827001EA3117C00C6C572 /* lights1.png in Resources */,
 				937036DE1E973D2000D5BDA7 /* ConnectQuestionView.xib in Resources */,
 				93C3F1A21E8EC3C2003025FC /* lamp.png in Resources */,
 				937036E41E9DCE9F00D5BDA7 /* challenge_review_background.jpg in Resources */,
+				935827021EA3117C00C6C572 /* lights3.png in Resources */,
 				939F50401E4A86510049167B /* pole_circle.png in Resources */,
 				9324C55B1E69B8F200B8E634 /* r_background.jpg in Resources */,
 				93DEF1541E5D444000C8E2D1 /* gear_sign.png in Resources */,
 				9324C54C1E66693300B8E634 /* fact_back.png in Resources */,
 				93E8A9E31DCAB6AD00C25D4E /* button_sign_arrow_left.png in Resources */,
+				935827091EA3202200C6C572 /* continue_game.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,6 +1015,7 @@
 				93105A541E4BE262005D4512 /* FamilyHolder.swift in Sources */,
 				93105A671E4BE262005D4512 /* TextValue.swift in Sources */,
 				93105A601E4BE262005D4512 /* Qualifier.swift in Sources */,
+				935827071EA31E6400C6C572 /* ChallengeViewController.swift in Sources */,
 				93105A6A1E4BE262005D4512 /* GedcomParser.swift in Sources */,
 				9398CC9A1E9EF96C0039FCBE /* PractiveReviewRow.swift in Sources */,
 				93105A4F1E4BE262005D4512 /* Date.swift in Sources */,
@@ -990,6 +1039,8 @@
 				9324C54E1E68693000B8E634 /* LanguageService.swift in Sources */,
 				93A950871E5C8B48004BBDDD /* PracticeViewController.swift in Sources */,
 				93105A6E1E4BE262005D4512 /* SwiftyJSON.swift in Sources */,
+				9358270B1EA3206900C6C572 /* ContinueViewController.swift in Sources */,
+				934972811EA1AD0F00D02C71 /* FirebaseService.swift in Sources */,
 				93105A5D1E4BE262005D4512 /* Note.swift in Sources */,
 				93105A651E4BE262005D4512 /* SourceReference.swift in Sources */,
 				93105A501E4BE262005D4512 /* DisplayProperties.swift in Sources */,
@@ -1171,6 +1222,7 @@
 			baseConfigurationReference = 864939E00C244E09023A9EAB /* Pods-GenQuizitive.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenQuizitive/GenQuizitive.entitlements;
 				DEVELOPMENT_TEAM = KXJU72995U;
 				INFOPLIST_FILE = GenQuizitive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1186,6 +1238,7 @@
 			baseConfigurationReference = D5C26747638DCEEDE5197AB2 /* Pods-GenQuizitive.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenQuizitive/GenQuizitive.entitlements;
 				DEVELOPMENT_TEAM = KXJU72995U;
 				INFOPLIST_FILE = GenQuizitive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

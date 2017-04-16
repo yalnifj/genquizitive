@@ -1,7 +1,7 @@
 project 'GenQuizitive.xcodeproj'
 
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '8.0'
 
 target 'GenQuizitive' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -15,6 +15,10 @@ target 'GenQuizitive' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
+  pod 'FirebaseUI/Auth', '~> 3.0'
+  pod 'FirebaseUI/Google'
+  pod 'FirebaseUI/Facebook'
+  pod 'GoogleSignIn'
 
   target 'GenQuizitiveTests' do
     inherit! :search_paths
