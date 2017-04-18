@@ -7,24 +7,18 @@
 //
 
 import Foundation
-import FacebookCore
-import FacebookCore
-import FacebookLogin
 import Firebase
 import FirebaseAuthUI
 import FirebaseGoogleAuthUI
-import FirebaseFacebookAuthUI
+import GoogleSignIn
 
-class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegate {
+class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegate, GIDSignInUIDelegate {
     
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var avatarBadge: AvatarBadge!
     @IBOutlet weak var fsConnectBtn: UIButton!
-    @IBOutlet weak var fbConnectButton: UIButton!
     
     var familyTreeService:FamilyTreeService!
-    var facebookService:FacebookService!
-    var facebookIsAuth:Bool = false
     
     var service : RemoteService?
 
@@ -39,8 +33,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         
         authUI = FUIAuth.defaultAuthUI()
         let providers: [FUIAuthProvider] = [
-            FUIGoogleAuth(),
-            FUIFacebookAuth()
+            FUIGoogleAuth()
         ]
         authUI?.providers = providers
         let kFirebaseTermsOfService = URL(string: "https://www.genquizitive.com/privacy.html")!
@@ -54,9 +47,6 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         arrows.animationDuration = 1.0
         arrows.startAnimating()
         
-        fbConnectButton.titleLabel?.textAlignment = .center
-        fsConnectBtn.titleLabel?.textAlignment = .center
-        
         familyTreeService = FamilyTreeService.getInstance()
         if familyTreeService.remoteService == nil {
             let accessToken = UserDefaults.standard.string(forKey: "accessToken")
@@ -64,40 +54,29 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
                 let service = FamilySearchService(env: "integration", applicationKey: "a02j000000JERmSAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
                 service.sessionId = accessToken
                 familyTreeService.remoteService = service
+                familyTreeService.loadInitialData(onCompletion: {person, err in
+                    if person != nil {
+                        self.familyTreeService.getPersonPortrait(personId: person!.id, onCompletion: {path in
+                            if path != nil {
+                                self.avatarBadge.isHidden = false
+                                
+                            }
+                        })
+                        UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                        self.fsConnectBtn.isHidden = true
+                    } else {
+                        print("Error loading initial data \(err)")
+                        self.fsConnectBtn.isHidden = false
+                    }
+                })
             } else {
                 fsConnectBtn.isHidden = false
             }
             self.view.layoutIfNeeded()
         }
-
-
-        /*
-        facebookService = FacebookService.getInstance();
-        facebookService.isAuthenticated(onCompletion: {isAuth in
-            self.facebookIsAuth = isAuth
-            if isAuth {
-                self.facebookService.getCurrentUser { (fsUser, error) in
-                    if fsUser != nil {
-                        if fsUser?.picture != nil {
-                            let url = NSURL(string: fsUser!.picture)
-                            let data = NSData(contentsOf: url! as URL)
-                            if data != nil {
-                                let pImage = UIImage(data: data! as Data)
-                                if pImage != nil {
-                                    self.avatarBadge.setProfileImage(image: pImage!)
-                                }
-                            }
-                        }
-                    } else {
-                        self.fbConnectButton.isHidden = false
-                    }
-                }
-            } else {
-                self.fbConnectButton.isHidden = false
-            }
-            self.view.layoutIfNeeded()
-        })
- */
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
     }
     
     override func didReceiveMemoryWarning() {
@@ -118,7 +97,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         FIRAuth.auth()?.removeStateDidChangeListener(handle!)
     }
     
-    @IBAction func practiceBtnClick(_ sender: Any) {
+    @IBAction func playBtnClick(_ sender: Any) {
         if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
             self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
         } else {
@@ -130,50 +109,25 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     }
     
     @IBAction func challengeBtnClick(_ sender: Any) {
-        if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
-            self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
-        }
         if !isUserLoggedIn {
             // Present the auth view controller and then implement the sign in callback.
             let authViewController = authUI!.authViewController()
             self.present(authViewController, animated: false, completion: nil)
         } else {
+            let viewController:ContinueViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContinueViewController") as! ContinueViewController
             
+            self.present(viewController, animated: false, completion: nil)
         }
     }
-    
-    @IBAction func continueBtnClick(_ sender: Any) {
-        if !isUserLoggedIn {
-            // Present the auth view controller and then implement the sign in callback.
-            let authViewController = authUI!.authViewController()
-            self.present(authViewController, animated: false, completion: nil)
-        } else {
-            
-        }
-    }
-    
+
     @IBAction func hintBtnClick(_ sender: Any) {
-       
+        
     }
     
-    @IBAction func facebookBtnClick(_ sender: Any) {
-        let loginManager = LoginManager(loginBehavior: .systemAccount, defaultAudience: .friends)
-        loginManager.logIn([ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
-            switch loginResult {
-            case .failed(let error):
-                print(error)
-            case .cancelled:
-                print("User cancelled login.")
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                print("Logged in! \(accessToken)")
-                
-                UserDefaults.standard.set(accessToken, forKey: "fbAccessToken")
-                
-                self.fsConnectBtn.isHidden = true
-            }
-        }
+    @IBAction func howToPayBtnClick(_ sender: Any) {
+        
     }
-    
+
     @IBAction func familysearchBtnClick(_ sender: Any) {
         //ios key a02j000000KSRxHAAX
         //web key a02j000000JERmSAAX
@@ -207,11 +161,14 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
             self.authDialog?.removeFromSuperview()
             //-- store access token
             if accessToken != nil {
-                self.fsConnectBtn.isHidden = true
                 FamilyTreeService.getInstance().remoteService = self.service
                 FamilyTreeService.getInstance().loadInitialData(onCompletion: {person, err in
                     if person != nil {
+                        self.fsConnectBtn.isHidden = true
                         UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                    } else {
+                        print("Error reading data from family search \(err)")
+                        self.showNotification(title: "Family Tree Error", message: "There was an error loading data from your family tree. \(err)")
                     }
                 })
                 
@@ -231,8 +188,71 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
         // handle user and error as necessary
-        if user != nil {
-            FirebaseService.getInstance().firebaseUser = user
+        if let error2 = error {
+            print("Error signing into firebase \(error2)")
+            self.showNotification(title: "Database Error", message: "There was an error connecting to the database. \(error)")
+            return
         }
+        
+        if user != nil {
+            let firebaseService = FirebaseService.getInstance()
+            firebaseService.firebaseUser = user
+            if self.avatarBadge.profileImage == nil {
+                if firebaseService.firebaseUser != nil && firebaseService.firebaseUser?.photoURL != nil {
+                    let imageData = NSData(contentsOf: firebaseService.firebaseUser!.photoURL!)
+                    if imageData != nil {
+                        let image = UIImage(data: imageData as! Data)
+                        if image != nil {
+                            self.avatarBadge.isHidden = false
+                            self.avatarBadge.setProfileImage(image: image!)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        // ...
+        if let error = error {
+            print("Error signing into google \(error)")
+            self.showNotification(title: "Login Error", message: "There was an error logging into your account. \(error)")
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = FIRGoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                          accessToken: authentication.accessToken)
+        FIRAuth.auth()?.signIn(with: credential) { (user, error2) in
+            // ...
+            if let error2 = error2 {
+                print("Error signing into firebase \(error2)")
+                self.showNotification(title: "Database Error", message: "There was an error connecting to the database. \(error)")
+                return
+            }
+            
+            if user != nil {
+                let firebaseService = FirebaseService.getInstance()
+                firebaseService.firebaseUser = user
+                if self.avatarBadge.profileImage == nil {
+                    if firebaseService.firebaseUser != nil && firebaseService.firebaseUser?.photoURL != nil {
+                        let imageData = NSData(contentsOf: firebaseService.firebaseUser!.photoURL!)
+                        if imageData != nil {
+                            let image = UIImage(data: imageData as! Data)
+                            if image != nil {
+                                self.avatarBadge.isHidden = false
+                                self.avatarBadge.setProfileImage(image: image!)
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
     }
 }

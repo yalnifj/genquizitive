@@ -88,8 +88,14 @@ class AvatarBadge: UIView {
     }
     
     func showPerson(person:Person) {
+        self.showPerson(person: person, isAncestor: true, showName: true)
+    }
+    
+    func showPerson(person:Person, isAncestor: Bool, showName: Bool) {
         self.person = person
-        self.showAncestorBackground()
+        if isAncestor {
+            self.showAncestorBackground()
+        }
         FamilyTreeService.getInstance().getPersonPortrait(personId: self.person!.id, onCompletion: {path in
             if path != nil {
                 let fileManager = FileManager.default
@@ -104,8 +110,10 @@ class AvatarBadge: UIView {
                 }
             }
         })
-        let name = LanguageService.getInstance().shortenName(name: self.person!.display!.name!)
-        self.setLabel(text: name)
+        if showName {
+            let name = LanguageService.getInstance().shortenName(name: self.person!.display!.name!)
+            self.setLabel(text: name)
+        }
 
     }
     

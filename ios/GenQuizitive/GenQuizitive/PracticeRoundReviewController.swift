@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import GoogleSignIn
 
 class PracticeRoundReviewViewController: UIViewController {
 	
@@ -14,31 +15,29 @@ class PracticeRoundReviewViewController: UIViewController {
     @IBOutlet weak var scroller: UIScrollView!
     
     var genQuiz:GenQuizRound?
+    var firebaseService:FirebaseService!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let facebookService = FacebookService.getInstance();
-        facebookService.isAuthenticated(onCompletion: {isAuth in
-            if isAuth {
-                facebookService.getCurrentUser { (fsUser, error) in
-                    if fsUser != nil {
-                        if fsUser?.picture != nil {
-                            let url = NSURL(string: fsUser!.picture)
-                            let data = NSData(contentsOf: url! as URL)
-                            if data != nil {
-                                let pImage = UIImage(data: data! as Data)
-                                if pImage != nil {
-                                    self.avatar.setProfileImage(image: pImage!)
-                                }
-                            }
+        self.firebaseService = FirebaseService.getInstance()
+        
+        let familyTreeService = FamilyTreeService.getInstance()
+        familyTreeService.getPersonPortrait(personId: familyTreeService.fsUser!.id, onCompletion: {path in
+            if path != nil {
+                self.avatar.showPerson(person: familyTreeService.fsUser!, isAncestor: false, showName: false)
+            } else {
+                if self.firebaseService.firebaseUser != nil && self.firebaseService.firebaseUser?.photoURL != nil {
+                    let imageData = NSData(contentsOf: self.firebaseService.firebaseUser!.photoURL!)
+                    if imageData != nil {
+                        let image = UIImage(data: imageData as! Data)
+                        if image != nil {
+                            self.avatar.setProfileImage(image: image!)
                         }
                     }
                 }
             }
-            self.view.layoutIfNeeded()
         })
-        
     }
     
     func addRow(question:Question, y: CGFloat, delay: Int) -> PracticeReviewRow {

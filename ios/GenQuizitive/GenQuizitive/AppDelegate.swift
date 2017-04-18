@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import FacebookCore
 import Firebase
-import FBSDKCoreKit
 import GoogleSignIn
 import FirebaseAuthUI
 import FirebaseGoogleAuthUI
@@ -27,10 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
-        if FBSDKAccessToken.current() != nil {
-            
-        }
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
     
@@ -41,21 +35,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
             return true
         }
-        let shouldOpen :Bool = FBSDKApplicationDelegate.sharedInstance().application(application,  open: url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!,annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-            if shouldOpen {
-                return shouldOpen
-            }
             
         let try2 = GIDSignIn.sharedInstance().handle(url,
                 sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
                 annotation: [:])
-        return try2
+        if try2 {
+            return true
+        }
+            
+        let invite = self.application(application, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: "")
+        if invite {
+            return true
+        }
+        
+        return false
     }
     
     // for iOS below 9.0
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        let shouldOpen :Bool = FBSDKApplicationDelegate.sharedInstance().application(application,open: url as URL!,sourceApplication: sourceApplication,annotation: annotation)
-        return shouldOpen
+        if let invite = FIRInvites.handle(url, sourceApplication:sourceApplication, annotation:annotation) as? FIRReceivedInvite {
+            let matchType =
+                (invite.matchType == .weak) ? "Weak" : "Strong"
+            print("Invite received from: \(sourceApplication ?? "") Deeplink: \(invite.deepLink)," +
+                "Id: \(invite.inviteId), Type: \(matchType)")
+            return true
+        }
+        
+        return false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -74,30 +80,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        AppEventsLogger.activate(application)
         
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        // ...
-        if let error = error {
-            // ...
-            return
-        }
-        
-        guard let authentication = user.authentication else { return }
-        let credential = FIRGoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                          accessToken: authentication.accessToken)
-        // ...
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
     }
 }
 

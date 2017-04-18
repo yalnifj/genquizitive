@@ -8,13 +8,11 @@ target 'GenQuizitive' do
   use_frameworks!
 
   # Pods for GenQuizitive
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
-  pod 'FacebookShare'
   pod 'Firebase'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
+  pod 'Firebase/Invites'
   pod 'FirebaseUI/Auth', '~> 3.0'
   pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Facebook'

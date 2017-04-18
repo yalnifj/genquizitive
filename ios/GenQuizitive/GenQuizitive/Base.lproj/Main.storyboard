@@ -37,7 +37,7 @@
                                 <rect key="frame" x="5" y="299" width="335" height="343"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DVq-0w-swl">
-                                        <rect key="frame" x="67.5" y="0.0" width="200" height="90"/>
+                                        <rect key="frame" x="68" y="-5" width="200" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Yqw-LB-Usa"/>
                                             <constraint firstAttribute="height" constant="90" id="pX7-Ln-vju"/>
@@ -52,7 +52,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="o2f-F6-pel">
-                                        <rect key="frame" x="67.5" y="100" width="200" height="90"/>
+                                        <rect key="frame" x="68" y="-5" width="200" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="EmI-UG-vjb"/>
                                             <constraint firstAttribute="height" constant="90" id="GR8-JD-nZw"/>
@@ -66,10 +66,10 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ojU-Ra-Vb7">
-                                        <rect key="frame" x="48" y="200" width="239" height="50"/>
+                                        <rect key="frame" x="48" y="0.0" width="239" height="50"/>
                                     </view>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Weu-oD-6nE">
-                                        <rect key="frame" x="42.5" y="260" width="250" height="83"/>
+                                        <rect key="frame" x="43" y="60" width="250" height="283"/>
                                         <color key="backgroundColor" red="0.92156862745098034" green="0.9137254901960784" blue="0.83529411764705885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="P7Y-nL-ZFE"/>
@@ -184,21 +184,6 @@
                                             <constraint firstAttribute="height" constant="38" id="UOa-Cl-BnZ"/>
                                         </constraints>
                                     </imageView>
-                                    <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-fu-ntk">
-                                        <rect key="frame" x="40" y="275" width="180" height="95"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="95" id="5y0-pf-6e3"/>
-                                            <constraint firstAttribute="width" constant="180" id="mZu-oC-VqT"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
-                                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
-                                        <state key="normal" title="Connect to Facebook" backgroundImage="button_blue_oval.png">
-                                            <color key="titleColor" red="0.92549019610000005" green="0.90980392160000001" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="facebookBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="JmM-g4-Ok1"/>
-                                        </connections>
-                                    </button>
                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="flb-pM-Mnx">
                                         <rect key="frame" x="40" y="276" width="180" height="96"/>
                                         <constraints>
@@ -219,11 +204,11 @@
                                             <constraint firstAttribute="width" secondItem="Vis-9H-0ZB" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="5TB-nk-WIe"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                        <state key="normal" title="Solo GenQuiz" backgroundImage="button_sign_arrow_left.png">
+                                        <state key="normal" title="Play!" backgroundImage="button_sign_arrow_left.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="practiceBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="SnF-eg-xAd"/>
+                                            <action selector="playBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="daZ-Xy-TWs"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bC6-t3-IKL">
@@ -232,11 +217,11 @@
                                             <constraint firstAttribute="width" secondItem="bC6-t3-IKL" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="w96-VF-f04"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                        <state key="normal" title="Continue GenQuiz" backgroundImage="button_sign_arrow_left.png">
+                                        <state key="normal" title="Hints" backgroundImage="button_sign_arrow_left.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="continueBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="RA6-c5-6Fw"/>
+                                            <action selector="hintBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="GZM-4x-anw"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQW-xU-y3x">
@@ -245,7 +230,7 @@
                                             <constraint firstAttribute="width" secondItem="lQW-xU-y3x" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="L5f-sj-nSi"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                        <state key="normal" title="Challenge a Friend" backgroundImage="button_sign_arrow_right.png">
+                                        <state key="normal" title="Challengers" backgroundImage="button_sign_arrow_right.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -258,11 +243,12 @@
                                             <constraint firstAttribute="width" secondItem="V6h-I3-KJv" secondAttribute="height" multiplier="127:27" constant="1.0000000000000284" id="haf-kc-QPa"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                        <state key="normal" title="Hints" backgroundImage="button_sign_arrow_right.png">
+                                        <state key="normal" title="How to Play" backgroundImage="button_sign_arrow_right.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="hintBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="qw9-aI-I1b"/>
+                                            <action selector="howToPayBtnClick:" destination="RnN-vo-rvw" eventType="touchUpInside" id="Gta-yb-NvD"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -272,7 +258,6 @@
                                     <constraint firstItem="V6h-I3-KJv" firstAttribute="leading" secondItem="fzY-H0-0g7" secondAttribute="leading" constant="17" id="AhU-Bn-fku"/>
                                     <constraint firstItem="bC6-t3-IKL" firstAttribute="top" secondItem="lQW-xU-y3x" secondAttribute="bottom" constant="8" id="B2W-jQ-7Nm"/>
                                     <constraint firstItem="E8H-jt-3qj" firstAttribute="leading" secondItem="fzY-H0-0g7" secondAttribute="leading" constant="117" id="BkG-bP-0N7"/>
-                                    <constraint firstItem="xZA-fu-ntk" firstAttribute="top" secondItem="V6h-I3-KJv" secondAttribute="bottom" constant="17" id="Cnn-XA-tfg"/>
                                     <constraint firstAttribute="trailing" secondItem="Vis-9H-0ZB" secondAttribute="trailing" constant="41" id="FH1-fP-rF1"/>
                                     <constraint firstAttribute="trailing" secondItem="V6h-I3-KJv" secondAttribute="trailing" constant="12" id="FPi-q5-1j3"/>
                                     <constraint firstAttribute="trailing" secondItem="bC6-t3-IKL" secondAttribute="trailing" constant="41" id="Oi3-to-Q1p"/>
@@ -283,10 +268,8 @@
                                     <constraint firstItem="bC6-t3-IKL" firstAttribute="leading" secondItem="fzY-H0-0g7" secondAttribute="leading" constant="-12" id="RY6-UY-E5N"/>
                                     <constraint firstAttribute="trailing" secondItem="lQW-xU-y3x" secondAttribute="trailing" constant="12" id="TF8-6Z-U0C"/>
                                     <constraint firstItem="Vis-9H-0ZB" firstAttribute="leading" secondItem="fzY-H0-0g7" secondAttribute="leading" constant="-12" id="UVY-jl-216"/>
-                                    <constraint firstItem="nkW-WZ-5lr" firstAttribute="centerX" secondItem="xZA-fu-ntk" secondAttribute="centerX" id="WM4-dT-5id"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="303" id="d0N-NH-JLf"/>
                                     <constraint firstItem="nkW-WZ-5lr" firstAttribute="top" secondItem="fzY-H0-0g7" secondAttribute="top" constant="-20" id="dcA-XA-FI9"/>
-                                    <constraint firstItem="xZA-fu-ntk" firstAttribute="top" secondItem="V6h-I3-KJv" secondAttribute="bottom" constant="17" id="dco-UY-atT"/>
                                     <constraint firstAttribute="bottom" secondItem="E8H-jt-3qj" secondAttribute="bottom" id="fo9-od-t6b"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="E8H-jt-3qj" secondAttribute="trailing" constant="132" id="gDS-fi-Hpr"/>
                                     <constraint firstItem="V6h-I3-KJv" firstAttribute="top" secondItem="bC6-t3-IKL" secondAttribute="bottom" constant="8" id="icf-Ji-blj"/>
@@ -323,7 +306,6 @@
                     <connections>
                         <outlet property="arrows" destination="6Jx-1g-V1c" id="ELZ-RJ-uQK"/>
                         <outlet property="avatarBadge" destination="O5K-de-p9u" id="yrl-g1-iC1"/>
-                        <outlet property="fbConnectButton" destination="xZA-fu-ntk" id="cPQ-4f-hyr"/>
                         <outlet property="fsConnectBtn" destination="flb-pM-Mnx" id="olc-C3-J0j"/>
                     </connections>
                 </viewController>
@@ -444,7 +426,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AL-UR-v8q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-40.799999999999997" y="1457.7211394302849"/>
+            <point key="canvasLocation" x="-20" y="1512"/>
         </scene>
         <!--Practice View Controller-->
         <scene sceneID="YiV-NR-TDf">
@@ -465,7 +447,7 @@
                                 <rect key="frame" x="0.0" y="328" width="375" height="339"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pole1.png" translatesAutoresizingMaskIntoConstraints="NO" id="dYu-yK-fqz">
-                                        <rect key="frame" x="175.5" y="92" width="25" height="248"/>
+                                        <rect key="frame" x="176" y="92" width="25" height="248"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="B7H-ht-RAO"/>
                                             <constraint firstAttribute="height" constant="248" id="iE5-cw-xS5"/>
@@ -475,7 +457,7 @@
                                         <rect key="frame" x="8" y="41" width="359" height="175"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0bm-DH-Nj7">
-                                        <rect key="frame" x="135.5" y="83" width="104" height="91"/>
+                                        <rect key="frame" x="136" y="83" width="104" height="91"/>
                                         <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="32"/>
                                         <state key="normal" title="START">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -485,13 +467,13 @@
                                         </connections>
                                     </button>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number1.png" translatesAutoresizingMaskIntoConstraints="NO" id="FiG-PS-hkq">
-                                        <rect key="frame" x="135.5" y="83" width="104" height="91"/>
+                                        <rect key="frame" x="136" y="83" width="104" height="91"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="104" id="G9h-eb-9KB"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcN-a0-uxk">
-                                        <rect key="frame" x="96.5" y="248" width="162" height="40"/>
+                                        <rect key="frame" x="97" y="248" width="162" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="SYo-NT-zvp"/>
                                             <constraint firstAttribute="width" constant="162" id="nTB-WH-uGI"/>
@@ -614,7 +596,7 @@
                                 <rect key="frame" x="175" y="98" width="121" height="75"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQS-D2-lgL">
-                                <rect key="frame" x="16" y="624" width="153" height="35"/>
+                                <rect key="frame" x="16" y="624" width="139" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="fym-P8-Soa"/>
                                 </constraints>
@@ -627,12 +609,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTS-QW-hcX">
-                                <rect key="frame" x="217" y="624" width="142" height="35"/>
+                                <rect key="frame" x="180" y="624" width="179" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="142" id="60i-Hs-R6O"/>
+                                    <constraint firstAttribute="width" constant="179" id="60i-Hs-R6O"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Play Again" backgroundImage="button_sign_arrow_right.png">
+                                <state key="normal" title="Challenge a Friend!" backgroundImage="button_sign_arrow_right.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -733,7 +715,7 @@
                             <constraint firstItem="aQS-D2-lgL" firstAttribute="top" secondItem="pVN-tk-40p" secondAttribute="bottom" constant="8" symbolic="YES" id="haU-l5-hxO"/>
                             <constraint firstItem="pVN-tk-40p" firstAttribute="trailing" secondItem="VTS-QW-hcX" secondAttribute="trailing" id="iMi-ji-7OG"/>
                             <constraint firstItem="X7F-JK-DfA" firstAttribute="bottom" secondItem="IZC-9t-bbI" secondAttribute="bottom" id="ku5-HR-Gsz"/>
-                            <constraint firstItem="VTS-QW-hcX" firstAttribute="leading" secondItem="aQS-D2-lgL" secondAttribute="trailing" constant="48" id="qe2-xb-KbP"/>
+                            <constraint firstItem="VTS-QW-hcX" firstAttribute="leading" secondItem="aQS-D2-lgL" secondAttribute="trailing" constant="25" id="qe2-xb-KbP"/>
                             <constraint firstItem="pVN-tk-40p" firstAttribute="leading" secondItem="AR8-cL-gsw" secondAttribute="leadingMargin" id="qn4-4g-2ys"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oVg-Fh-AdT" secondAttribute="trailing" constant="63" id="rYK-hu-GwM"/>
                             <constraint firstItem="SVi-cd-bTm" firstAttribute="top" secondItem="Uy0-E6-Sxo" secondAttribute="bottom" id="rmu-PI-C5q"/>
@@ -882,7 +864,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ja2-cv-nZr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="820" y="1458"/>
+            <point key="canvasLocation" x="820" y="1512"/>
         </scene>
     </scenes>
     <resources>

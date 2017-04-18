@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		93105A221E4A9873005D4512 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A211E4A9873005D4512 /* FacebookService.swift */; };
 		93105A4B1E4BE262005D4512 /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A271E4BE262005D4512 /* Attribution.swift */; };
 		93105A4C1E4BE262005D4512 /* CitationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A281E4BE262005D4512 /* CitationField.swift */; };
 		93105A4D1E4BE262005D4512 /* Conclusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93105A291E4BE262005D4512 /* Conclusion.swift */; };
@@ -137,8 +136,6 @@
 		93E8A9D11DC9913200C25D4E /* home_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9CA1DC9913200C25D4E /* home_sign.png */; };
 		93E8A9D21DC9913200C25D4E /* pole1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9CB1DC9913200C25D4E /* pole1.png */; };
 		93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9CC1DC9913200C25D4E /* yft_logo.png */; };
-		93E8A9D61DC9A4F700C25D4E /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */; };
-		93E8A9D71DC9A4F700C25D4E /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E8A9E01DCAB6AD00C25D4E /* avatar_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */; };
 		93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */; };
 		93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */; };
@@ -170,20 +167,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		93E8A9D81DC9A4F700C25D4E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				93E8A9D71DC9A4F700C25D4E /* FBSDKLoginKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		1DE3A82E2ECC5C8901A4BE52 /* Pods_GenQuizitiveTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GenQuizitiveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2980324DED3B9DA424BEEEAE /* Pods-GenQuizitiveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveTests/Pods-GenQuizitiveTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -191,7 +174,6 @@
 		693A641A89549C5BFED34E02 /* Pods-GenQuizitiveUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveUITests/Pods-GenQuizitiveUITests.release.xcconfig"; sourceTree = "<group>"; };
 		743EE7371AE5C578165F430C /* Pods_GenQuizitive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GenQuizitive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		864939E00C244E09023A9EAB /* Pods-GenQuizitive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitive/Pods-GenQuizitive.debug.xcconfig"; sourceTree = "<group>"; };
-		93105A211E4A9873005D4512 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		93105A271E4BE262005D4512 /* Attribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attribution.swift; sourceTree = "<group>"; };
 		93105A281E4BE262005D4512 /* CitationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitationField.swift; sourceTree = "<group>"; };
 		93105A291E4BE262005D4512 /* Conclusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conclusion.swift; sourceTree = "<group>"; };
@@ -348,7 +330,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93E8A9D61DC9A4F700C25D4E /* FBSDKLoginKit.framework in Frameworks */,
 				D871EDBE3B1E6352B97E7B5B /* Pods_GenQuizitive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,7 +466,6 @@
 				93E8A9C51DC9913200C25D4E /* assets */,
 				939079021DB2EFC90010E0A0 /* Assets.xcassets */,
 				93A950841E5C893E004BBDDD /* EventHandler.swift */,
-				93105A211E4A9873005D4512 /* FacebookService.swift */,
 				93B670B31E58C83800F22A20 /* FamilyTreeService.swift */,
 				934972801EA1AD0F00D02C71 /* FirebaseService.swift */,
 				93AD7C151E4A826F00A14098 /* GoogleService-Info.plist */,
@@ -657,7 +637,6 @@
 				939078F41DB2EFC90010E0A0 /* Sources */,
 				939078F51DB2EFC90010E0A0 /* Frameworks */,
 				939078F61DB2EFC90010E0A0 /* Resources */,
-				93E8A9D81DC9A4F700C25D4E /* Embed Frameworks */,
 				093156B44C2B4C07124C375C /* [CP] Embed Pods Frameworks */,
 				06C60CCA37BACC887E5B9837 /* [CP] Copy Pods Resources */,
 			);
@@ -728,6 +707,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1031,7 +1013,6 @@
 				93105A691E4BE262005D4512 /* FamilySearchService.swift in Sources */,
 				93105A511E4BE262005D4512 /* EvidenceReference.swift in Sources */,
 				937036E01E973D7600D5BDA7 /* ConnectQuestion.swift in Sources */,
-				93105A221E4A9873005D4512 /* FacebookService.swift in Sources */,
 				93105A571E4BE262005D4512 /* HypermediaEnabledData.swift in Sources */,
 				939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */,
 				9324C5431E6667AF00B8E634 /* FactQuestion.swift in Sources */,

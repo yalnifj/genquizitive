@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '3418F632BB6203D3700FE919D0874A41'
+               BlueprintIdentifier = '7CE24AC4CA46C899BB0417DD63B360EF'
                BlueprintName = 'Pods-GenQuizitive'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods-GenQuizitive.framework'>
