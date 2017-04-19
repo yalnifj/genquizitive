@@ -88,11 +88,22 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate, EventListene
             invite.setMessage("\(GIDSignIn.sharedInstance().currentUser.profile.name) Challenged you to a GenQuiz")
             // Title for the dialog, this is what the user sees before sending the invites.
             invite.setTitle("GenQuiz Challenge")
-            invite.setDeepLink("app_url")
+            invite.setDeepLink("https://y5q7f.app.goo.gl/?link=https://genquizitive.com/genquiz/\(genQuiz!.id!)&ibi=com.yellowforktech.GenQuizitive&isi=")
             invite.setCallToActionText("Play!")
             invite.setCustomImage("https://www.genquizitive.com/logo.png")
             invite.open()
         }
+    }
+    
+    func inviteFinished(withInvitations invitationIds: [String], error: Error?) {
+        if let error = error {
+            print("Failed: " + error.localizedDescription)
+        } else {
+            print("\(invitationIds.count) invites sent")
+        }
+        
+        let viewController:MenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        self.present(viewController, animated: false, completion: nil)
     }
     
     func onEvent(_ topic:String, data:Any?) {
@@ -104,6 +115,8 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate, EventListene
                 genQuiz?.toId = friend.id
                 FirebaseService.getInstance().persistGenQuiz(genQuiz: genQuiz!)
                 //-- send notification
+                let viewController:MenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+                self.present(viewController, animated: false, completion: nil)
             }
         }
     }

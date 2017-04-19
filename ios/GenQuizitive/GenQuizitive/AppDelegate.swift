@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FIROptions.default().deepLinkURLScheme = self.customURLScheme
         FIRApp.configure()
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
@@ -47,6 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if invite {
             return true
         }
+            
+        let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
+        if let dynamicLink = dynamicLink {
+            // Handle the deep link. For example, show the deep-linked content or
+            // apply a promotional offer to the user's account.
+            // ...
+            return true
+        }
         
         return false
     }
@@ -61,7 +70,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
+        let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
+        if let dynamicLink = dynamicLink {
+            // Handle the deep link. For example, show the deep-linked content or
+            // apply a promotional offer to the user's account.
+            // ...
+            return true
+        }
+        
         return false
+    }
+    
+    @available(iOS 8.0, *)
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
+            return false
+        }
+        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            // ...
+        }
+        
+        
+        return handled
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
