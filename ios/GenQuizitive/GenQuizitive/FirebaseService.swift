@@ -14,6 +14,7 @@ class FirebaseService {
     static var instance:FirebaseService?
     
     var firebaseUser:FIRUser?
+    var userDetails:UserDetails?
     
     private init() {
     }
@@ -39,9 +40,14 @@ class FirebaseService {
                 map["photoUrl"] = user.profile.imageURL(withDimension: 100)
                 map["lastLogin"] = (Date()).timeIntervalSince1970
                 ref.child("users/\(userID)").setValue(map)
+                userDetails = UserDetails(map: map)
             } else {
+                userDetails = UserDetails(map: snapshot.value as! [String:Any?])
                 ref.child("users/\(userID)/lastLogin").setValue((Date()).timeIntervalSince1970)
-                ref.child("users/\(userID)/hasFamilyTree").setValue(hasFamilyTree)
+                if hasFamilyTree {
+                    userDetails?.hasFamilyTree = hasFamilyTree
+                    ref.child("users/\(userID)/hasFamilyTree").setValue(hasFamilyTree)
+                }
             }
         })
     }

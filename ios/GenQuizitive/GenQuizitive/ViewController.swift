@@ -59,31 +59,11 @@ class ViewController: UIViewController, AuthCompleteListener {
                     FamilyTreeService.getInstance().remoteService = nil
                     UserDefaults.standard.removeObject(forKey: "accessToken")
                 }
-                self.authFacebook()
+                //self.authFacebook()
             })
         } else {
-            authFacebook()
+            //authFacebook()
         }
-    }
-    
-    func authFacebook() {
-        FacebookService.getInstance().isAuthenticated(onCompletion: {isAuth in
-            self.hideLoading()
-            self.facebookButton.isHidden = false
-            self.familysearchButton.isHidden = false
-            if isAuth {
-                // User is logged in, use 'accessToken' here.
-                print("Already logged in to facebook")
-                
-                self.gotoMenuView()
-            } else {
-                print("Not logged into facebook")
-                if self.service != nil && self.service?.sessionId != nil {
-                    print("Already logged into FamilySearch")
-                    self.gotoMenuView()
-                }
-            }
-        })
     }
 
     override func didReceiveMemoryWarning() {

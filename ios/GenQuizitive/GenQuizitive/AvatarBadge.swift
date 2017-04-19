@@ -16,6 +16,7 @@ class AvatarBadge: UIView {
     var profileImage: UIImageView?
     var label: UILabel?
     
+    var data = [String:Any?]()
     var person:Person?
     var touchBegan = false
     

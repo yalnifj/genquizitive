@@ -98,9 +98,9 @@ class TimelineQuestion : Question {
             }
             if factMap["place"] != nil {
                 fact.place = PlaceReference()
-                fact.place.original = factMap["place"] as? String
+                fact.place!.original = factMap["place"] as? String
             }
-            facts.append(fact)
+            facts!.append(fact)
         }
     }
 }

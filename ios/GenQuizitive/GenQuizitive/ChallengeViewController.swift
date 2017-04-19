@@ -11,10 +11,12 @@ import UIKit
 import FirebaseInvites
 import GoogleSignIn
 
-class ChallengeViewController: UIViewController, FIRInviteDelegate {
+class ChallengeViewController: UIViewController, FIRInviteDelegate, EventListener {
     @IBOutlet weak var noFriendsLbl: UILabel!
     
     @IBOutlet weak var friendScroller: UIScrollView!
+    
+    var genQuiz:GenQuizRound?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate {
                 for friend in friends {
                     let frame = CGRect(x: x, y: y, width: width, height: width)
                     let avatar = AvatarBadge(frame: frame)
+                    avatar.data["friend"] = friend
                     let name = LanguageService.getInstance().shortenName(name: friend.name)
                     avatar.setLabel(text: name)
                     if friend.photoUrl != nil {
@@ -55,6 +58,12 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate {
                 }
             }
         })
+        
+        EventHandler.getInstance().subscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        EventHandler.getInstance().unSubscribe(AvatarBadge.TOPIC_PERSON_TAPPED, listener: self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,6 +72,8 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate {
     }
     
     @IBAction func inviteButtonClicked(_ sender: Any) {
+        genQuiz?.fromId = FirebaseService.getInstance().userDetails?.id
+        FirebaseService.getInstance().persistGenQuiz(genQuiz: genQuiz!)
         if let invite = FIRInvites.inviteDialog() {
             invite.setInviteDelegate(self)
             let targetApplication = FIRInvitesTargetApplication()
@@ -83,4 +94,22 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate {
             invite.open()
         }
     }
+    
+    func onEvent(_ topic:String, data:Any?) {
+        if topic == AvatarBadge.TOPIC_PERSON_TAPPED {
+            DispatchQueue.main.async {
+                let avatar = data as! AvatarBadge
+                let friend = avatar.data["friend"] as! UserDetails
+                genQuiz?.fromId = FirebaseService.getInstance().userDetails?.id
+                genQuiz?.toId = friend.id
+                FirebaseService.getInstance().persistGenQuiz(genQuiz: genQuiz!)
+                //-- send notification
+            }
+        }
+    }
+    var listenerIndex:Int?
+    func setListenerIndex(_ index:Int) {
+        listenerIndex = index
+    }
+
 }
