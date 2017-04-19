@@ -68,6 +68,41 @@ class TimelineQuestion : Question {
         }
         return newfacts
     }
+    
+    override func getPersistMap() -> [String : Any?] {
+        var map = super.getPersistMap()
+        var factArray = [[String:Any?]]()
+        if facts != nil {
+            for fact in facts! {
+                var factMap = [String:Any?]()
+                factMap["type"] = fact.type
+                factMap["date"] = fact.date?.original
+                factMap["place"] = fact.place?.original
+                factArray.append(factMap)
+            }
+        }
+        map["facts"] = factArray
+        return map
+    }
+    
+    override func setupFromPersistenceMap(map: [String : Any?]) {
+        super.setupFromPersistenceMap(map: map)
+        facts = [Fact]()
+        let factArray = map["facts"] as! [[String:Any?]]
+        for factMap in factArray {
+            var fact = Fact()
+            fact.type = factMap["type"] as? String
+            if factMap["date"] != nil {
+                fact.date = GedcomDate()
+                fact.date?.original = factMap["date"] as? String
+            }
+            if factMap["place"] != nil {
+                fact.place = PlaceReference()
+                fact.place.original = factMap["place"] as? String
+            }
+            facts.append(fact)
+        }
+    }
 }
 
 class TimelineQuestionView : UIView {

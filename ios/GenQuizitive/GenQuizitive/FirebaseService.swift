@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import GoogleSignIn
 
 class FirebaseService {
     static var instance:FirebaseService?
@@ -24,7 +25,29 @@ class FirebaseService {
         return instance!
     }
     
+    func persistGoogleUser(user:GIDGoogleUser, hasFamilyTree:Bool) {
+        let ref = FIRDatabase.database().reference()
+        let userID = FIRAuth.auth()?.currentUser?.uid
+        ref.child("users/\(userID)").observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.value == nil {
+                var map = [String:Any?]()
+                map["id"] = userID
+                map["highScore"] = 0
+                map["numberOfRounds"] = 0
+                map["hasFamilyTree"] = hasFamilyTree
+                map["name"] = user.profile.name
+                map["photoUrl"] = user.profile.imageURL(withDimension: 100)
+                map["lastLogin"] = (Date()).timeIntervalSince1970
+                ref.child("users/\(userID)").setValue(map)
+            } else {
+                ref.child("users/\(userID)/lastLogin").setValue((Date()).timeIntervalSince1970)
+                ref.child("users/\(userID)/hasFamilyTree").setValue(hasFamilyTree)
+            }
+        })
+    }
+    
     func getFriends(onCompletion:@escaping ([UserDetails])->Void) {
+        // TODO - Add friend Paging
         let ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         ref.child("friends").child(userID!).observeSingleEvent(of: .value, with: { snapshot in
@@ -43,6 +66,20 @@ class FirebaseService {
             onCompletion(friends)
         })
     }
+    
+    func persistGenQuiz(genQuiz:GenQuizRound) {
+        let ref = FIRDatabase.database().reference()
+        if genQuiz.id == nil {
+            let roundRef = ref.child("rounds").childByAutoId()
+            genQuiz.id = roundRef.key
+            let map = genQuiz.getPersistMap()
+            roundRef.setValue(map)
+        } else {
+            let map = genQuiz.getPersistMap()
+            ref.child("rounds").child(genQuiz.id!).setValue(map)
+        }
+        
+    }
 }
 
 class UserDetails {
@@ -50,12 +87,20 @@ class UserDetails {
     var highScore:Int?
     var numberOfRounds:Int?
     var hasFamilyTree:Bool!
+    var name:String!
+    var photoUrl:String?
+    var lastLogin:Date?
     
     init(map:[String:Any?]) {
         self.id = map["id"] as! String
         self.highScore = map["highScore"] as? Int
         self.numberOfRounds = map["numberOfRounds"] as? Int
         self.hasFamilyTree = map["hasFamilyTree"] as! Bool
+        self.name = map["name"] as! String
+        self.photoUrl = map["photoUrl"] as? String
+        if map["lastLogin"] != nil {
+            self.lastLogin = Date(timeIntervalSince1970: map["lastLogin"] as! TimeInterval)
+        }
     }
     
     func toPersist() -> [String:Any?] {
@@ -64,6 +109,8 @@ class UserDetails {
         map["numberOfRounds"] = self.numberOfRounds
         map["highScore"] = self.highScore
         map["hasFamilyTree"] = self.hasFamilyTree
+        map["name"] = self.name
+        map["photoUrl"] = self.photoUrl
         
         return map
     }

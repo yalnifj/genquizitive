@@ -61,6 +61,14 @@ class RelationshipQuestion : MultipleChoiceQuestion {
             })
         })
     }
+    
+    override func getPersistMap() -> [String : Any?] {
+        var map = super.getPersistMap()
+        let name = FamilyTreeService.getInstance().fsUser!.display!.name!
+        let text = StringUtils.replaceAll(text: self.questionText, regex: "your", replace: name)
+        map["questionText"] = text
+        return map
+    }
 }
 
 class RelationshipQuestionView : UIView {

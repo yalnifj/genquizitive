@@ -12,11 +12,49 @@ import FirebaseInvites
 import GoogleSignIn
 
 class ChallengeViewController: UIViewController, FIRInviteDelegate {
+    @IBOutlet weak var noFriendsLbl: UILabel!
     
     @IBOutlet weak var friendScroller: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        FirebaseService.getInstance().getFriends(onCompletion: {friends in
+            if friends.count == 0 {
+                self.noFriendsLbl.isHidden = false
+            } else {
+                self.noFriendsLbl.isHidden = true
+                
+                let padding = CGFloat(5)
+                let width = self.friendScroller.frame.width / 4
+                var x = padding
+                var y = padding
+                for friend in friends {
+                    let frame = CGRect(x: x, y: y, width: width, height: width)
+                    let avatar = AvatarBadge(frame: frame)
+                    let name = LanguageService.getInstance().shortenName(name: friend.name)
+                    avatar.setLabel(text: name)
+                    if friend.photoUrl != nil {
+                        let url = URL(string: friend.photoUrl!)
+                        if url != nil {
+                            let data = NSData(contentsOf: url!)
+                            if data != nil {
+                                let image = UIImage(data: data as! Data)
+                                if image != nil {
+                                    avatar.setProfileImage(image: image!)
+                                }
+                            }
+                        }
+                    }
+                    self.friendScroller.addSubview(avatar)
+                    x = x + width + padding
+                    if x + width > self.friendScroller.frame.width {
+                        x = padding
+                        y = y + width + padding
+                    }
+                }
+            }
+        })
     }
     
     override func didReceiveMemoryWarning() {

@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class ConnectQuestion : Question {
-    var relationshipText:String?
     var startPerson:Person?
     
     override init() {
@@ -48,6 +47,50 @@ class ConnectQuestion : Question {
             self.isReady = true
 			onCompletion(self, nil)
         })
+    }
+    
+    override func getPersistMap() -> [String : Any?] {
+        var map = super.getPersistMap()
+        if startPerson != nil {
+            var personMap = [String:Any?]()
+            personMap["id"] = startPerson!.id
+            var displayMap = [String:Any?]()
+            displayMap["name"] = startPerson?.display?.name
+            displayMap["ascendancyNumber"] = startPerson?.display?.ascendancyNumber
+            personMap["display"] = displayMap
+            personMap["portrait"] = FamilyTreeService.getInstance().portraits[startPerson!.id]
+            map["startPerson"] = personMap
+        }
+
+        return map
+    }
+    
+    override func setupFromPersistenceMap(map: [String : Any?]) {
+        super.setupFromPersistenceMap(map: map)
+        let personMap = map["startPerson"] as? [String:Any?]
+        if personMap != nil {
+            startPerson = Person()
+            startPerson?.id = personMap!["id"] as? String
+            let displayMap = personMap!["display"] as? [String:Any?]
+            if displayMap != nil {
+                startPerson?.display = DisplayProperties()
+                startPerson?.display?.name = displayMap!["name"] as? String
+                startPerson?.display?.ascendancyNumber = displayMap!["ascendancyNumber"] as? String
+            }
+            let familyTreeService = FamilyTreeService.getInstance()
+            if familyTreeService.remoteService != nil && familyTreeService.remoteService?.sessionId != nil {
+                familyTreeService.getPerson(personId: startPerson!.id, onCompletion: {person, err in
+                    if person != nil {
+                        self.startPerson = person
+                    } else {
+                        if personMap!["portrait"] != nil {
+                            familyTreeService.portraits[self.startPerson!.id] = personMap!["portrait"] as? String
+                        }
+                    }
+                })
+            }
+
+        }
     }
 }
 

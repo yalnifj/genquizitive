@@ -223,7 +223,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         guard let authentication = user.authentication else { return }
         let credential = FIRGoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                           accessToken: authentication.accessToken)
-        FIRAuth.auth()?.signIn(with: credential) { (user, error2) in
+        FIRAuth.auth()?.signIn(with: credential) { (user2, error2) in
             // ...
             if let error2 = error2 {
                 print("Error signing into firebase \(error2)")
@@ -231,9 +231,10 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
                 return
             }
             
-            if user != nil {
+            if user2 != nil {
                 let firebaseService = FirebaseService.getInstance()
-                firebaseService.firebaseUser = user
+                firebaseService.firebaseUser = user2
+                firebaseService.persistGoogleUser(user: user, hasFamilyTree: self.fsConnectBtn.isHidden)
                 if self.avatarBadge.profileImage == nil {
                     if firebaseService.firebaseUser != nil && firebaseService.firebaseUser?.photoURL != nil {
                         let imageData = NSData(contentsOf: firebaseService.firebaseUser!.photoURL!)

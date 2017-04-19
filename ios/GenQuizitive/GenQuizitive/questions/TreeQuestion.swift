@@ -48,6 +48,41 @@ class TreeQuestion : Question {
             }
         })
     }
+    
+    override func getPersistMap() -> [String : Any?] {
+        var map = super.getPersistMap()
+        var peopleMap = [[String:Any?]]()
+        for person in people {
+            var personMap = [String:Any?]()
+            personMap["id"] = person.id
+            var displayMap = [String:Any?]()
+            displayMap["name"] = person.display?.name
+            displayMap["ascendancyNumber"] = person.display?.ascendancyNumber
+            personMap["display"] = displayMap
+            personMap["portrait"] = FamilyTreeService.getInstance().portraits[person.id]
+            peopleMap.append(personMap)
+        }
+        map["people"] = peopleMap
+        return map
+    }
+    
+    override func setupFromPersistenceMap(map: [String : Any?]) {
+        super.setupFromPersistenceMap(map: map)
+        people = [Person]()
+        let answerMap = map["people"] as! [[String:Any?]]
+        for personMap in answerMap {
+            let person = Person()
+            person.id = personMap["id"] as? String
+            let displayMap = personMap["display"] as? [String:Any?]
+            if displayMap != nil {
+                person.display = DisplayProperties()
+                person.display?.name = displayMap!["name"] as? String
+                person.display?.ascendancyNumber = displayMap!["ascendancyNumber"] as? String
+            }
+            people.append(person)
+        }
+    }
+
 }
 
 class TreeQuestionView : UIView {
