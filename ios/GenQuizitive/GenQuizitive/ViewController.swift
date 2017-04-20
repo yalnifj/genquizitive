@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import FacebookCore
-import FacebookLogin
 
 class ViewController: UIViewController, AuthCompleteListener {
     @IBOutlet weak var arrows: UIImageView!
@@ -75,24 +73,6 @@ class ViewController: UIViewController, AuthCompleteListener {
         let viewController:MenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         
         self.present(viewController, animated: false, completion: nil)
-    }
-
-    @IBAction func onFBBtnClick(_ sender: Any) {
-        let loginManager = LoginManager(loginBehavior: .systemAccount, defaultAudience: .friends)
-        loginManager.logIn([ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
-            switch loginResult {
-            case .failed(let error):
-                print(error)
-            case .cancelled:
-                print("User cancelled login.")
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                print("Logged in! \(accessToken)")
-                
-                UserDefaults.standard.set(accessToken, forKey: "fbAccessToken")
-                
-                self.gotoMenuView()
-            }
-        }
     }
 
     @IBAction func onFSBtnClick(_ sender: Any) {

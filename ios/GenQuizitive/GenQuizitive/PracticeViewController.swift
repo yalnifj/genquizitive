@@ -28,6 +28,9 @@ class PracticeViewController: UIViewController, EventListener {
     var setupCount = 0
     var lastTime:TimeInterval = 0
     
+    var genQuizId:String?
+    var genQuiz:GenQuizRound?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

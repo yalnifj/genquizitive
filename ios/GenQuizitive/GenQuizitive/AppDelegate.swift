@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIROptions.default().deepLinkURLScheme = self.customURLScheme
+        FIROptions.default().deepLinkURLScheme = "http://genquizitive.com/"
         FIRApp.configure()
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
@@ -75,6 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Handle the deep link. For example, show the deep-linked content or
             // apply a promotional offer to the user's account.
             // ...
+            if dynamicLink.url?.path != nil {
+                let parts = StringUtils.split(text: dynamicLink.url!.path, splitter: "/")
+                let id = parts.last
+                if id != nil {
+                    let viewController:PracticeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as! PracticeViewController
+                    viewController.genQuizId = id
+                    //self.present(viewController, animated: false, completion: nil)
+                }
+            }
             return true
         }
         
@@ -87,7 +96,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-            // ...
+            if dynamiclink?.url?.path != nil {
+                let parts = StringUtils.split(text: dynamiclink!.url!.path, splitter: "/")
+                let id = parts.last
+                if id != nil {
+                    let viewController:PracticeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as! PracticeViewController
+                    viewController.genQuizId = id
+                    
+                    //self.present(viewController, animated: false, completion: nil)
+                }
+            }
         }
         
         

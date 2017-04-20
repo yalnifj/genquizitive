@@ -111,9 +111,9 @@ class ChallengeViewController: UIViewController, FIRInviteDelegate, EventListene
             DispatchQueue.main.async {
                 let avatar = data as! AvatarBadge
                 let friend = avatar.data["friend"] as! UserDetails
-                genQuiz?.fromId = FirebaseService.getInstance().userDetails?.id
-                genQuiz?.toId = friend.id
-                FirebaseService.getInstance().persistGenQuiz(genQuiz: genQuiz!)
+                self.genQuiz?.fromId = FirebaseService.getInstance().userDetails?.id
+                self.genQuiz?.toId = friend.id
+                FirebaseService.getInstance().persistGenQuiz(genQuiz: self.genQuiz!)
                 //-- send notification
                 let viewController:MenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
                 self.present(viewController, animated: false, completion: nil)
