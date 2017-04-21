@@ -19,7 +19,21 @@ class ContinueViewController: UIViewController, EventListener {
         super.viewDidLoad()
         
         FirebaseService.getInstance().getRoundsForUser(userId: FirebaseService.getInstance().userDetails!.id, onCompletion: { rounds in
-            
+            if rounds.count == 0 {
+                self.noRoundsMessage.isHidden = false
+            } else {
+                self.noRoundsMessage.isHidden = true
+                var y = CGFloat(0)
+                var height = CGFloat(80)
+                for genQuiz in rounds {
+                    let frame = CGRect(x: CGFloat(0), y: y, width: self.genquizScroller.frame.width, height: height)
+                    var row = GenQuizRowView(frame: frame)
+                    row.showGenQuizRound(genQuiz: genQuiz)
+                    self.genquizScroller.addSubview(row)
+                    y = y + height + CGFloat(5)
+                }
+                self.genquizScroller.layoutSubviews()
+            }
         })
     }
     

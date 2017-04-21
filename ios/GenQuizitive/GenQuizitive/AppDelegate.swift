@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any])
         -> Bool {
+        print("****** got URL \(url)")
         let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String?
         if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
             return true
@@ -62,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // for iOS below 9.0
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        print("****** got URL \(url) and \(sourceApplication)")
         if let invite = FIRInvites.handle(url, sourceApplication:sourceApplication, annotation:annotation) as? FIRReceivedInvite {
             let matchType =
                 (invite.matchType == .weak) ? "Weak" : "Strong"
