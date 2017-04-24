@@ -91,6 +91,7 @@
 		93A0E7931EA86A05009E32ED /* GenQuizRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A0E7921EA86A05009E32ED /* GenQuizRow.xib */; };
 		93A0E7951EA86A5E009E32ED /* GenQuizRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A0E7941EA86A5E009E32ED /* GenQuizRowView.swift */; };
 		93A0E7971EA96B89009E32ED /* ChallengeRoundReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A0E7961EA96B89009E32ED /* ChallengeRoundReviewController.swift */; };
+		93A0E7991EA9B4E2009E32ED /* vs.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A0E7981EA9B4E1009E32ED /* vs.png */; };
 		93A142251E7E04DE007E2759 /* TimelineQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */; };
 		93A950741E5B74C4004BBDDD /* QuestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950731E5B74C4004BBDDD /* QuestionService.swift */; };
 		93A950781E5B7542004BBDDD /* PhotoQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A950771E5B7542004BBDDD /* PhotoQuestion.swift */; };
@@ -267,6 +268,7 @@
 		93A0E7921EA86A05009E32ED /* GenQuizRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenQuizRow.xib; sourceTree = "<group>"; };
 		93A0E7941EA86A5E009E32ED /* GenQuizRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenQuizRowView.swift; sourceTree = "<group>"; };
 		93A0E7961EA96B89009E32ED /* ChallengeRoundReviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeRoundReviewController.swift; sourceTree = "<group>"; };
+		93A0E7981EA9B4E1009E32ED /* vs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vs.png; sourceTree = "<group>"; };
 		93A142241E7E04DE007E2759 /* TimelineQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineQuestionView.xib; sourceTree = "<group>"; };
 		93A950731E5B74C4004BBDDD /* QuestionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionService.swift; sourceTree = "<group>"; };
 		93A950771E5B7542004BBDDD /* PhotoQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoQuestion.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 		93E8A9C51DC9913200C25D4E /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				93A0E7981EA9B4E1009E32ED /* vs.png */,
 				935827081EA3202200C6C572 /* continue_game.png */,
 				935826F81EA3117C00C6C572 /* challenge_a_friend.png */,
 				935826F91EA3117C00C6C572 /* lights1.png */,
@@ -809,6 +812,7 @@
 				93E8A9E41DCAB6AD00C25D4E /* button_sign_arrow_right.png in Resources */,
 				93DEF1711E5DDC4500C8E2D1 /* guage_hand.png in Resources */,
 				93E8A9E11DCAB6AD00C25D4E /* button_blue_oval.png in Resources */,
+				93A0E7991EA9B4E2009E32ED /* vs.png in Resources */,
 				93E8A9D21DC9913200C25D4E /* pole1.png in Resources */,
 				93DEF15E1E5D484C00C8E2D1 /* number1.png in Resources */,
 				93AD7C161E4A826F00A14098 /* GoogleService-Info.plist in Resources */,
