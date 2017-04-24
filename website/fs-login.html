@@ -33,15 +33,15 @@ var fscheck = fs.oauthResponse(function(response){
 		//alert(document.cookie);
 		fs.get('/platform/tree/current-person', function(response){
 			//alert(response.body);
-			window.location = 'https://www.genquizitive.com/home.html';
+			window.location = 'https://www.genquizitive.com/live.html';
 		});
 	} else {
-		window.location = 'https://www.genquizitive.com/home.html';
+		window.location = 'https://www.genquizitive.com/live.html';
 	}
 });
 
 if (!fscheck) {
-	window.location = 'https://www.genquizitive.com/home.html';
+	window.location = 'https://www.genquizitive.com/live.html';
 }
 
 	</script>

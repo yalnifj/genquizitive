@@ -1,4 +1,4 @@
-var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-live.html';
+var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-login.html';
 angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 
 				'genquiz-components', 'genquiz.questions', 'genquiz.familytree','ngMap'])
 .config(['$locationProvider', '$routeProvider', '$uibTooltipProvider',
@@ -54,7 +54,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	familysearchService.getAncestorTree(familysearchService.fsUser.id, 6, false).then(function(tree) {
 		if (tree.persons) {
 			angular.forEach(tree.persons, function(person) {
-				$scope.tree[person.display.ancestryNumber] = person;
+				$scope.tree[person.display.ascendancyNumber] = person;
 				familysearchService.getPersonPortrait(person.id).then(function(path) {
 					person.portrait = path.src;
 				},function(error){});

@@ -1,14 +1,15 @@
 <div class="text-center" ng-controller="liveCreateGame">
-	<div class="title-holder">
-		<img src="genquiz_score.png" />
+	<div class="title-holder" style="margin-bottom:20px;">
+		<img src="create_game.png" />
 		<div class="smaller-logo" style="left: -80px; top: -80px;">
 			<img id="home_arrows" src="home_arrow1.png" />
 			<img id="home_sign" src="home_sign.png" />
 		</div>
 	</div>
 	<div class="center-div">
-		<div class="score-row">
-		Select someone from your tree to be the central person for your GenQuiz Live game.
+		<div class="score-row" style="padding-top: 15px;">
+		<strong>Select someone from your tree to be the central person for your GenQuiz Live game 
+			or search for someone below.</strong>
 		<!-- provide search feature -->
 		<form class="form-inline">
 				<input type="text" ng-model="search.firstName" placeholder="First name" style="width: 120px;" />
@@ -30,8 +31,8 @@
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
 			</div>
 			<div>
-				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])" class="{{n==5?'large-spacer':''}}"></div>
+				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
+					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
 			</div>
 			<div>
 				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
