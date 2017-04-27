@@ -6,16 +6,19 @@
 			<img id="home_sign" src="home_sign.png" />
 		</div>
 	</div>
-	<div class="center-div">
+	<div class="center-div" ng-if="step==1">
 		<div class="score-row" style="padding-top: 15px;">
 		<strong>Select someone from your tree to be the central person for your GenQuiz Live game 
 			or search for someone below.</strong>
 		<!-- provide search feature -->
 		<form class="form-inline">
-				<input type="text" ng-model="search.firstName" placeholder="First name" style="width: 120px;" />
-				<input type="text" ng-model="search.lastName" placeholder="Last name" style="width: 120px;" />
-				<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" />
-				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" />
+		    <div class="form-group">
+				<input type="text" ng-model="search.givenName" placeholder="First name" style="width: 120px;" class="form-control" />
+				<input type="text" ng-model="search.surname" placeholder="Last name" style="width: 120px;" class="form-control" />
+				<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" class="form-control" />
+				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" class="form-control" />
+				<input type="text" ng-model="search.id" placeholder="ID" style="width: 90px;" class="form-control" />
+				</div>
 				<button class="btn btn-default" ng-click="searchForPerson()">Search</button>
 		</form>
 		</div>
@@ -26,22 +29,24 @@
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
 			</div>
 		-->
-			<div>
-				<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+			<div class="ancestor-row">
+				<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
 			</div>
-			<div>
-				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
+			<div class="ancestor-row">
+				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
 			</div>
-			<div>
-				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
+			<div class="ancestor-row">
+				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
 					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
 			</div>
-			<div>
-				<div avatar-badge class="avatar ancestor-avatar avatar-small" src="tree[1].portrait" label="tree[1].display.name" 
+			<div class="ancestor-row">
+				<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[1].portrait" label="tree[1].display.name" 
 					ng-click="selectPerson(tree[1])"></div>
 			</div>
 		</div>
+	</div>
+	<div class="center-div" ng-if="step==1">
 	</div>
 </div>

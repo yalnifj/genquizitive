@@ -8,7 +8,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		}
 	}
 }])
-.service('notificationService', ['$rootScope', '$compile', function($rootScope, $compile){
+.service('notificationService', ['$rootScope', '$compile', '$q', function($rootScope, $compile, $q){
 	this.showNotification = function(options) {
 		var $scope = $rootScope.$new();
 		$scope.title = options.title;
@@ -30,6 +30,43 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		};
 		
 		return $scope;
+	};
+	
+	this.showConfirmation = function(options) {
+		var deferred = $q.defer();
+		var $scope = $rootScope.$new();
+		$scope.title = options.title;
+		$scope.message = options.message;
+		$scope.options = options;
+		var template = '<div class="notification"><div class="title">{{title}}</div><div class="message">{{message}}</div>\
+			<div class="closebutton"><button ng-click="confirm()" class="btn btn-default">Yes</button>\
+			<button ng-click="cancel()" class="btn btn-default">No</button></div></div>';
+		$scope.element = $compile(template)($scope);
+		$('body').append($scope.element);
+		
+		$scope.show = function() {
+			var left = ($(window).width() - $scope.element.width()) / 2;
+			$scope.element.css('left', left + 'px');
+			$scope.element.animate({top: '20px'}, 1000);
+		};
+		
+		$scope.close = function() {
+			$scope.element.animate({top: '-500px'}, {duration: 700, complete: function() { $scope.element.remove(); } });
+		};
+		
+		$scope.cancel = function() {
+			$scope.close();
+			deferred.reject('cancelled');
+		};
+		
+		$scope.confirm = function() {
+			$scope.close();
+			deferred.resolve('resolved');
+		};
+		
+		$scope.show();
+		
+		return deferred.promise;
 	};
 	
 	this.showHintWon = function(options) {

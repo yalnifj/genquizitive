@@ -825,6 +825,26 @@ angular.module('genquiz.familytree', [])
 		return deferred.promise;
 	};
 	
+	this.search = function(searchParams) {
+		var deferred = $q.defer();
+		var temp = this;
+		var url = '/platform/tree/search?q=';
+		var q = '';
+		var i = 0;
+		angular.forEach(searchParams, function(value, key) {
+			if (i>0) q += '+';
+			q += key + ':' + value;
+		});
+		this.fs.get(url, function(response) {
+			if (response.statusCode>=300 || !response.data) {
+				deferred.reject(response);
+				return;
+			}
+			deferred.resolve(response.data);
+		});
+		return deferred.promise;
+	};
+	
 	this.getPersonById = function(personId, useCache) {
 		var deferred = $q.defer();
 		var temp = this;

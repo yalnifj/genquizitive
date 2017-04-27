@@ -26,7 +26,7 @@
 		function onPlayerReady(event) {
 			if (document.cookie.indexOf("videoPlayed") < 0) {
 				document.cookie = "videoPlayed=true;";
-				player.playVideo();
+				//player.playVideo();
 			}
 		}
 		function onPlayerStateChange(event) {
@@ -127,7 +127,6 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-left">
 				<li><a class="page-scroll" href="#page-top">Home</a></li>
-				<li><a class="page-scroll" href="home.html">Play</a></li>
 				<li><a href="howtoplay.html">How to Play</a></li>
 				<li><a href="questiontypes.html">Question Types</a></li>
 				<li><a class="page-scroll" href="#about">About Us</a></li>
@@ -147,12 +146,14 @@
 			<div class="col-sm-5 text-center">
 				<img src="logo-med300.png" class="img-responsive top-logo" />
 				<div class="play-online">
+				<!--
 					<p>GenQuizitive is currently in Beta. Try it out today.</p>
 					<p>
 					<a class="small-margin" href="https://www.genquizitive.com/home.html">
 						<img alt="Play Online" width="150" height="60" src="play-online.png" />
 					</a>	
 					</p>
+					-->
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -169,30 +170,26 @@
 		</div>
 	</div>
 </section>
-
-<!-- How to -->
-<section id="howto" style="line-height: 27px;" >
-	<div class="container">
-		<div class="row">
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">About GenQuizitive</h2>
-                <p>&nbsp;</p>
-            </div>
-        </div>
-		<div class="row">
-			<div class="col-sm-6">
-				<p>GenQuizitive is an interactive, social, genealogy game where players challenge each other to trivia quizzes about their personal family history.
-				Each GenQuiz consists of a series of trivia questions about your family tree.  Questions become more difficult as the round progresses.  The player who
-				answers the questions the fastest wins that GenQuiz.
-				</p>
-				<p>Learn more about <a href="howtoplay.html">How to Play!</a></p>
-				<p>Learn more about GenQuiz <a href="questiontypes.html">Question Types</a></p>
-			</div>
-			<div class="col-sm-6">
-				<p>Play practice rounds by yourself or challenge your friends and family members to find out who knows the most about their family history!</p>
-				<p>Play the game with your personal family history by connecting to your online Family Tree at <a href="http://www.familysearch.org" target="_blank">FamilySearch</a>.</p>
-				<p>Play with your friends and family members by connecting to your <a href="http://www.facebook.com" target="_blank">Facebook</a> account.</p>
-			</div>
+<section id="games" class="bg-primary" style="margin-top: -20px;">
+	<div class="text-center" style="font-size: 110%; min-height: 550px; padding-top: 50px; padding-bottom: 50px;">
+		<div class="col-sm-4 game-block">
+			<a href="howtoplay.html"><img src="logo_blue_square.png" class="responsive" style="margin: 10px;" /></a>
+			<p>A social, competitive mobile game based on your family tree.  Challenge your family and friends!
+			</p>
+			<p><strong>Coming to iOS and Android Summer 2017!</strong></p>
+			<p><a href="howtoplay.html">Learn More</a></p>
+		</div>
+		<div class="col-sm-4 game-block">
+			<img src="logo_live_square.png" class="responsive" style="margin: 10px;"  />
+			<p>An online, live family tree quiz game for parties and small groups.  Great for family reunions!</p>
+			<p><strong>Coming to your browser Summer 2017!</strong></p>
+			<p></p>
+		</div>
+		<div class="col-sm-4 game-block">
+			<img src="logo_speed_square.png" class="responsive" style="margin: 10px;"  />
+			<p>A fast-paced, solitaire family tree relationship game.  How fast can you climb your tree?</p>
+			<p><strong>Coming to iOS and Android in Fall 2017!</strong></p>
+			<p></p>
 		</div>
 	</div>
 </section>
@@ -273,7 +270,7 @@
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                <p>&copy; 2016-2017 Yellow Fork Technologies LLC</p>
+                <p>&copy; 2017 Yellow Fork Technologies LLC</p>
                 <p>&nbsp;</p>
             </div>
         </div>

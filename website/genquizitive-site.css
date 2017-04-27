@@ -183,3 +183,12 @@ header .header-content, section .container, section .container-fluid{
     font-family: monospace;
 	margin-bottom: 10px;
 }
+
+.game-block img {
+	margin: 10px;
+}
+
+.bg-primary {
+	background-color: #dadfff;
+	color: black;
+}

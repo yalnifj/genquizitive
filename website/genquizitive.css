@@ -255,8 +255,11 @@ body {
 .avatar.spacer {
 	margin-right: 20px;
 }
+.avatar.spacer:laat-child {
+	margin-right: 0px;
+}
 .avatar.large-spacer {
-	margin-right: 148px;
+	margin-right: 160px;
 }
 .avatar-small {
 	width: 64px;
@@ -990,6 +993,10 @@ body {
 	padding-right: 70px;
 	min-height: 80px;
 	transition: 0.3s padding;
+}
+
+.ancestor-row {
+	min-height: 80px;
 }
 
 @media (max-width: 767px) {

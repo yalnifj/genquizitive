@@ -51,6 +51,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.loading = false;
 	$scope.search = {};
 	$scope.tree = {};
+	$scope.step = 1;
+	if (!familysearchService.fsUser || !familysearchService.fsUser.id) {
+		$location.path("/");
+	} else {
 	familysearchService.getAncestorTree(familysearchService.fsUser.id, 6, false).then(function(tree) {
 		if (tree.persons) {
 			angular.forEach(tree.persons, function(person) {
@@ -66,13 +70,56 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			closable: true});
 		notif.show();
 	});
+	}
 	
 	$scope.searchForPerson = function() {
+		if ($scope.search.id) {
+			familysearchService.getPersonById($scope.search.id, true).then(function(person) {
+				$scope.person = person;
+				$scope.step = 2;
+			}, function(error) {
+				console.log(error);
+				$scope.search.error = error;
+			});
+		} else {
+			var searchParams = {};
+			if ($scope.search.givenName) searchParams.givenName = $scope.search.givenName;
+			if ($scope.search.surame) searchParams.surame = $scope.search.surame;
+			if ($scope.search.birthDate) searchParams.birthDate = $scope.search.birthDate;
+			if ($scope.search.birthPlace) searchParams.birthPlace = $scope.search.birthPlace;
+			if (Object.keys(searchParams).length ==0) {
+				$scope.search.error = "Please search by at least a first and last name.";
+				return;
+			}
+			familysearchService.search(searchParams).then(function(searchResults) {
+				if (searchResults && searchResults.entries && searchResults.entries.content && searchResults.entries.content.gedcomx &&
+							searchResults.entries.content.gedcomx.persons) {
+					$scope.search.results = searchResults.entries.content.gedcomx.persons;
+				} else {
+					$scope.search.error = "No results matched your search.";
+				}
+			}, function(error) {
+				console.log(error);
+				$scope.search.error = "There was an error with your search.";
+			});
+		}
 	};
 	
 	$scope.selectPerson = function(person) {
 		if (person) {
-			
+			if (person.isLiving) {
+				notificationService.showNotification({title: 'Family Tree Error', 
+					message: 'Unable to retrieve data from your family tree.  Please go back and try again.'})
+				.then(function() {
+					$scope.person = person;
+					$scope.step = 2;
+				}, function() {
+					$scope.step = 1;
+				});
+			} else {
+				$scope.person = person;
+				$scope.step = 2;
+			}
 		}
 	};
 })
