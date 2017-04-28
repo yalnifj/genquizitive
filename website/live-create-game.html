@@ -1,6 +1,6 @@
 <div class="text-center" ng-controller="liveCreateGame">
 	<div class="title-holder" style="margin-bottom:20px;">
-		<img src="create_game.png" />
+		<img src="create_game.png" style="height: 55px;" />
 		<div class="smaller-logo" style="left: -80px; top: -80px;">
 			<img id="home_arrows" src="home_arrow1.png" />
 			<img id="home_sign" src="home_sign.png" />
@@ -8,24 +8,32 @@
 	</div>
 	<div class="center-div" ng-if="step==1">
 		<div class="stages">
-			<a class="stage" ng-class="{'active': step==1}" ng-click="showStep(1)">1. Choose</a>
-			<a class="stage" ng-class="{'active': step==2}" ng-click="showStep(2)">2. Setup</a>
-			<a class="stage" ng-class="{'active': step==3}" ng-click="showStep(3)">3. Invite</a>
+			<a class="stage" ng-class="{'active': step==1}" href="#/live-create-game" ng-click="showStep(1)">1. Choose</a>
+			<a class="stage" ng-class="{'active': step==2}" href="#/live-create-game" ng-click="showStep(2)">2. Setup</a>
+			<a class="stage" ng-class="{'active': step==3}" href="#/live-create-game" ng-click="showStep(3)">3. Invite</a>
 		</div>
-		<div class="score-row" style="padding-top: 15px;">
-		<strong>Select someone from your tree to be the central person for your GenQuiz Live game 
-			or search for someone below.</strong>
-		<!-- provide search feature -->
-		<form class="form-inline">
-		    <div class="form-group">
-				<input type="text" ng-model="search.givenName" placeholder="First name" style="width: 120px;" class="form-control" />
-				<input type="text" ng-model="search.surname" placeholder="Last name" style="width: 120px;" class="form-control" />
-				<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" class="form-control" />
-				<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" class="form-control" />
-				<input type="text" ng-model="search.id" placeholder="ID" style="width: 90px;" class="form-control" />
-				</div>
-				<button class="btn btn-default" ng-click="searchForPerson()">Search</button>
-		</form>
+		<div class="score-row" style="padding-top: 15px; height: auto;">
+			<div style="width: 600px; display: inline-block; float: inherit;">
+				<p>
+					<strong>Select someone from your tree to be the central person for your GenQuiz Live game 
+					or search for someone below.</strong>
+				</p>
+				<!-- provide search feature -->
+				<form class="form-inline">
+					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+						<input type="text" ng-model="search.givenName" placeholder="First name" style="width: 120px;" class="form-control" />
+						<input type="text" ng-model="search.surname" placeholder="Last name" style="width: 120px;" class="form-control" />
+					</div>
+					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+						<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" class="form-control" />
+						<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" class="form-control" />
+					</div>
+					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+						<input type="text" ng-model="search.id" placeholder="ID" style="width: 90px;" class="form-control" />
+						<button class="btn btn-primary" ng-click="searchForPerson()">Search</button>
+					</div>
+				</form>
+			</div>
 		</div>
 		<div class="tree text-center">
 		<!--
