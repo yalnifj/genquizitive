@@ -107,9 +107,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	
 	$scope.selectPerson = function(person) {
 		if (person) {
-			if (person.isLiving) {
-				notificationService.showNotification({title: 'Family Tree Error', 
-					message: 'Unable to retrieve data from your family tree.  Please go back and try again.'})
+			if (person.living) {
+				notificationService.showConfirmation({title: 'Living Person', 
+					message: person.display.name + ' is marked as a living person. Other players who join your game may be shown \
+						details of this person during the game.\
+						<br /><br />Are you sure you want to select a living person?'})
 				.then(function() {
 					$scope.person = person;
 					$scope.step = 2;
@@ -120,6 +122,16 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				$scope.person = person;
 				$scope.step = 2;
 			}
+		}
+	};
+	
+	$scope.showStep = function(step) {
+		if (step==1) {
+			$scope.step = step;
+		} else if (step==2 && $scope.person) {
+			$scope.step = step;
+		} else if (step==3 && $scope.person) {
+			$scope.step = step;
 		}
 	};
 })

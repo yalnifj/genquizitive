@@ -7,6 +7,11 @@
 		</div>
 	</div>
 	<div class="center-div" ng-if="step==1">
+		<div class="stages">
+			<a class="stage" ng-class="{'active': step==1}" ng-click="showStep(1)">1. Choose</a>
+			<a class="stage" ng-class="{'active': step==2}" ng-click="showStep(2)">2. Setup</a>
+			<a class="stage" ng-class="{'active': step==3}" ng-click="showStep(3)">3. Invite</a>
+		</div>
 		<div class="score-row" style="padding-top: 15px;">
 		<strong>Select someone from your tree to be the central person for your GenQuiz Live game 
 			or search for someone below.</strong>
