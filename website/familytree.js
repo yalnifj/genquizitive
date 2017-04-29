@@ -825,17 +825,18 @@ angular.module('genquiz.familytree', [])
 		return deferred.promise;
 	};
 	
-	this.search = function(searchParams) {
+	this.search = function(start, count, searchParams) {
 		var deferred = $q.defer();
 		var temp = this;
-		var url = '/platform/tree/search?q=';
+		var url = '/platform/tree/search?start='+start+'&count='+count+'&q=';
 		var q = '';
 		var i = 0;
 		angular.forEach(searchParams, function(value, key) {
 			if (i>0) q += '+';
-			q += key + ':' + value;
+			q += key + ':' + value+'~';
+			i++;
 		});
-		this.fs.get(url, function(response) {
+		this.fs.get(url+q, function(response) {
 			if (response.statusCode>=300 || !response.data) {
 				deferred.reject(response);
 				return;

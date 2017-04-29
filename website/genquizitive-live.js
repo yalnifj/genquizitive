@@ -52,10 +52,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.search = {};
 	$scope.tree = {};
 	$scope.step = 1;
+	$scope.mode = 'tree';
 	if (!familysearchService.fsUser || !familysearchService.fsUser.id) {
 		$location.path("/");
 	} else {
-	familysearchService.getAncestorTree(familysearchService.fsUser.id, 6, false).then(function(tree) {
+	familysearchService.getAncestorTree(familysearchService.fsUser.id, 3, false).then(function(tree) {
 		if (tree.persons) {
 			angular.forEach(tree.persons, function(person) {
 				$scope.tree[person.display.ascendancyNumber] = person;
@@ -75,26 +76,31 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.searchForPerson = function() {
 		if ($scope.search.id) {
 			familysearchService.getPersonById($scope.search.id, true).then(function(person) {
-				$scope.person = person;
-				$scope.step = 2;
+				$scope.search.results = [person];
+				$scope.search.error = null;
 			}, function(error) {
 				console.log(error);
-				$scope.search.error = error;
+				$scope.search.error = 'Unable to find person with id '+$scope.search.id;
 			});
 		} else {
 			var searchParams = {};
 			if ($scope.search.givenName) searchParams.givenName = $scope.search.givenName;
-			if ($scope.search.surame) searchParams.surame = $scope.search.surame;
+			if ($scope.search.surname) searchParams.surname = $scope.search.surname;
 			if ($scope.search.birthDate) searchParams.birthDate = $scope.search.birthDate;
 			if ($scope.search.birthPlace) searchParams.birthPlace = $scope.search.birthPlace;
 			if (Object.keys(searchParams).length ==0) {
 				$scope.search.error = "Please search by at least a first and last name.";
 				return;
 			}
-			familysearchService.search(searchParams).then(function(searchResults) {
+			familysearchService.search(1, 10, searchParams).then(function(searchResults) {
 				if (searchResults && searchResults.entries && searchResults.entries.content && searchResults.entries.content.gedcomx &&
 							searchResults.entries.content.gedcomx.persons) {
 					$scope.search.results = searchResults.entries.content.gedcomx.persons;
+					angular.forEach($scope.search.results, function(person) {
+						familysearchService.getPersonPortrait(person.id).then(function(path) {
+							person.portrait = path.src;
+						}, function(error) { })
+					});
 				} else {
 					$scope.search.error = "No results matched your search.";
 				}
