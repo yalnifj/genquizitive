@@ -7,6 +7,14 @@ import FirebaseGoogleAuthUI
 
 class ChallengeRoundReviewViewController: UIViewController {
     
+    @IBOutlet weak var flight6: UIImageView!
+    @IBOutlet weak var flight5: UIImageView!
+    @IBOutlet weak var flight4: UIImageView!
+    @IBOutlet weak var flight3: UIImageView!
+    @IBOutlet weak var flight2: UIImageView!
+    @IBOutlet weak var flight1: UIImageView!
+    @IBOutlet weak var friendTimerLbl: UILabel!
+    @IBOutlet weak var friendAvatar: AvatarBadge!
     @IBOutlet weak var avatar: AvatarBadge!
     @IBOutlet weak var timerLbl: UILabel!
     @IBOutlet weak var light1: UIImageView!
@@ -33,7 +41,7 @@ class ChallengeRoundReviewViewController: UIViewController {
                 if self.firebaseService.firebaseUser != nil && self.firebaseService.firebaseUser?.photoURL != nil {
                     let imageData = NSData(contentsOf: self.firebaseService.firebaseUser!.photoURL!)
                     if imageData != nil {
-                        let image = UIImage(data: imageData as! Data)
+                        let image = UIImage(data: imageData! as Data)
                         if image != nil {
                             self.avatar.setProfileImage(image: image!)
                         }
@@ -43,9 +51,9 @@ class ChallengeRoundReviewViewController: UIViewController {
         })
     }
     
-    func addRow(question:Question, y: CGFloat, delay: Int) -> PracticeReviewRow {
+    func addRow(question:Question, y: CGFloat, delay: Int) -> ChallengeReviewRow {
         let frame = CGRect(x: 0, y: scroller.frame.height, width: scroller.frame.width, height: 75)
-        let row = PracticeReviewRow(frame: frame)
+        let row = ChallengeReviewRow(frame: frame)
         row.showQuestion(question: question)
         scroller.addSubview(row)
         
@@ -75,11 +83,17 @@ class ChallengeRoundReviewViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let lights = [light1,light2,light3,light4,light5,light6]
+        let flights = [flight1,flight2,flight3,flight4,flight5,flight6]
         
         if genQuiz != nil {
             let max = min(genQuiz!.myTotalIncorrect, lights.count)
             for i in 0..<max  {
                 lights[i]?.image = UIImage(named: "red_light_on")
+            }
+            
+            let fmax = min(genQuiz!.friendTotalIncorrect, flights.count)
+            for i in 0..<fmax  {
+                flights[i]?.image = UIImage(named: "red_light_on")
             }
             
             let minutes = Int(genQuiz!.myTotalTime / 60)
@@ -93,6 +107,41 @@ class ChallengeRoundReviewViewController: UIViewController {
                 minText = "0\(minutes)"
             }
             timerLbl.text = "\(minText):\(secText)"
+            
+            let fminutes = Int(genQuiz!.friendTotalTime / 60)
+            let fseconds = Int(genQuiz!.friendTotalTime - Double(fminutes * 60))
+            var fsecText = "\(fseconds)"
+            if fseconds < 10 {
+                fsecText = "0\(fseconds)"
+            }
+            var fminText = "\(fminutes)"
+            if fminutes < 10 {
+                fminText = "0\(fminutes)"
+            }
+            friendTimerLbl.text = "\(fminText):\(fsecText)"
+            
+            var friendId = genQuiz?.toId
+            if genQuiz?.toId == firebaseService.userDetails?.id {
+                friendId = genQuiz?.fromId
+            }
+            if friendId != nil {
+                firebaseService.getUserDetailsById(userId: friendId!, onCompletion: {friend in
+                    if friend != nil {
+                        let name = LanguageService.getInstance().shortenName(name: friend!.name)
+                        self.friendAvatar.setLabel(text: name)
+                        let url = URL(string: friend!.photoUrl!)
+                        if url != nil {
+                            let imageData = NSData(contentsOf: url!)
+                            if imageData != nil {
+                                let image = UIImage(data: imageData! as Data)
+                                if image != nil {
+                                    self.friendAvatar.setProfileImage(image: image!)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
             
             var y:CGFloat = 0
             var count = 0

@@ -150,6 +150,8 @@
 		93EFF16F1E72633A00914B8A /* TimelineFactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFF16E1E72633A00914B8A /* TimelineFactView.swift */; };
 		93EFF1731E72643200914B8A /* chrome_badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EFF1721E72643200914B8A /* chrome_badge.png */; };
 		A0B65178F435DA5EBBD0508C /* Pods_GenQuizitiveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1792C585315086F2689B31 /* Pods_GenQuizitiveUITests.framework */; };
+		B96218111EB5205C00A9007E /* ChallengeReviewRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96218101EB5205C00A9007E /* ChallengeReviewRow.xib */; };
+		B96218131EB5239C00A9007E /* ChallengeReviewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96218121EB5239C00A9007E /* ChallengeReviewRow.swift */; };
 		D871EDBE3B1E6352B97E7B5B /* Pods_GenQuizitive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743EE7371AE5C578165F430C /* Pods_GenQuizitive.framework */; };
 		FEA47B6899FA07746B93F1B7 /* Pods_GenQuizitiveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE3A82E2ECC5C8901A4BE52 /* Pods_GenQuizitiveTests.framework */; };
 /* End PBXBuildFile section */
@@ -318,7 +320,6 @@
 		93E8A9CA1DC9913200C25D4E /* home_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_sign.png; sourceTree = "<group>"; };
 		93E8A9CB1DC9913200C25D4E /* pole1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pole1.png; sourceTree = "<group>"; };
 		93E8A9CC1DC9913200C25D4E /* yft_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yft_logo.png; sourceTree = "<group>"; };
-		93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../../FacebookSDKs-iOS-4.17.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
 		93E8A9D91DCAB6AD00C25D4E /* avatar_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_badge.png; sourceTree = "<group>"; };
 		93E8A9DA1DCAB6AD00C25D4E /* button_blue_oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_blue_oval.png; sourceTree = "<group>"; };
 		93E8A9DB1DCAB6AD00C25D4E /* button_red_oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_red_oval.png; sourceTree = "<group>"; };
@@ -329,6 +330,8 @@
 		93EFF16E1E72633A00914B8A /* TimelineFactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineFactView.swift; sourceTree = "<group>"; };
 		93EFF1721E72643200914B8A /* chrome_badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chrome_badge.png; sourceTree = "<group>"; };
 		A6AC800AA64ECC472EDAADEA /* Pods-GenQuizitiveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveUITests/Pods-GenQuizitiveUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B96218101EB5205C00A9007E /* ChallengeReviewRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChallengeReviewRow.xib; sourceTree = "<group>"; };
+		B96218121EB5239C00A9007E /* ChallengeReviewRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeReviewRow.swift; sourceTree = "<group>"; };
 		D08979E228780F355A967C4A /* Pods-GenQuizitiveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitiveTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitiveTests/Pods-GenQuizitiveTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D5C26747638DCEEDE5197AB2 /* Pods-GenQuizitive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GenQuizitive.release.xcconfig"; path = "Pods/Target Support Files/Pods-GenQuizitive/Pods-GenQuizitive.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -493,7 +496,6 @@
 				93A950761E5B74FE004BBDDD /* questions */,
 				93105A251E4BE262005D4512 /* remote */,
 				93AEE5F01E4A3A1400700AB6 /* views */,
-				93E8A9D41DC9A4DF00C25D4E /* FBSDKLoginKit.framework */,
 			);
 			path = GenQuizitive;
 			sourceTree = "<group>";
@@ -562,6 +564,8 @@
 				9398CC991E9EF96C0039FCBE /* PractiveReviewRow.swift */,
 				93A0E7921EA86A05009E32ED /* GenQuizRow.xib */,
 				93A0E7941EA86A5E009E32ED /* GenQuizRowView.swift */,
+				B96218101EB5205C00A9007E /* ChallengeReviewRow.xib */,
+				B96218121EB5239C00A9007E /* ChallengeReviewRow.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -776,6 +780,7 @@
 				93DEF16D1E5DDC4500C8E2D1 /* button_yellow_circle.png in Resources */,
 				93A950811E5B76DA004BBDDD /* star.png in Resources */,
 				93E8A9D31DC9913200C25D4E /* yft_logo.png in Resources */,
+				B96218111EB5205C00A9007E /* ChallengeReviewRow.xib in Resources */,
 				93EFF1731E72643200914B8A /* chrome_badge.png in Resources */,
 				9324C54B1E66693300B8E634 /* fact_background.jpg in Resources */,
 				93E8A9E21DCAB6AD00C25D4E /* button_red_oval.png in Resources */,
@@ -1035,6 +1040,7 @@
 				939F50421E4A89ED0049167B /* MenuViewController.swift in Sources */,
 				93A0E7951EA86A5E009E32ED /* GenQuizRowView.swift in Sources */,
 				9324C5431E6667AF00B8E634 /* FactQuestion.swift in Sources */,
+				B96218131EB5239C00A9007E /* ChallengeReviewRow.swift in Sources */,
 				93A950851E5C893E004BBDDD /* EventHandler.swift in Sources */,
 				9324C54E1E68693000B8E634 /* LanguageService.swift in Sources */,
 				93A950871E5C8B48004BBDDD /* PracticeViewController.swift in Sources */,
