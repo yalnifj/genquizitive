@@ -52,6 +52,9 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.search = {};
 	$scope.tree = {};
 	$scope.step = 1;
+	$scope.questions = 5;
+	$scope.difficulty = 3;
+	$scope.showLiving = false;
 	$scope.mode = 'tree';
 	if (!familysearchService.fsUser || !familysearchService.fsUser.id) {
 		$location.path("/");

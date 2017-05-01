@@ -8,11 +8,11 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		}
 	}
 }])
-.service('notificationService', ['$rootScope', '$compile', '$q', function($rootScope, $compile, $q){
+.service('notificationService', ['$rootScope', '$compile', '$q', '$sce', function($rootScope, $compile, $q, $sce){
 	this.showNotification = function(options) {
 		var $scope = $rootScope.$new();
 		$scope.title = options.title;
-		$scope.message = options.message;
+		$scope.message = $sce.trustAsHtml(options.message);
 		$scope.options = options;
 		var template = '<div class="notification"><div class="title">{{title}}</div><div class="message">{{message}}</div>\
 			<button ng-if="options.closable" ng-click="close()" class="btn btn-default closebutton">Close</button></div>';

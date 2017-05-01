@@ -1,6 +1,13 @@
 <div class="text-center" ng-controller="livefamilytree">
+	<div class="title-holder" style="margin-bottom:20px;">
+		<img src="create_game.png" style="height: 55px;" />
+		<div class="smaller-logo" style="left: -80px; top: -80px;">
+			<img id="home_arrows" src="home_arrow1.png" />
+			<img id="home_sign" src="home_sign.png" />
+		</div>
+	</div>
 	<div class="center-logo">
-		<div class="notification" style="left: -50px; top: 20px; width: 550px; height: 330px; background-size: cover;">
+		<div class="notification" style="left: -180px; top: -30px; width: 550px; height: 330px; background-size: cover;">
 			<div class="title" style="left: 90px;">Family Tree Required</div>
 			<div class="message" style="font-size: 110%; text-align: left; line-height: 150%; width: 500px;">
 				<p>A family tree account is required in order to create a new GenQuizitive Live game.
@@ -14,16 +21,12 @@
 				</p>
 			</div>
 		</div>
-		<div ng-click="fsLogin()" class="big-blue-button clickable" style="top: 380px;">
-			Connect to<br />FamilySearch
-		</div>
-	</div>
-	<div class="small-logo" style="left: 5%">
-		<img id="home_arrows" src="home_arrow1.png" />
-		<img id="home_sign" src="home_sign.png" />
-		<a class="arrow-button" href="#/" style="top: 270px; left: -100px">
+		<a class="arrow-button" href="#/" style="position: absolute; top: 320px; left: -170px; width: 230px;">
 			<img src="button_sign_arrow_left.png" />
 			<div class="button-text">Back to Home</div>
 		</a>
+		<div ng-click="fsLogin()" class="big-blue-button clickable" style="position: absolute; top: 320px; left: 150px;">
+			Connect to<br />FamilySearch
+		</div>
 	</div>
 </div>

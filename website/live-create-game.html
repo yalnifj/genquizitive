@@ -6,13 +6,14 @@
 			<img id="home_sign" src="home_sign.png" />
 		</div>
 	</div>
-	<div class="center-div" ng-if="step==1">
+	<div class="center-div">
 		<div class="stages">
 			<a class="stage" ng-class="{'active': step==1}" href="#/live-create-game" ng-click="showStep(1)">1. Choose</a>
 			<a class="stage" ng-class="{'active': step==2}" href="#/live-create-game" ng-click="showStep(2)">2. Setup</a>
 			<a class="stage" ng-class="{'active': step==3}" href="#/live-create-game" ng-click="showStep(3)">3. Invite</a>
 		</div>
-		<div ng-show="mode=='search'" class="tree text-center">
+		<div ng-if="step==1">
+			<div ng-show="mode=='search'" class="tree text-center">
 				<p>
 					<strong>Search for someone to be the central person for your GenQuiz Live game<br /> 
 					or <a href="#/live-create-game" ng-click="mode='tree'">select from your tree</a>.</strong>
@@ -32,42 +33,75 @@
 					</div>
 						<button class="btn btn-primary" ng-click="searchForPerson()">Search</button>
 				</form>
-			<div ng-show="search.error" class="alert alert-danger">{{search.error}}</div>
-			<div ng-show="search.results.length>0">
-				<div class="score-row" ng-repeat="person in search.results">
-					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="person.portrait"
-						ng-click="selectPerson(person)"></div>
-					<div class="col-sm-5"><a href="#/live-create-game" ng-click="selectPerson(person)">{{person.display.name}}</a><br />{{person.display.gender}} {{person.display.lifespan}}</div>
+				<div ng-show="search.error" class="alert alert-danger">{{search.error}}</div>
+				<div ng-show="search.results.length>0">
+					<div class="score-row" ng-repeat="person in search.results">
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="person.portrait"
+							ng-click="selectPerson(person)"></div>
+						<div class="col-sm-5"><a href="#/live-create-game" ng-click="selectPerson(person)">{{person.display.name}}</a><br />{{person.display.gender}} {{person.display.lifespan}}</div>
+					</div>
+				</div>
+			</div>
+			<div ng-show="mode=='tree'" class="tree text-center">
+				<p><strong>Select someone from your tree to be the central person for your GenQuiz Live! game<br />
+				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</strong></p>
+				<div class="ancestor-row">
+					<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
+						label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
+				</div>
+				<div class="ancestor-row">
+					<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
+						label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+				</div>
+				<div class="ancestor-row">
+					<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
+						label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+				</div>
+				<div class="ancestor-row">
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[1].portrait" label="tree[1].display.name" 
+						ng-click="selectPerson(tree[1])"></div>
 				</div>
 			</div>
 		</div>
-		<div ng-show="mode=='tree'" class="tree text-center">
-			<p><strong>Select someone from your tree to be the central person for your GenQuiz Live! game<br />
-			or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</strong></p>
-		<!--
-			<div>
-				<div avatar-badge ng-repeat="n in [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]" class="avatar ancestor-avatar avatar-small" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+	</div>
+	<div ng-if="step==2">
+		<div class="tree text-center">
+			<div style="line-height: 70px; margin-bottom: 20px;">
+				<div style="display: inline-block; margin: 10px;">
+					<strong>Set the properties of your GenQuiz game for {{person.display.name}}.</strong>
+				</div>
+				<div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="person.portrait" label="person.display.name"></div>
 			</div>
-		-->
-			<div class="ancestor-row">
-				<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
-			</div>
-			<div class="ancestor-row">
-				<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
-			</div>
-			<div class="ancestor-row">
-				<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
-					label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
-			</div>
-			<div class="ancestor-row">
-				<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[1].portrait" label="tree[1].display.name" 
-					ng-click="selectPerson(tree[1])"></div>
-			</div>
+			<form class="text-left" style="width: 450px;margin-left: auto;margin-right: auto;">
+				<div class="form-group">
+					<label class="control-label">Number of questions?</label>
+					<div class="btn-group" role="group">
+						<button type="button" ng-click="questions=5" class="btn" ng-class="{'btn-primary': questions==5, 'btn-default': questions!=5}">5</button>
+						<button type="button" ng-click="questions=10" class="btn" ng-class="{'btn-primary': questions==10, 'btn-default': questions!=10}">10</button>
+						<button type="button" ng-click="questions=15" class="btn" ng-class="{'btn-primary': questions==15, 'btn-default': questions!=15}">15</button>
+						<button type="button" ng-click="questions=20" class="btn" ng-class="{'btn-primary': questions==20, 'btn-default': questions!=20}">20</button>
+						<button type="button" ng-click="questions=25" class="btn" ng-class="{'btn-primary': questions==25, 'btn-default': questions!=25}">25</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Difficulty Level</label>
+					<div class="btn-group" role="group">
+						<button type="button" ng-click="difficulty=2" class="btn" ng-class="{'btn-primary': difficulty==2, 'btn-default': difficulty!=2}">Easy</button>
+						<button type="button" ng-click="difficulty=3" class="btn" ng-class="{'btn-primary': difficulty==3, 'btn-default': difficulty!=3}">Medium</button>
+						<button type="button" ng-click="difficulty=5" class="btn" ng-class="{'btn-primary': difficulty==5, 'btn-default': difficulty!=5}">Hard</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Include living relatives?</label>
+					<div class="btn-group" role="group">
+						<button type="button" ng-click="showLiving=true" class="btn" ng-class="{'btn-primary': showLiving, 'btn-default': !showLiving}">Yes</button>
+						<button type="button" ng-click="showLiving=false" class="btn" ng-class="{'btn-primary': !showLiving, 'btn-default': showLiving}">No</button>
+					</div>
+				</div>
+				<button class="btn btn-primary pull-right" ng-click="showStep(3)">Continue</button>
+			</form>
 		</div>
 	</div>
-	<div class="center-div" ng-if="step==1">
+	<div ng-if="step==3">
 	</div>
 </div>
