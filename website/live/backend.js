@@ -14,10 +14,11 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 			var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
 				unsubscribe();
 				if (firebaseUser) {
-					this.authenticated = true;
+					temp.authenticated = true;
+					temp.firebaseUser = firebaseUser;
 					deferred.resolve(firebaseUser);
 				} else {
-					this.authenticated = false;
+					temp.authenticated = false;
 					deferred.reject("unable to auth with firebase");
 				}
 			});
@@ -52,6 +53,18 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 			this.authenticated = false;
 			deferred.reject("not authenticated with FamilySearch");
 		}
+		return deferred.promise;
+	};
+
+	this.checkId = function(gameId) {
+		var deferred = $q.defer();
+		firebase.database().ref('/games/' + gameId).once('value').then(function(snapshot) {
+			if (snapshot && snapshot.val()) {
+				deferred.resolve(true);
+				return;
+			}
+			deferred.resolve(false);
+		});
 		return deferred.promise;
 	};
 }])

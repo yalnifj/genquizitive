@@ -17,12 +17,17 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		.otherwise({ redirectTo: '/' });
     }
 ])
-.controller('livestart', function($scope, $location, familysearchService) {
+.controller('livestart', function($scope, $location, familysearchService, backendService) {
 	$scope.loading = false;
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser.display) {
 			$scope.fsLoggedIn = true;
 			$scope.fsUserName = fsUser.display.name;
+			backendService.authenticate().then(function(firebaseUser) {
+				console.log("succesfully authenticated with firebase");
+			}, function(error) {
+				console.log("unable to authenticate with firebase "+error);
+			});
 		} else {
 			$scope.loading = false;
 		}
@@ -48,7 +53,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.fsLogin();
 	};
 })
-.controller('liveCreateGame', function($scope, $location, familysearchService, notificationService) {
+.controller('liveCreateGame', function($scope, $location, $q, familysearchService, notificationService, backendService, languageService) {
 	$scope.loading = false;
 	$scope.search = {};
 	$scope.tree = {};
@@ -59,6 +64,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.mode = 'tree';
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser) {
+			//TODO store screen name in firebase user
+			$scope.screenName = languageService.shortenName(fsUser.display.name);
 			familysearchService.getAncestorTree(familysearchService.fsUser.id, 3, false).then(function(tree) {
 				if (tree.persons) {
 					angular.forEach(tree.persons, function(person) {
@@ -73,6 +80,12 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 					message: 'Unable to retrieve data from your family tree.  Please go back and try again.', 
 					closable: true});
 				notif.show();
+			});
+
+			backendService.authenticate().then(function(firebaseUser) {
+				console.log("succesfully authenticated with firebase");
+			}, function(error) {
+				console.log("unable to authenticate with firebase "+error);
 			});
 		} else {
 			$location.path("/");
@@ -128,15 +141,70 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						<br /><br />Are you sure you want to select a living person?'})
 				.then(function() {
 					$scope.person = person;
-					$scope.step = 2;
+					$scope.showStep(2);
 				}, function() {
-					$scope.step = 1;
+					$scope.showStep(1);
 				});
 			} else {
 				$scope.person = person;
-				$scope.step = 2;
+				$scope.showStep(2);
 			}
 		}
+	};
+
+	$scope.getTempId = function() {
+		var tempId = '';
+		if ($scope.person.names && $scope.person.names.length>0) {
+			if ($scope.person.names[0].nameForms && $scope.person.names[0].nameForms.length > 0) {
+				var nameForm = $scope.person.names[0].nameForms[0];
+				if (nameForm.parts && nameForm.parts.length > 0) {
+					for(var p=0; p<nameForm.parts.length; p++) {
+						if (nameForm.parts[p].type=="http://gedcomx.org/Surname") {
+							tempId = nameForm.parts[p].value.toLowerCase().replace(/[^a-z0-9]/g, "");
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (tempId=='' || tempId.length < 4) {
+			tempId = $scope.getRandomId();
+		}
+		if (tempId.length > 31) {
+			tempId = tempId.substr(0, 31);
+		}
+		return tempId;
+	};
+
+	$scope.getRandomId = function() {
+		var tempId = '';
+		for(var i=0; i<8; i++) {
+			var r = Math.floor(Math.random() * 10);
+			tempId += r;
+		}
+		return tempId;
+	};
+
+	$scope.createGenQuiz = function() {
+		if (!$scope.genQuizRound) {
+			$scope.genQuizRound = {};
+			$scope.genQuizRound.person = {id: $scope.person.id, display: $scope.person.display};
+			$scope.genQuizRound.id = $scope.getTempId();
+			$scope.checkId($scope.genQuizRound.id).then(function(exists) {
+				if (exists) {
+					$scope.genQuizRound.id = $scope.getTempId();
+				}
+			});
+		}
+	};
+
+	$scope.checkId = function(gameId) {
+		var deferred = $q.defer();
+		backendService.checkId(gameId).then(function(exists) {
+			$scope.idExists = exists;
+			deferred.resolve($scope.idExists);
+		});
+		return deferred.promise;
 	};
 	
 	$scope.showStep = function(step) {
@@ -145,7 +213,53 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		} else if (step==2 && $scope.person) {
 			$scope.step = step;
 		} else if (step==3 && $scope.person) {
+			$scope.createGenQuiz();
 			$scope.step = step;
+		}
+	};
+
+	$scope.startGame = function() {
+		if (!$scope.genQuizRound.error) {
+			//-- good to go!
+		}
+	};
+})
+.directive('genquizId', function(backendService) {
+	return {
+		restrict: 'A',
+		scope: {
+			genQuizRound: '='
+		},
+		template: '<div contenteditable="true" class="editable-id">{{genQuizRound.id}}</div>\
+			<div class="alert alert-danger" ng-show="genQuizRound.error">{{genQuizRound.error}}</div>',
+		link: function($scope, $element, $attrs) {
+			$element.children('div').on('blur keyup change', function() {
+				var text = $(this).text();
+				text = text.replaceAll(/[^a-zA-Z0-9]/g, "");
+				if (text != $scope.genQuizRound.id) {
+					$scope.genQuizRound.id = text;
+					$scope.checkGameId();
+					$scope.$apply();
+				}
+			});
+
+			$scope.checkGameId = function() {
+				if ($scope.genQuizRound.id.length < 4) {
+					$scope.genQuizRound.error = "The id must be at least 4 characters long.";
+					return;
+				}
+				if ($scope.genQuizRound.id.length > 31) {
+					$scope.genQuizRound.error = "The id must be less than 32 characters long.";
+					return;
+				}
+				backendService.checkId($scope.genQuizRound.id).then(function(exists) {
+					if (exists) {
+						$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+					} else {
+						$scope.genQuizRound.error = null;
+					}
+				});
+			}
 		}
 	};
 })

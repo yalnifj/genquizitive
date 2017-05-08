@@ -112,13 +112,32 @@
 			</div>
 			<div>
 				Your GenQuiz game id is:
+				<div genquiz-id="" gen-quiz-round="genQuizRound"> </div>
 			</div>
 			<div>
-				{{genQuiz.id}}
+				<form class="form">
+					<div class="form-group">
+						<label>Enter your name:</label>
+						<input type="text" ng-model="screenName" placeholder="Name" style="width: 150px;" class="form-control" />
+					</div>
+				</form>
 			</div>
 			<div>
-				
+				<ul>
+					<li ng-repeat="player in players">{{player.name}}</li>
+				</ul>
 			</div>
 		</div>
+	</div>
+	<div>
+		<a class="arrow-button" href="#/" style="width: 230px;">
+			<img src="/images/button_sign_arrow_left.png" />
+			<div class="button-text">Back to Home</div>
+		</a>
+		<div style="display: inline-block; width: 100px; height: 20px;">&nbsp;</div>
+		<a ng-show="!genQuizRound.error && genQuizRound.ready" class="arrow-button" href="#/" style=" width: 230px;">
+			<img src="/images/button_sign_arrow_right.png" />
+			<div class="button-text">Start Game!</div>
+		</a>
 	</div>
 </div>
