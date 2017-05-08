@@ -16,6 +16,8 @@ class NotificationView: UIView {
     @IBOutlet weak var messageLbl: UILabel!
     @IBOutlet weak var closeBtn: UIButton!
     
+    var listener:NotificationListener?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -81,6 +83,9 @@ class NotificationView: UIView {
             },
                completion: { (finished) -> Void in
                 self.removeFromSuperview()
+                if self.listener != nil {
+                    self.listener?.onComplete(result: true)
+                }
             }
         )
 
@@ -90,4 +95,8 @@ class NotificationView: UIView {
         self.hideMessage()
     }
     
+}
+
+protocol NotificationListener {
+    func onComplete(result:Bool)
 }

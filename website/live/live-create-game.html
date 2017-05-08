@@ -1,9 +1,9 @@
 <div class="text-center" ng-controller="liveCreateGame">
 	<div class="title-holder" style="margin-bottom:20px;">
-		<img src="create_game.png" style="height: 55px;" />
+		<img src="/images/create_game.png" style="height: 55px;" />
 		<div class="smaller-logo" style="left: -80px; top: -80px;">
-			<img id="home_arrows" src="home_arrow1.png" />
-			<img id="home_sign" src="home_sign.png" />
+			<img id="home_arrows" src="/images/home_arrow1.png" />
+			<img id="home_sign" src="/images/home_sign.png" />
 		</div>
 	</div>
 	<div class="center-div">
@@ -103,5 +103,22 @@
 		</div>
 	</div>
 	<div ng-if="step==3">
+		<div class="tree text-center">
+			<div style="line-height: 70px; margin-bottom: 20px;">
+				<div style="display: inline-block; margin: 10px;">
+					<strong>Waiting for players to join GenQuiz game for {{person.display.name}}.</strong>
+				</div>
+				<div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="person.portrait" label="person.display.name"></div>
+			</div>
+			<div>
+				Your GenQuiz game id is:
+			</div>
+			<div>
+				{{genQuiz.id}}
+			</div>
+			<div>
+				
+			</div>
+		</div>
 	</div>
 </div>

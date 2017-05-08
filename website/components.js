@@ -36,7 +36,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		var deferred = $q.defer();
 		var $scope = $rootScope.$new();
 		$scope.title = options.title;
-		$scope.message = options.message;
+		$scope.message = $sce.trustAsHtml(options.message);
 		$scope.options = options;
 		var template = '<div class="notification"><div class="title">{{title}}</div><div class="message">{{message}}</div>\
 			<div class="closebutton"><button ng-click="confirm()" class="btn btn-default">Yes</button>\
@@ -125,11 +125,11 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			$scope.start = function() {
 				$scope.numberElement.text('');
 				$scope.number = 3;
-				$scope.numberElement.css('background-image', "url('number"+$scope.number+".png')");
+				$scope.numberElement.css('background-image', "url('/images/number"+$scope.number+".png')");
 				$scope.timer = $interval(function() {
 					$scope.number--;
 					if ($scope.number>0) {
-						$scope.numberElement.css('background-image', "url('number"+$scope.number+".png')");
+						$scope.numberElement.css('background-image', "url('/images/number"+$scope.number+".png')");
 					} else {
 						if ($scope.remove && $scope.remove!='false') {
 							$element.remove();
@@ -256,7 +256,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			value: '=',
 			label: '@'
 		},
-		template: '<img src="guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>',
+		template: '<img src="/images/guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>',
 		link: function($scope, $element, $attr) {
 			if (!$scope.min) $scope.min = 0;
 			if (!$scope.max) $scope.max = 100;
@@ -375,17 +375,17 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			
 			$scope.images = [];
 			var img = new Image();
-			img.src = "loading1.png";
+			img.src = "/images/loading1.png";
 			$scope.images.push(img);
 			img = new Image();
-			img.src = "loading2.png";
+			img.src = "/images/loading2.png";
 			$scope.images.push(img);
 			img = new Image();
-			img.src = "loading3.png";
+			img.src = "/images/loading3.png";
 			$scope.images.push(img);
 			
 			$scope.setBackground = function() {
-				$element.css('background-image', 'url("loading'+$scope.count+'.png")');
+				$element.css('background-image', 'url("/images/loading'+$scope.count+'.png")');
 			};
 			
 			$scope.setBackground();
@@ -431,7 +431,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 	}
 }])
 .component('personDetails', {
-	templateUrl: 'personDetails.html',
+	templateUrl: '/personDetails.html',
 	bindings: {
 		person: '<',
 		resolve: '<',
@@ -686,7 +686,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 	}
 })
 .controller('testQuestionController', function($scope, notificationService, QuestionService, familysearchService) {
-	$scope.$emit('changeBackground', 'home_background.jpg');
+	$scope.$emit('changeBackground', '/images/home_background.jpg');
 	
 	$scope.questions = QuestionService.questions;
 	$scope.question = $scope.questions[0];

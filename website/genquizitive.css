@@ -1,5 +1,5 @@
 body {
-	background-image: url('home_background.jpg');
+	background-image: url('/images/home_background.jpg');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
@@ -165,7 +165,7 @@ body {
 	left: 300px;
 	width: 500px;
 	height: 300px;
-	background-image: url('notification_background.png');
+	background-image: url('/images/notification_background.png');
 	z-index: 1000;
 }
 .notification .title {
@@ -192,7 +192,7 @@ body {
 	bottom: 20px;
 }
 .big-blue-button {
-	background: url('button_blue_oval.png');
+	background: url('/images/button_blue_oval.png');
 	position: relative;
 	display: inline-block;
 	width: 220px;
@@ -203,7 +203,7 @@ body {
 	background-size: cover;
 }
 .countdown {
-	background-image: url('gear_sign.png');
+	background-image: url('/images/gear_sign.png');
 	width: 400px;
 	height: 197px;
 	margin-left: auto;
@@ -219,14 +219,14 @@ body {
 	position: relative;
 	width: 100px;
 	height: 89px;
-	background-image: url('avatar_badge.png');
+	background-image: url('/images/avatar_badge.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	margin: 0px;
 	display: inline-block;
 }
 .ancestor-avatar {
-	background-image: url('ancestor_badge.png');
+	background-image: url('/images/ancestor_badge.png');
 }
 .avatar img {
 	position: relative;
@@ -401,7 +401,7 @@ body {
 	position: relative;
 	width: 150px;
 	height: 87px;
-	background-image: url('timer.png');
+	background-image: url('/images/timer.png');
 	color: white;
 	text-align: center;
 	line-height: 87px;
@@ -420,7 +420,7 @@ body {
 	position: relative;
 	width: 98px;
 	height: 98px;
-	background-image: url('guage_back.png');
+	background-image: url('/images/guage_back.png');
 }
 .guage img {
 	position: absolute;
@@ -534,7 +534,7 @@ body {
 }
 
 .letter {
-	background: url(button_yellow_circle.png);
+	background: url('/images/button_yellow_circle.png');
     width: 72px;
     height: 74px;
     display: inline-block;
@@ -712,7 +712,7 @@ body {
 	top: 6px;
 	text-align: center;
 	color: #aaccbe;
-	background-image: url('chrome_badge.png');
+	background-image: url('/images/chrome_badge.png');
 	background-size: contain;
 	width: 70px;
 	height: 72px;

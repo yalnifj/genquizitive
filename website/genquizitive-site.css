@@ -8,7 +8,7 @@ body {
 }
 #page-top {
 	margin-top: 50px;
-	background-image: url("home_background.jpg");
+	background-image: url("/images/home_background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -34,7 +34,7 @@ body {
 	margin-right: auto;
 }
 .road-sign {
-	background-image: url(roadsign.png);
+	background-image: url('/images/roadsign.png');
     background-repeat: no-repeat;
 	background-size: contain;
     color: white;
@@ -155,7 +155,7 @@ header .header-content, section .container, section .container-fluid{
 }
 
 .sign_button {
-	background-image: url(button_sign_arrow_right.png);
+	background-image: url('/images/button_sign_arrow_right.png');
     font-size: 20px;
     font-weight: bold;
     color: #eee;
@@ -170,7 +170,7 @@ header .header-content, section .container, section .container-fluid{
 }
 
 .letter {
-	background: url(button_yellow_circle.png);
+	background: url('/images/button_yellow_circle.png');
     width: 72px;
     height: 74px;
     display: inline-block;

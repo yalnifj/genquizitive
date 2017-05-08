@@ -1,6 +1,7 @@
-var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-login.html';
+var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-live.php';
 angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 
-				'genquiz-components', 'genquiz.questions', 'genquiz.familytree','ngMap'])
+				'genquiz-components', 'genquiz.questions', 'genquiz.familytree',
+				'ngMap','genquiz.live.backend'])
 .config(['$locationProvider', '$routeProvider', '$uibTooltipProvider',
     function config($locationProvider, $routeProvider, $uibTooltipProvider) {
 		$uibTooltipProvider.options({popupDelay: 300});
@@ -56,25 +57,29 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.difficulty = 3;
 	$scope.showLiving = false;
 	$scope.mode = 'tree';
-	if (!familysearchService.fsUser || !familysearchService.fsUser.id) {
-		$location.path("/");
-	} else {
-	familysearchService.getAncestorTree(familysearchService.fsUser.id, 3, false).then(function(tree) {
-		if (tree.persons) {
-			angular.forEach(tree.persons, function(person) {
-				$scope.tree[person.display.ascendancyNumber] = person;
-				familysearchService.getPersonPortrait(person.id).then(function(path) {
-					person.portrait = path.src;
-				},function(error){});
+	familysearchService.fsLoginStatus().then(function(fsUser){
+		if (fsUser) {
+			familysearchService.getAncestorTree(familysearchService.fsUser.id, 3, false).then(function(tree) {
+				if (tree.persons) {
+					angular.forEach(tree.persons, function(person) {
+						$scope.tree[person.display.ascendancyNumber] = person;
+						familysearchService.getPersonPortrait(person.id).then(function(path) {
+							person.portrait = path.src;
+						},function(error){});
+					});
+				}
+			}, function() {
+				var notif = notificationService.showNotification({title: 'Family Tree Error', 
+					message: 'Unable to retrieve data from your family tree.  Please go back and try again.', 
+					closable: true});
+				notif.show();
 			});
+		} else {
+			$location.path("/");
 		}
 	}, function() {
-		var notif = notificationService.showNotification({title: 'Family Tree Error', 
-			message: 'Unable to retrieve data from your family tree.  Please go back and try again.', 
-			closable: true});
-		notif.show();
+		$location.path("/");
 	});
-	}
 	
 	$scope.searchForPerson = function() {
 		if ($scope.search.id) {

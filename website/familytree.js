@@ -659,8 +659,8 @@ angular.module('genquiz.familytree', [])
 	this.backgroundQueue = [];
 	
 	this.fs = new FamilySearch({
-	  environment: 'beta',
-	  //environment: 'integration',
+	  //environment: 'beta',
+	  environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: FS_REDIRECT_URL,
 	  saveAccessToken: true,

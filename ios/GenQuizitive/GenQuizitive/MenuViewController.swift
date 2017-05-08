@@ -8,11 +8,12 @@
 
 import Foundation
 import Firebase
-import FirebaseAuthUI
-import FirebaseGoogleAuthUI
+//import FirebaseAuthUI
+//import FirebaseGoogleAuthUI
+//import FirebaseFacebookAuthUI
 import GoogleSignIn
 
-class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegate, GIDSignInUIDelegate {
+class MenuViewController: UIViewController, AuthCompleteListener, GIDSignInUIDelegate, NotificationListener {
     
     @IBOutlet weak var arrows: UIImageView!
     @IBOutlet weak var avatarBadge: AvatarBadge!
@@ -23,21 +24,24 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     var service : RemoteService?
 
     var isUserLoggedIn = false
-    var authUI:FUIAuth?
+    //var authUI:FUIAuth?
     var authDialog:AuthDialogView?
+    var moveToChallenge = false
+    var moveToPlay = false
     
     var handle: FIRAuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        authUI = FUIAuth.defaultAuthUI()
-        let providers: [FUIAuthProvider] = [
-            FUIGoogleAuth()
-        ]
-        authUI?.providers = providers
-        let kFirebaseTermsOfService = URL(string: "https://www.genquizitive.com/privacy.html")!
-        authUI?.tosurl = kFirebaseTermsOfService
+        //authUI = FUIAuth.defaultAuthUI()
+        //let providers: [FUIAuthProvider] = [
+        //    FUIGoogleAuth(),
+        //    FUIFacebookAuth()
+        //]
+        //authUI?.providers = providers
+        //let kFirebaseTermsOfService = URL(string: "https://www.genquizitive.com/privacy.html")!
+        //authUI?.tosurl = kFirebaseTermsOfService
         
         var arrowsArr = [UIImage]()
         arrowsArr.append(UIImage(named: "home_arrow3")!)
@@ -65,7 +69,9 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
                         UserDefaults.standard.set(accessToken, forKey: "accessToken")
                         self.fsConnectBtn.isHidden = true
                     } else {
-                        print("Error loading initial data \(err)")
+                        if err != nil {
+                            print("Error loading initial data \(err!)")
+                        }
                         self.fsConnectBtn.isHidden = false
                     }
                 })
@@ -76,7 +82,8 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         }
         
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().signIn()
+        // -- don't force automatic sign in
+        // GIDSignIn.sharedInstance().signIn()
     }
     
     override func didReceiveMemoryWarning() {
@@ -99,7 +106,8 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     
     @IBAction func playBtnClick(_ sender: Any) {
         if familyTreeService.remoteService == nil || familyTreeService.remoteService!.sessionId == nil {
-            self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.")
+            moveToPlay = true
+            self.showNotification(title: "Family Tree Required", message: "This feature requires a connection to a Family Tree. Please connect to FamilySearch and try again.", listener: self)
         } else {
             let viewController:PracticeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as! PracticeViewController
             
@@ -111,12 +119,23 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     @IBAction func challengeBtnClick(_ sender: Any) {
         if !isUserLoggedIn {
             // Present the auth view controller and then implement the sign in callback.
-            let authViewController = authUI!.authViewController()
-            self.present(authViewController, animated: false, completion: nil)
+            //let authViewController = authUI!.authViewController()
+            //self.present(authViewController, animated: false, completion: nil)
+            showNotification(title: "Account Required", message: "An account is required to challenge friends.  Please create a GenQuizitive account to continue.", listener: self)
         } else {
             let viewController:ContinueViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContinueViewController") as! ContinueViewController
             
             self.present(viewController, animated: false, completion: nil)
+        }
+    }
+    
+    func onComplete(result: Bool) {
+        if result {
+            if moveToPlay {
+                showFSAuth()
+            } else {
+                GIDSignIn.sharedInstance().signIn()
+            }
         }
     }
 
@@ -125,10 +144,14 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     }
     
     @IBAction func howToPayBtnClick(_ sender: Any) {
-        
+        UIApplication.shared.openURL(URL(string: "https://www.genquizitive.com/howtoplay.html")!)
     }
 
     @IBAction func familysearchBtnClick(_ sender: Any) {
+        showFSAuth()
+    }
+    
+    func showFSAuth() {
         //ios key a02j000000KSRxHAAX
         //web key a02j000000JERmSAAX
         service = FamilySearchService(env: "integration", applicationKey: "a02j000000KSRxHAAX", redirectUrl: "https://www.genquizitive.com/mobile.html")
@@ -138,6 +161,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         self.view.addSubview(authDialog!)
         
         authDialog?.startOAuth()
+
     }
     
     func showNotification(title:String, message:String) {
@@ -156,6 +180,23 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
         }
     }
     
+    func showNotification(title:String, message:String, listener: NotificationListener) {
+        DispatchQueue.main.async {
+            let screenSize = UIScreen.main.bounds
+            var width = screenSize.width * 0.90
+            if screenSize.width > screenSize.height {
+                width = screenSize.height * 0.90
+            }
+            let ratio = CGFloat(200.0 / 350.0)
+            let height = width * ratio
+            let frame = CGRect(x: 10, y: 10, width: width, height: height)
+            let notif = NotificationView(frame: frame)
+            notif.listener = listener
+            self.view.addSubview(notif)
+            notif.showMessage(title: title, message: message, showButton: true, duration: 0.5)
+        }
+    }
+    
     func AuthComplete(acessToken accessToken:String?) {
         DispatchQueue.main.async {
             self.authDialog?.removeFromSuperview()
@@ -166,9 +207,15 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
                     if person != nil {
                         self.fsConnectBtn.isHidden = true
                         UserDefaults.standard.set(accessToken, forKey: "accessToken")
-                    } else {
-                        print("Error reading data from family search \(err)")
-                        self.showNotification(title: "Family Tree Error", message: "There was an error loading data from your family tree. \(err)")
+                        if self.moveToPlay {
+                            let viewController:PracticeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PracticeViewController") as! PracticeViewController
+                            self.present(viewController, animated: false, completion: nil)
+                            self.moveToPlay = false
+                        }
+                    } else if err != nil {
+                        print("Error reading data from family search \(err!)")
+                        self.showNotification(title: "Family Tree Error", message: "There was an error loading data from your family tree. \(err!)")
+                        self.moveToPlay = false
                     }
                 })
                 
@@ -185,7 +232,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
     func onAuthError(errorMessage:String) {
         showNotification(title: "Authentication Error", message: errorMessage)
     }
-    
+    /*
     func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
         // handle user and error as necessary
         if let error2 = error {
@@ -211,7 +258,7 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
             }
         }
     }
-    
+    */
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         // ...
         if let error = error {
@@ -227,7 +274,8 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
             // ...
             if let error2 = error2 {
                 print("Error signing into firebase \(error2)")
-                self.showNotification(title: "Database Error", message: "There was an error connecting to the database. \(error)")
+                self.showNotification(title: "Database Error", message: "There was an error connecting to the database. \(error2)")
+                self.moveToChallenge = false
                 return
             }
             
@@ -235,11 +283,15 @@ class MenuViewController: UIViewController, AuthCompleteListener, FUIAuthDelegat
                 let firebaseService = FirebaseService.getInstance()
                 firebaseService.firebaseUser = user2
                 firebaseService.persistGoogleUser(user: user, hasFamilyTree: self.fsConnectBtn.isHidden)
-                if self.avatarBadge.profileImage == nil {
+                if self.moveToChallenge {
+                    let viewController:ContinueViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContinueViewController") as! ContinueViewController
+                    self.present(viewController, animated: false, completion: nil)
+                }
+                else if self.avatarBadge.profileImage == nil {
                     if firebaseService.firebaseUser != nil && firebaseService.firebaseUser?.photoURL != nil {
                         let imageData = NSData(contentsOf: firebaseService.firebaseUser!.photoURL!)
                         if imageData != nil {
-                            let image = UIImage(data: imageData as! Data)
+                            let image = UIImage(data: imageData! as Data)
                             if image != nil {
                                 self.avatarBadge.isHidden = false
                                 self.avatarBadge.setProfileImage(image: image!)
