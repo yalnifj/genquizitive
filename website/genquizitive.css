@@ -1032,7 +1032,20 @@ body {
     box-shadow: -5px 5px 5px #777;
     border: solid 2px #AA8;
 }
-
+.editable-id {
+	font-family: 'Courier New, Courier, monospace';
+	font-weight: bold;
+	letter-spacing: 5px;
+	font-size: 14px;
+	color: #fff;
+	background-color: #339;
+	border: solid #cdf;
+	border-radius: 3px;
+}
+.players {
+	list-style: none;
+	font-size: 13px;
+}
 
 @media (max-width: 767px) {
 	.center-logo {

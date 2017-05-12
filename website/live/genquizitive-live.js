@@ -190,6 +190,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$scope.genQuizRound = {};
 			$scope.genQuizRound.person = {id: $scope.person.id, display: $scope.person.display};
 			$scope.genQuizRound.id = $scope.getTempId();
+			$scope.genQuizRound.creator = $scope.screenName;
+			$scope.genQuizRound.questionCount = $scope.questions;
+			$scope.genQuizRound.showLiving = $scope.showLiving;
+			$scope.genQuizRound.difficulty = $scope.difficulty;
+			$scope.genQuizRound.currentQuestion = 0;
 			$scope.checkId($scope.genQuizRound.id).then(function(exists) {
 				if (exists) {
 					$scope.genQuizRound.id = $scope.getTempId();
@@ -215,14 +220,36 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		} else if (step==3 && $scope.person) {
 			$scope.createGenQuiz();
 			$scope.step = step;
+		} else if (step==4 && $scope.person && $scope.genQuizRound && !$scope.genQuizRound.error) {
+			$scope.checkId($scope.genQuizRound.id).then(function(exists){
+				if (exists) {
+					if (exists) {
+						$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+					} else {
+						if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
+							$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
+						} else {
+							$scope.genQuizRound.error = null;
+							$scope.genQuizRound.ready = true;
+							backendService.writeGenQuiz($scope.genQuizRound);
+							backendService.currentGenQuiz = $scope.genQuizRound;
+							$scope.step = step;
+							backendService.watchPlayers();
+							backendService.addPlayer({name: $scope.genQuizRound.creator, score: 0});
+						}
+					}
+				}
+			});
 		}
 	};
 
 	$scope.startGame = function() {
-		if (!$scope.genQuizRound.error) {
-			//-- good to go!
-		}
+		$location.path("/live-genquiz");
 	};
+
+	$scope.$on('playersChanged', function(event, players) {
+		$scope.players = players;
+	});
 })
 .directive('genquizId', function(backendService) {
 	return {
@@ -262,5 +289,138 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			}
 		}
 	};
+})
+.controller('liveJoinGame', function($scope, $location, $q, notificationService, backendService, languageService) {
+	$scope.genQuizId = null;
+	$scope.playerName = null;
+
+	$scope.genQuizRound = null;
+
+	$scope.joinGame = function() {
+		$scope.nameError = null;
+		$scope.idError = null;
+		if (!$scope.playerName || $scope.playerName.length < 3) {
+			$scope.nameError = "Please include at least 3 characters in your name.";
+			return;
+		}
+		if (!$scope.genQuizId || $scope.genQuizId.length < 4 || $scope.genQuizId.length > 31) {
+			$scope.idError = "Please enter a valid GenQuiz Game Id. A valid GenQuiz ID \
+			can be obtained from your friend who created it.";
+			return;
+		}
+
+		backendService.getGenQuizById($scope.genQuizId).then(function(genQuizRound) {
+			$scope.genQuizRound = genQuizRound;
+			backendService.currentGenQuiz = $scope.genQuizRound;
+			$scope.player = {name: $scope.playerName, score: 0};
+			backendService.addPlayer($scope.player);
+
+			//-- TODO wait for game start signal
+		}, function(error) {
+			$scope.idError = error;
+		});
+	};
+
+	$scope.leaveGame = function() {
+		if ($scope.player && $scope.player.id) {
+			backendService.removePlayer($scope.player.id);
+		}
+		$location.path("/");
+	};
+})
+.controller('liveGenQuiz', function($scope, $location, $q, notificationService, backendService, languageService, QuestionService) {
+	$scope.$emit('changeBackground', 'home_background.jpg');
+
+	$scope.genQuizRound = backendService.currentGenQuiz;
+
+	$scope.maxQuestions = $scope.genQuizRound.questionCount;
+	$scope.currentQuestion = $scope.genQuizRound.currentQuestion;
+	$scope.minute = 0;
+	$scope.second = 0;	
+	$scope.loadingTime = 0;
+	$scope.startTime = new Date();
+
+	$scope.interval = $interval(function() {
+		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
+			if ($scope.question && $scope.question.isReady) {
+				var d = new Date();
+				var diff = d.getTime() - $scope.startTime.getTime() - $scope.loadingTime;
+				$scope.minute = Math.floor(diff / (1000*60));
+				$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
+				if ($scope.minute >= 2) {
+					$scope.abandon();
+				}
+			} else {
+				$scope.loadingTime++;
+			}
+		}
+	}, 1000);
+
+	$scope.setupQuestion = function(num, tries) {
+		if (tries == 0) {
+			$scope.question = $scope.getRandomQuestion();
+		}
+		if (tries < 5) {
+			console.log('trying question '+num+" "+$scope.question.name+' setup again '+tries);
+			$scope.question.error = null;
+			$scope.question.setup(num+1, true).then(function() {
+				console.log('successfully setup question '+num+' '+$scope.question.name);
+				var q = $scope.question.getPersistence();
+				backendService.persistQuestion(q);
+			}, function(error) {
+				console.log('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
+				$scope.setupQuestion(num, tries+1);
+			});
+		} else {
+			console.log('too many fails try a new question');
+			tries = 0;
+			$scope.questions.error = null;
+			$scope.questions = $scope.getRandomQuestion();
+			$scope.question.setup(num + 1, true).then(function() {
+				console.log('successfully setup question '+num+' '+$scope.question.name);
+				var q = $scope.question.getPersistence();
+				backendService.persistQuestion(q);
+			}, function(error) {
+				console.log('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
+				$scope.setupQuestion(num, tries+1);
+			});
+		}
+	};
+
+	$scope.nextQuestion = function() {
+		$scope.tries = 0;
+		$scope.question.completeTime = (new Date()).getTime();
+
+		// TODO -- backendService.saveScore
+
+		if ($scope.currentQuestion < $scope.maxQuestions-1) {
+			//-- wait for all players to answer
+			$location.path('/live-wait');
+		} else {
+			//-- no more questions go to scoreboard
+			$location.path('/live-scoreboard');
+		}
+	}
+
+	$scope.$watch('question.isReady', function(newval, oldval) {
+		if (newval!=oldval && newval==true) {
+			$scope.question.startTime = (new Date()).getTime();
+		}
+	});
+
+	$scope.abandon = function() {
+		$scope.missedQuestions++;
+		$scope.nextQuestion();
+	};
+
+	$scope.$on('questionCorrect', function(event, question) {
+		$scope.nextQuestion();
+	});
+	
+	$scope.$on('questionIncorrect', function(event, question) {
+		$scope.missedQuestions++;
+	});
+
+	$scope.setupQuestion($scope.currentQuestion, 0);
 })
 ;

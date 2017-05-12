@@ -1,7 +1,10 @@
 angular.module('genquiz.live.backend', ['genquizitive-live'])
-.service('backendService', ['$q', 'familysearchService', '$http', function($q, familysearchService, $http) {
+.service('backendService', ['$q', 'familysearchService', '$http', '$rootScope', function($q, familysearchService, $http, $rootScope) {
 	this.authenticated = false;
 	this.firebaseUser = null;
+	this.currentGenQuiz = null;
+	this.playerWatch = null;
+	this.currentPlayers = null;
 
 	this.authenticate = function() {
 		var deferred = $q.defer();
@@ -56,9 +59,9 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 		return deferred.promise;
 	};
 
-	this.checkId = function(gameId) {
+	this.checkId = function(genQuizId) {
 		var deferred = $q.defer();
-		firebase.database().ref('/games/' + gameId).once('value').then(function(snapshot) {
+		firebase.database().ref('/genquiz/' + genQuizId).once('value').then(function(snapshot) {
 			if (snapshot && snapshot.val()) {
 				deferred.resolve(true);
 				return;
@@ -66,6 +69,63 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 			deferred.resolve(false);
 		});
 		return deferred.promise;
+	};
+
+	this.getGenQuizById = function(genQuizId) {
+		var deferred = $q.defer();
+		firebase.database().ref('/genquiz/' + genQuizId).once('value').then(function(snapshot) {
+			if (snapshot) {
+				deferred.resolve(snapshot.val());
+				return;
+			}
+			deferred.reject("GenQuiz "+genQuizId+" not found.");
+		});
+		return deferred.promise;
+	};
+
+	this.writeGenQuiz = function(genQuiz) {
+		genQuiz.lastModified = (new Date()).getTime();
+		firebase.database().ref('/genquiz/' + genQuiz.id).set(genQuiz);
+	};
+
+	this.removeGenQuiz = function(genQuiz) {
+		firebase.database().ref('/genquiz/' + genQuiz.id).remove();
+	};
+
+	this.watchPlayers = function() {
+		if (this.currentGenQuiz) {
+			this.currentPlayers = {};
+			this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
+			this.playerWatch.on('child_added', function(data) {
+				this.currentPlayers[data.key] = data.val();
+				$rootScope.$broadcast('playersChanged', this.currentPlayers);
+			});
+			this.playerWatch.on('child_removed', function(data) {
+				delete(this.currentPlayers[data.key]);
+				$rootScope.$broadcast('playersChanged', this.currentPlayers);
+			});
+		}
+	};
+
+	this.unWatchPlayers = function() {
+		if (this.playerWatch) {
+			this.playerWatch.off();
+		}
+	};
+
+	this.addPlayer = function(player) {
+		var newPlayerRef = firebase.database().ref('/players/'+this.currentGenQuiz.id).push();
+		player.id = newPlayerRef.key;
+		newPlayerRef.set(player);
+	};
+
+	this.removePlayer = function(player) {
+		firebase.database().ref('/players/'+this.currentGenQuiz.id + '/' + player.id).remove();
+	};
+
+	this.persistQuestion = function(question, genQuizId) {
+		var newQuestionRef = firebase.database().ref('/questions/'+genQuizId).push();
+		newQuestionRef.set(question);
 	};
 }])
 ;
