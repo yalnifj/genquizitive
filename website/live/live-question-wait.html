@@ -1,0 +1,28 @@
+<div class="text-center" ng-controller="liveQuestionWait">
+    <div class="tree text-center">
+        <div style="line-height: 70px; margin-bottom: 20px;">
+            <div style="display: inline-block; margin: 10px;">
+                <strong>Waiting for players to finish question...</strong>
+            </div>
+        </div>
+        <div>
+            <table>
+                <tr ng-repeat="player in players">
+                    <td>{{player.name}}</td>
+                    <td>{{player.score}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+		<a class="arrow-button" href="#/" ng-click="leaveGame()" style="width: 230px;">
+			<img src="/images/button_sign_arrow_left.png" />
+			<div class="button-text">Leave GenQuiz</div>
+		</a>
+		<div style="display: inline-block; width: 100px; height: 20px;">&nbsp;</div>
+		<a class="arrow-button" href="#/" style=" width: 230px;">
+			<img src="/images/button_sign_arrow_right.png" />
+			<div class="button-text">Next Question</div>
+		</a>
+	</div>
+</div>

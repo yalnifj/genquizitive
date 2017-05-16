@@ -5,6 +5,8 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 	this.currentGenQuiz = null;
 	this.playerWatch = null;
 	this.currentPlayers = null;
+	this.currentPlayer = null;
+	this.currentQuestion = null;
 
 	this.authenticate = function() {
 		var deferred = $q.defer();
@@ -74,7 +76,7 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 	this.getGenQuizById = function(genQuizId) {
 		var deferred = $q.defer();
 		firebase.database().ref('/genquiz/' + genQuizId).once('value').then(function(snapshot) {
-			if (snapshot) {
+			if (snapshot && snapshot.val()) {
 				deferred.resolve(snapshot.val());
 				return;
 			}
@@ -90,6 +92,12 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 
 	this.removeGenQuiz = function(genQuiz) {
 		firebase.database().ref('/genquiz/' + genQuiz.id).remove();
+		firebase.database().ref('/players/' + genQuiz.id).remove();
+		firebase.database().ref('/questions/' + genQuiz.id).remove();
+	};
+
+	this.updateQuestionNum = function(genQuiz) {
+		firebase.database().ref('/genquiz/' + genQuiz.id+'/currentQuestionNum').set(genQuiz.currentQuestionNum);
 	};
 
 	this.watchPlayers = function() {
@@ -111,6 +119,7 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 		if (this.playerWatch) {
 			this.playerWatch.off();
 		}
+		this.playerWatch = null;
 	};
 
 	this.addPlayer = function(player) {
@@ -123,9 +132,56 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 		firebase.database().ref('/players/'+this.currentGenQuiz.id + '/' + player.id).remove();
 	};
 
-	this.persistQuestion = function(question, genQuizId) {
+	this.persistQuestion = function(question, genQuizId, num) {
 		var newQuestionRef = firebase.database().ref('/questions/'+genQuizId).push();
+		question.id = newQuestionRef.key
 		newQuestionRef.set(question);
+
+		firebase.database().ref('/genquiz/'+genQuizId+'/currentQuestionId').set(question.id);
+		firebase.database().ref('/genquiz/'+genQuizId+'/currentQuestionNum').set(num);
+	};
+
+	this.getQuestionById = function(questionId, genQuizId) {
+		var deferred = $q.defer();
+		firebase.database().ref('/questions/'+genQuizId+'/'+questionId).once('value').then(function(snapshot) {
+			deferred.resolve(snapshot.val());
+		})
+		return deferred.promise;
+	};
+
+	this.watchForQuestion = function(genQuizId) {
+		this.questionRef = firebase.database().ref('/questions/'+genQuizId);
+		this.questionRef.on('child_added', function(data) {
+			$rootScope.$broadcast('questionAdded', data.val());
+		});
+	};
+
+	this.unWatchQuestion = function() {
+		if (this.questionRef) {
+			this.questionRef.off();
+		}
+		this.questionRef = null;
+	};
+
+	this.savePlayerQuestionScore = function(playerId, questionId, genQuizId, score) {
+		firebase.database().ref('/questions/'+genQuizId+'/'+questionId+'/players/'+playerId).set(score);
+	};
+
+	this.watchPlayerScores = function(questionId, genQuizId) {
+		this.playerScoreRef = firebase.database().ref('/questions/'+genQuizId+'/'+questionId+'/players');
+		this.playerScoreRef.on('value', function(snapshot) {
+			var playerScores = snapshot.val();
+			if (playerScores) {
+				$rootScope.$broadcast('playerScores', playerScores);
+			}
+		});
+	};
+
+	this.unWatchPlayerScores = function() {
+		if (this.playerScoreRef) {
+			this.playerScoreRef.off();
+		}
+		this.playerScoreRef = null;
 	};
 }])
 ;
