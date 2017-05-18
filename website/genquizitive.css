@@ -1034,13 +1034,16 @@ body {
 }
 .editable-id {
 	font-family: 'Courier New, Courier, monospace';
-	font-weight: bold;
-	letter-spacing: 5px;
-	font-size: 14px;
-	color: #fff;
-	background-color: #339;
-	border: solid #cdf;
-	border-radius: 3px;
+    font-weight: bold;
+    letter-spacing: 10px;
+    font-size: 22px;
+    color: #fff;
+    background-color: #337ab7;
+    border: inset #ddf;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 8px 25px;
+	margin: 5px;
 }
 .players {
 	list-style: none;

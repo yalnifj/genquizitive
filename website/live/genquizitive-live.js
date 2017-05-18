@@ -31,7 +31,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		} else {
 			$scope.loading = false;
 		}
-	}, function() { });
+	}, function(error) {
+		console.log(error);
+		$scope.loading = false;
+	 });
 	
 	
 	$scope.createGame = function() {
@@ -271,7 +274,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		link: function($scope, $element, $attrs) {
 			$element.children('div').on('blur keyup change', function() {
 				var text = $(this).text();
-				text = text.replaceAll(/[^a-zA-Z0-9]/g, "");
+				text = text.replace(/[^a-zA-Z0-9]/g, "");
 				if (text != $scope.genQuizRound.id) {
 					$scope.genQuizRound.id = text;
 					$scope.checkGameId();
@@ -344,8 +347,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$location.path("/");
 	};
 
-	$scope.$on('questionAdded', function(event, question) {
+	$scope.$on('$destroy', function() {
 		backendService.unWatchQuestion();
+	});
+
+	$scope.$on('questionAdded', function(event, question) {
 		backendService.currentQuestion = question;
 		$location.path('/live-question');
 	});
@@ -554,6 +560,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		notificationService.showConfirmation({title: 'End GenQuiz?', message: 'Are you sure you want to end this QenQuiz? Any players\
 					currently in the game will no longer be able to continue.'}).then(function() {
 			if ($scope.genQuizRound && $scope.genQuizRound.id) {
+				backendService.unWatchPlayers();
 				backendService.removeGenQuiz($scope.genQuizRound);
 			}
 			$location.path('/');
@@ -569,15 +576,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.players = backendService.currentPlayers;
 
+	//-- watch for player scores
 	backendService.watchPlayerScores($scope.genQuizRound.currentQuestionId, $scope.genQuizRound.id);
-
-	$scope.$on('$destroy', function() {
-		backendService.unWatchPlayerScores();
-	});
-
-	$scope.nextQuestion = function() {
-		$location.path('/live-question');
-	};
+	//-- wait for game start signal
+	backendService.watchForQuestion($scope.genQuizRound.id);
 
 	$scope.leaveGame = function() {
 		notificationService.showConfirmation({title: 'Leave GenQuiz?', message: 'Are you sure you want to leave this QenQuiz?'}).then(function() {
@@ -589,5 +591,21 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.$on('playerScores', function(event, playerScores) {
 		$scope.playerScores = playerScores;
 	});
+
+	$scope.$on('questionAdded', function(event, question) {
+		backendService.currentQuestion = question;
+		$location.path('/live-question');
+	});
+
+	$scope.$on('$destroy', function() {
+		backendService.unWatchPlayerScores();
+		backendService.unWatchQuestion();
+	});
 })
+.controller('liveScoreboard', function($scope, $location, backendService) {
+
+})
+.service('adService', [function() {
+
+}])
 ;
