@@ -70,13 +70,15 @@ var FamilySearch =
 	 * that should be activated.
 	 */
 	var FamilySearch = function(options){
-	  this.appKey = options.appKey;
-	  this.environment = options.environment || 'integration';
-	  this.redirectUri = options.redirectUri;
-	  this.tokenCookie = options.tokenCookie || 'FS_AUTH_TOKEN';
-	  this.maxThrottledRetries = options.maxThrottledRetries || 10;
-	  this.saveAccessToken = options.saveAccessToken === true;
 	  
+	  // Set the default options
+	  this.appKey = '';
+	  this.environment = 'integration';
+	  this.redirectUri = '';
+	  this.tokenCookie = 'FS_AUTH_TOKEN';
+	  this.maxThrottledRetries = 10;
+	  this.saveAccessToken = false;
+	  this.accessToken = '';
 	  this.middleware = {
 	    request: [
 	      requestMiddleware.url,
@@ -92,41 +94,79 @@ var FamilySearch =
 	    ]
 	  };
 	  
+	  // Process options
+	  this.config(options);
+	};
+
+	/**
+	 * Set the configuration options of the SDK client.
+	 * 
+	 * @param {Object} options
+	 * @param {String} options.environment Reference environment: production, beta,
+	 * or integration. Defaults to integration.
+	 * @param {String} options.appKey Application Key
+	 * @param {String} options.redirectUri OAuth2 redirect URI
+	 * @param {String} options.saveAccessToken Save the access token to a cookie
+	 * and automatically load it from that cookie. Defaults to false.
+	 * @param {String} options.tokenCookie Name of the cookie that the access token
+	 * will be saved in when `saveAccessToken` is true. Defaults to 'FS_AUTH_TOKEN'.
+	 * @param {String} options.maxThrottledRetries Maximum number of a times a 
+	 * throttled request should be retried. Defaults to 10.
+	 * @param {Array} options.pendingModifications List of pending modifications
+	 * that should be activated.
+	 */
+	FamilySearch.prototype.config = function(options){
+	  this.appKey = options.appKey || this.appKey;
+	  this.environment = options.environment || this.environment;
+	  this.redirectUri = options.redirectUri || this.redirectUri;
+	  this.tokenCookie = options.tokenCookie || this.tokenCookie;
+	  this.maxThrottledRetries = options.maxThrottledRetries || this.maxThrottledRetries;
+	  this.saveAccessToken = (options.saveAccessToken === true) || this.saveAccessToken;
+	  
+	  if(options.accessToken){
+	    this.setAccessToken(options.accessToken);
+	  }
+	  
 	  if(Array.isArray(options.pendingModifications) && options.pendingModifications.length > 0){
 	    this.addRequestMiddleware(requestMiddleware.pendingModifications(options.pendingModifications));
 	  }
 	  
-	  // Figure out initial authentication state
-	  if(this.saveAccessToken){
-	    
-	    // If an access token was provided, save it.
-	    if(options.accessToken){
-	      this.setAccessToken(options.accessToken);
-	    }
-	    
-	    // If we don't have an access token, try loading one.
-	    else {
-	      var token = cookies.getItem(this.tokenCookie);
-	      if(token){
-	        this.accessToken = token;
-	      }
+	  // When the SDK is configured to save the access token in a cookie and we don't
+	  // presently have an access token then we try loading one from the cookie.
+	  //
+	  // We only do this when the saveAccessToken value changes, thus we examine
+	  // the value from the options object instead of the SDK. But the accessToken
+	  // has already been processed above so we check the SDK to see whether or not
+	  // an access token is already available.
+	  if(options.saveAccessToken && !this.getAccessToken()) {
+	    var token = cookies.getItem(this.tokenCookie);
+	    if(token){
+	      this.setAccessToken(token);
 	    }
 	  }
 	};
 
 	/**
 	 * Start the OAuth2 redirect flow by redirecting the user to FamilySearch.org
+	 * 
+	 * @param {String} state
 	 */
-	FamilySearch.prototype.oauthRedirect = function(){
-	  window.location.href = this.oauthRedirectURL();
+	FamilySearch.prototype.oauthRedirect = function(state){
+	  window.location.href = this.oauthRedirectURL(state);
 	};
 
 	/**
 	 * Generate the OAuth 2 redirect URL
+	 * 
+	 * @param {String} state
 	 */
-	FamilySearch.prototype.oauthRedirectURL = function(){
-	  return this.identHost() + '/cis-web/oauth2/v3/authorization' +
-	    '?response_type=code&client_id=' + this.appKey + '&redirect_uri=' + this.redirectUri;
+	FamilySearch.prototype.oauthRedirectURL = function(state){
+	  var url = this.identHost() + '/cis-web/oauth2/v3/authorization?response_type=code' 
+	    + '&client_id=' + this.appKey + '&redirect_uri=' + this.redirectUri;
+	  if(state){
+	    url +=  '&state=' + state;
+	  }
+	  return url;
 	};
 
 	/**
@@ -134,13 +174,27 @@ var FamilySearch =
 	 * and exchanging it for an access token. The token is automatically saved
 	 * in a cookie when that behavior is enabled.
 	 * 
+	 * @param {String=} state
 	 * @param {Function} callback that receives the access token response
-	 * @return {Boolean} true if a code was detected; false otherwise. This does
-	 * not indicate whether an access token was successfully requested, just
-	 * whether a code was found in the query param and a request was sent to
+	 * @return {Boolean} true if a code was detected; false no code was found or if
+	 * a state param was given and it doesn't match the state param in the query. 
+	 * This does not indicate whether an access token was successfully requested, 
+	 * just whether a code was found in the query param and a request was sent to
 	 * exchange the code for a token.
 	 */
-	FamilySearch.prototype.oauthResponse = function(callback){
+	FamilySearch.prototype.oauthResponse = function(state, callback){
+	  
+	  // Allow the state parameter to be optional
+	  if(arguments.length === 1){
+	    callback = state;
+	    state = undefined;
+	  }
+	  
+	  // Compare state params
+	  var stateQuery = utils.getParameterByName('state');
+	  if(state && state !== stateQuery){
+	    return false;
+	  }
 	  
 	  // Extract the code from the query params
 	  var code = utils.getParameterByName('code');
@@ -150,6 +204,8 @@ var FamilySearch =
 	    this.oauthToken(code, callback);
 	    return true;
 	  }
+	  
+	  // Didn't have a code to exchange
 	  return false;
 	};
 
@@ -167,6 +223,29 @@ var FamilySearch =
 	    body: {
 	      grant_type: 'authorization_code',
 	      code: code,
+	      client_id: client.appKey
+	    },
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	  }, function(error, response){
+	    client.processOauthResponse(error, response, callback);
+	  });
+	};
+
+	/**
+	 * Obtain an access token for an unauthenticated session. Currently unauthenticated
+	 * access tokens only grant access to the Dates and Places endpoints.
+	 * 
+	 * @param {String} ipAddress The IP address of the user
+	 * @param {Function} callback that receives the access token response
+	 */
+	FamilySearch.prototype.oauthUnauthenticatedToken = function(ipAddress, callback){
+	  var client = this;
+	  client.post(client.identHost() + '/cis-web/oauth2/v3/token', {
+	    body: {
+	      grant_type: 'unauthenticated_session',
+	      ip_address: ipAddress,
 	      client_id: client.appKey
 	    },
 	    headers: {

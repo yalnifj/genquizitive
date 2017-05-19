@@ -16,17 +16,6 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 		}
 		if (familysearchService.currentUser != null) {
 			var temp = this;
-			var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
-				unsubscribe();
-				if (firebaseUser) {
-					temp.authenticated = true;
-					temp.firebaseUser = firebaseUser;
-					deferred.resolve(firebaseUser);
-				} else {
-					temp.authenticated = false;
-					deferred.reject("unable to auth with firebase");
-				}
-			});
 
 			$http({
 				method: 'POST',
@@ -40,13 +29,24 @@ angular.module('genquiz.live.backend', ['genquizitive-live'])
 				},
 				data: {token: familysearchService.fs.getAccessToken(), uid: familysearchService.currentUser.id}
 			}).then(function (response) {
-				if (response && response.data) {
-					var token = response.data;
+				if (response && response.data && response.data.indexOf('token=')==0) {
+					var token = response.data.substr(6);
 					firebase.auth().signInWithCustomToken(token).catch(function(error) {
 						// Handle Errors here.
 						var errorCode = error.code;
 						var errorMessage = error.message;
 						deferred.reject(errorMessage);
+					});
+					var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+						if (firebaseUser) {
+							unsubscribe();
+							temp.authenticated = true;
+							temp.firebaseUser = firebaseUser;
+							deferred.resolve(firebaseUser);
+						} else {
+							temp.authenticated = false;
+							//deferred.reject("unable to auth with firebase");
+						}
 					});
 				} else {
 					deferred.reject("unable to get firebase token");

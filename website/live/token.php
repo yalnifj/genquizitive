@@ -1,4 +1,5 @@
 <?php
+require 'JWT.php';
 // Requires: composer require firebase/php-jwt
 use Firebase\JWT\JWT;
 
@@ -16,8 +17,7 @@ function create_custom_token($uid) {
     "aud" => "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit",
     "iat" => $now_seconds,
     "exp" => $now_seconds+(60*60),  // Maximum expiration time is one hour
-    "uid" => $uid,
-    "claims" => array()
+    "uid" => $uid
   );
   return JWT::encode($payload, $private_key, "RS256");
 }
@@ -32,6 +32,6 @@ if (empty($token) || empty($uid) || $token != $_SESSION["FS_AUTH_TOKEN"]) {
   print("Invalid token or uid");
 } else {
   $cutom_token = create_custom_token($uid);
-  print($cutom_token);
+  print("token=$cutom_token");
 }
 ?>

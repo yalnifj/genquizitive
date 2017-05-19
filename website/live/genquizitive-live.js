@@ -17,22 +17,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		.otherwise({ redirectTo: '/' });
     }
 ])
-.controller('livestart', function($scope, $location, familysearchService, backendService) {
+.controller('livestart', function($scope, $location, familysearchService, backendService, $log) {
 	$scope.loading = false;
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser.display) {
 			$scope.fsLoggedIn = true;
 			$scope.fsUserName = fsUser.display.name;
 			backendService.authenticate().then(function(firebaseUser) {
-				console.log("succesfully authenticated with firebase");
+				$log.error("succesfully authenticated with firebase");
 			}, function(error) {
-				console.log("unable to authenticate with firebase "+error);
+				$log.error("unable to authenticate with firebase "+error);
 			});
 		} else {
 			$scope.loading = false;
 		}
 	}, function(error) {
-		console.log(error);
+		$log.error(error);
 		$scope.loading = false;
 	 });
 	
@@ -56,7 +56,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.fsLogin();
 	};
 })
-.controller('liveCreateGame', function($scope, $location, $q, familysearchService, notificationService, backendService, languageService) {
+.controller('liveCreateGame', function($scope, $location, $q, familysearchService, notificationService, backendService, languageService, $log) {
 	$scope.loading = false;
 	$scope.search = {};
 	$scope.tree = {};
@@ -86,9 +86,9 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			});
 
 			backendService.authenticate().then(function(firebaseUser) {
-				console.log("succesfully authenticated with firebase");
+				$log.error("succesfully authenticated with firebase");
 			}, function(error) {
-				console.log("unable to authenticate with firebase "+error);
+				$log.error("unable to authenticate with firebase "+error);
 			});
 		} else {
 			$location.path("/");
@@ -98,12 +98,13 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	});
 	
 	$scope.searchForPerson = function() {
+		$scope.search.error = null;
 		if ($scope.search.id) {
 			familysearchService.getPersonById($scope.search.id, true).then(function(person) {
 				$scope.search.results = [person];
 				$scope.search.error = null;
 			}, function(error) {
-				console.log(error);
+				$log.error(error);
 				$scope.search.error = 'Unable to find person with id '+$scope.search.id;
 			});
 		} else {
@@ -117,10 +118,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				return;
 			}
 			familysearchService.search(1, 10, searchParams).then(function(searchResults) {
-				if (searchResults && searchResults.entries && searchResults.entries.content && searchResults.entries.content.gedcomx &&
-							searchResults.entries.content.gedcomx.persons) {
-					$scope.search.results = searchResults.entries.content.gedcomx.persons;
-					angular.forEach($scope.search.results, function(person) {
+				if (searchResults && searchResults.entries) {
+					$scope.search.results = searchResults.entries;
+					angular.forEach($scope.search.results, function(entry) {
+						var person = entry.content.gedcomx.persons[0];
 						familysearchService.getPersonPortrait(person.id).then(function(path) {
 							person.portrait = path.src;
 						}, function(error) { })
@@ -129,7 +130,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 					$scope.search.error = "No results matched your search.";
 				}
 			}, function(error) {
-				console.log(error);
+				$log.error(error);
 				$scope.search.error = "There was an error with your search.";
 			});
 		}
@@ -356,7 +357,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$location.path('/live-question');
 	});
 })
-.controller('liveGenQuiz', function($scope, $location, $q, notificationService, backendService, languageService, QuestionService) {
+.controller('liveGenQuiz', function($scope, $location, $q, notificationService, backendService, languageService, QuestionService, $log) {
 	$scope.$emit('changeBackground', 'home_background.jpg');
 
 	$scope.genQuizRound = backendService.currentGenQuiz;
@@ -390,29 +391,29 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$scope.question = $scope.getRandomQuestion();
 		}
 		if (tries < 5) {
-			console.log('trying question '+num+" "+$scope.question.name+' setup again '+tries);
+			$log.error('trying question '+num+" "+$scope.question.name+' setup again '+tries);
 			$scope.question.error = null;
 			$scope.question.setup(num+1, true).then(function() {
-				console.log('successfully setup question '+num+' '+$scope.question.name);
+				$log.error('successfully setup question '+num+' '+$scope.question.name);
 				var q = $scope.question.getPersistence();
 				backendService.persistQuestion(q, $scope.genQuizRound.id, $scope.currentQuestion);
 				$scope.genQuizRound.currentQuestionId = q.id;
 			}, function(error) {
-				console.log('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
+				$log.error('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
 				$scope.setupQuestion(num, tries+1);
 			});
 		} else {
-			console.log('too many fails try a new question');
+			$log.error('too many fails try a new question');
 			tries = 0;
 			$scope.questions.error = null;
 			$scope.questions = $scope.getRandomQuestion();
 			$scope.question.setup(num + 1, true).then(function() {
-				console.log('successfully setup question '+num+' '+$scope.question.name);
+				$log.error('successfully setup question '+num+' '+$scope.question.name);
 				var q = $scope.question.getPersistence();
 				backendService.persistQuestion(q, $scope.genQuizRound.id, $scope.currentQuestion);
 				$scope.genQuizRound.currentQuestionId = q.id;
 			}, function(error) {
-				console.log('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
+				$log.error('failed to setup question '+num+' '+$scope.question.name+'. error='+$scope.question.error);
 				$scope.setupQuestion(num, tries+1);
 			});
 		}

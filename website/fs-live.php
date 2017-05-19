@@ -28,7 +28,7 @@ var fs = new FamilySearch({
 	maxThrottledRetries: 10
 });
 
-var fscheck = fs.oauthResponse(function(response){
+var fscheck = fs.oauthResponse(function(error, response){
 	if (response && response.data) {
 		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': response.data['access_token']});
 		document.cookie = 'FS_AUTH_TOKEN='+response.data['access_token']+';path=/live';

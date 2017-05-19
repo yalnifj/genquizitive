@@ -687,45 +687,29 @@ angular.module('genquiz.familytree', [])
 	this.fsLoginStatus = function() {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/users/current', function(response) {
+		this.fs.get('/platform/users/current', function(error, response) {
 			if (response && (response.statusCode==200 || response.statusCode == 307)) {
 				if (response.data && response.data.users) {
 					temp.currentUser = response.data.users[0];
-				}
-			} else if (response && response.statusCode==401) {
-				temp.fs.setAccessToken('');
-				deferred.reject(response.body);
-				return;
-			} else {
-				deferred.reject(response);
-				return;
-			}
-		});
-		this.fs.get('/platform/tree/current-person', function(response){
-			if (response && response.statusCode==200) {
-				if (response.data) {
-					temp.fsUser = response.data.persons[0];
-					temp.people[temp.fsUser.id] = temp.fsUser;
-					temp.usedPeople[temp.fsUser.id] = temp.fsUser;
-					temp.startBackgroundQueue();
-					var token = $cookies.get(temp.fs.tokenCookie);
-					$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
-					deferred.resolve(temp.fsUser);
+					temp.getPersonById(temp.currentUser.personId).then(function(person) {
+						temp.fsUser = person;
+						temp.startBackgroundQueue();
+						var token = $cookies.get(temp.fs.tokenCookie);
+						$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
+						deferred.resolve(temp.fsUser);
+					}, function(error) {
+						deferred.reject(error);
+					});
 				} else {
-					//-- retry in 1 second
-					/*
-					window.setTimeout(function() {
-						alert('trying again');
-						temp.fsLoginStatus().then(function(r) { deferred.resolve(r);}, function(r) {deferred.reject(r);});
-					}, 1000);
-					*/
-					deferred.reject('no content');
+					deferred.reject(response.body);
 				}
 			} else if (response && response.statusCode==401) {
 				temp.fs.setAccessToken('');
 				deferred.reject(response.body);
+				return;
 			} else {
 				deferred.reject(response);
+				return;
 			}
 		});
 		return deferred.promise;
@@ -790,7 +774,7 @@ angular.module('genquiz.familytree', [])
 		var url = '/platform/tree/ancestry?person='+personId+'&generations='+generations;
 		if (spouse) url += '&spouse='+spouse;
 		if (details) url += '&personDetails='
-		this.fs.get(url, function(response) {
+		this.fs.get(url, function(error, response) {
 			if (details && !noCache) {
 				angular.forEach(response.data.persons, function(person) {
 					if (details && !temp.people[person.id]) {
@@ -811,7 +795,7 @@ angular.module('genquiz.familytree', [])
 		var url = '/platform/tree/descendancy?person='+personId+'&generations='+generations;
 		if (spouse) url += '&spouse='+spouse;
 		if (details) url += '&personDetails='
-		this.fs.get(url, function(response) {
+		this.fs.get(url, function(error, response) {
 			if (!noCache) {
 				angular.forEach(response.data.persons, function(person) {
 					if (details && !temp.people[person.id]) {
@@ -836,7 +820,7 @@ angular.module('genquiz.familytree', [])
 			q += key + ':' + value+'~';
 			i++;
 		});
-		this.fs.get(url+q, function(response) {
+		this.fs.get(url+q, { headers: { Accept: 'application/x-gedcomx-atom+json' } }, function(error, response) {
 			if (response.statusCode>=300 || !response.data) {
 				deferred.reject(response);
 				return;
@@ -856,7 +840,7 @@ angular.module('genquiz.familytree', [])
 					return deferred.promise;
 				}
 			}
-			this.fs.get('/platform/tree/persons/'+personId, function(response) {
+			this.fs.get('/platform/tree/persons/'+personId, function(error, response) {
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
 					temp.people[person.id] = person;
@@ -881,7 +865,7 @@ angular.module('genquiz.familytree', [])
 		var deferred = $q.defer();
 		var temp = this;
 		if (ids) {
-			this.fs.get('/platform/tree/persons?pids='+ids, function(response) {
+			this.fs.get('/platform/tree/persons?pids='+ids, function(error, response) {
 				var people = [];
 				for(var p=0; p < response.data.persons.length; p++) {
 					var person = response.data.persons[p];
@@ -905,7 +889,7 @@ angular.module('genquiz.familytree', [])
 		var deferred = $q.defer();
 		
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/families', function(error, response) {
 			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
@@ -956,7 +940,7 @@ angular.module('genquiz.familytree', [])
 			deferred.resolve(this.people[personId].relationships);
 		} else {
 			var temp = this;
-			this.fs.get('/platform/tree/persons/'+personId+'/families', function(response) {
+			this.fs.get('/platform/tree/persons/'+personId+'/families', function(error, response) {
 				if (response.statusCode!=200 || !response.data) {
 					deferred.reject(response);
 					return;
@@ -979,7 +963,7 @@ angular.module('genquiz.familytree', [])
 	this.getPersonParents = function(personId, relationships, marriageRelationships) {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/parents', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/parents', function(error, response) {
 			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
@@ -1015,7 +999,7 @@ angular.module('genquiz.familytree', [])
 	this.getPersonSpouses = function(personId, relationships) {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/spouses', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/spouses', function(error, response) {
 			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
@@ -1041,7 +1025,7 @@ angular.module('genquiz.familytree', [])
 	this.getPersonChildrenRelationships = function(personId) {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/children', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/children', function(error, response) {
 			if (response.statusCode!=200 || !response.data) {
 				deferred.reject(response);
 				return;
@@ -1057,9 +1041,9 @@ angular.module('genquiz.familytree', [])
 			deferred.resolve({id: personId, src: this.people[personId].portrait});
 		} else {		
 			var temp = this;
-			this.fs.get('/platform/tree/persons/'+personId+'/portrait', {headers: {'X-Expect-Override':'200-ok'}}, function(response) {
+			this.fs.get('/platform/tree/persons/'+personId+'/portrait', {headers: {'X-Expect-Override':'200-ok'}}, function(error, response) {
 				if (response.statusCode==200 || response.statusCode == 307) {
-					var src = response.effectiveUrl;
+					var src = response.headers.location;
 					if (temp.people[personId]) {
 						temp.people[personId].portrait = "/fs-proxy.php?url="+encodeURIComponent(src);
 						temp.portraitPeople[personId] = true;
@@ -1079,7 +1063,7 @@ angular.module('genquiz.familytree', [])
 	this.getPersonMemories = function(personId) {
 		var deferred = $q.defer();	
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/memories?type=photo', function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/memories?type=photo', function(error, response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
 				deferred.resolve(response.data.sourceDescriptions);
 			} else {
@@ -1249,7 +1233,7 @@ angular.module('genquiz.familytree', [])
 		var deferred = $q.defer();
 		var temp = this;
 		
-		this.fs.get('/platform/users/current/history', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(response) {
+		this.fs.get('/platform/users/current/history', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(error, response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
 				deferred.resolve(response.data.entries);
 			} else {
@@ -1262,7 +1246,7 @@ angular.module('genquiz.familytree', [])
 	this.getPersonChanges = function(personId) {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/tree/persons/'+personId+'/changes', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(response) {
+		this.fs.get('/platform/tree/persons/'+personId+'/changes', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(error, response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
 				deferred.resolve(response.data.entries);
 			} else {
@@ -1275,7 +1259,7 @@ angular.module('genquiz.familytree', [])
 	this.searchPlace = function(place) {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/places/search?q=name:"'+encodeURIComponent(place)+'"', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(response) {
+		this.fs.get('/platform/places/search?q=name:"'+encodeURIComponent(place)+'"', { headers: { Accept: 'application/x-gedcomx-atom+json' }}, function(error, response) {
 			if (response.statusCode==200 || response.statusCode == 307) {
 				deferred.resolve({place: place, entries: response.data.entries});
 			} else {

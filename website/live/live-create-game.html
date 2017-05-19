@@ -36,10 +36,12 @@
 				</form>
 				<div ng-show="search.error" class="alert alert-danger">{{search.error}}</div>
 				<div ng-show="search.results.length>0">
-					<div class="score-row" ng-repeat="person in search.results">
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="person.portrait"
-							ng-click="selectPerson(person)"></div>
-						<div class="col-sm-5"><a href="#/live-create-game" ng-click="selectPerson(person)">{{person.display.name}}</a><br />{{person.display.gender}} {{person.display.lifespan}}</div>
+					<div class="score-row search-row clickable" ng-repeat="entry in search.results" ng-click="selectPerson(entry.content.gedcomx.persons[0])">
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="entry.content.gedcomx.persons[0].portrait"
+							></div>
+						<div class="search-details"><a href="#/live-create-game">
+							{{entry.content.gedcomx.persons[0].display.name}}</a>
+							<br />{{entry.content.gedcomx.persons[0].display.gender}} {{entry.content.gedcomx.persons[0].display.lifespan}}</div>
 					</div>
 				</div>
 			</div>
