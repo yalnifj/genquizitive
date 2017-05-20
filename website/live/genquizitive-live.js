@@ -77,6 +77,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 							person.portrait = path.src;
 						},function(error){});
 					});
+					// TODO - load initial data
 				}
 			}, function() {
 				var notif = notificationService.showNotification({title: 'Family Tree Error', 
@@ -87,6 +88,13 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 			backendService.authenticate().then(function(firebaseUser) {
 				$log.error("succesfully authenticated with firebase");
+				backendService.getOwnerGenQuiz().then(function(genQuiz) {
+					$scope.genQuizRound = genQuiz;
+					$scope.person = genQuiz.person;
+					$scope.step = 4;
+				}, function() {
+
+				});
 			}, function(error) {
 				$log.error("unable to authenticate with firebase "+error);
 			});
@@ -113,6 +121,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			if ($scope.search.surname) searchParams.surname = $scope.search.surname;
 			if ($scope.search.birthDate) searchParams.birthDate = $scope.search.birthDate;
 			if ($scope.search.birthPlace) searchParams.birthPlace = $scope.search.birthPlace;
+			if ($scope.search.gender) searchParams.gender = $scope.search.gender;
 			if (Object.keys(searchParams).length ==0) {
 				$scope.search.error = "Please search by at least a first and last name.";
 				return;
@@ -227,22 +236,20 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		} else if (step==4 && $scope.person && $scope.genQuizRound && !$scope.genQuizRound.error) {
 			$scope.checkId($scope.genQuizRound.id).then(function(exists){
 				if (exists) {
-					if (exists) {
-						$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+					$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+				} else {
+					if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
+						$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
 					} else {
-						if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
-							$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
-						} else {
-							$scope.genQuizRound.error = null;
-							$scope.genQuizRound.ready = true;
-							backendService.writeGenQuiz($scope.genQuizRound);
-							backendService.currentGenQuiz = $scope.genQuizRound;
-							$scope.step = step;
-							backendService.watchPlayers();
-							$scope.player = {name: $scope.genQuizRound.creator, score: 0};
-							backendService.addPlayer($scope.player);
-							backendService.currentPlayer = $scope.player;
-						}
+						$scope.genQuizRound.error = null;
+						$scope.genQuizRound.ready = true;
+						backendService.writeGenQuiz($scope.genQuizRound);
+						backendService.currentGenQuiz = $scope.genQuizRound;
+						$scope.step = step;
+						backendService.watchPlayers();
+						$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+						backendService.addPlayer($scope.player);
+						backendService.currentPlayer = $scope.player;
 					}
 				}
 			});
@@ -255,9 +262,18 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.leaveGame = function() {
 		if ($scope.genQuizRound && $scope.genQuizRound.id) {
-			backendService.removeGenQuiz($scope.genQuizRound);
+			notificationService.showConfirmation({title: 'Quit GenQuiz?', message: 'You have an active GenQuiz game.  If you leave now your game will end.\
+				  Are you sure you want to leave?'}).then(function(result) {
+				if (result) {
+					backendService.removeGenQuiz($scope.genQuizRound);
+					$location.path('/');
+				}
+			}, function() {
+
+			});
+		} else {
+			$location.path('/');
 		}
-		$location.path('/');
 	};
 
 	$scope.$on('playersChanged', function(event, players) {
@@ -303,31 +319,46 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		}
 	};
 })
-.controller('liveJoinGame', function($scope, $location, $q, notificationService, backendService, languageService) {
-	$scope.genQuizId = null;
-	$scope.playerName = null;
+.controller('liveJoinGame', function($scope, $location, $q, $cookies, notificationService, backendService, languageService) {
+	$scope.data = {};
+	$scope.data.genQuizId = null;
+	$scope.data.playerName = "";
 
 	$scope.genQuizRound = null;
+
+	$scope.player = $cookies.getObject("player");
+	if ($scope.player) {
+		$scope.data.genQuizId = $cookies.get("genQuizId");
+		$scope.data.playerName = $scope.player.name;
+		if ($scope.data.genQuizId) {
+			$scope.checkGenQuiz();
+		}
+	}
 
 	$scope.joinGame = function() {
 		$scope.nameError = null;
 		$scope.idError = null;
-		if (!$scope.playerName || $scope.playerName.length < 3) {
+		if (!$scope.data.playerName || $scope.data.playerName.length < 3) {
 			$scope.nameError = "Please include at least 3 characters in your name.";
 			return;
 		}
-		if (!$scope.genQuizId || $scope.genQuizId.length < 4 || $scope.genQuizId.length > 31) {
+		if (!$scope.data.genQuizId || $scope.data.genQuizId.length < 4 || $scope.data.genQuizId.length > 31) {
 			$scope.idError = "Please enter a valid GenQuiz Game Id. A valid GenQuiz ID \
 			can be obtained from your friend who created it.";
 			return;
 		}
+		$scope.checkGenQuiz();
+	};
 
-		backendService.getGenQuizById($scope.genQuizId).then(function(genQuizRound) {
+	$scope.checkGenQuiz = function() {
+		backendService.getGenQuizById($scope.data.genQuizId).then(function(genQuizRound) {
 			$scope.genQuizRound = genQuizRound;
 			backendService.currentGenQuiz = $scope.genQuizRound;
-			$scope.player = {name: $scope.playerName, score: 0};
+			$scope.player = {name: $scope.data.playerName, score: 0};
 			backendService.addPlayer($scope.player);
 			backendService.currentPlayer = $scope.player;
+			$cookies.putObject('player', player);
+			$cookies.put('genQuizId', $scope.genQuizRound.id);
 
 			if ($scope.genQuizRound.currentQuestionId) {
 				$location.path('/live-question');
@@ -343,9 +374,18 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.leaveGame = function() {
 		if ($scope.player && $scope.player.id) {
-			backendService.removePlayer($scope.player.id);
+			notificationService.showConfirmation({title: 'Leave GenQuiz?', message: 'You have already joined an active GenQuiz game.\
+				  Are you sure you want to leave?'}).then(function(result) {
+				if (result) {
+					backendService.removePlayer($scope.player.id);
+					$location.path('/');
+				}
+			}, function() {
+
+			});
+		} else {
+			$location.path("/");
 		}
-		$location.path("/");
 	};
 
 	$scope.$on('$destroy', function() {

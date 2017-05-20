@@ -29,19 +29,35 @@
 						<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" class="form-control" />
 						<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" class="form-control" />
 					</div>
-					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+					<div class="form-group" style="margin-right: 20px; margin-bottom: 10px;">
 						<input type="text" ng-model="search.id" placeholder="ID" style="width: 90px;" class="form-control" />
+					</div>
+					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+						<div class="btn-group" role="group">
+							<button type="button" ng-click="search.gender=''" class="btn" ng-class="{'btn-primary': search.gender=='', 'btn-default': search.gender!=''}">Any</button>
+							<button type="button" ng-click="search.gender='male'" class="btn" ng-class="{'btn-primary': search.gender=='male', 'btn-default': search.gender!='male'}">Male</button>
+							<button type="button" ng-click="search.gender='female'" class="btn" ng-class="{'btn-primary': search.gender=='female', 'btn-default': search.gender!='female'}">Female</button>
+						</div>
 					</div>
 						<button class="btn btn-primary" ng-click="searchForPerson()">Search</button>
 				</form>
 				<div ng-show="search.error" class="alert alert-danger">{{search.error}}</div>
 				<div ng-show="search.results.length>0">
 					<div class="score-row search-row clickable" ng-repeat="entry in search.results" ng-click="selectPerson(entry.content.gedcomx.persons[0])">
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="entry.content.gedcomx.persons[0].portrait"
+						<div style="display: inline-block;">
+							<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="entry.content.gedcomx.persons[0].portrait"
 							></div>
-						<div class="search-details"><a href="#/live-create-game">
-							{{entry.content.gedcomx.persons[0].display.name}}</a>
-							<br />{{entry.content.gedcomx.persons[0].display.gender}} {{entry.content.gedcomx.persons[0].display.lifespan}}</div>
+							<span style="font-size: 12px">
+							<br />{{entry.content.gedcomx.persons[0].display.gender}}
+							</span>
+						</div>
+						<div class="search-details">
+							<a href="#/live-create-game"><strong>{{entry.content.gedcomx.persons[0].display.name}}</strong></a>
+							<div style="font-size: 12px;">
+							{{entry.content.gedcomx.persons[0].display.birthDate}}
+							<br />{{entry.content.gedcomx.persons[0].display.birthPlace}}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -136,16 +152,16 @@
 	</div>
 	<div ng-if="step==4">
 		<div class="tree text-center">
-			<div style="line-height: 50px; margin-bottom: 20px;">
+			<div style="margin-bottom: 10px;">
+				Your GenQuiz game id is:
+				<strong>{{genQuizRound.id}}</strong>
+				<p>Share this GenQuiz id with others who wish to join your game.</p>
+			</div>
+			<div style="line-height: 50px;">
 				<div style="display: inline-block; margin: 10px;">
 					<strong>Waiting for players to join GenQuiz game for {{person.display.name}}.</strong>
 				</div>
 				<div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="person.portrait" label="person.display.name"></div>
-			</div>
-			<div>
-				Your GenQuiz game id is:
-				<div class="editable-id">{{genQuizRound.id}}</div>
-				<p>Share this GenQuiz id with others who wish to join your game.</p>
 			</div>
 			<div>
 				<ul class="players">
@@ -155,12 +171,12 @@
 		</div>
 	</div>
 	<div>
-		<a class="arrow-button" href="#/" ng-click="leaveGame()" style="width: 230px;">
+		<a class="arrow-button" href="" ng-click="leaveGame()" style="width: 230px; display: inline-block;">
 			<img src="/images/button_sign_arrow_left.png" />
 			<div class="button-text">Back to Home</div>
 		</a>
 		<div style="display: inline-block; width: 100px; height: 20px;">&nbsp;</div>
-		<a ng-show="!genQuizRound.error && genQuizRound.ready" ng-click="startGame()" class="arrow-button" href="#/" style=" width: 230px;">
+		<a ng-show="!genQuizRound.error && genQuizRound.ready" ng-click="startGame()" class="arrow-button" href="#/" style=" width: 230px; display: inline-block;">
 			<img src="/images/button_sign_arrow_right.png" />
 			<div class="button-text">Start Game!</div>
 		</a>

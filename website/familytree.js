@@ -817,7 +817,8 @@ angular.module('genquiz.familytree', [])
 		var i = 0;
 		angular.forEach(searchParams, function(value, key) {
 			if (i>0) q += '+';
-			q += key + ':' + value+'~';
+			q += key + ':' + value;
+			if (key!='gender') q += '~';
 			i++;
 		});
 		this.fs.get(url+q, { headers: { Accept: 'application/x-gedcomx-atom+json' } }, function(error, response) {

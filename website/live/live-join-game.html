@@ -6,40 +6,42 @@
 			<img id="home_sign" src="/images/home_sign.png" />
 		</div>
 	</div>
-    <div ng-if="!genQuizRound" class="tree text-center">
-         <form class="form">
-            <div>
-                Enter GenQuiz game id:
-            </div>
-            <div>
-                <input type="text" class="editable-id text-center" ng-model="genQuizId" spellcheck="false"  />
-                <div ng-show="idError" class="alert alert-danger">{{idError}}</div>
-            </div>
-            <div>
-                Enter your name:
-            </div>
-            <div>
-                <input type="text" ng-model="playerName"  class="editable-id text-center" spellcheck="false" />
-                <div ng-show="nameError" class="alert alert-danger">{{nameError}}</div>
-            </div>
-            <div style="margin-top: 20px;">
-                <button class="btn btn-primary" ng-click="joinGame()">Join!</button>
-            </div>
-        </form>
-    </div>
-    <div ng-if="genQuizRound" class="tree text-center">
-        <div style="line-height: 70px; margin-bottom: 20px;">
-            <div style="display: inline-block; margin: 10px;">
-                <strong>Successfully joined GenQuiz game for {{person.display.name}}.</strong>
-            </div>
-            <div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="person.portrait" label="person.display.name"></div>
+    <div class="center-div">
+        <div ng-if="!genQuizRound" class="tree text-center">
+            <form class="form">
+                <div>
+                    Enter GenQuiz game id:
+                </div>
+                <div>
+                    <input type="text" class="editable-id text-center" ng-model="data.genQuizId" spellcheck="false"  />
+                    <div ng-show="idError" class="alert alert-danger">{{idError}}</div>
+                </div>
+                <div>
+                    Enter your name:
+                </div>
+                <div>
+                    <input type="text" ng-model="data.playerName"  class="editable-id text-center" spellcheck="false" />
+                    <div ng-show="nameError" class="alert alert-danger">{{nameError}}</div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" ng-click="joinGame()">Join!</button>
+                </div>
+            </form>
         </div>
-        <h4>Waiting for next question...</h4>
-    </div>
-    <div>
-		<a class="arrow-button" href="#" ng-click="leaveGame()" style="width: 230px;">
-			<img src="/images/button_sign_arrow_left.png" />
-			<div class="button-text">Back to Home</div>
-		</a>
+        <div ng-if="genQuizRound" class="tree text-center">
+            <div style="line-height: 70px; margin-bottom: 20px;">
+                <div style="display: inline-block; margin: 10px;">
+                    <strong>Successfully joined GenQuiz game for {{genQuizRound.person.display.name}}.</strong>
+                </div>
+                <div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="genQuizRound.person.portrait" label="genQuizRound.person.display.name"></div>
+            </div>
+            <h4>Waiting for next question...</h4>
+        </div>
+        <div>
+            <a class="arrow-button" href="" ng-click="leaveGame()" style="width: 230px;">
+                <img src="/images/button_sign_arrow_left.png" />
+                <div class="button-text">Back to Home</div>
+            </a>
+        </div>
     </div>
 </div>
