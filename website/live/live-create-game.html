@@ -113,8 +113,8 @@
 				<div class="form-group">
 					<label class="control-label">Include living relatives?</label>
 					<div class="btn-group" role="group">
-						<button type="button" ng-click="showLiving=true" class="btn" ng-class="{'btn-primary': showLiving, 'btn-default': !showLiving}">Yes</button>
-						<button type="button" ng-click="showLiving=false" class="btn" ng-class="{'btn-primary': !showLiving, 'btn-default': showLiving}">No</button>
+						<button type="button" ng-click="showLiving=true" ng-disabled="person.living" class="btn" ng-class="{'btn-primary': showLiving, 'btn-default': !showLiving}">Yes</button>
+						<button type="button" ng-click="showLiving=false" ng-disabled="person.living" class="btn" ng-class="{'btn-primary': !showLiving, 'btn-default': showLiving}">No</button>
 					</div>
 				</div>
 				<button class="btn btn-primary pull-right" ng-click="showStep(3)">Continue</button>
@@ -176,7 +176,7 @@
 			<div class="button-text">Back to Home</div>
 		</a>
 		<div style="display: inline-block; width: 100px; height: 20px;">&nbsp;</div>
-		<a ng-show="!genQuizRound.error && genQuizRound.ready" ng-click="startGame()" class="arrow-button" href="#/" style=" width: 230px; display: inline-block;">
+		<a ng-show="!genQuizRound.error && genQuizRound.ready" ng-click="startGame()" class="arrow-button" href="" style=" width: 230px; display: inline-block;">
 			<img src="/images/button_sign_arrow_right.png" />
 			<div class="button-text">Start Game!</div>
 		</a>

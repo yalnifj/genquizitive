@@ -308,7 +308,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		template: '<img src="{{imgUrl}}" />',
 		link: function($scope, $element, $attr) {
 			$scope.setImgUrl = function() {
-				$scope.imgUrl = $scope.color+"_light_";
+				$scope.imgUrl = '/images/'+$scope.color+"_light_";
 				if ($scope.on===true) $scope.imgUrl+="on";
 				else $scope.imgUrl+="off";
 				$scope.imgUrl+=".png";

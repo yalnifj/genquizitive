@@ -130,10 +130,17 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.watchPlayers = function() {
+		var deferred = $q.defer();
 		if (this.currentGenQuiz) {
 			this.currentPlayers = {};
 			var backendService = this;
 			this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
+			this.playerWatch.once('value').then(function(snapshot) {
+				if (snapshot) {
+					backendService.currentPlayers = snapshot.val();
+					deferred.resolve(backendService.currentPlayers);
+				}
+			});
 			this.playerWatch.on('child_added', function(data) {
 				backendService.currentPlayers[data.key] = data.val();
 				$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
@@ -143,6 +150,7 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 				$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
 			});
 		}
+		return deferred.promise;
 	};
 
 	this.unWatchPlayers = function() {

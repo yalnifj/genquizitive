@@ -5,7 +5,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'photo1', 
 			letter: 'P',
-			background: 'questions/photo1/background.jpg',
+			background: '/questions/photo1/background.jpg',
 			difficulty: 1,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
@@ -82,10 +82,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					difficulty: this.difficulty,
 					personId: this.person.id,
 					questionText: this.questionText,
-					answers: [],
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					answers: []
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -96,7 +93,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'multi1', 
 			letter: 'R',
-			background: 'questions/multi1/background.jpg',
+			background: '/questions/multi1/background.jpg',
 			difficulty: 1,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
@@ -182,10 +179,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					personId: this.person.id,
 					person: {id: this.person.id, display: { name: this.person.display.name}},
 					questionText: questionText,
-					answers: [],
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					answers: []
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -196,7 +190,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'multi2',
 			letter: 'F',
-			background: 'questions/multi2/background.jpg',
+			background: '/questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
@@ -332,10 +326,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					personId: this.person.id,
 					person: {id: this.person.id, display: { name: this.person.display.name}},
 					questionText: this.questionText,
-					answers: [],
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					answers: []
 				};
 				for(var p=0; p<this.randomPeople.length; p++) {
 					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
@@ -346,7 +337,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'tree', 
 			letter: 'T',
-			background: 'questions/tree/background.jpg',
+			background: '/questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
 			tryCount: 0,
@@ -426,10 +417,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					personId: this.person.id,
 					person: {id: this.person.id, display: {name: this.person.display.name, ascendancyNumber: this.person.display.ascendancyNumber}},
 					questionText: this.questionText,
-					people: [],
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					people: []
 				};
 				for(var p=0; p<this.people.length; p++) {
 					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}});
@@ -440,7 +428,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'timeline',
 			letter: 'L',
-			background: 'questions/multi2/background.jpg',
+			background: '/questions/multi2/background.jpg',
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
@@ -497,10 +485,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					difficulty: this.difficulty,
 					personId: this.person.id,
 					person: this.person,
-					questionText: this.questionText,
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					questionText: this.questionText
 				};
 				return q;
 			}
@@ -508,7 +493,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'map',
 			letter: 'M',
-			background: 'questions/tree/background.jpg',
+			background: '/questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
@@ -625,10 +610,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					questionText: this.questionText,
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					questionText: this.questionText
 				};
 				var pPlaces = [];
 				for(var p=0; p<this.places.length; p++) {
@@ -648,7 +630,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'map2',
 			letter: 'B',
-			background: 'questions/tree/background.jpg',
+			background: '/questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
@@ -774,10 +756,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					questionText: this.questionText,
-					startTime: this.startTime,
-					completeTime: this.completeTime,
-					timeOffset: this.timeOffset
+					questionText: this.questionText
 				};
 				var pPlaces = [];
 				for(var p=0; p<this.places.length; p++) {
@@ -797,7 +776,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		{
 			name: 'connect',
 			letter: 'C',
-			background: 'questions/tree/background.jpg',
+			background: '/questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
@@ -822,7 +801,8 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					
 					familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
 						question.person = person1;
-						question.questionText = 'Follow the tree path up to '+question.person.display.name;
+						question.questionText = 'Follow the tree path from '+question.startPerson.display.name
+							+ ' up to '+question.person.display.name;
 						familysearchService.markUsed(question.person);						
 						question.isReady = true;
 						question.deferred.resolve(question);
@@ -838,6 +818,24 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				});
 				
 				return question.deferred.promise;
+			},
+			setupFromPersistence: function(roundQuestion) {
+				this.questionText = roundQuestion.questionText;
+				this.difficulty = roundQuestion.difficulty;
+				this.person = roundQuestion.person;
+				this.startPerson = roundQuestion.startPerson;
+				this.isReady = true;
+				this.timeOffset = 0;
+			},
+			getPersistence: function() {
+				var q = {
+					name: this.name,
+					difficulty: this.difficulty,
+					questionText: this.questionText,
+					startPerson: {id: question.startPerson.id, display: question.startPerson.display},
+					person: {id: question.person.id, display: question.person.display}
+				};
+				return q;
 			}
 		}
 	];
@@ -959,7 +957,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			$scope.loadQuestion = function () {
 				$scope.$emit('changeBackground', $scope.question.background);
 				
-				var templateUrl = 'questions/'+$scope.question.name+'/question.html';
+				var templateUrl = '/questions/'+$scope.question.name+'/question.html';
 				QuestionService.getDeferredTemplate(templateUrl).then(function(template) {
 					if (template) {
 						var $t = $(template);

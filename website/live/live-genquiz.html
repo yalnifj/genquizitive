@@ -7,7 +7,6 @@
 			<div class="timer" style="position: absolute; left: 25px; top: 5px;">
 				<span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span>
 			</div>
-			<img src="freeze.png" style="position: absolute; left: 20px; top: 50px;" ng-if="freezeTime > 0" />
 			<div class="guage" style="position: absolute; left: 50px; top: 110px;" guage=""
 				min="0" max="maxQuestions" value="currentQuestion" label="Questions"></div>
 			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 40px;"></div>
