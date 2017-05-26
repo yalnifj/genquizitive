@@ -14,6 +14,9 @@
 			<a class="stage" ng-class="{'active': step==4}" href="#/live-create-game" ng-click="showStep(4)">4. Invite</a>
 		</div>
 		<div ng-if="step==1">
+			<div ng-show="mode=='loading'" class="tree">
+				<img src="/images/loading1.png" />
+			</div>
 			<div ng-show="mode=='search'" class="tree text-center">
 				<p>
 					<strong>Search for someone to be the central person for your GenQuiz Live game<br /> 

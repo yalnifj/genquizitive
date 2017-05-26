@@ -1,6 +1,6 @@
 <div class="text-center" ng-controller="liveQuestion">
 	<div>
-		<div ng-show="question.isReady" question="question"></div>
+		<div ng-if="question" ng-show="question.isReady" question="question"></div>
 		<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
 		
 		<div class="" style="position: absolute; left: 10px; top: 10px; width: 200px; height: 250px;">

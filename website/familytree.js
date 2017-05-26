@@ -715,13 +715,12 @@ angular.module('genquiz.familytree', [])
 		return deferred.promise;
 	};
 	
-	this.loadInitialData = function(personId) {
+	this.loadInitialData = function(personId, generations, descendants) {
 		var temp = this;
-		temp.getAncestorTree(personId, 8, true).then(function(data) {
-			var count = 0;
+		temp.getAncestorTree(personId, generations, true).then(function(data) {
 			angular.forEach(data.persons.reverse(), function(person) {
-				if (count < data.persons.length/2) {
-					temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, 2, true); });
+				if (descendants && person.display.ascendancyNumber <= 5 ) {
+					temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, descendants, true); });
 				}
 				count++;
 			});
@@ -730,13 +729,20 @@ angular.module('genquiz.familytree', [])
 			if (spouses) {
 				if (Object.keys(temp.people).length < 36) {
 					angular.forEach(spouses, function(spouse) {
-						temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, 6, true); });
+						temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, generations, true); });
 					});
 				}
 			}
 		});
 		});
 		temp.getPersonPortrait(personId);
+	};
+
+	this.clearCache = function() {
+		this.people = {};
+		this.portraitPeople = {};
+		this.usedPeople = {};
+		this.backgroundQueue = [];
 	};
 	
 	this.fsLogin = function() {

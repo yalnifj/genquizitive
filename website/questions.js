@@ -9,7 +9,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 1,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				this.difficulty = difficulty;
@@ -97,12 +97,15 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 1,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
 				this.difficulty = difficulty;
-				question.startPerson = familysearchService.fsUser;
+				question.startPerson = startPerson;
+				if (!question.startPerson) {
+					question.startPerson = familysearchService.fsUser;
+				}
 				this.timeOffset = 0;
 				
 				var length = 1 + difficulty;
@@ -116,8 +119,12 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 
 					question.path = path;
 					
-					relationshipService.verbalizePath(familysearchService.fsUser, path).then(function(pathInfo) {
-						question.questionText = 'Who is your ' + pathInfo.text + '?';
+					relationshipService.verbalizePath(question.startPerson, path).then(function(pathInfo) {
+						if (question.startPerson == familysearchService.fsUser) {
+							question.questionText = 'Who is your ' + pathInfo.text + '?';
+						} else {
+							question.questionText = 'Who is ' + question.startPerson.display.name +"'s "+ pathInfo.text + '?';
+						}
 						question.person = pathInfo.person;
 						familysearchService.markUsed(question.person);						
 						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
@@ -171,7 +178,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			getPersistence: function() {
 				var questionText = this.questionText;
 				if (familysearchService.fsUser) {
-					questionText = questionText.replace("your", languageService.shortenName(familysearchService.fsUser.display.name)+"'s");
+					questionText = questionText.replace("your", question.startPerson.display.name + "'s");
 				}
 				var q = {
 					name: this.name,
@@ -194,7 +201,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			hints: ['fifty','lifesaver','freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
@@ -342,7 +349,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			error: null,
 			tryCount: 0,
 			hints: ['freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
@@ -432,7 +439,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
@@ -497,7 +504,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
 				var question = this;
 				question.isReady = false;
@@ -634,7 +641,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var question = this;
 				question.deferred = $q.defer();				
 				question.isReady = false;
@@ -780,7 +787,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			hints: ['freeze','skip','rollback'],
-			setup: function(difficulty, useLiving) {
+			setup: function(difficulty, useLiving, startPerson) {
 				var question = this;
 				question.deferred = $q.defer();				
 				question.isReady = false;
