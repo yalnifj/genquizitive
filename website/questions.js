@@ -39,36 +39,18 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			setupFromPersistence: function(roundQuestion) {
 				this.isReady = false;
 				this.timeOffset = 0;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					var deferred = $q.defer();
-					var question = this;
-					familysearchService.getPersonPortrait(roundQuestion.personId).then(function(data) {
-						question.difficulty = roundQuestion.difficulty;
-						question.person = person;
-						question.questionText = roundQuestion.questionText;
-						
-						familysearchService.getRandomPeopleNear(person, 3, true).then(function(people) {
-							question.randomPeople = people;
-							question.isReady = true;
-							deferred.resolve(question);
-						}, function(error) {
-							console.log(error);
-							question.error = error;
-							deferred.reject(question);
-						});
-					}, function(error) {
-						question.setup(roundQuestion.difficulty, true).then(function(data) {
-							deferred.resolve(data);
-						}, function(error) {
-							deferred.reject(question);
-						});
-					});
-					return deferred.promise;
-				} else {
-					return this.setup(roundQuestion.difficulty, true);
+
+				var question = this;
+				question.difficulty = roundQuestion.difficulty;
+				question.person = roundQuestion.person;
+				question.questionText = roundQuestion.questionText;
+
+				question.randomPeople = [];
+				for(var r=0; r<roundQuestion.answers.length; r++) {
+					this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);	
 				}
-				
+				question.isReady = true;
+				return question;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -81,6 +63,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
+					person: {id: this.perons.id, display: this.person.display, portrait: this.person.portrait},
 					questionText: this.questionText,
 					answers: []
 				};
@@ -158,18 +141,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				this.questionText = roundQuestion.questionText;
 				this.answers = roundQuestion.answers;
 				this.person = roundQuestion.person;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-				}
 				this.randomPeople = [];
 				for(var r=0; r<roundQuestion.answers.length; r++) {
-					var rp = familysearchService.getLocalPersonById(roundQuestion.answers[r].id);
-					if (rp) {
-						this.randomPeople[r] = rp;
-					} else {
-						this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
-					}
+					this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
@@ -310,18 +284,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				this.answers = roundQuestion.answers;
 				this.randomPeople = [];
 				for(var r=0; r<roundQuestion.answers.length; r++) {
-					var rp = familysearchService.getLocalPersonById(roundQuestion.answers[r].id);
-					if (rp) {
-						this.randomPeople[r] = rp;
-					} else {
-						this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
-					}
+					this.randomPeople[r] = angular.copy(roundQuestion.answers[r]);
 				}
 				this.person = roundQuestion.person;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 				this.timeOffset = 0;
@@ -395,23 +360,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-					this.person.display.ascendancyNumber = roundQuestion.person.ascendancyNumber;
-				} else {
-					this.person = angular.copy(roundQuestion.person);
-				}
+				this.person = angular.copy(roundQuestion.person);
 				this.people = [];
 				for(var r=0; r<roundQuestion.people.length; r++) {
-					var rp = familysearchService.getLocalPersonById(roundQuestion.people[r].id);
-					if (rp) {
-						var an = roundQuestion.people[r].display.ascendancyNumber;
-						rp.display.ascendancyNumber = an;
-						this.people[r] = rp;
-					} else {
-						this.people[r] = angular.copy(roundQuestion.people[r]);
-					}
+					this.people[r] = angular.copy(roundQuestion.people[r]);
 				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
@@ -478,10 +430,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
 				this.person = roundQuestion.person;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-				}
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
 				this.timeOffset = 0;
@@ -603,10 +551,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
 				this.person = roundQuestion.person;
-				var person = familysearchService.getLocalPersonById(roundQuestion.personId);
-				if (person) {
-					this.person = person;
-				}
 				this.places = roundQuestion.places;
 				this.difficulty = roundQuestion.difficulty;
 				this.isReady = true;
@@ -812,7 +756,14 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 							+ ' up to '+question.person.display.name;
 						familysearchService.markUsed(question.person);						
 						question.isReady = true;
-						question.deferred.resolve(question);
+						familysearchService.getAncestorTree(question.person.id,path.length).then(function(tree) {
+							question.tree = tree;
+							question.deferred.resolve(question);
+						}, function(error) {
+							console.log(error);
+							question.error = error;
+							question.deferred.reject(question);
+						});
 					}, function(error) {
 						console.log(error);
 						question.error = error;
@@ -831,6 +782,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				this.difficulty = roundQuestion.difficulty;
 				this.person = roundQuestion.person;
 				this.startPerson = roundQuestion.startPerson;
+				this.tree = roundQuestion.tree;
 				this.isReady = true;
 				this.timeOffset = 0;
 			},
@@ -840,7 +792,8 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					difficulty: this.difficulty,
 					questionText: this.questionText,
 					startPerson: {id: question.startPerson.id, display: question.startPerson.display},
-					person: {id: question.person.id, display: question.person.display}
+					person: {id: question.person.id, display: question.person.display},
+					tree: this.tree
 				};
 				return q;
 			}
@@ -901,9 +854,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	    return deferred.promise;
 	};
 	
+	this.availableQuestions = [0,1,2,3,4,6]
 	this.getRandomQuestion = function () {
-		var q = Math.floor (Math.random () * this.questions.length);
-		return angular.copy(this.questions[q]);
+		var q = Math.floor (Math.random () * this.availableQuestions.length);
+		return angular.copy(this.questions[this.availableQuestions[q]]);
 	};
 	
 	this.getQuestionByName = function(name) {
@@ -1522,7 +1476,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$scope.markerClusterer.clearMarkers();
 					$scope.markerClusterer.addMarkers($scope.dynMarkers);
 				} else {
-					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: '/images/map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
 				setTimeout(function() {
 					$scope.markerClusterer.fitMapToMarkers();
@@ -1655,7 +1609,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$scope.markerClusterer.clearMarkers();
 					$scope.markerClusterer.addMarkers($scope.dynMarkers);
 				} else {
-					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: 'map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: '/images/map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
 				}
 				setTimeout(function() {
 					$scope.markerClusterer.fitMapToMarkers();
@@ -1707,28 +1661,32 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	});
 	
 	$scope.fillLevel = function(level) {
-		familysearchService.getPersonPortrait(level.person.id).then(function(res) {
-			level.person.portrait = res.src;
-		});
-		
-		familysearchService.getPersonParents(level.person.id).then(function(parents) {
-			if (parents && parents.length > 0) {
-				var parent1 = parents[0];
-				level.parent1 = parent1;
-				familysearchService.getPersonPortrait(level.parent1.id).then(function(res) {
-					level.parent1.portrait = res.src;
-				});
-			}
-			if (parents && parents.length > 1) {
-				var parent2 = parents[1];
-				level.parent2 = parent2;
-				familysearchService.getPersonPortrait(level.parent2.id).then(function(res) {
-					level.parent2.portrait = res.src;
-				});
-			}
-		}, function(error) { 
-			console.log(error);
-		});
+		if (familysearchService.fsUser) {
+			familysearchService.getPersonPortrait(level.person.id).then(function(res) {
+				level.person.portrait = res.src;
+			});
+			
+			familysearchService.getPersonParents(level.person.id).then(function(parents) {
+				if (parents && parents.length > 0) {
+					var parent1 = parents[0];
+					level.parent1 = parent1;
+					familysearchService.getPersonPortrait(level.parent1.id).then(function(res) {
+						level.parent1.portrait = res.src;
+					});
+				}
+				if (parents && parents.length > 1) {
+					var parent2 = parents[1];
+					level.parent2 = parent2;
+					familysearchService.getPersonPortrait(level.parent2.id).then(function(res) {
+						level.parent2.portrait = res.src;
+					});
+				}
+			}, function(error) { 
+				console.log(error);
+			});
+		} else {
+			//-- TODO get poeple from question.tree
+		}
 	};
 	
 	$scope.selectLevel = function(level, parent, index) {

@@ -33,6 +33,7 @@ session_start();
 		if (isMobile()) {
 			$.getScript("jquery.ui.touch-punch.min.js");
 		}
+		/*
 		var arrow = 3;
 		var arrows = [];
 		arrows[0] = new Image();
@@ -46,6 +47,7 @@ session_start();
 			if (arrow < 0) arrow = 2;
 			$('#home_arrows').attr('src', arrows[arrow].src);
 		}, 400);
+		*/
 	});
 	
 	function isMobile() {
@@ -53,6 +55,11 @@ session_start();
 	  catch(e){ return false; }
 	}
 </script>
+<<style>
+body {
+	background-image: url('/live/live_background.jpg');
+}
+</style>
 </head>
 <body ng-app="genquizitive-live" backgrounds="">	
 	<script src="https://www.gstatic.com/firebasejs/3.7.5/firebase-app.js"></script>

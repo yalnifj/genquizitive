@@ -17,6 +17,48 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		.otherwise({ redirectTo: '/' });
     }
 ])
+.directive('liveLogo', function($timeout) {
+	return {
+		link: function($scope, $element, $attr) {
+			$scope.images = [
+				new Image(),
+				new Image(),
+				new Image(),
+				new Image()
+			];
+			$scope.images[0].src = '/live/t_logo_a.png';
+			$scope.images[1].src = '/live/t_logo_b.png';
+			$scope.images[2].src = '/live/t_logo_c.png';
+			$scope.images[3].src = '/live/t_logo_d.png';
+			$scope.timings = [
+				{time: 500, image: 0},
+				{time: 100, image: 1},
+				{time: 100, image: 0},
+				{time: 100, image: 1},
+				{time: 200, image: 0},
+				{time: 200, image: 1},
+				{time: 100, image: 2},
+				{time: 200, image: 1},
+				{time: 100, image: 0},
+				{time: 100, image: 1},
+				{time: 300, image: 2},
+				{time: -1, image: 3}
+			];
+			$scope.state = 0;
+			$element.css('background-url', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
+			$scope.runState = function() {
+				$timeout(function() {
+					$scope.state++;
+					$element.css('background-url', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
+					if ($scope.timings[$scope.state].time > 0) {
+						$scope.runState();
+					}
+				}, $scope.timings[$scope.state].time);
+			};
+			$scope.runState();
+		}
+	}
+})
 .controller('livestart', function($scope, $location, familysearchService, backendService, $log) {
 	$scope.loading = false;
 	familysearchService.fsLoginStatus().then(function(fsUser){
@@ -421,7 +463,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	});
 })
 .controller('liveGenQuiz', function($scope, $location, $q, $interval, notificationService, backendService, languageService, QuestionService, $log) {
-	$scope.$emit('changeBackground', '/images/home_background.jpg');
+	$scope.$emit('changeBackground', '/live/live_background.jpg');
 
 	$scope.genQuizRound = backendService.currentGenQuiz;
 	if (!$scope.genQuizRound) {
@@ -451,12 +493,14 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			} else {
 				$scope.loadingTime++;
 			}
+		} else {
+			$scope.loadingTime++;
 		}
 	}, 1000);
 
 	$scope.getRandomQuestion = function() {
 		var nextQ = QuestionService.getRandomQuestion();
-		while(nextQ.name=='connect' || $scope.questionPersistence && $scope.questionPersistence.name==nextQ.name) {
+		while($scope.questionPersistence && $scope.questionPersistence.name==nextQ.name) {
 			nextQ = QuestionService.getRandomQuestion();
 		}
 		return nextQ;
@@ -553,7 +597,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	}
 })
 .controller('liveQuestion', function($scope, $location, $q, $interval, notificationService, backendService, languageService, QuestionService) {
-	$scope.$emit('changeBackground', '/images/home_background.jpg');
+	$scope.$emit('changeBackground', '/live/live_background.jpg');
 
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
@@ -567,18 +611,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.startTime = new Date();
 
 	$scope.interval = $interval(function() {
-		if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
-			if ($scope.question && $scope.question.isReady) {
-				var d = new Date();
-				var diff = $scope.maxTime - (d.getTime() - $scope.startTime.getTime() - ($scope.loadingTime*1000));
-				$scope.minute = Math.floor(diff / (1000*60));
-				$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
-				if (diff <= 0) {
-					$scope.abandon();
+		if ($scope.interval && $scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
+			if ($scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
+				if ($scope.question && $scope.question.isReady) {
+					var d = new Date();
+					var diff = $scope.maxTime - (d.getTime() - $scope.startTime.getTime() - ($scope.loadingTime*1000));
+					$scope.minute = Math.floor(diff / (1000*60));
+					$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
+					if (diff <= 0) {
+						$scope.abandon();
+					}
+				} else {
+					$scope.loadingTime++;
 				}
-			} else {
-				$scope.loadingTime++;
 			}
+		} else {
+			$scope.loadingTime++;
 		}
 	}, 1000);
 
@@ -644,7 +692,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	});
 })
 .controller('liveWait', function($scope, $location, backendService, notificationService) {
-	$scope.$emit('changeBackground', '/images/home_background.jpg');
+	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
 	$scope.players = backendService.currentPlayers;
@@ -677,7 +725,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	});
 })
 .controller('liveQuestionWait', function($scope, $location, backendService, notificationService) {
-	$scope.$emit('changeBackground', '/images/home_background.jpg');
+	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
 	$scope.players = backendService.currentPlayers;
