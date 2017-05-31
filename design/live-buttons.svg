@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg16386"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="live-buttons.svg">
+  <defs
+     id="defs16388">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient17445">
+      <stop
+         style="stop-color:#009c4c;stop-opacity:1;"
+         offset="0"
+         id="stop17447" />
+      <stop
+         style="stop-color:#009c4c;stop-opacity:0;"
+         offset="1"
+         id="stop17449" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter17330"
+       x="-0.022517927"
+       width="1.0450359"
+       y="-0.089714301"
+       height="1.1794286">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.6821431"
+         id="feGaussianBlur17332" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter17382"
+       x="-0.021919658"
+       width="1.0438393"
+       y="-0.10066027"
+       height="1.2013205">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.3169719"
+         id="feGaussianBlur17384" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient17445"
+       id="linearGradient17453"
+       x1="274.56372"
+       y1="56.564083"
+       x2="420.25995"
+       y2="56.564083"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter18091"
+       x="-0.0049183269"
+       width="1.0098367"
+       y="-0.019595241"
+       height="1.0391905">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.36741071"
+         id="feGaussianBlur18093" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter18095"
+       x="-0.010386507"
+       width="1.020773"
+       y="-0.028082347"
+       height="1.0561647">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.36741071"
+         id="feGaussianBlur18097" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter18099"
+       x="-0.0049183269"
+       width="1.0098367"
+       y="-0.019595241"
+       height="1.0391905">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.36741071"
+         id="feGaussianBlur18101" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter18103"
+       x="-0.0061151778"
+       width="1.0122304"
+       y="-0.028082347"
+       height="1.0561647">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.36741071"
+         id="feGaussianBlur18105" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="525.20837"
+     inkscape:cy="923.75811"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="804"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata16391">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:0.88800001;fill:#000900;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect17312"
+       width="392.77634"
+       height="153.57143"
+       x="245.71428"
+       y="19.790775"
+       rx="20.977478"
+       ry="22.957678" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="149.93297"
+       y="75.544693"
+       id="text16394"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="149.93297"
+         y="75.544693"
+         id="tspan16398">Create</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="140.41121"
+       y="149.28583"
+       id="text16424"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan16434"
+         x="140.41121"
+         y="149.28583">Join</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:middle;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;opacity:0.8;filter:url(#filter18103);"
+       x="347.49246"
+       y="71.504082"
+       id="text16436"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_off.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         sodipodi:role="line"
+         id="tspan16438"
+         x="347.49246"
+         y="71.504082"
+         style="stroke:#009c4c;stroke-opacity:1;">CREATE</tspan></text>
+    <rect
+       style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18099)"
+       id="rect17310"
+       width="179.28571"
+       height="44.999992"
+       x="258.57144"
+       y="35.219349"
+       rx="11.1585"
+       ry="11.1585"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_off.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text17411"
+       y="140.78979"
+       x="347.13531"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18095);opacity:0.8;"
+       xml:space="preserve"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_off.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         y="140.78979"
+         x="347.13531"
+         id="tspan17413"
+         sodipodi:role="line">JOIN</tspan></text>
+    <rect
+       ry="11.1585"
+       rx="11.1585"
+       y="104.50507"
+       x="258.21429"
+       height="44.999992"
+       width="179.28571"
+       id="rect17415"
+       style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18091)"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_off.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+    <text
+       transform="matrix(0.97174085,0,0,1.0026042,201.74648,0.56819905)"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+       x="347.49246"
+       y="71.504082"
+       id="text17417"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+         sodipodi:role="line"
+         id="tspan17419"
+         x="347.49246"
+         y="71.504082">CREATE</tspan></text>
+    <rect
+       ry="11.1585"
+       rx="11.1585"
+       y="35.219345"
+       x="450.5004"
+       height="45"
+       width="179.28575"
+       id="rect17421"
+       style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text17423"
+       y="71.504082"
+       x="539.42145"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         y="71.504082"
+         x="539.42145"
+         id="tspan17425"
+         sodipodi:role="line">CREATE</tspan></text>
+    <rect
+       ry="11.1585"
+       rx="11.1585"
+       y="35.219349"
+       x="450.50043"
+       height="44.999992"
+       width="179.28571"
+       id="rect17427"
+       style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/create_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text17429"
+       y="71.504082"
+       x="347.49246"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+       xml:space="preserve"
+       transform="matrix(0.97174085,0,0,1.0026042,201.38934,69.853913)"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         y="71.504082"
+         x="347.49246"
+         id="tspan17431"
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle">JOIN</tspan></text>
+    <rect
+       style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
+       id="rect17433"
+       width="179.28575"
+       height="45"
+       x="450.14325"
+       y="104.50506"
+       rx="11.1585"
+       ry="11.1585"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="539.06427"
+       y="140.78979"
+       id="text17435"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998"><tspan
+         sodipodi:role="line"
+         id="tspan17437"
+         x="539.06427"
+         y="140.78979">JOIN</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect17439"
+       width="179.28571"
+       height="44.999992"
+       x="450.14328"
+       y="104.50507"
+       rx="11.1585"
+       ry="11.1585"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/join_button_on.png"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-ydpi="99.419998" />
+  </g>
+</svg>

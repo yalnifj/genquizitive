@@ -19,7 +19,17 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 ])
 .directive('liveLogo', function($timeout) {
 	return {
+		scope: {
+			delay: '='
+		},
 		link: function($scope, $element, $attr) {
+			if (!$scope.delay) {
+				$scope.delay = 500;
+			}
+			$scope.randomTime = function(min, max) {
+				var num = min + (Math.random() * (max-min));
+				return Math.round(num);
+			};
 			$scope.images = [
 				new Image(),
 				new Image(),
@@ -31,25 +41,72 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$scope.images[2].src = '/live/t_logo_c.png';
 			$scope.images[3].src = '/live/t_logo_d.png';
 			$scope.timings = [
-				{time: 500, image: 0},
-				{time: 100, image: 1},
-				{time: 100, image: 0},
-				{time: 100, image: 1},
-				{time: 200, image: 0},
-				{time: 200, image: 1},
-				{time: 100, image: 2},
-				{time: 200, image: 1},
-				{time: 100, image: 0},
-				{time: 100, image: 1},
-				{time: 300, image: 2},
+				{time: $scope.randomTime($scope.delay, 500+$scope.delay), image: 0},
+				{time: $scope.randomTime(50, 100), image: 1},
+				{time: $scope.randomTime(50, 100), image: 0},
+				{time: $scope.randomTime(50, 100), image: 1},
+				{time: $scope.randomTime(100, 200), image: 0},
+				{time: $scope.randomTime(100, 200), image: 1},
+				{time: $scope.randomTime(50, 100), image: 2},
+				{time: $scope.randomTime(100, 200), image: 1},
+				{time: $scope.randomTime(50, 100), image: 0},
+				{time: $scope.randomTime(50, 100), image: 1},
+				{time: $scope.randomTime(200, 300), image: 2},
+				{time: $scope.randomTime(50, 100), image: 3},
+				{time: $scope.randomTime(200, 300), image: 2},
 				{time: -1, image: 3}
 			];
 			$scope.state = 0;
-			$element.css('background-url', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
+			$element.css('background-image', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
 			$scope.runState = function() {
 				$timeout(function() {
 					$scope.state++;
-					$element.css('background-url', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
+					$element.css('background-image', "url('"+$scope.images[$scope.timings[$scope.state].image].src+"')");
+					if ($scope.timings[$scope.state].time > 0) {
+						$scope.runState();
+					}
+				}, $scope.timings[$scope.state].time);
+			};
+			$scope.runState();
+			$timeout(function() {
+				var audio = new Audio('/live/flicker.mp3');
+				audio.play();
+			}, $scope.delay+500);
+		}
+	}
+})
+.directive('neonImage', function($timeout) {
+	return {
+		scope: {
+			delay: '='
+		},
+		link: function($scope, $element) {
+			if (!$scope.delay) {
+				$scope.delay = 500;
+			}
+			var srcOff = $element.attr('src');
+			var srcOn = srcOff.replace("_off", "_on");
+			var img = new Image();
+			img.src = srcOn;
+			$scope.randomTime = function(min, max) {
+				var num = min + (Math.random() * (max-min));
+				return Math.round(num);
+			};
+			$scope.timings = [
+				{time: $scope.randomTime($scope.delay,500+$scope.delay), src: srcOff},
+				{time: $scope.randomTime(50,100), src: srcOn},
+				{time: $scope.randomTime(50,100), src: srcOff},
+				{time: $scope.randomTime(100,200), src: srcOn},
+				{time: $scope.randomTime(100,200), src: srcOff},
+				{time: $scope.randomTime(50,100), src: srcOn},
+				{time: $scope.randomTime(50,100), src: srcOff},
+				{time: -1, src: srcOn}
+			];
+			$scope.state = 0;
+			$scope.runState = function() {
+				$timeout(function() {
+					$scope.state++;
+					$element.attr('src', $scope.timings[$scope.state].src);
 					if ($scope.timings[$scope.state].time > 0) {
 						$scope.runState();
 					}

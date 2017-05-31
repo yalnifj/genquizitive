@@ -33,29 +33,29 @@ session_start();
 		if (isMobile()) {
 			$.getScript("jquery.ui.touch-punch.min.js");
 		}
-		/*
-		var arrow = 3;
-		var arrows = [];
-		arrows[0] = new Image();
-		arrows[0].src = '/images/home_arrow1.png';
-		arrows[1] = new Image();
-		arrows[1].src = '/images/home_arrow2.png';
-		arrows[2] = new Image();
-		arrows[2].src = '/images/home_arrow3.png';
-		window.setInterval(function() {
-			arrow--;
-			if (arrow < 0) arrow = 2;
-			$('#home_arrows').attr('src', arrows[arrow].src);
-		}, 400);
-		*/
+		checkPortrait();
+		$(window).resize(function() {
+			checkPortrait();
+		});
 	});
+
+	function checkPortrait() {
+		var wRatio = $(window).width() / $(window).height();
+		if (wRatio < 0.8) {
+			window.portrait = true;
+			$('body').addClass('portrait');
+		} else {
+			window.portrait = false;
+			$('body').removeClass('portrait');
+		}
+	}
 	
 	function isMobile() {
 	  try{ document.createEvent("TouchEvent"); return true; }
 	  catch(e){ return false; }
 	}
 </script>
-<<style>
+<style>
 body {
 	background-image: url('/live/live_background.jpg');
 }
