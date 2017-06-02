@@ -367,12 +367,12 @@ angular.module('genquiz.familytree', [])
 				var rel = path[path.length-1];
 				familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
 					if (person1.living) {
-						rel.living==true;
+						rel.living=true;
 						deferred.reject(path);
 					} else {
 						familysearchService.getPersonById(rel.person2.resourceId).then(function(person2) {
 							if (person2.living) {
-								rel.living==true;
+								rel.living=true;
 								deferred.reject(path);
 							} else {
 								deferred.resolve(path);
@@ -718,11 +718,10 @@ angular.module('genquiz.familytree', [])
 	this.loadInitialData = function(personId, generations, descendants) {
 		var temp = this;
 		temp.getAncestorTree(personId, generations, true).then(function(data) {
-			angular.forEach(data.persons.reverse(), function(person) {
+			angular.forEach(data.persons, function(person) {
 				if (descendants && person.display.ascendancyNumber <= 5 ) {
 					temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, descendants, true); });
 				}
-				count++;
 			});
 			
 			temp.getPersonSpouses(personId).then(function(spouses) {

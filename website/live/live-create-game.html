@@ -1,10 +1,7 @@
 <div class="text-center" ng-controller="liveCreateGame">
-	<div class="title-holder" style="margin-bottom:20px;">
-		<img src="/images/create_game.png" style="height: 55px;" />
-		<div class="smaller-logo" style="left: -80px; top: -80px;">
-			<img id="home_arrows" src="/images/home_arrow1.png" />
-			<img id="home_sign" src="/images/home_sign.png" />
-		</div>
+	<div class="live-title text-center">
+		<img class="logo" src="/live/t_logo_d.png" />
+		<img class="title-img" src="/images/create_game.png" />
 	</div>
 	<div class="center-div">
 		<div class="stages">
@@ -19,8 +16,8 @@
 			</div>
 			<div ng-show="mode=='search'" class="tree text-center">
 				<p>
-					<strong>Search for someone to be the central person for your GenQuiz Live game<br /> 
-					or <a href="#/live-create-game" ng-click="mode='tree'">select from your tree</a>.</strong>
+					Search for someone to be the central person for your GenQuiz Live game<br /> 
+					or <a href="#/live-create-game" ng-click="mode='tree'">select from your tree</a>.
 				</p>
 				<!-- provide search feature -->
 				<form class="form-inline">
@@ -65,8 +62,8 @@
 				</div>
 			</div>
 			<div ng-show="mode=='tree'" class="tree text-center">
-				<p><strong>Select someone from your tree to be the central person for your GenQuiz Live! game<br />
-				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</strong></p>
+				<p>Select someone from your tree to be the central person for your GenQuiz Live! game
+				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</p>
 				<div class="ancestor-row">
 					<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
 						label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
@@ -90,7 +87,7 @@
 		<div class="tree text-center">
 			<div style="line-height: 70px; margin-bottom: 20px;">
 				<div style="display: inline-block; margin: 10px;">
-					<strong>Set the properties of your GenQuiz game for {{person.display.name}}.</strong>
+					Set the properties of your GenQuiz game for {{person.display.name}}.
 				</div>
 				<div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="person.portrait" label="person.display.name"></div>
 			</div>
@@ -120,7 +117,6 @@
 						<button type="button" ng-click="showLiving=false" ng-disabled="person.living" class="btn" ng-class="{'btn-primary': !showLiving, 'btn-default': showLiving}">No</button>
 					</div>
 				</div>
-				<button class="btn btn-primary pull-right" ng-click="showStep(3)">Continue</button>
 			</form>
 		</div>
 	</div>
@@ -149,7 +145,6 @@
 			</div>
 			<div>
 				<p>Publishing your game will make it available for others you invite to join.</p>
-				<button class="btn btn-primary" ng-click="showStep(4)" ng-disabled="genQuizRound.error">Publish</button>
 			</div>
 		</div>
 	</div>
@@ -174,14 +169,21 @@
 		</div>
 	</div>
 	<div>
-		<a class="arrow-button" href="" ng-click="leaveGame()" style="width: 230px; display: inline-block;">
-			<img src="/images/button_sign_arrow_left.png" />
-			<div class="button-text">Back to Home</div>
-		</a>
-		<div style="display: inline-block; width: 100px; height: 20px;">&nbsp;</div>
-		<a ng-show="!genQuizRound.error && genQuizRound.ready" ng-click="startGame()" class="arrow-button" href="" style=" width: 230px; display: inline-block;">
-			<img src="/images/button_sign_arrow_right.png" />
-			<div class="button-text">Start Game!</div>
-		</a>
+		<div class="clickable neonbutton" ng-click="leaveGame()">
+			<img src="/live/back_button_off.png" neon-image="" delay="500" />
+		</div>
+		<div class="buttonspacer">&nbsp;</div>
+		<div ng-if="step==1" class="buttonspacer">&nbsp;</div>
+		<div ng-if="step==1" class="buttonspacer">&nbsp;</div>
+		<div ng-if="step==1" class="buttonspacer">&nbsp;</div>
+		<div ng-if="step==2" class="clickable neonbutton" ng-click="showStep(3)">
+			<img src="/live/continue_button_off.png" neon-image="" delay="500" />
+		</div>
+		<div ng-if="step==3 && !genQuizRound.error" class="clickable neonbutton" ng-click="showStep(4)">
+			<img src="/live/publish_button_off.png" neon-image="" delay="500" />
+		</div>
+		<div ng-if="step==4 && !genQuizRound.error && genQuizRound.ready" class="clickable neonbutton" ng-click="startGame()">
+			<img src="/live/start_button_off.png" neon-image="" delay="500" />
+		</div>
 	</div>
 </div>

@@ -152,7 +152,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			getPersistence: function() {
 				var questionText = this.questionText;
 				if (familysearchService.fsUser) {
-					questionText = questionText.replace("your", question.startPerson.display.name + "'s");
+					questionText = questionText.replace("your", this.startPerson.display.name + "'s");
 				}
 				var q = {
 					name: this.name,
@@ -757,7 +757,14 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						familysearchService.markUsed(question.person);						
 						question.isReady = true;
 						familysearchService.getAncestorTree(question.person.id,path.length).then(function(tree) {
-							question.tree = tree;
+							question.treePersons = {};
+							for(var i=0; i<tree.persons.length; i++) {
+								var tp = tree.persons[i];
+								question.treePersons[tp.display.ascendancyNumber] = tp;
+								familysearchService.getPersonPortrait(tp.id).then(function(res){
+									tp.portrait = res.src;
+								});
+							}
 							question.deferred.resolve(question);
 						}, function(error) {
 							console.log(error);
@@ -782,7 +789,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				this.difficulty = roundQuestion.difficulty;
 				this.person = roundQuestion.person;
 				this.startPerson = roundQuestion.startPerson;
-				this.tree = roundQuestion.tree;
+				this.treePersons = roundQuestion.treePersons;
 				this.isReady = true;
 				this.timeOffset = 0;
 			},
@@ -791,10 +798,18 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					questionText: this.questionText,
-					startPerson: {id: question.startPerson.id, display: question.startPerson.display},
-					person: {id: question.person.id, display: question.person.display},
-					tree: this.tree
+					startPerson: {id: this.startPerson.id, display: this.startPerson.display},
+					person: {id: this.person.id, display: this.person.display},
+					treePersons: {}
 				};
+
+				for(key in this.treePersons) {
+					var tp = this.treePersons[key];
+					q.treePersons[key] = {id: tp.id, display: tp.display};
+					if (tp.portrait) {
+						q.treePersons[key].portrait = tp.portrait;
+					}
+				}
 				return q;
 			}
 		}
@@ -1653,39 +1668,23 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			$scope.levels = [];	
 			var level = {
 				person: $scope.question.startPerson,
+				ascendancyNumber: 1,
 				css: 'connect-center'
 			};
+			$scope.question.startPerson.display.ascendancyNumber = 1;
 			$scope.fillLevel(level);
 			$scope.levels.push(level);
 		}
 	});
-	
 	$scope.fillLevel = function(level) {
-		if (familysearchService.fsUser) {
-			familysearchService.getPersonPortrait(level.person.id).then(function(res) {
-				level.person.portrait = res.src;
-			});
-			
-			familysearchService.getPersonParents(level.person.id).then(function(parents) {
-				if (parents && parents.length > 0) {
-					var parent1 = parents[0];
-					level.parent1 = parent1;
-					familysearchService.getPersonPortrait(level.parent1.id).then(function(res) {
-						level.parent1.portrait = res.src;
-					});
-				}
-				if (parents && parents.length > 1) {
-					var parent2 = parents[1];
-					level.parent2 = parent2;
-					familysearchService.getPersonPortrait(level.parent2.id).then(function(res) {
-						level.parent2.portrait = res.src;
-					});
-				}
-			}, function(error) { 
-				console.log(error);
-			});
-		} else {
-			//-- TODO get poeple from question.tree
+		var fn = ""+(level.ascendancyNumber * 2);
+		var mn = ""+(1 + (level.ascendancyNumber * 2));
+
+		if ($scope.question.treePersons[fn]) {
+			level.parent1 = $scope.question.treePersons[fn];
+		}
+		if ($scope.question.treePersons[mn]) {
+			level.parent2 = $scope.question.treePersons[mn];
 		}
 	};
 	
@@ -1704,6 +1703,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			}
 			var nextlevel = {
 				person: parent,
+				ascendancyNumber: parent.display.ascendancyNumber,
 				css: 'connect-center'
 			};
 			$scope.fillLevel(nextlevel);

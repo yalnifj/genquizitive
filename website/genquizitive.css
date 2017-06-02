@@ -1016,6 +1016,7 @@ body {
 .stages {
 	background-color: rgba(0, 60, 60, 0.5);
 	padding-top: 5px;
+	min-width: 650px;
 }
 .stages .stage {
 	background-color: rgba(0, 70, 70, 1.0);
@@ -1038,22 +1039,25 @@ body {
 	box-shadow: -3px 3px 2px #222;
 }
 .tree {
-	background-color: rgba(240,240,195,0.65);
+	background-color: rgba(10,90,90,0.65);
     padding: 25px;
     width: 650px;
     display: inline-block;
     border-radius: 10px;
-    box-shadow: -5px 5px 5px #777;
-    border: solid 2px #AA8;
+    margin: 5px;
+	color: white;
+}
+.tree a {
+	color: #559ad7;
 }
 .editable-id {
 	font-family: 'Courier New, Courier, monospace';
     font-weight: bold;
     letter-spacing: 10px;
-    font-size: 22px;
+    font-size: x-large;
     color: #fff;
-    background-color: #337ab7;
-    border: inset #ddf;
+    background-color: #000000;
+    border: inset #577;
     border-radius: 3px;
     display: inline-block;
     padding: 8px 25px;
@@ -1065,7 +1069,7 @@ body {
 
 .players li {
 	font-size: 16px;
-	background-color: rgba(190, 240, 240, 1.0);
+	background-color: #000000;
 	padding: 5px;
 	margin: 2px;
 }
@@ -1077,6 +1081,47 @@ body {
 	background-image: url('/live/t_logo_a.png'); 
 	background-size: contain;
 	margin: 30px;
+}
+.neonbutton {
+	display: inline-block;
+}
+div.buttonspacer {
+	display: inline-block; 
+	width: 100px; 
+	height: 20px;
+}
+.live-title .logo {
+	height: 90px;
+}
+.live-title .title-img {
+	height: 50px;
+}
+.portrait {
+	/*border: solid red 3px;*/
+	background-position: center;
+}
+.portrait .live-logo {
+	width: 66vw;
+	height: 66vw;
+}
+.portrait .homebutton {
+	margin: 10px;
+}
+.portrait .homebutton img {
+	width: 66%;
+	/*background-color: rgba(50, 50, 50, 0.6);*/
+}
+.portrait .stages {
+	font-size: large;
+}
+.portrait .tree {
+	font-size: x-large;
+}
+.portrait div.buttonspacer {
+	width: 40px;
+}
+.portrait .editable-id {
+	 font-size: xx-large;
 }
 
 @media (max-width: 767px) {

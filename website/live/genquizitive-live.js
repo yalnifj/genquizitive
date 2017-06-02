@@ -20,7 +20,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 .directive('liveLogo', function($timeout) {
 	return {
 		scope: {
-			delay: '='
+			delay: '=?'
 		},
 		link: function($scope, $element, $attr) {
 			if (!$scope.delay) {
@@ -78,7 +78,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 .directive('neonImage', function($timeout) {
 	return {
 		scope: {
-			delay: '='
+			delay: '=?'
 		},
 		link: function($scope, $element) {
 			if (!$scope.delay) {
@@ -151,6 +151,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 .controller('livefamilytree', function($scope, $location, familysearchService) {
 	$scope.loading = false;
 	
+	$scope.leaveGame = function() {
+		$location.path('/');
+	};
+
 	$scope.fsLogin = function() {
 		familysearchService.fsLogin();
 	};
@@ -177,7 +181,6 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 							person.portrait = path.src;
 						},function(error){});
 					});
-					// TODO - load initial data
 				}
 			}, function() {
 				var notif = notificationService.showNotification({title: 'Family Tree Error', 
@@ -483,7 +486,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	};
 
 	$scope.leaveGame = function() {
-		if ($scope.player && $scope.player.id) {
+		if ($scope.genQuizRound && $scope.player && $scope.player.id) {
 			notificationService.showConfirmation({title: 'Leave GenQuiz?', message: 'You have already joined an active GenQuiz game.\
 				  Are you sure you want to leave?'}).then(function(result) {
 				if (result) {

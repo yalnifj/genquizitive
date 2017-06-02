@@ -1,32 +1,29 @@
 <div class="text-center" ng-controller="livefamilytree">
-	<div class="title-holder" style="margin-bottom:20px;">
-		<img src="/images/create_game.png" style="height: 55px;" />
-		<div class="smaller-logo" style="left: -80px; top: -80px;">
-			<img id="home_arrows" src="/images/home_arrow1.png" />
-			<img id="home_sign" src="/images/home_sign.png" />
+	<div class="live-title text-center">
+		<img class="logo" src="/live/t_logo_d.png" />
+		<img class="title-img" src="/images/create_game.png" />
+	</div>
+	<div class="tree">
+		<div style="font-size: larger;">Family Tree Required</div>
+		<div class="text-left">
+			<p>A family tree account is required in order to create a new GenQuizitive Live game.
+			By logging into FamilySearch you agree to allow GenQuizitive to read your
+			family tree data. When you create a GenQuizitive Live game,
+			your game will be given a game ID.  Only those with whom you share this game ID will
+			be able to join your game and see your family tree data.</p>
+			<p>
+			Click the "Connect Family Tree" button below to connect with FamilySearch and begin setting up your 
+			GenQuizitive Live game.
+			</p>
 		</div>
 	</div>
-	<div class="center-logo">
-		<div class="notification" style="left: -180px; top: -30px; width: 550px; height: 330px; background-size: cover;">
-			<div class="title" style="left: 90px;">Family Tree Required</div>
-			<div class="message" style="font-size: 110%; text-align: left; line-height: 150%; width: 500px;">
-				<p>A family tree account is required in order to create a new GenQuizitive Live game.
-				By logging into FamilySearch you agree to allow GenQuizitive to read your
-				family tree data. When you create a GenQuizitive Live game,
-				your game will be given a game ID.  Only those with whom you share this game ID will
-				be able to join your game and see your family tree data.</p>
-				<p>
-				Click the FamilySearch button below to connect with FamilySearch and begin setting up your 
-				GenQuizitive Live game.
-				</p>
-			</div>
+	<div>
+		<div class="clickable neonbutton" ng-click="leaveGame()">
+			<img src="/live/back_button_off.png" neon-image="" delay="500" />
 		</div>
-		<a class="arrow-button" href="#/" style="position: absolute; top: 320px; left: -170px; width: 230px;">
-			<img src="/images/button_sign_arrow_left.png" />
-			<div class="button-text">Back to Home</div>
-		</a>
-		<div ng-click="fsLogin()" class="big-blue-button clickable" style="position: absolute; top: 320px; left: 150px;">
-			Connect to<br />FamilySearch
+		 <div class="buttonspacer">&nbsp;</div>
+		 <div class="clickable neonbutton" ng-click="fsLogin()">
+			<img src="/live/connect_button_off.png" neon-image="" delay="500" />
 		</div>
 	</div>
 </div>

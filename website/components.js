@@ -152,7 +152,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			src: '=',
 			label: '='
 		},
-		template: '<img src="{{src}}" ng-if="src" /><div class="avatar-label" ng-if="label">{{label}}</div>',
+		template: '<img ng-src="{{src}}" ng-if="src" /><div class="avatar-label" ng-if="label">{{label}}</div>',
 		replace: false
 	}
 }])
@@ -305,7 +305,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			on: '=',
 			color: '@'
 		},
-		template: '<img src="{{imgUrl}}" />',
+		template: '<img ng-src="{{imgUrl}}" />',
 		link: function($scope, $element, $attr) {
 			$scope.setImgUrl = function() {
 				$scope.imgUrl = '/images/'+$scope.color+"_light_";

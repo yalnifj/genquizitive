@@ -4,12 +4,14 @@ session_start();
 <html>
 <head>
 	<title>GenQuizitive Live!</title>
+	<meta name="theme-color" content="#000000" />
 	<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <link rel="stylesheet" href="/genquizitive.css">
 <link rel="stylesheet" href="/jquery-ui.min.css">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="200x200" href="/logo_live_square.png">
 <script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -31,7 +33,7 @@ session_start();
 <script>
 	$(document).ready(function() {
 		if (isMobile()) {
-			$.getScript("jquery.ui.touch-punch.min.js");
+			$.getScript("/jquery.ui.touch-punch.min.js");
 		}
 		checkPortrait();
 		$(window).resize(function() {
@@ -39,14 +41,19 @@ session_start();
 		});
 	});
 
+	var oldWidth = null;
 	function checkPortrait() {
-		var wRatio = $(window).width() / $(window).height();
-		if (wRatio < 0.8) {
-			window.portrait = true;
-			$('body').addClass('portrait');
-		} else {
-			window.portrait = false;
-			$('body').removeClass('portrait');
+		var width = $(window).width();
+		if (width!=oldWidth) {
+			var wRatio = width / $(window).height();
+			oldWidth = width;
+			if (wRatio < 0.8) {
+				window.portrait = true;
+				$('body').addClass('portrait');
+			} else {
+				window.portrait = false;
+				$('body').removeClass('portrait');
+			}
 		}
 	}
 	
