@@ -134,25 +134,27 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		if (this.currentGenQuiz) {
 			this.currentPlayers = {};
 			var backendService = this;
-			this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
-			this.playerWatch.once('value').then(function(snapshot) {
-				if (snapshot) {
-					backendService.currentPlayers = snapshot.val();
-					deferred.resolve(backendService.currentPlayers);
-				}
-			});
-			this.playerWatch.on('child_added', function(data) {
-				backendService.currentPlayers[data.key] = data.val();
-				//$rootScope.$apply(function() {
-					$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-				//});
-			});
-			this.playerWatch.on('child_removed', function(data) {
-				delete(backendService.currentPlayers[data.key]);
-				//$rootScope.$apply(function() {
-					$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-				//});
-			});
+			if (!this.playerWatch) {
+				this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
+				this.playerWatch.once('value').then(function(snapshot) {
+					if (snapshot) {
+						backendService.currentPlayers = snapshot.val();
+						deferred.resolve(backendService.currentPlayers);
+					}
+				});
+				this.playerWatch.on('child_added', function(data) {
+					backendService.currentPlayers[data.key] = data.val();
+					$rootScope.$apply(function() {
+						$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
+					});
+				});
+				this.playerWatch.on('child_removed', function(data) {
+					delete(backendService.currentPlayers[data.key]);
+					$rootScope.$apply(function() {
+						$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
+					});
+				});
+			}
 		}
 		return deferred.promise;
 	};
@@ -176,6 +178,11 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		}
 	};
 
+	this.updatePlayers = function(players) {
+		this.currentPlayers = players;
+		firebase.database().ref('/players/'+this.currentGenQuiz.id).set(players);
+	}
+
 	this.persistQuestion = function(question, genQuizId, num) {
 		var newQuestionRef = firebase.database().ref('/questions/'+genQuizId).push();
 		question.id = newQuestionRef.key
@@ -194,12 +201,14 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.watchForQuestion = function(genQuizId) {
-		this.questionRef = firebase.database().ref('/questions/'+genQuizId);
-		this.questionRef.on('child_added', function(data) {
-			//$rootScope.$apply(function() {
-				$rootScope.$broadcast('questionAdded', data.val());
-			//});
-		});
+		if (!this.questionRef) {
+			this.questionRef = firebase.database().ref('/questions/'+genQuizId);
+			this.questionRef.on('child_added', function(data) {
+				$rootScope.$apply(function() {
+					$rootScope.$broadcast('questionAdded', data.val());
+				});
+			});
+		}
 	};
 
 	this.unWatchQuestion = function() {
@@ -214,15 +223,17 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.watchPlayerScores = function(questionId, genQuizId) {
-		this.playerScoreRef = firebase.database().ref('/questions/'+genQuizId+'/'+questionId+'/players');
-		this.playerScoreRef.on('value', function(snapshot) {
-			var playerScores = snapshot.val();
-			if (playerScores) {
-				//$rootScope.$apply(function() {
-					$rootScope.$broadcast('playerScores', playerScores);
-				//});
-			}
-		});
+		if (!this.playerScoreRef) {
+			this.playerScoreRef = firebase.database().ref('/questions/'+genQuizId+'/'+questionId+'/players');
+			this.playerScoreRef.on('value', function(snapshot) {
+				var playerScores = snapshot.val();
+				if (playerScores) {
+					$rootScope.$apply(function() {
+						$rootScope.$broadcast('playerScores', playerScores);
+					});
+				}
+			});
+		}
 	};
 
 	this.unWatchPlayerScores = function() {

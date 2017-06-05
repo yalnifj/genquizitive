@@ -5,9 +5,9 @@
                 <strong>Waiting for players to finish question...</strong>
             </div>
         </div>
-        <div>
-            <table>
-                <tr ng-repeat="player in players">
+        <div style="width: 300px; margin-left: auto; margin-right: auto;">
+            <table class="player-table">
+                <tr ng-repeat="player in players | orderBy: '-score'">
                     <td>{{player.name}}</td>
                     <td>{{player.score}}</td>
                 </tr>

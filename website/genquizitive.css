@@ -364,7 +364,7 @@ body {
 .trap1 .answer-button {
 	padding-right: 30px;
     padding-left: 20px;
-    height: 97px;
+    height: 96px;
 	width: 270px;
 }
 .question-block {
@@ -1016,7 +1016,6 @@ body {
 .stages {
 	background-color: rgba(0, 60, 60, 0.5);
 	padding-top: 5px;
-	min-width: 650px;
 }
 .stages .stage {
 	background-color: rgba(0, 70, 70, 1.0);
@@ -1068,10 +1067,22 @@ body {
 }
 
 .players li {
-	font-size: 16px;
+	font-size: larger;
 	background-color: #000000;
 	padding: 5px;
 	margin: 2px;
+}
+
+.player-table tr {
+	font-size: larger;
+	background-color: #000000;
+	padding: 5px;
+	margin: 2px;
+}
+.player-table tr td {
+	padding: 3px;
+	margin-right: 10px;
+	color: #fff;
 }
 
 .live-logo {
@@ -1111,17 +1122,51 @@ div.buttonspacer {
 	width: 66%;
 	/*background-color: rgba(50, 50, 50, 0.6);*/
 }
-.portrait .stages {
-	font-size: large;
-}
 .portrait .tree {
 	font-size: x-large;
+	width: 90%;
+	min-width: 450px;
 }
 .portrait div.buttonspacer {
 	width: 40px;
 }
 .portrait .editable-id {
 	 font-size: xx-large;
+}
+.portrait .avatar-small {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.portrait .avatar-small .avatar-label {
+	top: 47px;
+	width: 120%;
+	font-size: 10pt;
+	padding: 1px;
+	left: -8px;
+}
+.portrait .avatar.large-spacer {
+	margin-right: 100px;
+}
+.inline-avatar {
+	display: inline-block;
+}
+.portrait .inline-avatar {
+	margin-bottom: 35px;
+}
+.portrait .stages .stage {
+	font-size: large;
+    display: inline-block;
+    padding: 10px 20px;
+}
+.portrait .stages .stage .stage-label {
+	display: none;
+}
+
+.portrait .stages .stage:hover, .portrait .stages .stage.active {
+	width: auto;
+}
+.portrait .stages .stage:hover .stage-label, .portrait .stages .stage.active .stage-label {
+	display: inherit;
 }
 
 @media (max-width: 767px) {

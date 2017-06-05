@@ -127,7 +127,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="476.17722"
+     inkscape:cx="533.32008"
      inkscape:cy="1055.2067"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -145,7 +145,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -157,11 +157,11 @@
        style="opacity:0.88800001;fill:#000900;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect17312"
        width="499.91925"
-       height="563.57141"
+       height="627.85712"
        x="195.71428"
-       y="-93.066368"
+       y="-157.35208"
        rx="26.699785"
-       ry="84.249336" />
+       ry="93.859528" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -779,7 +779,7 @@
            height="56.42857"
            x="244.28572"
            y="352.36221" /></flowRegion><flowPara
-         id="flowPara18270"></flowPara></flowRoot>    <text
+         id="flowPara18270" /></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)"
        x="346.77817"
@@ -860,5 +860,86 @@
        inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/leave_button_on.png"
        inkscape:export-xdpi="99.419998"
        inkscape:export-ydpi="99.419998" />
+    <text
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_off.png"
+       sodipodi:linespacing="125%"
+       id="text3441"
+       y="-99.210205"
+       x="346.77817"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)"
+       xml:space="preserve"><tspan
+         style="stroke:#009c4c;stroke-opacity:1"
+         y="-99.210205"
+         x="346.77817"
+         id="tspan3443"
+         sodipodi:role="line">SKIP</tspan></text>
+    <rect
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_off.png"
+       ry="11.1585"
+       rx="11.1585"
+       y="-135.49493"
+       x="257.85715"
+       height="44.999992"
+       width="179.28571"
+       id="rect3445"
+       style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18099)" />
+    <text
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       sodipodi:linespacing="125%"
+       id="text3447"
+       y="71.504082"
+       x="347.49246"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+       xml:space="preserve"
+       transform="matrix(0.97174085,0,0,1.0026042,201.03219,-170.14609)"><tspan
+         y="71.504082"
+         x="347.49246"
+         id="tspan3449"
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle">SKIP</tspan></text>
+    <rect
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
+       id="rect3451"
+       width="179.28575"
+       height="45"
+       x="449.7861"
+       y="-135.49493"
+       rx="11.1585"
+       ry="11.1585" />
+    <text
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="538.70715"
+       y="-99.210205"
+       id="text3453"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3455"
+         x="538.70715"
+         y="-99.210205">SKIP</tspan></text>
+    <rect
+       inkscape:export-ydpi="99.419998"
+       inkscape:export-xdpi="99.419998"
+       inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3457"
+       width="179.28571"
+       height="44.999992"
+       x="449.78613"
+       y="-135.49493"
+       rx="11.1585"
+       ry="11.1585" />
   </g>
 </svg>
