@@ -1025,6 +1025,7 @@ body {
     margin: 0px;
 	box-shadow: -3px 0px 2px #222;
 	font-weight: bold;
+	font-size: larger;
 	color: #559ad7;
 }
 .stages .stage:hover {
@@ -1073,15 +1074,16 @@ body {
 	margin: 2px;
 }
 
+.player-table {
+	width: 90%;
+}
 .player-table tr {
 	font-size: larger;
-	background-color: #000000;
-	padding: 5px;
-	margin: 2px;
 }
 .player-table tr td {
-	padding: 3px;
-	margin-right: 10px;
+	background-color: #000000;
+	padding: 3px 10px 3px 5px;
+	margin-right: 2px 0px 2px 0px;
 	color: #fff;
 }
 

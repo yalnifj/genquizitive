@@ -323,6 +323,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		if (!$scope.genQuizRound) {
 			$scope.genQuizRound = {};
 			$scope.genQuizRound.person = {id: $scope.person.id, display: $scope.person.display};
+			if ($scope.person.portrait) {
+				//todo - store temporary copy of image for unauth access
+				$scope.genQuizRound.person.portrait = $scope.person.portrait;
+			}
 			$scope.genQuizRound.id = $scope.getTempId();
 			$scope.genQuizRound.creator = $scope.screenName;
 			$scope.genQuizRound.questionCount = $scope.questions;
@@ -367,7 +371,6 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						backendService.writeGenQuiz($scope.genQuizRound);
 						backendService.currentGenQuiz = $scope.genQuizRound;
 						$scope.step = step;
-						backendService.watchPlayers();
 						$scope.player = {name: $scope.genQuizRound.creator, score: 0};
 						backendService.addPlayer($scope.player);
 						backendService.currentPlayer = $scope.player;
@@ -375,6 +378,9 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						var generations = $scope.genQuizRound.difficulty + 1;
 						familysearchService.clearCache();
 						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
+						backendService.watchPlayers().then(function(players) {
+							$scope.players = players;
+						});
 					}
 				}
 			});
@@ -416,7 +422,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		link: function($scope, $element, $attrs) {
 			$element.children('div').on('blur keyup change', function() {
 				var text = $(this).text();
-				text = text.replace(/[^a-zA-Z0-9]/g, "");
+				text = text.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 				if (text != $scope.genQuizRound.id) {
 					$scope.genQuizRound.id = text;
 					$scope.checkGameId();
@@ -467,6 +473,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	};
 
 	$scope.checkGenQuiz = function() {
+		$scope.data.genQuizId = $scope.data.genQuizId.toLowerCase();
 		backendService.getGenQuizById($scope.data.genQuizId).then(function(genQuizRound) {
 			$scope.genQuizRound = genQuizRound;
 			backendService.currentGenQuiz = $scope.genQuizRound;
@@ -474,17 +481,30 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				$scope.player = {name: $scope.data.playerName, score: 0};
 				backendService.addPlayer($scope.player);
 				$cookies.putObject('player', $scope.player);
+				if ($scope.genQuizRound.currentQuestionId) {
+					$location.path('/live-question');
+				}
+				else {
+					//-- wait for game start signal
+					backendService.watchForQuestion($scope.genQuizRound.id);
+				}
+			} else {
+				backendService.getPlayers().then(function(players) {
+					if (!players[$scope.player.id]) {
+						backendService.addPlayer($scope.player);
+					}
+					if ($scope.genQuizRound.currentQuestionId) {
+						$location.path('/live-question');
+					}
+					else {
+						//-- wait for game start signal
+						backendService.watchForQuestion($scope.genQuizRound.id);
+					}
+				});
 			}
 			backendService.currentPlayer = $scope.player;
 			$cookies.put('genQuizId', $scope.genQuizRound.id);
-
-			if ($scope.genQuizRound.currentQuestionId) {
-				$location.path('/live-question');
-			}
-			else {
-				//-- wait for game start signal
-				backendService.watchForQuestion($scope.genQuizRound.id);
-			}
+			
 		}, function(error) {
 			$scope.idError = error;
 		});
@@ -496,14 +516,14 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				  Are you sure you want to leave?'}).then(function(result) {
 				if (result) {
 					backendService.removePlayer($scope.player.id);
-					$cookies.remove("player");
+					$cookies.remove("genQuizId");
 					$location.path('/');
 				}
 			}, function() {
 
 			});
 		} else {
-			$cookies.remove("player");
+			$cookies.remove("genQuizId");
 			$location.path("/");
 		}
 	};
@@ -678,6 +698,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.$emit('changeBackground', '/live/live_background.jpg');
 
 	$scope.genQuizRound = backendService.currentGenQuiz;
+	if (!$scope.genQuizRound) {
+		$location.path("/");
+		return;
+	}
 
 	$scope.maxQuestions = $scope.genQuizRound.questionCount;
 	$scope.currentQuestion = $scope.genQuizRound.currentQuestionNum;
@@ -711,6 +735,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.setupQuestion = function() {
 		$scope.question = QuestionService.getQuestionByName($scope.questionPersistence.name);
 		$scope.question.setupFromPersistence($scope.questionPersistence);
+		$scope.question.id = $scope.questionPersistence.id;
 	};
 
 	if (backendService.currentQuestion != null) {
@@ -826,6 +851,9 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		if (updated) {
 			backendService.updatePlayers($scope.players);
 		}
+		$scope.playerArray = Object.keys($scope.players).map(function(key) {
+			return angular.copy($scope.players[key]);
+		});
 	});
 })
 .controller('liveQuestionWait', function($scope, $location, $cookies, backendService, notificationService) {
@@ -840,20 +868,25 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.leaveGame = function() {
 		notificationService.showConfirmation({title: 'Leave GenQuiz?', message: 'Are you sure you want to leave this QenQuiz?'}).then(function() {
 			backendService.removePlayer(backendService.currentPlayer);
-			$cookies.remove("player");
+			$cookies.remove("genQuizId");
 			$location.path('/');
 		});
 	};
 
 	$scope.$on('playersChanged', function(event, players) {
 		$scope.players = players;
+		$scope.playerArray = Object.keys($scope.players).map(function(key) {
+			return $scope.players[key];
+		});
 	});
 
 	$scope.$on('questionAdded', function(event, question) {
 		if (question && question.name && 
 					(!backendService.currentQuestion || backendService.currentQuestion.id != question.id)) {
-			backendService.currentQuestion = question;
-			$location.path('/live-question');
+			if (!question.players || !question.players[backendService.currentPlayer.id]) {
+				backendService.currentQuestion = question;
+				$location.path('/live-question');
+			}
 		}
 	});
 

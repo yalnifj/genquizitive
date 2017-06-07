@@ -7,9 +7,9 @@
         </div>
         <div style="width: 300px; margin-left: auto; margin-right: auto;">
             <table class="player-table">
-                <tr ng-repeat="player in players | orderBy: '-score'">
+                <tr ng-repeat="player in playerArray | orderBy: '-score'">
                     <td>{{player.name}}</td>
-                    <td>{{player.score}}</td>
+                    <td>{{player.score | number:0}}</td>
                 </tr>
             </table>
         </div>
