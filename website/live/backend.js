@@ -125,42 +125,34 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
 	};
 
+	this.endGenQuiz = function(genQuiz) {
+		firebase.database().ref('/genquiz/' + genQuiz.id).remove();
+		firebase.database().ref('/questions/' + genQuiz.id).remove();
+		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
+	};
+
 	this.updateQuestionNum = function(genQuiz) {
 		firebase.database().ref('/genquiz/' + genQuiz.id+'/currentQuestionNum').set(genQuiz.currentQuestionNum);
 	};
 
 	this.watchPlayers = function() {
-		var deferred = $q.defer();
 		if (this.currentGenQuiz) {
 			this.currentPlayers = {};
 			var backendService = this;
 			if (!this.playerWatch) {
 				this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
-				this.playerWatch.once('value').then(function(snapshot) {
+				this.playerWatch.on('value').then(function(snapshot) {
 					if (snapshot) {
 						backendService.currentPlayers = snapshot.val();
-						deferred.resolve(backendService.currentPlayers);
-					}
-				});
-				this.playerWatch.on('child_added', function(data) {
-					backendService.currentPlayers[data.key] = data.val();
-					if (backendService.playerWatch) {
-						$rootScope.$apply(function() {
-							$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-						});
-					}
-				});
-				this.playerWatch.on('child_removed', function(data) {
-					delete(backendService.currentPlayers[data.key]);
-					if (backendService.playerWatch) {
-						$rootScope.$apply(function() {
-							$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-						});
+						if (backendService.playerWatch) {
+							$rootScope.$apply(function() {
+								$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
+							});
+						}
 					}
 				});
 			}
 		}
-		return deferred.promise;
 	};
 
 	this.getPlayers = function() {
