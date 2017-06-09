@@ -93,6 +93,36 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		return deferred.promise;
 	};
 
+	this.watchGenQuizById = function(genQuizId) {
+		var backendService = this;
+		if (!this.genquizWatch) {
+			this.genquizWatch = firebase.database().ref('/genquiz/' + genQuizId);
+			this.genquizWatch.on('value', function(snapshot) {
+				if (snapshot && snapshot.val()) {
+					backendService.currentGenQuiz = snapshot.val();
+					if (backendService.currentGenQuiz.ended) {
+						$rootScope.$apply(function() {
+						$rootScope.$broadcast('genQuizEnded', backendService.currentGenQuiz);
+						backendService.unWatchGenQuiz();
+					});
+					}
+				} else {
+					$rootScope.$apply(function() {
+						$rootScope.$broadcast('genQuizRemoved', backendService.currentGenQuiz);
+						backendService.unWatchGenQuiz();
+					});
+				}
+			});
+		}
+	};
+
+	this.unWatchGenQuiz = function() {
+		if (this.genquizWatch) {
+			this.genquizWatch.off();
+		}
+		this.genquizWatch = null;
+	};
+
 	this.getOwnerGenQuiz = function() {
 		var deferred = $q.defer();
 		var backendService = this;
@@ -126,7 +156,7 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.endGenQuiz = function(genQuiz) {
-		firebase.database().ref('/genquiz/' + genQuiz.id).remove();
+		firebase.database().ref('/genquiz/' + genQuiz.id + "/ended").set(true);
 		firebase.database().ref('/questions/' + genQuiz.id).remove();
 		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
 	};
@@ -141,7 +171,7 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 			var backendService = this;
 			if (!this.playerWatch) {
 				this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
-				this.playerWatch.on('value').then(function(snapshot) {
+				this.playerWatch.on('value', function(snapshot) {
 					if (snapshot) {
 						backendService.currentPlayers = snapshot.val();
 						if (backendService.playerWatch) {

@@ -55,7 +55,7 @@ if (!fscheck) {
 
 	</script>
 	<div class="center-div">
-	<h3>Connecting to FamilySearch...</h3>
+	<h3 style="color: white">Connecting to FamilySearch...</h3>
 	<br /><br /><br />
 	<img src="/images/loading1.png" />
 	</div>

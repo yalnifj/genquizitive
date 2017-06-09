@@ -1,8 +1,9 @@
 <div class="text-center" ng-controller="liveWait">
     <div class="tree text-center">
-        <div style="line-height: 70px; margin-bottom: 20px;">
+        <div style="line-height: 30px; margin-bottom: 20px;">
             <div style="display: inline-block; margin: 10px;">
-                <strong>Waiting for players to finish question...</strong>
+                <strong ng-if="!allScored">Waiting for players to finish question...</strong>
+                <strong ng-if="allScored">Continue to view the next question...</strong>
             </div>
         </div>
         <div style="width: 300px; margin-left: auto; margin-right: auto;">
