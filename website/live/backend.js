@@ -93,6 +93,36 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		return deferred.promise;
 	};
 
+	this.watchGenQuizById = function(genQuizId) {
+		var backendService = this;
+		if (!this.genquizWatch) {
+			this.genquizWatch = firebase.database().ref('/genquiz/' + genQuizId);
+			this.genquizWatch.on('value', function(snapshot) {
+				if (snapshot && snapshot.val()) {
+					backendService.currentGenQuiz = snapshot.val();
+					if (backendService.currentGenQuiz.ended) {
+						$rootScope.$apply(function() {
+						$rootScope.$broadcast('genQuizEnded', backendService.currentGenQuiz);
+						backendService.unWatchGenQuiz();
+					});
+					}
+				} else {
+					$rootScope.$apply(function() {
+						$rootScope.$broadcast('genQuizRemoved', backendService.currentGenQuiz);
+						backendService.unWatchGenQuiz();
+					});
+				}
+			});
+		}
+	};
+
+	this.unWatchGenQuiz = function() {
+		if (this.genquizWatch) {
+			this.genquizWatch.off();
+		}
+		this.genquizWatch = null;
+	};
+
 	this.getOwnerGenQuiz = function() {
 		var deferred = $q.defer();
 		var backendService = this;
@@ -125,42 +155,34 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
 	};
 
+	this.endGenQuiz = function(genQuiz) {
+		firebase.database().ref('/genquiz/' + genQuiz.id + "/ended").set(true);
+		firebase.database().ref('/questions/' + genQuiz.id).remove();
+		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
+	};
+
 	this.updateQuestionNum = function(genQuiz) {
 		firebase.database().ref('/genquiz/' + genQuiz.id+'/currentQuestionNum').set(genQuiz.currentQuestionNum);
 	};
 
 	this.watchPlayers = function() {
-		var deferred = $q.defer();
 		if (this.currentGenQuiz) {
 			this.currentPlayers = {};
 			var backendService = this;
 			if (!this.playerWatch) {
 				this.playerWatch = firebase.database().ref('/players/'+this.currentGenQuiz.id);
-				this.playerWatch.once('value').then(function(snapshot) {
+				this.playerWatch.on('value', function(snapshot) {
 					if (snapshot) {
 						backendService.currentPlayers = snapshot.val();
-						deferred.resolve(backendService.currentPlayers);
-					}
-				});
-				this.playerWatch.on('child_added', function(data) {
-					backendService.currentPlayers[data.key] = data.val();
-					if (backendService.playerWatch) {
-						$rootScope.$apply(function() {
-							$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-						});
-					}
-				});
-				this.playerWatch.on('child_removed', function(data) {
-					delete(backendService.currentPlayers[data.key]);
-					if (backendService.playerWatch) {
-						$rootScope.$apply(function() {
-							$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
-						});
+						if (backendService.playerWatch) {
+							$rootScope.$apply(function() {
+								$rootScope.$broadcast('playersChanged', backendService.currentPlayers);
+							});
+						}
 					}
 				});
 			}
 		}
-		return deferred.promise;
 	};
 
 	this.getPlayers = function() {

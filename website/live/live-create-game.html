@@ -65,12 +65,52 @@
 				<p>Select someone from your tree to be the central person for your GenQuiz Live! game
 				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</p>
 				<div ng-if="!portrait" class="ancestor-row">
+					<svg style="position: absolute;width: 580px;height: 250px;">
+  						<line x1="65" y1="30" x2="65" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="65" y1="110" x2="85" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="213" y1="30" x2="213" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="200" y1="110" x2="213" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="130" y1="110" x2="150" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="360" y1="30" x2="360" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="360" y1="110" x2="380" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="508" y1="30" x2="508" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="495" y1="110" x2="508" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="425" y1="110" x2="445" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="138" y1="110" x2="138" y2="190" style="stroke:#157376;stroke-width:3"></line><line x1="434" y1="110" x2="434" y2="190" style="stroke:#157376;stroke-width:3"></line>
+  						
+  						<line x1="138" y1="190" x2="250" y2="190" style="stroke:#157376;stroke-width:3"></line><line x1="350" y1="190" x2="434" y2="190" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="297" y1="190" x2="297" y2="250" style="stroke:#157376;stroke-width:3"></line>
+					</svg>
 					<div avatar-badge ng-repeat="n in [8,9,10,11,12,13,14,15]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
 						label="tree[n].display.name" ng-click="selectPerson(tree[n])" ng-class-even="'spacer'"></div>
 				</div>
 				<div class="ancestor-row">
-					<div avatar-badge ng-repeat="n in [4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable {{n==5?'large-spacer':''}}" src="tree[n].portrait" 
-						label="tree[n].display.name" ng-click="selectPerson(tree[n])"></div>
+					<svg ng-if="portrait" style="position: absolute;width: 380px;height: 200px;">
+						<line x1="60" y1="30" x2="110" y2="30" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="85" y1="30" x2="85" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="85" y1="110" x2="130" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+						<line x1="270" y1="30" x2="330" y2="30" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="300" y1="30" x2="300" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="250" y1="110" x2="300" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  
+  						<line x1="170" y1="110" x2="210" y2="110" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="197" y1="110" x2="197" y2="180" style="stroke:#157376;stroke-width:3"></line>
+					</svg>
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[4].portrait" 
+						label="tree[4].display.name" ng-click="selectPerson(tree[4])"></div>
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable large-spacer" src="tree[5].portrait" 
+						label="tree[5].display.name" ng-click="selectPerson(tree[5])"></div>
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[6].portrait" 
+						label="tree[n].display.name" ng-click="selectPerson(tree[6])"></div>
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" style="margin-right: 20px;" src="tree[7].portrait" 
+						label="tree[7].display.name" ng-click="selectPerson(tree[7])"></div>
 				</div>
 				<div class="ancestor-row">
 					<div avatar-badge ng-repeat="n in [2,3]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n].portrait" 
@@ -99,7 +139,9 @@
 						<button type="button" ng-click="questions=10" class="btn" ng-class="{'btn-primary': questions==10, 'btn-default': questions!=10}">10</button>
 						<button type="button" ng-click="questions=15" class="btn" ng-class="{'btn-primary': questions==15, 'btn-default': questions!=15}">15</button>
 						<button type="button" ng-click="questions=20" class="btn" ng-class="{'btn-primary': questions==20, 'btn-default': questions!=20}">20</button>
+						<!--
 						<button type="button" ng-click="questions=25" class="btn" ng-class="{'btn-primary': questions==25, 'btn-default': questions!=25}">25</button>
+						-->
 					</div>
 				</div>
 				<div class="form-group">

@@ -1,4 +1,10 @@
 <?php
+//print($_SERVER['HTTP_HOST']);
+if ($_SERVER['HTTP_HOST']=='live.genquizitive.com') {
+	header("Location: https://www.genquizitive.com/live".$_SERVER['REQUEST_URI']);
+	exit();
+}
+
 session_start();
 ?>
 <html>

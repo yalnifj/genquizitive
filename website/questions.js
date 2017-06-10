@@ -91,7 +91,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				}
 				this.timeOffset = 0;
 				
-				var length = 1 + difficulty;
+				var length = difficulty;
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					var lastRel = path[path.length-1];
 					if (!lastRel || !lastRel.person1 || !lastRel.person2) {
@@ -162,8 +162,15 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					questionText: questionText,
 					answers: []
 				};
+				if (this.person.portrait) {
+					q.person.portrait = this.person.portrait;
+				}
 				for(var p=0; p<this.randomPeople.length; p++) {
-					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
+					var p2 = {id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}};
+					if (this.randomPeople[p].portrait) {
+						p2.portrait = this.randomPeople[p].portrait;
+					}
+					q.answers.push(p2);
 				}
 				return q;
 			}
@@ -300,8 +307,15 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					questionText: this.questionText,
 					answers: []
 				};
+				if (this.person.portrait) {
+					q.person.portrait = this.person.portrait;
+				}
 				for(var p=0; p<this.randomPeople.length; p++) {
-					q.answers.push({id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}});
+					var p2 = {id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}};
+					if (this.randomPeople[p].portrait) {
+						p2.portrait = this.randomPeople[p].portrait;
+					}
+					q.answers.push(p2);
 				}
 				return q;
 			}
@@ -378,8 +392,15 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					questionText: this.questionText,
 					people: []
 				};
+				if (this.person.portrait) {
+					q.person.portrait = this.person.portrait;
+				}
 				for(var p=0; p<this.people.length; p++) {
-					q.people.push({id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}});
+					var p2={id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}};
+					if (this.people[p].portrait) {
+						p2.portrait = this.people[p].portrait;
+					}
+					q.people.push(p2);
 				}
 				return q;
 			}
@@ -439,9 +460,13 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: this.person,
+					person: {id: this.person.id, display: this.person.display, living: this.person.living, 
+						gender: this.person.gender, facts: this.person.facts },
 					questionText: this.questionText
 				};
+				if (this.person.portrait) {
+					q.person.portrait = this.person.portrait;
+				}
 				return q;
 			}
 		},
@@ -560,9 +585,12 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					personId: this.person.id,
+					person: {id: this.person.id, display: this.person.display},
 					questionText: this.questionText
 				};
+				if (this.person.portrait) {
+					q.person.portrait = this.person.portrait;
+				}
 				var pPlaces = [];
 				for(var p=0; p<this.places.length; p++) {
 					var place = this.places[p];
@@ -714,6 +742,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					var place = this.places[p];
 					var pp = {};
 					pp.person = {id: place.person.id, display: place.person.display};
+					if (place.person.portrait) {
+						pp.person.portrait = place.person.portrait;
+					}
 					pp.pos = place.pos;
 					pp.latitude = place.latitude;
 					pp.longitude = place.longitude;
@@ -952,7 +983,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					}
 				});
 			}
-			$scope.loadQuestion();
+			if ($scope.question) {
+				$scope.loadQuestion();
+			}
 			
 			$scope.$watch('question', function (newval, oldval) {
 				if (newval && newval!=oldval) {

@@ -276,6 +276,7 @@ body {
 	width: 100%;
 	font-size: 8pt;
 	padding: 1px;
+	border-radius: 20% / 30%;
 }
 
 .avatar-menu {
@@ -1011,6 +1012,7 @@ body {
 
 .ancestor-row {
 	min-height: 80px;
+	position: relative;
 }
 
 .stages {
@@ -1079,11 +1081,11 @@ body {
 }
 .player-table tr {
 	font-size: larger;
+	border: solid #337ab7 1px;
 }
 .player-table tr td {
 	background-color: #000000;
-	padding: 3px 10px 3px 5px;
-	margin-right: 2px 0px 2px 0px;
+	padding: 10px;
 	color: #fff;
 }
 
@@ -1136,8 +1138,8 @@ div.buttonspacer {
 	 font-size: xx-large;
 }
 .portrait .avatar-small {
-	margin-right: 5px;
-	margin-left: 5px;
+	margin-right: 8px;
+	margin-left: 8px;
 }
 .portrait .avatar-small .avatar-label {
 	top: 47px;
@@ -1147,7 +1149,7 @@ div.buttonspacer {
 	left: -8px;
 }
 .portrait .avatar.large-spacer {
-	margin-right: 100px;
+	margin-right: 50px;
 }
 .inline-avatar {
 	display: inline-block;

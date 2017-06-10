@@ -674,11 +674,12 @@ angular.module('genquiz.familytree', [])
 			console.log('set access token from cookie');
 			this.fs.setAccessToken(token);
 		} else {
+			var familysearchService = this;
 			$.get('/fs-proxy.php?getToken=true', function(data){
 				if (data) {
 					token = data.trim();
 					console.log('set access token from session '+token);
-					this.fs.setAccessToken(token);
+					familysearchService.fs.setAccessToken(token);
 				}
 			});
 		}

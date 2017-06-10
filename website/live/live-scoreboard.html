@@ -1,9 +1,22 @@
 <div class="text-center" ng-controller="liveScoreboard">
-	<div class="title-holder" style="margin-bottom:20px;">
-		<img src="/images/create_game.png" style="height: 55px;" />
-		<div class="smaller-logo" style="left: -80px; top: -80px;">
-			<img id="home_arrows" src="/images/home_arrow1.png" />
-			<img id="home_sign" src="/images/home_sign.png" />
+    <div class="tree text-center">
+        <div style="line-height: 70px; margin-bottom: 20px;">
+            <div style="display: inline-block; margin: 10px;">
+                <strong>Final Score!</strong>
+            </div>
+        </div>
+        <div style="width: 300px; margin-left: auto; margin-right: auto;">
+            <table class="player-table">
+                <tr ng-repeat="player in playerArray | orderBy: '-score'">
+                    <td>{{player.name}}</td>
+                    <td>{{player.score | number:0}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="clickable neonbutton" ng-click="leaveGame()">
+			<img src="/live/continue_button_off.png" neon-image="" delay="500" />
 		</div>
 	</div>
 </div>
