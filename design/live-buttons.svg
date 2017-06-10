@@ -641,8 +641,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
+<<<<<<< HEAD
      inkscape:cx="622.39584"
      inkscape:cy="1218.9569"
+=======
+     inkscape:cx="532.60579"
+     inkscape:cy="1055.2067"
+>>>>>>> 6559f45c705c89a06e3a483e2f6cdeddf0675625
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1417,9 +1422,15 @@
        id="text3441"
        y="-99.210205"
        x="346.77817"
+<<<<<<< HEAD
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)"
        xml:space="preserve"><tspan
          style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1"
+=======
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#9c3f00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103);"
+       xml:space="preserve"><tspan
+         style="stroke:#9c3f00;stroke-opacity:1;"
+>>>>>>> 6559f45c705c89a06e3a483e2f6cdeddf0675625
          y="-99.210205"
          x="346.77817"
          id="tspan3443"
@@ -1435,6 +1446,7 @@
        height="44.999992"
        width="179.28571"
        id="rect3445"
+       style="opacity:0.8;fill:none;fill-opacity:0;stroke:#9c3f00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18099)" />
     <text
        inkscape:export-ydpi="99.419998"
        inkscape:export-xdpi="99.419998"
@@ -1442,17 +1454,23 @@
        id="text3447"
        y="71.504082"
        x="347.49246"
+<<<<<<< HEAD
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+=======
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#ff6800;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382);"
+>>>>>>> 6559f45c705c89a06e3a483e2f6cdeddf0675625
        xml:space="preserve"
        transform="matrix(0.97174085,0,0,1.0026042,201.03219,-170.14609)"><tspan
          y="71.504082"
          x="347.49246"
          id="tspan3449"
          sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke:#ff6800;stroke-opacity:1;">SKIP</tspan></text>
     <rect
        inkscape:export-ydpi="99.419998"
        inkscape:export-xdpi="99.419998"
        inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       style="opacity:0.75;fill:none;fill-opacity:1;stroke:#ff5600;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
        id="rect3451"
        width="179.28575"
        height="45"
@@ -1465,7 +1483,11 @@
        inkscape:export-xdpi="99.419998"
        inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
        xml:space="preserve"
+<<<<<<< HEAD
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+=======
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#ff4500;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
+>>>>>>> 6559f45c705c89a06e3a483e2f6cdeddf0675625
        x="538.70715"
        y="-99.210205"
        id="text3453"><tspan
@@ -1478,6 +1500,7 @@
        inkscape:export-ydpi="99.419998"
        inkscape:export-xdpi="99.419998"
        inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/skip_button_on.png"
+       style="opacity:1;fill:none;fill-opacity:0;stroke:#ff4500;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect3457"
        width="179.28571"
        height="44.999992"
