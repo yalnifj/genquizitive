@@ -153,7 +153,12 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			label: '='
 		},
 		template: '<img ng-src="{{src}}" ng-if="src" /><div class="avatar-label" ng-if="label">{{label}}</div>',
-		replace: false
+		replace: false,
+		link: function($scope) {
+			if (!$scope.src) {
+				$scope.src = '/images/unknown_sil.png';
+			}
+		}
 	}
 }])
 .directive('timelineFact', ['languageService',function(languageService) {

@@ -1015,6 +1015,17 @@ body {
 	position: relative;
 }
 
+.arrow-div {
+	display: inline-block;
+	width: 30px;
+	margin-left: 56px;
+	margin-right: 56px;
+}
+
+.arrow-div img {
+	cursor: pointer;
+}
+
 .stages {
 	background-color: rgba(0, 60, 60, 0.5);
 	padding-top: 5px;
@@ -1107,10 +1118,28 @@ div.buttonspacer {
 }
 .live-title .logo {
 	height: 90px;
+	margin-right: 20px;
 }
 .live-title .title-img {
-	height: 50px;
+	height: 60px;
 }
+.score-badge {
+	background-image: url('/images/chrome_badge.png');
+	background-size: contain;
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	color: white;
+	font-size: 12px;
+}
+.score-name {
+	display: inline-block;
+	background-color: rgba(0, 160, 160, 0.5);
+	color: white;
+	font-size: 12px;
+	width: 300px;
+}
+
 .portrait {
 	/*border: solid red 3px;*/
 	background-position: center;
@@ -1172,7 +1201,14 @@ div.buttonspacer {
 .portrait .stages .stage:hover .stage-label, .portrait .stages .stage.active .stage-label {
 	display: inherit;
 }
-
+.portrait .score-badge {
+	width: 100px;
+	height: 100px;
+	font-size: larger;
+}
+.portrait .score-name {
+	font-size: larger;
+}
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;

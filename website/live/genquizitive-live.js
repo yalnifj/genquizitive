@@ -174,14 +174,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		if (fsUser) {
 			//TODO store screen name in firebase user
 			$scope.screenName = languageService.shortenName(fsUser.display.name);
-			familysearchService.getAncestorTree(familysearchService.fsUser.id, 3, false).then(function(tree) {
+			familysearchService.getAncestorTree(familysearchService.fsUser.id, 4, false).then(function(tree) {
 				$scope.mode = 'tree';
 				if (tree.persons) {
 					angular.forEach(tree.persons, function(person) {
 						$scope.tree[person.display.ascendancyNumber] = person;
 						familysearchService.getPersonPortrait(person.id).then(function(path) {
 							person.portrait = path.src;
-						},function(error){});
+						},function(error){
+							if (person.gender.type=="http://gedcomx.org/Female") {
+								person.portrait = '/images/female_sil.png';
+							} else if (person.gender.type=="http://gedcomx.org/Male") {
+								person.portrait = '/images/male_sil.png';
+							} else {
+								person.portrait = '/images/unknown_sil.png';
+							}
+						});
 					});
 				}
 			}, function() {
@@ -214,6 +222,18 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	}, function() {
 		$location.path("/");
 	});
+
+	$scope.showArrow = function(num) {
+		var par = num * 2;
+		if ($scope.activeArrow==num) {
+			return false;
+		}
+		return ($scope.tree[par] || $scope.tree[par+1] || $scope.tree[par+2] || $scope.tree[par+3]);
+	};
+
+	$scope.arrowClicked = function(num) {
+		$scope.activeArrow = num;
+	};
 	
 	$scope.searchForPerson = function() {
 		$scope.search.error = null;
@@ -982,7 +1002,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	});
 })
 .controller('liveScoreboard', function($scope, $location, backendService) {
-	$scope.$emit('changeBackground', '/live/live_background.jpg');
+	$scope.$emit('changeBackground', '/images/score_background.jpg');
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
 	$scope.leaveGame = function() {
