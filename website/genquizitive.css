@@ -1010,6 +1010,10 @@ body {
 	transition: 0.3s padding;
 }
 
+.tree-row-holder {
+	height: 225px;
+}
+
 .ancestor-row {
 	min-height: 80px;
 	position: relative;
@@ -1062,6 +1066,13 @@ body {
 }
 .tree a {
 	color: #559ad7;
+}
+.tree .form-group {
+	margin-right: 20px; 
+	margin-bottom: 10px;
+}
+.tree .form-group .form-control {
+	width: 120px;
 }
 .editable-id {
 	font-family: 'Courier New, Courier, monospace';
@@ -1209,6 +1220,28 @@ div.buttonspacer {
 .portrait .score-name {
 	font-size: larger;
 }
+
+.portrait .tree-inner {
+	position: relative;
+	width: 450px;
+}
+.portrait .arrow-div {
+	margin-left: 105px;
+    margin-right: 75px;
+}
+.portrait .tree-row-holder {
+	height: 130px;
+}
+.portrait .tree .form-group .form-control {
+	width: 100%;
+	margin-bottom: 2px;
+	font-size: x-large;
+	padding: 20px;
+}
+.portrait .btn {
+	font-size: x-large;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;

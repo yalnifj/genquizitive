@@ -174,30 +174,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		if (fsUser) {
 			//TODO store screen name in firebase user
 			$scope.screenName = languageService.shortenName(fsUser.display.name);
-			familysearchService.getAncestorTree(familysearchService.fsUser.id, 4, false).then(function(tree) {
-				$scope.mode = 'tree';
-				if (tree.persons) {
-					angular.forEach(tree.persons, function(person) {
-						$scope.tree[person.display.ascendancyNumber] = person;
-						familysearchService.getPersonPortrait(person.id).then(function(path) {
-							person.portrait = path.src;
-						},function(error){
-							if (person.gender.type=="http://gedcomx.org/Female") {
-								person.portrait = '/images/female_sil.png';
-							} else if (person.gender.type=="http://gedcomx.org/Male") {
-								person.portrait = '/images/male_sil.png';
-							} else {
-								person.portrait = '/images/unknown_sil.png';
-							}
-						});
-					});
-				}
-			}, function() {
-				var notif = notificationService.showNotification({title: 'Family Tree Error', 
-					message: 'Unable to retrieve data from your family tree.  Please go back and try again.', 
-					closable: true});
-				notif.show();
-			});
+			$scope.getTree(familysearchService.fsUser.id, 4, 1);
 
 			backendService.authenticate().then(function(firebaseUser) {
 				$log.error("succesfully authenticated with firebase");
@@ -225,14 +202,76 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.showArrow = function(num) {
 		var par = num * 2;
-		if ($scope.activeArrow==num) {
-			return false;
+		for(var g=0; g<$scope.arrowLevels.length; g++) {
+			if ($scope.arrowLevels[g]==par) {
+				return false;
+			}
 		}
 		return ($scope.tree[par] || $scope.tree[par+1] || $scope.tree[par+2] || $scope.tree[par+3]);
 	};
 
-	$scope.arrowClicked = function(num) {
+	$scope.arrowLevels = [];
+	$scope.arrowClicked = function(num, index) {
 		$scope.activeArrow = num;
+		var par = num * 2;
+		var found = false;
+		for(var i=0; i<8; i++) {
+			var gpar = i+(par*2);
+			if ($scope.tree[gpar]) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			for(var i=0; i<2; i++) {
+				if ($scope.tree[num+i]) {
+					$scope.getTree($scope.tree[num+i].id, 4, $scope.tree[num+i].display.ascendancyNumber);
+				}
+			}
+		}
+		var newLevels = [];
+		var gen = Math.floor(Math.log2(par));
+		gen = Math.pow(2, gen);
+		for(var g=0; g<$scope.arrowLevels.length; g++) {
+			if ($scope.arrowLevels[g]<gen) {
+				newLevels.push($scope.arrowLevels[g]);
+			}
+		}
+		$scope.arrowLevels = newLevels;
+		$scope.arrowLevels.unshift(par);
+	};
+
+	$scope.getTree = function(personId, generations, baseNum) {
+		familysearchService.getAncestorTree(personId, generations, false).then(function(tree) {
+			$scope.mode = 'tree';
+			if (tree.persons) {
+				angular.forEach(tree.persons, function(person) {
+					if (person.display.ascendancyNumber.indexOf("S") < 0) {
+						var gen = Math.floor(Math.log2(person.display.ascendancyNumber));
+						var tn = (baseNum * Math.pow(2,gen)) + (person.display.ascendancyNumber - Math.pow(2,gen));
+						if (!$scope.tree[tn] || !$scope.tree[tn].id) {
+							$scope.tree[tn] = person;
+							familysearchService.getPersonPortrait(person.id).then(function(path) {
+								person.portrait = path.src;
+							},function(error){
+								if (person.gender.type=="http://gedcomx.org/Female") {
+									person.portrait = '/images/female_sil.png';
+								} else if (person.gender.type=="http://gedcomx.org/Male") {
+									person.portrait = '/images/male_sil.png';
+								} else {
+									person.portrait = '/images/unknown_sil.png';
+								}
+							});
+						}
+					}
+				});
+			}
+		}, function() {
+			var notif = notificationService.showNotification({title: 'Family Tree Error', 
+				message: 'Unable to retrieve data from your family tree.  Please go back and try again.', 
+				closable: true});
+			notif.show();
+		});
 	};
 	
 	$scope.searchForPerson = function() {

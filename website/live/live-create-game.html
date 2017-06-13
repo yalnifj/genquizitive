@@ -21,18 +21,18 @@
 				</p>
 				<!-- provide search feature -->
 				<form class="form-inline">
-					<div class="form-group" style="margin-right: 20px; margin-bottom: 10px;">
-						<input type="text" ng-model="search.givenName" placeholder="First name" style="width: 120px;" class="form-control" />
-						<input type="text" ng-model="search.surname" placeholder="Last name" style="width: 120px;" class="form-control" />
+					<div class="form-group">
+						<input type="text" ng-model="search.givenName" placeholder="First name" class="form-control" />
+						<input type="text" ng-model="search.surname" placeholder="Last name" class="form-control" />
 					</div>
-					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
-						<input type="text" ng-model="search.birthDate" placeholder="Birth date" style="width: 120px;" class="form-control" />
-						<input type="text" ng-model="search.birthPlace" placeholder="Birth place" style="width: 120px;" class="form-control" />
+					<div class="form-group">
+						<input type="text" ng-model="search.birthDate" placeholder="Birth date" class="form-control" />
+						<input type="text" ng-model="search.birthPlace" placeholder="Birth place" class="form-control" />
 					</div>
-					<div class="form-group" style="margin-right: 20px; margin-bottom: 10px;">
-						<input type="text" ng-model="search.id" placeholder="ID" style="width: 90px;" class="form-control" />
+					<div class="form-group">
+						<input type="text" ng-model="search.id" placeholder="ID" class="form-control" />
 					</div>
-					<div class="form-group" style="margin-right: 10px; margin-bottom: 10px;">
+					<div class="form-group">
 						<div class="btn-group" role="group">
 							<button type="button" ng-click="search.gender=''" class="btn" ng-class="{'btn-primary': search.gender=='', 'btn-default': search.gender!=''}">Any</button>
 							<button type="button" ng-click="search.gender='male'" class="btn" ng-class="{'btn-primary': search.gender=='male', 'btn-default': search.gender!='male'}">Male</button>
@@ -62,20 +62,100 @@
 				</div>
 			</div>
 			<div ng-show="mode=='tree'" class="tree text-center">
-				<p>Select someone from your tree to be the central person for your GenQuiz Live! game
+				<p>Select someone from your tree
 				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</p>
-				<div ng-if="!portrait" class="text-left">
+				<div class="tree-inner">
+				<div class="tree-row-holder" ng-repeat="(key,level) in arrowLevels">
+					<div ng-if="!portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(level*2)" />
+						</div>
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(2+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(2+level*2)" />
+						</div>
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(4+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(4+level*2)" />
+						</div>
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(6+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(6+level*2)" />
+						</div>
+					</div>
+					<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(level, key+1)" src="/live/arrow.png" ng-if="showArrow(level)" />
+						</div>
+						<div class="arrow-div">
+							<img ng-click="arrowClicked(2+level, key+1)" src="/live/arrow.png" ng-if="showArrow(2+level)" />
+						</div>
+					</div>
+					<div class="ancestor-row" ng-if="!portrait">
+						<svg style="position: absolute;width: 580px;height: 250px; z-index:0;">
+							<line x1="65" y1="30" x2="65" y2="110" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="65" y1="110" x2="85" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="213" y1="30" x2="213" y2="110" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="200" y1="110" x2="213" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="130" y1="110" x2="150" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="360" y1="30" x2="360" y2="110" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="360" y1="110" x2="380" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="508" y1="30" x2="508" y2="110" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="495" y1="110" x2="508" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="425" y1="110" x2="445" y2="110" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="138" y1="110" x2="138" y2="160" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="434" y1="110" x2="434" y2="160" style="stroke:#157376;stroke-width:3"></line>
+							
+							<line x1="138" y1="160" x2="434" y2="160" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="297" y1="160" x2="297" y2="180" style="stroke:#157376;stroke-width:3"></line>
+						</svg>
+						<div avatar-badge ng-repeat="n in [0,1,2,3,4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n+level*2].portrait" 
+						label="tree[n+level*2].display.name" ng-click="selectPerson(tree[n+level*2])" ng-class-even="'spacer'"></div>
+					</div>
+					<div class="ancestor-row">
+						<svg ng-if="portrait" style="position: absolute;width: 380px;height: 160px; z-index:0;">
+							<line x1="60" y1="30" x2="110" y2="30" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="85" y1="30" x2="85" y2="90" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="85" y1="90" x2="300" y2="90" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="270" y1="30" x2="330" y2="30" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="300" y1="30" x2="300" y2="90" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="192" y1="90" x2="192" y2="120" style="stroke:#157376;stroke-width:3"></line>
+						</svg>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level].portrait" 
+							label="tree[level].display.name" ng-click="selectPerson(tree[level])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable large-spacer" src="tree[level+1].portrait" 
+							label="tree[level+1].display.name" ng-click="selectPerson(tree[level+1])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level+2].portrait" 
+							label="tree[level+2].display.name" ng-click="selectPerson(tree[level+2])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable spacer" src="tree[level+3].portrait" 
+							label="tree[level+3].display.name" ng-click="selectPerson(tree[level+3])"></div>
+					</div>
+				</div>
+				<div ng-if="!portrait" class="text-left" style="position: relative; z-index: 1;">
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(8)" src="/live/arrow.png" ng-if="showArrow(8)" />
+						<img ng-click="arrowClicked(8, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(8)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(10)" src="/live/arrow.png" ng-if="showArrow(10)" />
+						<img ng-click="arrowClicked(10, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(10)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(12)" src="/live/arrow.png" ng-if="showArrow(12)" />
+						<img ng-click="arrowClicked(12, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(12)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(14)" src="/live/arrow.png" ng-if="showArrow(14)" />
+						<img ng-click="arrowClicked(14, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(14)" />
+					</div>
+				</div>
+				<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;">
+					<div class="arrow-div">
+						<img ng-click="arrowClicked(4, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(4)" />
+					</div>
+					<div class="arrow-div">
+						<img ng-click="arrowClicked(6, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(6)" />
 					</div>
 				</div>
 				<div ng-if="!portrait" class="ancestor-row">
@@ -115,15 +195,15 @@
   						<line x1="250" y1="110" x2="300" y2="110" style="stroke:#157376;stroke-width:3"></line>
   
   						<line x1="170" y1="110" x2="210" y2="110" style="stroke:#157376;stroke-width:3"></line>
-  						<line x1="197" y1="110" x2="197" y2="180" style="stroke:#157376;stroke-width:3"></line>
+  						<line x1="192" y1="110" x2="192" y2="180" style="stroke:#157376;stroke-width:3"></line>
 					</svg>
 					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[4].portrait" 
 						label="tree[4].display.name" ng-click="selectPerson(tree[4])"></div>
 					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable large-spacer" src="tree[5].portrait" 
 						label="tree[5].display.name" ng-click="selectPerson(tree[5])"></div>
 					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[6].portrait" 
-						label="tree[n].display.name" ng-click="selectPerson(tree[6])"></div>
-					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" style="margin-right: 20px;" src="tree[7].portrait" 
+						label="tree[6].display.name" ng-click="selectPerson(tree[6])"></div>
+					<div avatar-badge class="avatar ancestor-avatar avatar-small clickable spacer" src="tree[7].portrait" 
 						label="tree[7].display.name" ng-click="selectPerson(tree[7])"></div>
 				</div>
 				<div class="ancestor-row">
@@ -135,6 +215,7 @@
 						ng-click="selectPerson(tree[1])"></div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 	<div ng-if="step==2">
