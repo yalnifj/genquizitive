@@ -5,6 +5,13 @@ body {
 	background-size: cover;
 	background-position: left center;
 }
+.footer {
+	margin-top: 100px;
+	color: white;
+}
+.footer a {
+	color: #eeeeff;
+}
 .center-logo {
 	position: relative;
 	left: 40%;
@@ -1159,6 +1166,13 @@ div.buttonspacer {
 	width: 66vw;
 	height: 66vw;
 }
+.portrait .live-title .logo {
+	height: 60px;
+	margin-right: 10px;
+}
+.portrait .live-title .title-img {
+	height: 50px;
+}
 .portrait .homebutton {
 	margin: 10px;
 }
@@ -1167,15 +1181,19 @@ div.buttonspacer {
 	/*background-color: rgba(50, 50, 50, 0.6);*/
 }
 .portrait .tree {
-	font-size: x-large;
+	font-size: larger;
+	padding: 20px 10px;
 	width: 90%;
-	min-width: 450px;
+}
+.portrait .wide-tree {
+	width: 95%;
 }
 .portrait div.buttonspacer {
 	width: 40px;
 }
 .portrait .editable-id {
-	 font-size: xx-large;
+	 font-size: x-large;
+	 width: 100%;
 }
 .portrait .avatar-small {
 	margin-right: 8px;
@@ -1223,10 +1241,10 @@ div.buttonspacer {
 
 .portrait .tree-inner {
 	position: relative;
-	width: 450px;
+	width: 380px;
 }
 .portrait .arrow-div {
-	margin-left: 105px;
+	margin-left: 75px;
     margin-right: 75px;
 }
 .portrait .tree-row-holder {
@@ -1240,6 +1258,9 @@ div.buttonspacer {
 }
 .portrait .btn {
 	font-size: x-large;
+}
+.portrait .neonbutton img {
+	max-width: 180px;
 }
 
 @media (max-width: 767px) {

@@ -822,6 +822,14 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			loadPortrait: function(person) {
 				familysearchService.getPersonPortrait(person.id).then(function(res){
 					person.portrait = res.src;
+				},function(error){
+					if (person.gender.type=="http://gedcomx.org/Female") {
+						person.portrait = '/images/female_sil.png';
+					} else if (person.gender.type=="http://gedcomx.org/Male") {
+						person.portrait = '/images/male_sil.png';
+					} else {
+						person.portrait = '/images/unknown_sil.png';
+					}
 				});
 			},
 			setupFromPersistence: function(roundQuestion) {
@@ -1332,10 +1340,17 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			$scope.question.people = QuestionService.shuffleArray($scope.question.people);
 			for(var p=0; p<$scope.question.people.length; p++) {
 				hash[$scope.question.people[p].id] = $scope.question.people[p];
+				if ($scope.question.people[p].gender.type=="http://gedcomx.org/Female") {
+					$scope.question.people[p].portrait = '/images/female_sil.png';
+				} else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Male") {
+					$scope.question.people[p].portrait = '/images/male_sil.png';
+				}
 				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
 					if (hash[res.id]) {
 						hash[res.id].portrait = res.src;
 					}
+				},function(error){
+					
 				});
 				var pos = {left: x, top: y};
 				if ($scope.question.people[p].display.inPlace) {
@@ -1581,6 +1596,14 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (!$scope.place.person.portrait) {
 					familysearchService.getPersonPortrait($scope.place.person.id).then(function(res) {
 						$scope.place.portrait = res.src;
+					},function(error){
+						if ($scope.place.person.gender.type=="http://gedcomx.org/Female") {
+							$scope.place.portrait = '/images/female_sil.png';
+						} else if ($scope.place.person.gender.type=="http://gedcomx.org/Male") {
+							$scope.place.portrait = '/images/male_sil.png';
+						} else {
+							$scope.place.portrait = '/images/unknown_sil.png';
+						}
 					});
 				}
 				
