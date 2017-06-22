@@ -203,7 +203,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.showArrow = function(num) {
 		var par = num * 2;
 		for(var g=0; g<$scope.arrowLevels.length; g++) {
-			if ($scope.arrowLevels[g]==par) {
+			if ($scope.arrowLevels[g].anum==par) {
 				return false;
 			}
 		}
@@ -233,12 +233,12 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		var gen = Math.floor(Math.log2(par));
 		gen = Math.pow(2, gen);
 		for(var g=0; g<$scope.arrowLevels.length; g++) {
-			if ($scope.arrowLevels[g]<gen) {
+			if ($scope.arrowLevels[g].anum<gen) {
 				newLevels.push($scope.arrowLevels[g]);
 			}
 		}
 		$scope.arrowLevels = newLevels;
-		$scope.arrowLevels.unshift(par);
+		$scope.arrowLevels.unshift({anum: par, line: index});
 	};
 
 	$scope.getTree = function(personId, generations, baseNum) {

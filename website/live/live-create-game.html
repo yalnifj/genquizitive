@@ -68,24 +68,24 @@
 				<div class="tree-row-holder" ng-repeat="(key,level) in arrowLevels">
 					<div ng-if="!portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(level*2)" />
+							<img ng-click="arrowClicked(level.anum*2, 1)" src="/live/arrow.png" ng-if="showArrow(level.anum*2)" />
 						</div>
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(2+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(2+level*2)" />
+							<img ng-click="arrowClicked(2+level.anum*2, 2)" src="/live/arrow.png" ng-if="showArrow(2+level.anum*2)" />
 						</div>
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(4+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(4+level*2)" />
+							<img ng-click="arrowClicked(4+level.anum*2, 3)" src="/live/arrow.png" ng-if="showArrow(4+level.anum*2)" />
 						</div>
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(6+level*2, key+1)" src="/live/arrow.png" ng-if="showArrow(6+level*2)" />
+							<img ng-click="arrowClicked(6+level.anum*2, 4)" src="/live/arrow.png" ng-if="showArrow(6+level.anum*2)" />
 						</div>
 					</div>
 					<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(level, key+1)" src="/live/arrow.png" ng-if="showArrow(level)" />
+							<img ng-click="arrowClicked(level.anum, 1)" src="/live/arrow.png" ng-if="showArrow(level.anum)" />
 						</div>
 						<div class="arrow-div">
-							<img ng-click="arrowClicked(2+level, key+1)" src="/live/arrow.png" ng-if="showArrow(2+level)" />
+							<img ng-click="arrowClicked(2+level.anum, 2)" src="/live/arrow.png" ng-if="showArrow(2+level.anum)" />
 						</div>
 					</div>
 					<div class="ancestor-row" ng-if="!portrait">
@@ -111,9 +111,21 @@
 							
 							<line x1="138" y1="160" x2="434" y2="160" style="stroke:#157376;stroke-width:3"></line>
 							<line x1="297" y1="160" x2="297" y2="180" style="stroke:#157376;stroke-width:3"></line>
+
+							<line ng-if="level.line==1" x1="65" y1="180" x2="65" y2="250" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==1" x1="65" y1="180" x2="297" y2="180" style="stroke:#157376;stroke-width:3"></line>
+
+							<line ng-if="level.line==2" x1="213" y1="180" x2="213" y2="250" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==2" x1="213" y1="180" x2="297" y2="180" style="stroke:#157376;stroke-width:3"></line>
+
+							<line ng-if="level.line==3" x1="360" y1="180" x2="360" y2="250" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==3" x1="297" y1="180" x2="360" y2="180" style="stroke:#157376;stroke-width:3"></line>
+
+							<line ng-if="level.line==4" x1="508" y1="180" x2="508" y2="250" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==4" x1="297" y1="180" x2="508" y2="180" style="stroke:#157376;stroke-width:3"></line>
 						</svg>
-						<div avatar-badge ng-repeat="n in [0,1,2,3,4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n+level*2].portrait" 
-						label="tree[n+level*2].display.name" ng-click="selectPerson(tree[n+level*2])" ng-class-even="'spacer'"></div>
+						<div avatar-badge ng-repeat="n in [0,1,2,3,4,5,6,7]" class="avatar ancestor-avatar avatar-small clickable" src="tree[n+level.anum*2].portrait" 
+						label="tree[n+level.anum*2].display.name" ng-click="selectPerson(tree[n+level.anum*2])" ng-class-even="'spacer'"></div>
 					</div>
 					<div class="ancestor-row">
 						<svg ng-if="portrait" style="position: absolute;width: 380px;height: 160px; z-index:0;">
@@ -124,38 +136,39 @@
 							<line x1="270" y1="30" x2="330" y2="30" style="stroke:#157376;stroke-width:3"></line>
 							<line x1="295" y1="30" x2="295" y2="90" style="stroke:#157376;stroke-width:3"></line>
 	
-							<line x1="187" y1="90" x2="187" y2="120" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==1" x1="80" y1="90" x2="80" y2="170" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==2" x1="295" y1="90" x2="295" y2="170" style="stroke:#157376;stroke-width:3"></line>
 						</svg>
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level].portrait" 
-							label="tree[level].display.name" ng-click="selectPerson(tree[level])"></div>
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable large-spacer" src="tree[level+1].portrait" 
-							label="tree[level+1].display.name" ng-click="selectPerson(tree[level+1])"></div>
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level+2].portrait" 
-							label="tree[level+2].display.name" ng-click="selectPerson(tree[level+2])"></div>
-						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable spacer" src="tree[level+3].portrait" 
-							label="tree[level+3].display.name" ng-click="selectPerson(tree[level+3])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level.anum].portrait" 
+							label="tree[level.anum].display.name" ng-click="selectPerson(tree[level.anum])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable large-spacer" src="tree[level.anum+1].portrait" 
+							label="tree[level.anum+1].display.name" ng-click="selectPerson(tree[level.anum+1])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level.anum+2].portrait" 
+							label="tree[level.anum+2].display.name" ng-click="selectPerson(tree[level.anum+2])"></div>
+						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable spacer" src="tree[level.anum+3].portrait" 
+							label="tree[level.anum+3].display.name" ng-click="selectPerson(tree[level.anum+3])"></div>
 					</div>
 				</div>
 				<div ng-if="!portrait" class="text-left" style="position: relative; z-index: 1;">
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(8, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(8)" />
+						<img ng-click="arrowClicked(8, 1)" src="/live/arrow.png" ng-if="showArrow(8)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(10, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(10)" />
+						<img ng-click="arrowClicked(10, 2)" src="/live/arrow.png" ng-if="showArrow(10)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(12, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(12)" />
+						<img ng-click="arrowClicked(12, 3)" src="/live/arrow.png" ng-if="showArrow(12)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(14, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(14)" />
+						<img ng-click="arrowClicked(14, 4)" src="/live/arrow.png" ng-if="showArrow(14)" />
 					</div>
 				</div>
 				<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;">
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(4, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(4)" />
+						<img ng-click="arrowClicked(4, 1)" src="/live/arrow.png" ng-if="showArrow(4)" />
 					</div>
 					<div class="arrow-div">
-						<img ng-click="arrowClicked(6, arrowLevels.length-1)" src="/live/arrow.png" ng-if="showArrow(6)" />
+						<img ng-click="arrowClicked(6, 2)" src="/live/arrow.png" ng-if="showArrow(6)" />
 					</div>
 				</div>
 				<div ng-if="!portrait" class="ancestor-row">
