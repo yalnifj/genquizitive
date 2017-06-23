@@ -295,7 +295,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				$scope.search.error = "Please search by at least a first and last name.";
 				return;
 			}
-			familysearchService.search(1, 10, searchParams).then(function(searchResults) {
+			familysearchService.search(1, 10, searchParams, true).then(function(searchResults) {
 				if (searchResults && searchResults.entries) {
 					$scope.search.results = searchResults.entries;
 					angular.forEach($scope.search.results, function(entry) {
@@ -428,9 +428,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						var generations = $scope.genQuizRound.difficulty + 1;
 						familysearchService.clearCache();
 						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
-						backendService.watchPlayers().then(function(players) {
-							$scope.players = players;
-						});
+						backendService.watchPlayers();
 					}
 				}
 			});
@@ -632,7 +630,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		notif.show();
 	});
 })
-.controller('liveGenQuiz', function($scope, $location, $q, $interval, notificationService, backendService, languageService, QuestionService, $log) {
+.controller('liveGenQuiz', function($scope, $location, $q, $interval, $timeout, notificationService, backendService, 
+			languageService, QuestionService, $log) {
 	$scope.$emit('changeBackground', '/live/live_background.jpg');
 
 	$scope.genQuizRound = backendService.currentGenQuiz;

@@ -259,9 +259,16 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			min: '=',
 			max: '=',
 			value: '=',
+			missedQuestions: '=',
 			label: '@'
 		},
-		template: '<img src="/images/guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>',
+		template: '<img src="/images/guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>\
+		<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" class="light light1"></div>\
+			<div light="" color="red" on="missedQuestions > 0" class="light light2"></div>\
+			<div light="" color="red" on="missedQuestions > 1" class="light light3"></div>\
+			<div light="" color="red" on="missedQuestions > 2" class="light light4"></div>\
+			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" class="light light5"></div>\
+			',
 		link: function($scope, $element, $attr) {
 			if (!$scope.min) $scope.min = 0;
 			if (!$scope.max) $scope.max = 100;

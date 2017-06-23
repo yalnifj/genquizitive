@@ -815,7 +815,7 @@ angular.module('genquiz.familytree', [])
 		return deferred.promise;
 	};
 	
-	this.search = function(start, count, searchParams) {
+	this.search = function(start, count, searchParams, exact) {
 		var deferred = $q.defer();
 		var temp = this;
 		var url = '/platform/tree/search?start='+start+'&count='+count+'&q=';
@@ -823,8 +823,8 @@ angular.module('genquiz.familytree', [])
 		var i = 0;
 		angular.forEach(searchParams, function(value, key) {
 			if (i>0) q += '+';
-			q += key + ':' + value;
-			if (key!='gender') q += '~';
+			q += key + ':' + encodeURIComponent(value);
+			if (!exact || key!='gender') q += '~';
 			i++;
 		});
 		this.fs.get(url+q, { headers: { Accept: 'application/x-gedcomx-atom+json' } }, function(error, response) {

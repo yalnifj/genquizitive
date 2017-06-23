@@ -6,7 +6,7 @@ body {
 	background-position: left center;
 }
 .footer {
-	margin-top: 100px;
+	margin-top: 15%;
 	color: white;
 }
 .footer a {
@@ -407,6 +407,7 @@ body {
 }
 .timer {
 	position: relative;
+	display: inline-block;
 	width: 150px;
 	height: 87px;
 	background-image: url('/images/timer.png');
@@ -426,6 +427,7 @@ body {
 }
 .guage {
 	position: relative;
+	display: inline-block;
 	width: 98px;
 	height: 98px;
 	background-image: url('/images/guage_back.png');
@@ -541,6 +543,14 @@ body {
     transform:translateY(0%);
 }
 
+.question-details {
+	position: absolute; 
+	left: 10px; 
+	top: 10px; 
+	width: 200px; 
+	height: 250px;
+}
+
 .letter {
 	background: url('/images/button_yellow_circle.png');
     width: 72px;
@@ -571,6 +581,10 @@ body {
 .search-row .search-details {
 	display: inline-block;
 	width: 210px;
+}
+
+.search-row:hover .search-details a {
+	color: #113388;
 }
 
 .person-comp {
@@ -1253,14 +1267,120 @@ div.buttonspacer {
 .portrait .tree .form-group .form-control {
 	width: 100%;
 	margin-bottom: 2px;
-	font-size: x-large;
+	font-size: larger;
 	padding: 20px;
 }
 .portrait .btn {
-	font-size: x-large;
+	font-size: larger;
 }
 .portrait .neonbutton img {
 	max-width: 180px;
+}
+
+.portrait .question-details {
+	position: relative; 
+	left: 0px; 
+	top: 0px; 
+	width: 100%; 
+	height: auto;
+}
+
+.portrait .timer {
+	width: 100px;
+    height: 59px;
+	line-height: 64px;
+	font-size: 30px;
+	background-size: contain;
+	vertical-align: middle;
+	background-repeat: no-repeat;
+}
+
+.portrait .guage {
+	background-size: contain;
+	width: 80px;
+    height: 80px;
+	margin: 20px 20px 0px 20px;
+	vertical-align: middle;
+}
+.portrait .guage img:first-child {
+	width: 80px;
+}
+.portrait .guage .guage-label {
+	font-size: 7px;
+}
+.guage .light img {
+	width: 16px;
+}
+.guage .light1 {
+	position: absolute; top: 85px; left: -20px;
+}
+.guage .light2 {
+	position: absolute; top: 105px; left: 50px;
+}
+.guage .light3 {
+	position: absolute; top: 110px; left: 80px;
+}
+.guage .light4 {
+	position: absolute; top: 105px; left: 110px;
+}
+.guage .light5 {
+	position: absolute; top: 85px; left: 130px;
+}
+.portrait .guage .light img {
+	width: 10px;
+}
+.portrait .guage .light1 {
+	position: absolute; top: 55px; left: -12px;
+}
+.portrait .guage .light2 {
+	position: absolute; top: 75px; left: 7px;
+}
+.portrait .guage .light3 {
+	position: absolute; top: 85px; left: 33px;
+}
+.portrait .guage .light4 {
+	position: absolute; top: 75px; left: 60px;
+}
+.portrait .guage .light5 {
+	position: absolute; top: 55px; left: 80px;
+}
+.portrait .letter {
+	background-size: contain;
+    width: 60px;
+    height: 61px;
+    background-repeat: no-repeat;
+    font-size: 38px;
+    line-height: 66px;
+    padding-left: 0px;
+	vertical-align: middle;
+}
+.letter-skip-holder {
+	display: inline-block;
+	width: 150px;
+	text-align: center;
+}
+.letter-skip-holder .neonbutton img {
+	width: 150px;
+}
+.portrait .letter-skip-holder .neonbutton img {
+	width: 100px;
+}
+.portrait .question-holder {
+	margin-left: 0px;
+	vertical-align: middle;
+}
+.portrait .notification {
+	width: 95%;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.portrait .notification .title {
+	left: 42%;
+	font-size: x-large;
+}
+.portrait .notification .message {
+	width: 99%;
+	
 }
 
 @media (max-width: 767px) {
@@ -1271,9 +1391,6 @@ div.buttonspacer {
 	.small-logo {
 		left: 0%;
 		top: 0px;
-	}
-	.question-holder {
-		margin-left: 135px;
 	}
 	.carousel-indicators {
 		bottom: 10px; 

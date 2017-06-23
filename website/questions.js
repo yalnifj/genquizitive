@@ -63,7 +63,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.perons.id, display: this.person.display, portrait: this.person.portrait},
+					person: {id: this.peron.id, display: this.person.display, portrait: this.person.portrait},
 					questionText: this.questionText,
 					answers: []
 				};

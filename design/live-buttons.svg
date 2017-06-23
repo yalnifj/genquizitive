@@ -444,16 +444,17 @@
    borderopacity="1.0"
    inkscape:pageopacity="0.0"
    inkscape:pageshadow="2"
-   inkscape:zoom="5.0743654"
+   inkscape:zoom="1.4142136"
    showgrid="false"
-   inkscape:cx="254.80052"
-   inkscape:cy="617.6851"
+   inkscape:cx="462.79718"
+   inkscape:cy="380.62094"
    inkscape:window-width="1440"
    inkscape:window-height="804"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
    inkscape:current-layer="layer1" />
+
  HEAD
      inkscape:cx=&quot;622.39584&quot;
      inkscape:cy=&quot;1218.9569&quot;
@@ -1234,11 +1235,13 @@
    id="text3441"
    y="-99.210205"
    x="346.77817" />
+
  HEAD
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)&quot;
        xml:space=&quot;preserve&quot;&gt;<tspan
    style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1"
    id="tspan6292" />
+
 =======
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#9c3f00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103);&quot;
        xml:space=&quot;preserve&quot;&gt;<tspan
@@ -1266,6 +1269,61 @@
    inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/arrow.png"
    inkscape:export-xdpi="108.46474"
    inkscape:export-ydpi="108.46474" />
+<g
+   id="g4298"
+   transform="translate(0.70710678,63.63961)"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/waiting.png"
+   inkscape:export-xdpi="74.886734"
+   inkscape:export-ydpi="74.886734">
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#edc833;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter12845-6)"
+     x="-145.98418"
+     y="1772.1194"
+     id="text4300"
+     transform="matrix(0.2052821,0.00152602,0.00237342,0.16395389,266.78718,292.32037)"
+     inkscape:export-filename="C:\Users\Parents\Documents\GitHub\GenQuizitive\website\home_sign.png"
+     inkscape:export-xdpi="52.23"
+     inkscape:export-ydpi="52.23"
+     sodipodi:linespacing="0%"><tspan
+       style="font-size:297.44546509px;line-height:1.20000005;fill:#edc833;fill-opacity:1"
+       sodipodi:role="line"
+       id="tspan4302"
+       x="-145.98418"
+       y="1772.1194">Waiting...</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffd531;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter13034-3)"
+     x="-145.98418"
+     y="1772.1194"
+     id="text4304"
+     transform="matrix(0.20534312,0.00134718,0.00292605,0.16207305,269.87687,295.59776)"
+     inkscape:export-filename="C:\Users\Parents\Documents\GitHub\GenQuizitive\website\home_sign.png"
+     inkscape:export-xdpi="52.23"
+     inkscape:export-ydpi="52.23"
+     sodipodi:linespacing="0%"><tspan
+       style="font-size:297.44546509px;line-height:1.20000005;fill:#ffd531;fill-opacity:1"
+       sodipodi:role="line"
+       id="tspan4306"
+       x="-145.98418"
+       y="1772.1194">Waiting...</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Satisfy;-inkscape-font-specification:'Satisfy, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#d3bb5c;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter12631-6)"
+     x="-142.86046"
+     y="1775.0734"
+     id="text4308"
+     transform="matrix(0.20257336,8.608281e-4,0.00410934,0.15560803,265.58241,306.1561)"
+     inkscape:export-filename="C:\Users\Parents\Documents\GitHub\GenQuizitive\website\home_sign.png"
+     inkscape:export-xdpi="52.23"
+     inkscape:export-ydpi="52.23"
+     sodipodi:linespacing="0%"><tspan
+       style="font-size:297.44546509px;line-height:1.20000005;fill:#d3bb5c;fill-opacity:1"
+       sodipodi:role="line"
+       id="tspan4310"
+       x="-142.86046"
+       y="1775.0734">Waiting... </tspan></text>
+</g>
 </g>
 <rect
    inkscape:export-ydpi="99.419998"
@@ -1286,6 +1344,7 @@
    id="text3447"
    y="71.504082"
    x="347.49246" />
+
  HEAD
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)&quot;
 =======
