@@ -259,7 +259,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			min: '=',
 			max: '=',
 			value: '=',
-			missedQuestions: '=',
+			missedQuestions: '@',
 			label: '@'
 		},
 		template: '<img src="/images/guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>\
@@ -423,14 +423,24 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 .directive('zoomToFit', [function() {
 	return {
 		link: function($scope, $element, $attr) {
-			var h = $attr.zoomMaxHeight;
-			if (h && h>0) {
-				var wh = $(window).height();
-				if (h > wh) {
-					var zoom=wh/h;
-					$element.css('zoom', zoom);
+			function zoom() {
+				var zoom = 1.0;
+				var h = $attr.zoomMaxHeight;
+				if (h && h>0) {
+					var wh = $(window).height();
+					if (h > wh) {
+						zoom=wh/h;
+					}
 				}
+				var ww = $(window).width();
+				if ($element.width() * zoom > ww) {
+					zoom = ww / $element.width();
+				}
+				$element.css('zoom', zoom);
 			}
+
+			$element.on('resize', zoom);
+			zoom();
 		}
 	}
 }])

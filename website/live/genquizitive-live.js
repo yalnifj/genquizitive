@@ -645,7 +645,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.minute = 0;
 	$scope.second = 0;	
 	$scope.loadingTime = 0;
-	$scope.maxTime = 2 * 60 * 1000;
+	$scope.maxTime = 200 * 60 * 1000;
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 

@@ -63,7 +63,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.peron.id, display: this.person.display, portrait: this.person.portrait},
+					person: {id: this.person.id, display: this.person.display, portrait: this.person.portrait},
 					questionText: this.questionText,
 					answers: []
 				};
@@ -767,7 +767,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				question.deferred = $q.defer();				
 				question.isReady = false;
 				question.difficulty = difficulty;
-				question.startPerson = familysearchService.fsUser;
+				question.startPerson = startPerson;
 				this.timeOffset = 0;
 				
 				var length = 1 + difficulty;

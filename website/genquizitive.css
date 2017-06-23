@@ -386,6 +386,9 @@ body {
 	overflow-y: hidden;
 	line-height: 150%;
 }
+.portrait .question-block {
+	font-size: x-large;
+}
 .nobackground {
 	background: none;
 	box-shadow: none;
@@ -807,8 +810,12 @@ body {
 .timeline-block {
 	background-color: #cee2e3;
 	border-radius: 10px;
-	width: 400px;
+	width: 95%;
+	max-width: 400px;
     padding: 20px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*-----*/
@@ -1013,8 +1020,13 @@ body {
 .connect-tree-block {
 	background-color: #ebe9d5;
 	border-radius: 10px;
-	width: 400px;
+	max-width: 400px;
     padding: 20px;
+	position: relative; 
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
 }
 .connect-center {
 	min-height: 80px;
@@ -1283,6 +1295,7 @@ div.buttonspacer {
 	top: 0px; 
 	width: 100%; 
 	height: auto;
+	margin-top: 5px;
 }
 
 .portrait .timer {
@@ -1299,7 +1312,7 @@ div.buttonspacer {
 	background-size: contain;
 	width: 80px;
     height: 80px;
-	margin: 20px 20px 0px 20px;
+	margin: 0px 20px 20px 20px;
 	vertical-align: middle;
 }
 .portrait .guage img:first-child {
@@ -1356,8 +1369,9 @@ div.buttonspacer {
 }
 .letter-skip-holder {
 	display: inline-block;
-	width: 150px;
+	width: 100px;
 	text-align: center;
+	vertical-align: middle;
 }
 .letter-skip-holder .neonbutton img {
 	width: 150px;
@@ -1371,6 +1385,7 @@ div.buttonspacer {
 }
 .portrait .notification {
 	width: 95%;
+	height: 36%;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -1379,8 +1394,11 @@ div.buttonspacer {
 	font-size: x-large;
 }
 .portrait .notification .message {
-	width: 99%;
-	
+	width: 90%;
+	margin-top: 30px;
+	left: 30px;
+	font-size: large;
+	height: 120px;
 }
 
 @media (max-width: 767px) {
