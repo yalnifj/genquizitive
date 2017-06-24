@@ -420,13 +420,16 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		}
 	}
 }])
-.directive('zoomToFit', [function() {
+.directive('zoomToFit', ['$timeout', function($timeout) {
 	return {
 		link: function($scope, $element, $attr) {
 			function zoom() {
 				var zoom = 1.0;
 				var h = $attr.zoomMaxHeight;
 				if (h && h>0) {
+					if (window.portrait) {
+						h = h * 1.4;
+					}
 					var wh = $(window).height();
 					if (h > wh) {
 						zoom=wh/h;
@@ -439,7 +442,9 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 				$element.css('zoom', zoom);
 			}
 
-			$element.on('resize', zoom);
+			$element.on('resize', function() {
+				zoom();
+			});
 			zoom();
 		}
 	}

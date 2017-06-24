@@ -117,6 +117,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	}
 })
 .controller('livestart', function($scope, $location, familysearchService, backendService, $log) {
+	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.loading = false;
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser.display) {
