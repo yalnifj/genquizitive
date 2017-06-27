@@ -156,9 +156,23 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.endGenQuiz = function(genQuiz) {
-		firebase.database().ref('/genquiz/' + genQuiz.id + "/ended").set(true);
-		firebase.database().ref('/questions/' + genQuiz.id).remove();
-		firebase.database().ref('/ownerGames/'+this.ownerId).remove();
+		genQuiz.ended = true;
+		firebase.database().ref('/players/' + genQuiz.id).once('value').then(function(snapshot) {
+			if (snapshot && snapshot.val()) {
+				genQuiz.players = snapshot.val();
+			}
+
+			genQuiz.lastModified = (new Date()).getTime();
+
+			var newRef = firebase.database().ref('/endedGames').push();
+			newRef.set(genQuiz);
+
+			firebase.database().ref('/genquiz/' + genQuiz.id).remove();
+			firebase.database().ref('/questions/' + genQuiz.id).remove();
+			firebase.database().ref('/players/' + genQuiz.id).remove();
+			firebase.database().ref('/ownerGames/'+this.ownerId).remove();
+		});
+		
 	};
 
 	this.updateQuestionNum = function(genQuiz) {

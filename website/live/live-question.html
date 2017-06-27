@@ -1,23 +1,20 @@
 <div class="text-center" ng-controller="liveQuestion">
 	<div>
-		<div ng-if="question" ng-show="question.isReady" question="question"></div>
-		<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
-		
-		<div class="" style="position: absolute; left: 10px; top: 10px; width: 200px; height: 250px;">
-			<div class="timer" style="position: absolute; left: 25px; top: 5px;">
+		<div class="text-center question-details">
+			<div class="timer">
 				<span ng-show="minute >= 0">{{minute}}:<span ng-show="second<10">0</span>{{second}}</span>
 			</div>
-			<div class="guage" style="position: absolute; left: 50px; top: 110px;" guage=""
-				min="0" max="maxQuestions" value="currentQuestion" label="Questions"></div>
-			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 3" style="position: absolute; top: 185px; left: 40px;"></div>
-			<div light="" color="red" on="missedQuestions > 0" style="position: absolute; top: 205px; left: 60px;"></div>
-			<div light="" color="red" on="missedQuestions > 1" style="position: absolute; top: 210px; left: 90px;"></div>
-			<div light="" color="red" on="missedQuestions > 2" style="position: absolute; top: 205px; left: 120px;"></div>
-			<div ng-show="missedQuestions > 2" light="" color="red" on="missedQuestions > 4" style="position: absolute; top: 185px; left: 140px;"></div>
-			<div class="letter" style="position: absolute; top: 245px; left: 60px;" uib-tooltip="{{letterTooltip}}">{{question.letter}}</div>
-			<div class="clickable neonbutton" ng-click="skip()" style="position: absolute; left: 20px; top: 340px;">
-				<img src="/live/skip_button_off.png" neon-image="" delay="500" style="width: 150px;" />
+			<div class="guage" guage=""
+				min="0" max="maxQuestions" value="currentQuestion" label="Questions" missed-questions="missedQuestions"></div>
+			<div class="letter-skip-holder">
+				<div class="letter" uib-tooltip="{{letterTooltip}}">{{question.letter}}</div>
+				<div class="clickable neonbutton" ng-click="skip()">
+					<img src="/live/skip_button_off.png" neon-image="" delay="500" />
+				</div>
 			</div>
 		</div>
+		
+		<div ng-show="question.isReady" question="question"></div>
+		<div ng-show="!question.isReady" loading-sign="" class="loading-sign center-div" style="position: relative; top: 250px; width:250px; height: 170px;"></div>
 	</div>
 </div>

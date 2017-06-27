@@ -1304,7 +1304,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 .controller('treeController', function($scope, QuestionService, familysearchService) {
 	$scope.questionText = '';
 	
-	$scope.$watch('question', function() {
+	$scope.$watch('question.people', function() {
 		if ($scope.question.people && $scope.question.people.length > 0) {
 			$scope.people = [];
 			var x = 45;

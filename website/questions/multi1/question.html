@@ -1,32 +1,36 @@
 <div class="question-holder" ng-controller="multi2Controller" zoom-to-fit="" zoom-max-height="750">
-	<img style="position: absolute; top: 200px; left: 340px; width: 25px; height: 75%;" src="/images/pole1.png" />
+	<img style="position: absolute; top: 200px; left: 300px; width: 25px; height: 76%;" src="/images/pole1.png" />
 	<img style="position: absolute; top: 10px; left: -10px;" src="/questions/multi1/back.png" />
-	<img style="position: absolute; top: 580px; left: 125px; width: 220px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 540px; left: 360px; width: 210px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 685px; left: 125px; width: 220px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 645px; left: 360px; width: 210px; height: 10px;" src="/images/pole2.png" />
+	<img style="position: absolute; top: 490px; left: 85px; width: 220px; height: 10px;" src="/images/pole2.png" />
+	<img style="position: absolute; top: 450px; left: 320px; width: 210px; height: 10px;" src="/images/pole2.png" />
+	<img style="position: absolute; top: 595px; left: 85px; width: 220px; height: 10px;" src="/images/pole2.png" />
+	<img style="position: absolute; top: 555px; left: 320px; width: 210px; height: 10px;" src="/images/pole2.png" />
 	
 	<div answer-button="" incorrect="incorrectAnswers[0]" class="yellow_answer_button trap1" label="answerPeople[0].display.name" background="/images/button_yellow_trap1.png" ng-click="guess1()" 
-		style="position:absolute; width:275px; height: 97px; top: 585px; left: 50px;">
+		style="position:absolute; width:275px; height: 97px; top: 495px; left: 30px;">
 	</div>
-	<div avatar-badge ng-show="answerPeople[0].portrait" src="answerPeople[0].portrait" class="avatar ancestor-avatar" style="position: absolute; left: -10px; top: 585px;"></div>
+	<div avatar-badge ng-show="answerPeople[0].portrait" src="answerPeople[0].portrait" class="avatar ancestor-avatar" 
+		style="position: absolute; left: -40px; top: 495px;"></div>
 
 	<div answer-button="" incorrect="incorrectAnswers[1]" class="yellow_answer_button trap1" label="answerPeople[1].display.name" background="/images/button_yellow_trap1.png" ng-click="guess2()" 
-		style="position:absolute; width:275px; height: 97px; top: 690px; left: 50px;">
+		style="position:absolute; width:275px; height: 97px; top: 600px; left: 30px;">
 	</div>
-	<div avatar-badge ng-show="answerPeople[1].portrait" src="answerPeople[1].portrait" class="avatar ancestor-avatar" style="position: absolute; left: -10px; top: 690px;"></div>
+	<div avatar-badge ng-show="answerPeople[1].portrait" src="answerPeople[1].portrait" class="avatar ancestor-avatar" 
+		style="position: absolute; left: -40px; top: 600px;"></div>
 
 	<div answer-button="" incorrect="incorrectAnswers[2]" class="yellow_answer_button trap1" label="answerPeople[2].display.name" background="/images/button_yellow_trap1.png" ng-click="guess3()" 
-		style="position:absolute; width:275px; height: 97px; top: 545px; left: 390px;">
+		style="position:absolute; width:275px; height: 97px; top: 455px; left: 340px;">
 	</div>
-	<div avatar-badge ng-show="answerPeople[2].portrait" src="answerPeople[2].portrait" class="avatar ancestor-avatar" style="position: absolute; left: 620px; top: 545px;"></div>
+	<div avatar-badge ng-show="answerPeople[2].portrait" src="answerPeople[2].portrait" class="avatar ancestor-avatar" 
+		style="position: absolute; left: 570px; top: 455px;"></div>
 
 	<div answer-button="" incorrect="incorrectAnswers[3]" class="yellow_answer_button trap1" label="answerPeople[3].display.name" background="/images/button_yellow_trap1.png" ng-click="guess4()" 
-		style="position:absolute; width:275px; height: 97px; top: 650px; left: 390px;">
+		style="position:absolute; width:275px; height: 97px; top: 560px; left: 340px;">
 	</div>
-	<div avatar-badge ng-show="answerPeople[3].portrait" src="answerPeople[3].portrait" class="avatar ancestor-avatar" style="position: absolute; left: 620px; top: 650px;"></div>
+	<div avatar-badge ng-show="answerPeople[3].portrait" src="answerPeople[3].portrait" class="avatar ancestor-avatar" 
+		style="position: absolute; left: 570px; top: 560px;"></div>
 	
-	<div class="question-block nobackground noborder" style="position: absolute; top: 240px; left: 70px; width: 540px; height:140px; font-size: 180%; transform: rotate(-2deg);">
+	<div class="question-block nobackground noborder" style="position: absolute; top: 200px; left: 50px; width: 490px; height:130px; font-size: 170%; transform: rotate(-2deg);">
 		{{questionText}}
 	</div>
 </div>

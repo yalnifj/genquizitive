@@ -259,7 +259,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			min: '=',
 			max: '=',
 			value: '=',
-			missedQuestions: '@',
+			missedQuestions: '=',
 			label: '@'
 		},
 		template: '<img src="/images/guage_hand.png" /><div ng-if="label" class="guage-label">{{label}}</div>\
@@ -296,6 +296,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 					}, 100);
 				}
 			};
+			$scope.rotate();
 			
 			$scope.$watch('value', function(newval, oldval) {
 				if (newval!=oldval) {

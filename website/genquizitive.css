@@ -434,6 +434,7 @@ body {
 	width: 98px;
 	height: 98px;
 	background-image: url('/images/guage_back.png');
+	margin-bottom: 40px;
 }
 .guage img {
 	position: absolute;
@@ -1332,19 +1333,19 @@ div.buttonspacer {
 	width: 16px;
 }
 .guage .light1 {
-	position: absolute; top: 85px; left: -20px;
+	position: absolute; top: 80px; left: -10px;
 }
 .guage .light2 {
-	position: absolute; top: 105px; left: 50px;
+	position: absolute; top: 100px; left: 10px;
 }
 .guage .light3 {
-	position: absolute; top: 110px; left: 80px;
+	position: absolute; top: 105px; left: 40px;
 }
 .guage .light4 {
-	position: absolute; top: 105px; left: 110px;
+	position: absolute; top: 100px; left: 70px;
 }
 .guage .light5 {
-	position: absolute; top: 85px; left: 130px;
+	position: absolute; top: 80px; left: 96px;
 }
 .portrait .guage .light img {
 	width: 10px;
@@ -1376,9 +1377,18 @@ div.buttonspacer {
 }
 .letter-skip-holder {
 	display: inline-block;
-	width: 100px;
+	width: 150px;
 	text-align: center;
 	vertical-align: middle;
+}
+.letter-skip-holder .letter {
+	margin-bottom: 20px;
+}
+.portrait .letter-skip-holder {
+	width: 100px;
+}
+.portrait .letter-skip-holder .letter {
+	margin-bottom: 0px;
 }
 .letter-skip-holder .neonbutton img {
 	width: 150px;
