@@ -142,7 +142,42 @@ angular.module('genquiz.familytree', [])
 			if (check.indexOf("jr") >=0 || check.indexOf("sr") >= 0) {
 				last = arr[arr.length-2];
 			}
-			shortName = shortName + " " + arr[arr.length-1].substr(0,1);
+			shortName = shortName + " " + last.substr(0,1);
+		}
+		return shortName;
+	};
+
+	this.fitName = function(name, length) {
+		if (!name || name.length <= length) {
+			return name;
+		}
+		var arr = name.split(" ");
+		var shortName = arr[0];
+		if (arr.length > 1) {
+			var last = arr[arr.length-1];
+			var check = last.toLowerCase();
+			if (check.indexOf("jr") >=0 || check.indexOf("sr") >= 0) {
+				last = arr[arr.length-2];
+			}
+			var temp = shortName + " " + last;
+			if (temp.length < length) {
+				var middle = "";
+				for(var i=1; i<arr.length-1; i++) {
+					var mid = arr[i];
+					if (mid != last) {
+						if (temp.length + middle.length + mid.length < length) {
+							middle += " " + mid;
+							temp = shortName + middle + " " + last;
+						} else if (temp.length + middle.length + 2 < length) {
+							middle += " " + mid.substr(0,1);
+							temp = shortName + middle + " " + last;
+						} else {
+							break;
+						}
+					}
+				}
+			}
+			shortName = temp;
 		}
 		return shortName;
 	};
@@ -659,8 +694,8 @@ angular.module('genquiz.familytree', [])
 	this.backgroundQueue = [];
 	
 	this.fs = new FamilySearch({
-	  //environment: 'beta',
-	  environment: 'integration',
+	  environment: 'beta',
+	  //environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: FS_REDIRECT_URL,
 	  saveAccessToken: true,

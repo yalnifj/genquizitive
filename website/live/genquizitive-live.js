@@ -1,7 +1,7 @@
-var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-live.php';
+var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-login.html';
 angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 
 				'genquiz-components', 'genquiz.questions', 'genquiz.familytree',
-				'ngMap','genquiz.live.backend'])
+				'ngMap','genquiz.live.backend','genquiz-affiliates'])
 .config(['$locationProvider', '$routeProvider', '$uibTooltipProvider',
     function config($locationProvider, $routeProvider, $uibTooltipProvider) {
 		$uibTooltipProvider.options({popupDelay: 300});
@@ -200,6 +200,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	}, function() {
 		$location.path("/");
 	});
+
+	$scope.shortenName = function(name) {
+		var shortName = languageService.fitName(name, 16);
+		return shortName;
+	};
 
 	$scope.showArrow = function(num) {
 		var par = num * 2;
@@ -796,7 +801,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.minute = 0;
 	$scope.second = 0;	
 	$scope.loadingTime = 0;
-	$scope.maxTime = 2 * 60 * 1000;
+	$scope.maxTime = 200 * 60 * 1000;
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 

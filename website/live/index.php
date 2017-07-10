@@ -37,6 +37,7 @@ session_start();
 <script src="/components.js"></script>
 <script src="/questions.js"></script>
 <script src="/familytree.js"></script>
+<script src="/affiliates.js"></script>
 <script>
 	$(document).ready(function() {
 		if (isMobile()) {

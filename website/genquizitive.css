@@ -6,8 +6,11 @@ body {
 	background-position: left center;
 }
 .footer {
-	margin-top: 15%;
+	margin-top: 12%;
 	color: white;
+	max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .footer a {
 	color: #eeeeff;

@@ -24,8 +24,8 @@ body {
 <body ng-app="genquizitive">
 	<script>
 var fs = new FamilySearch({
-	//environment: 'beta',
-	environment: 'integration',
+	environment: 'beta',
+	//environment: 'integration',
 	appKey: 'a02j000000JERmSAAX',
 	redirectUri: 'https://www.genquizitive.com/fs-live.php',
 	saveAccessToken: true,
