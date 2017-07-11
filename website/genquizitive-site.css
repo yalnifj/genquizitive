@@ -40,8 +40,8 @@ body {
     color: white;
     text-align: center;
     font-size: 22px;
-	width: 350px;
-	height: 250px;
+	width: 100%;
+	height: 230px;
 	margin-top: 20px;
 	padding-top: 30px;
 	padding-bottom: 15px;
@@ -52,7 +52,8 @@ body {
 #video {
 	position: relative;
     margin-top: 30px;
-	padding: 22px 0px 0px 60px;
+	padding: 44px 0px 0px 60px;
+	height: 230px;
 }
 #tv {
 	position: absolute;
@@ -184,6 +185,10 @@ header .header-content, section .container, section .container-fluid{
 	margin-bottom: 10px;
 }
 
+.game-block {
+	margin-bottom: 80px;
+}
+
 .game-block img {
 	margin: 10px;
 }
@@ -191,4 +196,52 @@ header .header-content, section .container, section .container-fluid{
 .bg-primary {
 	background-color: #dadfff;
 	color: black;
+}
+
+#videoiframe {
+	width: 270px;
+	height: 160px;
+}
+
+@media (max-width: 767px) {
+	#navBar .container-fluid {
+		padding: 0px;
+	}
+	.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+		margin: 0px;
+	}
+	.socialbuttons {
+		right: 25px;
+	}
+	header .header-content, section .container, section .container-fluid{
+		width: 95%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.top-logo-col {
+		display: none;
+	}
+	#video {
+		margin-top: 20px;
+		padding: 36px 0px 0px 48px;
+		height: 200px;
+	}
+	#videoiframe {
+		width: 216px;
+		height: 123px;
+	}
+	#tv {
+		width: 360px;
+	}
+	#youtubelink {
+		left: 313px;
+		top: 135px;
+		font-size: 32px;
+		width: 31px;
+	}
+	.road-sign {
+		margin-top: 10px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }

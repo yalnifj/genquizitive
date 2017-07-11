@@ -486,13 +486,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		template: '<div contenteditable="true" class="editable-id">{{genQuizRound.id}}</div>\
 			<div class="alert alert-danger" ng-show="genQuizRound.error">{{genQuizRound.error}}</div>',
 		link: function($scope, $element, $attrs) {
-			$element.children('div').on('blur keyup change', function() {
-				var text = $(this).text();
-				text = text.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-				if (text != $scope.genQuizRound.id) {
-					$scope.genQuizRound.id = text;
+			$scope.$watch('genQuizRound.id', function(newval, oldval) {
+				if (newval != oldval) {
+					$scope.genQuizRound.id = $scope.genQuizRound.id.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 					$scope.checkGameId();
-					$scope.$apply();
 				}
 			});
 
@@ -752,6 +749,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.abandon = function() {
 		$scope.missedQuestions++;
+		var audio = new Audio('/live/car_horn.mp3');
+		audio.play();
 		$scope.nextQuestion();
 	};
 
@@ -768,6 +767,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	
 	$scope.$on('questionIncorrect', function(event, question) {
 		$scope.missedQuestions++;
+		var audio = new Audio('/live/car_horn.mp3');
+		audio.play();
 	});
 
 	$scope.$on('$destroy', function() {
@@ -861,6 +862,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.abandon = function() {
 		$scope.missedQuestions++;
+		var audio = new Audio('/live/car_horn.mp3');
+		audio.play();
 		// update score and go to wait screen
 		$scope.saveScore();
 		if ($scope.currentQuestion < $scope.maxQuestions-1) {
@@ -895,6 +898,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	
 	$scope.$on('questionIncorrect', function(event, question) {
 		$scope.missedQuestions++;
+		var audio = new Audio('/live/car_horn.mp3');
+		audio.play();
 	});
 
 	$scope.$on('genQuizRemoved', function(event, genQuiz) {
