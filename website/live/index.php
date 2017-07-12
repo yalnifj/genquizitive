@@ -17,7 +17,6 @@ session_start();
 
 <link rel="stylesheet" href="/genquizitive.css">
 <link rel="stylesheet" href="/jquery-ui.min.css">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="200x200" href="/logo_live_square.png">
 <script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
