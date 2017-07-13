@@ -1537,8 +1537,8 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 .controller('mapController', function($scope, $q, QuestionService, languageService, familysearchService, NgMap) {
 	$scope.questionText = '';
 	
-	$scope.$watch('question.person', function() {
-		if ($scope.question.person) {
+	$scope.$watch('question.questionText', function() {
+		if ($scope.question.questionText) {
 			$scope.questionText = $scope.question.questionText;
 		}
 	});

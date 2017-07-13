@@ -1082,7 +1082,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		backendService.unWatchQuestion();
 	});
 })
-.controller('liveScoreboard', function($scope, $location, backendService) {
+.controller('liveScoreboard', function($scope, $location, backendService, $rootScope, affiliateService) {
 	$scope.$emit('changeBackground', '/images/score_background.jpg');
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
@@ -1093,6 +1093,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$location.path('/');
 	};
 
+	affiliateService.showLargeAd();
+
 	backendService.getPlayers().then(function(players) {
 		$scope.players = players;
 		$scope.playerArray = Object.keys($scope.players).map(function(key) {
@@ -1100,7 +1102,4 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		});
 	});
 })
-.service('adService', [function() {
-
-}])
 ;

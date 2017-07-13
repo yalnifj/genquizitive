@@ -1239,6 +1239,16 @@ div.buttonspacer {
 	margin-right: auto;
 }
 
+.live-modal-body {
+	background-color: #333;
+}
+
+.live-modal-footer {
+	background-color: #333;
+	border-top-color: black;
+	text-align: center;
+}
+
 .portrait {
 	/*border: solid red 3px;*/
 	background-position: center;

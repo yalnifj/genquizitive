@@ -29,7 +29,7 @@ session_start();
 <script src="/ng-map.min.js"></script>
 <script src="/markerclusterer.js"></script>
 <script src="/jquery-ui.min.js"></script>
-<script src="/ui-bootstrap-tpls-2.2.0.min.js"></script>
+<script src="/ui-bootstrap-tpls-2.5.0.min.js"></script>
 <script src="/FamilySearch.min.js"></script>
 <script src="genquizitive-live.js"></script>
 <script src="backend.js"></script>
