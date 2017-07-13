@@ -190,8 +190,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				this.timeOffset = 0;
 				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				//-- make sure we have a person with facts
-				while(!question.person.facts || question.person.facts.length<2) {
+				var counter = 0;
+				while(!question.person || !question.person.facts || question.person.facts.length<2) {
 					question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
+					counter++;
+					if (counter > 10) {
+						console.log('unable to find random person with facts after 10 tries');
+						question.error = 'unable to find random person with facts after 10 tries';
+						deferred.reject(question);
+						return;
+					}
 				}
 				familysearchService.markUsed(question.person);
 				familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {

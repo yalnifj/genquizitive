@@ -339,7 +339,9 @@ body {
 	padding-top: 3px;
 	padding-left: 6px;
 }
-
+.outer-question-holder {
+	margin-left: 160px;
+}
 .question-holder {
 	position: relative;
 	max-width: 500px;
@@ -919,10 +921,34 @@ body {
 	color: #d0fffc;
 }
 
+.map-fact-question {
+	position: relative; 
+	margin: 10px auto 20px auto; 
+	width: 500px; 
+	min-height: 110px; 
+	overflow: visible; 
+	font-size: larger;
+}
+.portrait .map-fact-question  {
+	width: 95%;
+	margin: 10px;
+	font-size: larger;
+}
+.portrait .map-fact-question .avatar {
+	display: none;
+}
+
 .fact-map {
 	height: 65%;
 	border: solid #008080 2px;
 	box-shadow: -7px 7px 5px #222;
+	min-height: 400px;
+}
+.portrait .fact-map {
+	min-height: auto;
+	height: 300px;
+	width: auto;
+    margin-left: auto;
 }
 
 .fact-map .custom-marker {
@@ -1025,7 +1051,7 @@ body {
 	background-color: #ebe9d5;
 	border-radius: 10px;
 	max-width: 400px;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
 	position: relative; 
 	width: 95%;
 	margin-left: auto;
@@ -1198,6 +1224,19 @@ div.buttonspacer {
 	z-index: 1;
 	left: -30px;
 	top: 3px;
+}
+
+.banner-ad {
+	position: fixed;
+	min-height: 70px;
+	max-height: 150px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .portrait {
@@ -1398,6 +1437,9 @@ div.buttonspacer {
 }
 .portrait .letter-skip-holder .neonbutton img {
 	width: 100px;
+}
+.portrait .outer-question-holder {
+	margin-left: 0px;
 }
 .portrait .question-holder {
 	margin-left: auto;
