@@ -1,7 +1,12 @@
 angular.module('genquiz-affiliates', [])
-.service('affiliateService', ['$rootScope','$uibModal',function($rootScope, $uibModal) {
+.service('affiliateService', ['$rootScope','$uibModal', '$q', function($rootScope, $uibModal, $q) {
     this.banners = [
-        {name: "littleFamilyTree", template: "/affiliates/lft-banner.html", clickUrl: 'http://www.littlefamilytree.com/?affiliateId=1'}
+        {name: "littleFamilyTree", template: "/affiliates/lft-banner.html", clickUrl: 'http://www.littlefamilytree.com/?affiliateId=1'},
+        {name: "livingdna", template: "/affiliates/ldna-banner.html", clickUrl: 'http://www.tkqlhce.com/click-8388174-12747569'}
+    ];
+
+    this.vbanners = [
+
     ];
 
     this.largeAds = [
@@ -19,6 +24,7 @@ angular.module('genquiz-affiliates', [])
     };
 
     this.showLargeAd = function() {
+        var deferred = $q.defer();
 		var modalScope = $rootScope.$new(true);
         var options = {
 			scope: modalScope,
@@ -40,20 +46,61 @@ angular.module('genquiz-affiliates', [])
         modalScope.close = function() {
             modalwin.close();
             modalScope.$destroy();
+            deferred.resolve();
         };
+
+        return deferred.promise;
 	};
 }])
 .directive('bannerAd', function(affiliateService) {
     return {
         restrict: 'A',
-        template: '<ng-include src="adTemplate" />',
+        template: '<div style="width: 400px; display: inline-block;" ng-click="adClicked(banner1)" ng-include="adTemplate1" />\
+                <div ng-if="banner2" style="width: 400px; margin-left: 10px; display: inline-block;" ng-click="adClicked(banner2)" ng-include="adTemplate2" />',
         link: function($scope, $element, $attr) {
-            $scope.banner = affiliateService.getRandomBanner();
-            $scope.adTemplate = $scope.banner.template;
+            $scope.banner1 = affiliateService.getRandomBanner();
+            $scope.adTemplate1 = $scope.banner1.template;
+            if (!window.portrait) {
+                var count = 0;
+                $scope.banner2 = affiliateService.getRandomBanner();
+                while(count < 5 && $scope.banner1.name == $scope.banner2.name) {
+                    count++;
+                    $scope.banner2 = affiliateService.getRandomBanner();
+                }
+                if (count<5) {
+                    $scope.banner2 = null;
+                } else {
+                    $scope.adTemplate2 = $scope.banner2.template;
+                }
+            }
 
-            $scope.adClicked = function() {
-                window.open($scope.banner.clickUrl, "_blank");
+            $scope.adClicked = function(banner) {
+                window.open(banner.clickUrl, "_blank");
             };
+        }
+    }
+})
+.directive('ldnaRotate', function($interval) {
+    return {
+        restrict: 'A',
+        link: function($scope, $element) {
+            var images = [
+                "http://www.ftjcfx.com/image-8388174-12747568",
+                "http://www.tqlkg.com/image-8388174-12747569",
+                "http://www.tqlkg.com/image-8388174-12747570"
+            ];
+            var curimage = 0;
+            var interval = $interval(function() {
+                curimage++;
+                if (curimage >= images.length) {
+                    curimage = 0;
+                }
+                $element.attr('src', images[curimage]);
+            }, 3000);
+
+            $scope.$on('$destroy', function() {
+                $interval.cancel(interval);
+            });
         }
     }
 })

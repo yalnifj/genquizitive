@@ -116,9 +116,16 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		}
 	}
 })
-.controller('livestart', function($scope, $location, familysearchService, backendService, $log) {
+.controller('livestart', function($scope, $location, familysearchService, backendService, $log, $http) {
 	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.loading = false;
+
+	$http.get("/ads.js").then(function() {
+		$scope.adblocker = false;
+	}, function() {
+		$scope.adblocker = true;
+	});
+
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser.display) {
 			$scope.fsLoggedIn = true;
@@ -160,7 +167,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.fsLogin();
 	};
 })
-.controller('liveCreateGame', function($scope, $location, $q, $cookies, familysearchService, notificationService, backendService, languageService, $log) {
+.controller('liveCreateGame', function($scope, $location, $q, $http, $cookies, familysearchService, notificationService, backendService, languageService, $log) {
 	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.loading = false;
 	$scope.search = {};
@@ -428,19 +435,26 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 					if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
 						$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
 					} else {
-						$scope.genQuizRound.error = null;
-						$scope.genQuizRound.ready = true;
-						backendService.writeGenQuiz($scope.genQuizRound);
-						backendService.currentGenQuiz = $scope.genQuizRound;
-						$scope.step = step;
-						$scope.player = {name: $scope.genQuizRound.creator, score: 0};
-						backendService.addPlayer($scope.player);
-						backendService.currentPlayer = $scope.player;
-						$cookies.putObject('player', $scope.player);
-						var generations = $scope.genQuizRound.difficulty + 1;
-						familysearchService.clearCache();
-						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
-						backendService.watchPlayers();
+						$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.genQuizRound.creator)).then(function(response){
+							$scope.genQuizRound.creator = response.data;
+							if ($scope.genQuizRound.creator.length < 3) {
+								$scope.nameError = 'Please include at least 3 characters in your name.';
+							} else {
+								$scope.genQuizRound.error = null;
+								$scope.genQuizRound.ready = true;
+								backendService.writeGenQuiz($scope.genQuizRound);
+								backendService.currentGenQuiz = $scope.genQuizRound;
+								$scope.step = step;
+								$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+								backendService.addPlayer($scope.player);
+								backendService.currentPlayer = $scope.player;
+								$cookies.putObject('player', $scope.player);
+								var generations = $scope.genQuizRound.difficulty + 1;
+								familysearchService.clearCache();
+								familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
+								backendService.watchPlayers();
+							}
+						});
 					}
 				}
 			});
@@ -483,7 +497,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		backendService.currentPlayer = $scope.player;
 	});
 })
-.directive('genquizId', function(backendService) {
+.directive('genquizId', function(backendService, $http) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -492,34 +506,37 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		template: '<div contenteditable="true" class="editable-id">{{genQuizRound.id}}</div>\
 			<div class="alert alert-danger" ng-show="genQuizRound.error">{{genQuizRound.error}}</div>',
 		link: function($scope, $element, $attrs) {
-			$scope.$watch('genQuizRound.id', function(newval, oldval) {
-				if (newval != oldval) {
-					$scope.genQuizRound.id = $scope.genQuizRound.id.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-					$scope.checkGameId();
-				}
+			var d = $element.children(".editable-id").on('blur keypress', function() {
+				var text = $(this).text();
+				$scope.genQuizRound.id = text.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+				$scope.checkGameId();
 			});
 
 			$scope.checkGameId = function() {
-				if ($scope.genQuizRound.id.length < 4) {
-					$scope.genQuizRound.error = "The id must be at least 4 characters long.";
-					return;
-				}
-				if ($scope.genQuizRound.id.length > 31) {
-					$scope.genQuizRound.error = "The id must be less than 32 characters long.";
-					return;
-				}
-				backendService.checkId($scope.genQuizRound.id).then(function(exists) {
-					if (exists) {
-						$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
-					} else {
-						$scope.genQuizRound.error = null;
+				$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.genQuizRound.id)).then(function(response) {
+					$scope.genQuizRound.id = response.data;
+					if ($scope.genQuizRound.id.length < 4) {
+						$scope.genQuizRound.error = "The id must be at least 4 characters long.";
+						return;
 					}
+					if ($scope.genQuizRound.id.length > 31) {
+						$scope.genQuizRound.error = "The id must be less than 32 characters long.";
+						return;
+					}
+				
+					backendService.checkId($scope.genQuizRound.id).then(function(exists) {
+						if (exists) {
+							$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+						} else {
+							$scope.genQuizRound.error = null;
+						}
+					});
 				});
 			}
 		}
 	};
 })
-.controller('liveJoinGame', function($scope, $location, $q, $cookies, notificationService, backendService, languageService) {
+.controller('liveJoinGame', function($scope, $location, $q, $http, $cookies, notificationService, backendService, languageService) {
 	$scope.data = {};
 	$scope.data.genQuizId = null;
 	$scope.data.playerName = "";
@@ -529,16 +546,19 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.joinGame = function() {
 		$scope.nameError = null;
 		$scope.idError = null;
-		if (!$scope.data.playerName || $scope.data.playerName.length < 3) {
-			$scope.nameError = "Please include at least 3 characters in your name.";
-			return;
-		}
-		if (!$scope.data.genQuizId || $scope.data.genQuizId.length < 4 || $scope.data.genQuizId.length > 31) {
-			$scope.idError = "Please enter a valid GenQuiz Game Id. A valid GenQuiz ID \
-			can be obtained from your friend who created it.";
-			return;
-		}
-		$scope.checkGenQuiz();
+		$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.data.playerName)).then(function(response){
+			$scope.data.playerName = response.data;
+			if (!$scope.data.playerName || $scope.data.playerName.length < 3) {
+				$scope.nameError = "Please include at least 3 characters in your name.";
+				return;
+			}
+			if (!$scope.data.genQuizId || $scope.data.genQuizId.length < 4 || $scope.data.genQuizId.length > 31) {
+				$scope.idError = "Please enter a valid GenQuiz Game Id. A valid GenQuiz ID \
+				can be obtained from your friend who created it.";
+				return;
+			}
+			$scope.checkGenQuiz();
+		});
 	};
 
 	$scope.checkGenQuiz = function() {

@@ -63,7 +63,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: this.person.display, portrait: this.person.portrait},
+					person: {id: this.person.id, display: this.person.display, gender: this.person.gender, portrait: this.person.portrait},
 					questionText: this.questionText,
 					answers: []
 				};
@@ -158,7 +158,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: { name: this.person.display.name}},
+					person: {id: this.person.id, gender: this.person.gender, display: { name: this.person.display.name}},
 					questionText: questionText,
 					answers: []
 				};
@@ -311,7 +311,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: { name: this.person.display.name}},
+					person: {id: this.person.id, gender: this.person.gender, display: { name: this.person.display.name}},
 					questionText: this.questionText,
 					answers: []
 				};
@@ -319,7 +319,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					q.person.portrait = this.person.portrait;
 				}
 				for(var p=0; p<this.randomPeople.length; p++) {
-					var p2 = {id: this.randomPeople[p].id, display: { name: this.randomPeople[p].display.name}};
+					var p2 = {id: this.randomPeople[p].id, gender: this.randomPeople[p].gender, display: { name: this.randomPeople[p].display.name}};
 					if (this.randomPeople[p].portrait) {
 						p2.portrait = this.randomPeople[p].portrait;
 					}
@@ -396,7 +396,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					personId: this.person.id,
-					person: {id: this.person.id, display: {name: this.person.display.name, ascendancyNumber: "1"}},
+					person: {id: this.person.id, gender: this.person.gender, display: {name: this.person.display.name, ascendancyNumber: "1"}},
 					questionText: this.questionText,
 					people: []
 				};
@@ -404,7 +404,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					q.person.portrait = this.person.portrait;
 				}
 				for(var p=0; p<this.people.length; p++) {
-					var p2={id: this.people[p].id, display: { name: this.people[p].display.name, ascendancyNumber: this.people[p].display.ascendancyNumber}};
+					var p2={id: this.people[p].id, display: { name: this.people[p].display.name, gender: this.people[p].gender, ascendancyNumber: this.people[p].display.ascendancyNumber}};
 					if (this.people[p].portrait) {
 						p2.portrait = this.people[p].portrait;
 					}
@@ -593,7 +593,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				var q = {
 					name: this.name,
 					difficulty: this.difficulty,
-					person: {id: this.person.id, display: this.person.display},
+					person: {id: this.person.id, gender: this.person.gender, display: this.person.display},
 					questionText: this.questionText
 				};
 				if (this.person.portrait) {
@@ -749,7 +749,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				for(var p=0; p<this.places.length; p++) {
 					var place = this.places[p];
 					var pp = {};
-					pp.person = {id: place.person.id, display: place.person.display};
+					pp.person = {id: place.person.id, gender: place.person.gender, display: place.person.display};
 					if (place.person.portrait) {
 						pp.person.portrait = place.person.portrait;
 					}
@@ -854,8 +854,8 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					name: this.name,
 					difficulty: this.difficulty,
 					questionText: this.questionText,
-					startPerson: {id: this.startPerson.id, display: this.startPerson.display},
-					person: {id: this.person.id, display: this.person.display},
+					startPerson: {id: this.startPerson.id, gender: this.startPerson.gender, display: this.startPerson.display},
+					person: {id: this.person.id, gender: this.person.gender, display: this.person.display},
 					treePersons: {}
 				};
 
@@ -1348,7 +1348,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			$scope.question.people = QuestionService.shuffleArray($scope.question.people);
 			for(var p=0; p<$scope.question.people.length; p++) {
 				hash[$scope.question.people[p].id] = $scope.question.people[p];
-				if ($scope.question.people[p].gender.type=="http://gedcomx.org/Female") {
+				if (!$scope.question.people[p].gender) {
+					$scope.question.people[p].portrait = '/images/unknown_sil.png';
+				}
+				else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Female") {
 					$scope.question.people[p].portrait = '/images/female_sil.png';
 				} else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Male") {
 					$scope.question.people[p].portrait = '/images/male_sil.png';
