@@ -1,37 +1,187 @@
-<div class="question-holder" ng-controller="treeController" zoom-to-fit="" zoom-max-height="820">
+<div class="question-holder" ng-controller="treeController">
+<style>
+	.tree-lamp1 {
+		position: absolute; top: 10px; left: 80px;
+	}
+	.tree-lamp2 {
+		position: absolute; top: 10px; left: 210px;
+	}
+	.tree-lamp3 {
+		position: absolute; top: 10px; left: 340px;
+	}
+	.tree-pole1 {
+		position: absolute; top: 150px; left: 0px; width: 20px; height: 370px;
+	}
+	.tree-pole2 {
+		position: absolute; top: 150px; left: 500px; width: 20px; height: 370px;
+	}
+	.tree-pole3 {
+		position: absolute; top: 150px; left: 0px; width: 40px; height: 15px;
+	}
+	.tree-pole4 {
+		position: absolute; top: 150px; left: 460px; width: 60px; height: 15px;
+	}
+	.tree-question-block {
+		position: absolute; left: 35px; top: 60px; width: 450px; height: 300px;
+	}
+	.tree-pole5 {
+		position: absolute; top: 470px; left: 30px; width: 10px; height: 100px;
+	}
+	.tree-spot1 {
+		position: absolute; top: 440px; left: -30px;
+	}
+	.tree-pole6 {
+		position: absolute; top: 470px; left: 160px; width: 10px; height: 100px;
+	}
+	.tree-spot2 {
+		position: absolute; top: 440px; left: 100px;
+	}
+	.tree-pole7 {
+		position: absolute; top: 470px; left: 350px; width: 10px; height: 100px;
+	}
+	.tree-spot3 {
+		position: absolute; top: 440px; left: 290px;
+	}
+	.tree-pole8 {
+		position: absolute; top: 470px; left: 480px; width: 10px; height: 100px;
+	}
+	.tree-spot4 {
+		position: absolute; top: 440px; left: 420px;
+	}
+	.tree-pole9 {
+		position: absolute; top: 600px; left: 95px; width: 10px; height: 100px;
+	}
+	.tree-spot5 {
+		position: absolute; top: 570px; left: 35px;
+	}
+	.tree-pole10 {
+		position: absolute; top: 600px; left: 415px; width: 10px; height: 100px;
+	}
+	.tree-spot6 {
+		position: absolute; top: 570px; left: 355px;
+	}
+	.tree-pole11 {
+		position: absolute; top: 670px; left: 255px; width: 10px; height: 100px;
+	}
+	.tree-spot7 {
+		position: absolute; top: 640px; left: 195px;
+	}
 
-	<img style="position: absolute; top: 10px; left: 80px;" src="/images/lamp.png" />
-	<img style="position: absolute; top: 10px; left: 210px;" src="/images/lamp.png" />
-	<img style="position: absolute; top: 10px; left: 340px;" src="/images/lamp.png" />
-	<img style="position: absolute; top: 150px; left: 0px; width: 20px; height: 370px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 150px; left: 500px; width: 20px; height: 370px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 150px; left: 0px; width: 40px; height: 15px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 150px; left: 460px; width: 60px; height: 15px;" src="/images/pole2.png" />
+	.portrait .tree-lamp1 {
+		position: absolute; top: 6px; left: 72px; width: 57px;
+	}
+	.portrait .tree-lamp2 {
+		position: absolute; top: 6px; left: 156px; width: 57px;
+	}
+	.portrait .tree-lamp3 {
+		position: absolute; top: 6px; left: 247px; width: 57px;
+	}
+	.portrait .tree-pole1 {
+		position: absolute; top: 97px; left: 20px; width: 13px; height: 240px;
+	}
+	.portrait .tree-pole2 {
+		position: absolute; top: 97px; left: 355px; width: 13px; height: 240px;
+	}
+	.portrait .tree-pole3 {
+		position: absolute; top: 97px; left: 20px; width: 26px; height: 10px;
+	}
+	.portrait .tree-pole4 {
+		position: absolute; top: 97px; left: 329px; width: 39px; height: 10px;
+	}
+	.portrait .tree-question-block {
+		position: absolute; left: 43px; top: 39px; width: 303px; height: 205px;
+		font-size: 150%;
+	}
+	.portrait .tree-pole5 {
+		position: absolute; top: 305px; left: 39px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot1 {
+		position: absolute; top: 286px; left: 1px; width: 82px;
+	}
+	.portrait .tree-pole6 {
+		position: absolute; top: 305px; left: 124px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot2 {
+		position: absolute; top: 286px; left: 85px; width: 82px;
+	}
+	.portrait .tree-pole7 {
+		position: absolute; top: 305px; left: 247px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot3 {
+		position: absolute; top: 286px; left: 208px; width: 82px;
+	}
+	.portrait .tree-pole8 {
+		position: absolute; top: 305px; left: 332px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot4 {
+		position: absolute; top: 286px; left: 293px; width: 82px;
+	}
+	.portrait .tree-pole9 {
+		position: absolute; top: 390px; left: 82px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot5 {
+		position: absolute; top: 370px; left: 43px; width: 82px;
+	}
+	.portrait .tree-pole10 {
+		position: absolute; top: 390px; left: 290px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot6 {
+		position: absolute; top: 370px; left: 251px; width: 82px;
+	}
+	.portrait .tree-pole11 {
+		position: absolute; top: 435px; left: 186px; width: 6px; height: 65px;
+	}
+	.portrait .tree-spot7 {
+		position: absolute; top: 416px; left: 147px; width: 82px;
+	}
+	.portrait .tree-avatar {
+		width: 65px;
+		height: 58px;
+	}
+	.portrait .tree-avatar .avatar-label {
+		font-size: 8pt;
+		top: 45px;
+	}
+	.portrait .tree-avatar img {
+		width: 47px;
+		height: 47px;
+		top: 5px;
+		left: 10px;
+	}
+</style>
+
+	<img class="tree-lamp1" src="/images/lamp.png" />
+	<img class="tree-lamp2" src="/images/lamp.png" />
+	<img class="tree-lamp3" src="/images/lamp.png" />
+	<img class="tree-pole1" src="/images/pole1.png" />
+	<img class="tree-pole2" src="/images/pole1.png" />
+	<img class="tree-pole3" src="/images/pole2.png" />
+	<img class="tree-pole4" src="/images/pole2.png" />
 	
-	<div class="green-question-block" tree-sign="" style="position: absolute; left: 35px; top: 60px; width: 450px; height: 300px;">
+	<div class="green-question-block tree-question-block" tree-sign="">
 		{{questionText}}
 	</div>
 	<div class="{{item.person.display.inPlace?'':'movable'}}" ng-style="item.position" style="position: absolute; z-index: 100;" 
 			ng-repeat="item in people" tree-person="item.person">
-		<div avatar-badge class="avatar ancestor-avatar" src="item.person.portrait" label="item.person.display.name"></div>
+		<div avatar-badge class="avatar ancestor-avatar tree-avatar" src="item.person.portrait" label="item.person.display.name"></div>
 	</div>
 	
-	<img style="position: absolute; top: 470px; left: 30px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 440px; left: -30px;" src="/images/button_green_rect.png" tree-spot="" number="4" />
-	<img style="position: absolute; top: 470px; left: 160px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 440px; left: 100px;" src="/images/button_green_rect.png" tree-spot="" number="5" />
+	<img class="tree-pole5" src="/images/pole1.png" />
+	<img class="tree-spot1" src="/images/button_green_rect.png" tree-spot="" number="4" />
+	<img class="tree-pole6" src="/images/pole1.png" />
+	<img class="tree-spot2" src="/images/button_green_rect.png" tree-spot="" number="5" />
 	
-	<img style="position: absolute; top: 470px; left: 350px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 440px; left: 290px;" src="/images/button_green_rect.png" tree-spot="" number="6" />
-	<img style="position: absolute; top: 470px; left: 480px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 440px; left: 420px;" src="/images/button_green_rect.png" tree-spot="" number="7" />
+	<img class="tree-pole7" src="/images/pole1.png" />
+	<img class="tree-spot3" src="/images/button_green_rect.png" tree-spot="" number="6" />
+	<img class="tree-pole8" src="/images/pole1.png" />
+	<img class="tree-spot4" src="/images/button_green_rect.png" tree-spot="" number="7" />
 	
-	<img style="position: absolute; top: 600px; left: 95px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 570px; left: 35px;" src="/images/button_green_rect.png" tree-spot="" number="2" />
+	<img class="tree-pole9" src="/images/pole1.png" />
+	<img class="tree-spot5" src="/images/button_green_rect.png" tree-spot="" number="2" />
 	
-	<img style="position: absolute; top: 600px; left: 415px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 570px; left: 355px;" src="/images/button_green_rect.png" tree-spot="" number="3" />
+	<img class="tree-pole10" src="/images/pole1.png" />
+	<img class="tree-spot6" src="/images/button_green_rect.png" tree-spot="" number="3" />
 	
-	<img style="position: absolute; top: 670px; left: 255px; width: 10px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 640px; left: 195px;" src="/images/button_green_rect.png" tree-spot="" number="1" />
+	<img class="tree-pole11" src="/images/pole1.png" />
+	<img class="tree-spot7" src="/images/button_green_rect.png" tree-spot="" number="1" />
 </div>
