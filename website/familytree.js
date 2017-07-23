@@ -734,14 +734,14 @@ angular.module('genquiz.familytree', [])
 						$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
 						deferred.resolve(temp.fsUser);
 					}, function(error) {
-						deferred.reject(error);
+						deferred.reject("Unable to read your main person data from your family tree.  Please try again later.");
 					});
 				} else {
 					deferred.reject(response.body);
 				}
 			} else if (response && response.statusCode==401) {
 				temp.fs.setAccessToken('');
-				deferred.reject(response.body);
+				deferred.reject(response.data);
 				return;
 			} else {
 				deferred.reject(response);
@@ -883,12 +883,16 @@ angular.module('genquiz.familytree', [])
 				}
 			}
 			this.fs.get('/platform/tree/persons/'+personId, function(error, response) {
-				for(var p=0; p < response.data.persons.length; p++) {
-					var person = response.data.persons[p];
-					temp.people[person.id] = person;
-					temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+				if (response && response.data && response.data.persons) {
+					for(var p=0; p < response.data.persons.length; p++) {
+						var person = response.data.persons[p];
+						temp.people[person.id] = person;
+						temp.backgroundQueue.push(function(){temp.getPersonPortrait(person.id)});
+					}
+					deferred.resolve(temp.people[personId]);
+				} else {
+					deferred.reject(response);
 				}
-				deferred.resolve(temp.people[personId]);
 			});
 		} else {
 			deferred.reject('invalid personId '+personId);

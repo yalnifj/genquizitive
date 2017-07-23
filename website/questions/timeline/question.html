@@ -1,12 +1,20 @@
 <div class="question-holder" ng-controller="timelineController">
-	
-	<div class="question-block" style="width: 95%; max-width: 400px; margin-left: auto; margin-right: auto;">
+	<style>
+		.timeline-question-block {
+			width: 95%; max-width: 400px; margin-left: auto; margin-right: auto;
+		}
+		.portrait .timeline-question-block {
+			width: 88%; max-width: 370px; margin-left: 12px;
+			font-size: 17px;
+		}
+	</style>
+	<div class="question-block timeline-question-block">
 		{{questionText}}
 	</div>
-	<div avatar-badge ng-if="!portrait && question.person.portrait" class="avatar ancestor-avatar" src="question.person.portrait" style="position: absolute; left: 95%; top: 40px;"></div>
+	<div avatar-badge ng-if="!portrait && question.person.portrait" class="avatar ancestor-avatar" src="question.person.portrait" style="position: absolute; left: 420px; top: 40px;"></div>
 	
 	<div class="timeline-block" sortable-timeline="" style="position: relative;">
-		<img src="/images/pole1.png" style="position: absolute; left: 50px; top: 50px; width: 10px; z-index: 0;" ng-style="poleStyle" />
-		<div ng-class="timelineClass" class="movable" ng-class="fact.factClass" timeline-fact="" fact="fact" person="question.person" ng-repeat="fact in facts"></div>
+		<img src="/images/pole1.png" class="timeline-pole" ng-style="poleStyle" />
+		<div class="timeline-fact movable" ng-class="fact.factClass" timeline-fact="" fact="fact" person="question.person" ng-repeat="fact in facts"></div>
 	</div>
 </div>

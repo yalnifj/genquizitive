@@ -370,6 +370,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						console.log('Not enough people. Trying setup again. '+question.tryCount);
 						question.tryCount++;
 						if (question.tryCount==8) {
+							question.error = tree;
 							deferred.reject(question);
 							return;
 						}
@@ -1372,13 +1373,13 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			var count = 0;
 			var hash = {};
 			$scope.spots = {
-				4: {left: -15, top: 440},
-				5: {left: 115, top: 440},
-				6: {left: 305, top: 440},
-				7: {left: 435, top: 440},
-				2: {left: 50,  top: 570},
-				3: {left: 370, top: 570},
-				1: {left: 210, top: 640}
+				4: {left: -15, top: 400},
+				5: {left: 115, top: 400},
+				6: {left: 305, top: 400},
+				7: {left: 435, top: 400},
+				2: {left: 50,  top: 530},
+				3: {left: 370, top: 530},
+				1: {left: 210, top: 600}
 			};
 			if ($scope.portrait) {
 				$scope.spots = {
@@ -1430,6 +1431,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if ($scope.question.people[p].display.inPlace) {
 					if ($scope.spots[$scope.question.people[p].display.ascendancyNumber]) {
 						pos = $scope.spots[$scope.question.people[p].display.ascendancyNumber];
+						pos.left += 20;
 						$scope.spots[$scope.question.people[p].display.ascendancyNumber].highlight = true;
 					}
 				}
@@ -1494,9 +1496,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	$scope.portrait = window.portrait;
 
 	$scope.timelineClass = "timeline-fact";
-	if ($scope.portrait) {
-		$scope.timelineClass = "timeline-fact-small";
-	}
 	
 	$scope.badFacts = ["LifeSketch","Other","REFN","Residence"]
 	
@@ -1526,7 +1525,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.checkTimeline()) {
 				$scope.facts = QuestionService.shuffleArray($scope.facts);
 			}
-			$scope.poleStyle = {height: (($scope.facts.length - 1)*100)+'px'};
+			$scope.poleStyle = {height: (($scope.facts.length - 1)*80)+'px'};
 		}
 	});
 	

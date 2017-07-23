@@ -1,30 +1,154 @@
-<div class="question-holder" ng-controller="photo1Controller" zoom-to-fit="" zoom-max-height="780">
-	<img style="position: absolute; top: 40px; left: 305px; width: 8px; height: 100px;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 0px; left: 260px;" src="/questions/photo1/star.png" />
-	<img style="position: absolute; top: 200px; left: 300px; width: 20px; height: 70%;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 70px; left: 110px;" src="/questions/photo1/back.png" />
-	<div class="rounded-red" style="position: absolute; top: 130px; left: 210px; width: 200px; height: 200px;">
-		<img ng-if="question.person.portrait" src="{{question.person.portrait}}" style="position: absolute; top: 10px; left: 10px; width: 180px; height: 180px;" />
+<div class="question-holder" ng-controller="photo1Controller">
+	<style>
+		.photo-pole1 {
+			position: absolute; top: 40px; left: 255px; width: 8px; height: 100px;
+		}
+		.portrait .photo-pole1 {
+			left: 198px;
+    		width: 6px;
+		}
+		.photo-star {
+			position: absolute; top: 0px; left: 210px;
+		}
+		.portrait .photo-star {
+			width: 60px;
+			left: 170px;
+		}
+		.photo-pole2 {
+			position: absolute; top: 200px; left: 250px; width: 20px; height: 70%;
+		}
+		.portrait .photo-pole2 {
+			left: 185px;
+    		width: 18px;
+			height: 55%;
+		}
+		.photo-back {
+			position: absolute; top: 70px; left: 60px;
+		}
+		.portrait .photo-back {
+			width: 280px;
+    		top: 40px;
+			left: 50px;
+		}
+		.photo-red-box {
+			position: absolute; top: 130px; left: 160px; width: 200px; height: 200px;
+		}
+		.portrait .photo-red-box {
+			width: 140px;
+			height: 140px;
+			top: 85px;
+			left: 125px;
+		}
+		.photo-portrait {
+			position: absolute; top: 10px; left: 10px; width: 180px; height: 180px;
+		}
+		.portrait .photo-portrait {
+			width: 130px;
+			height: 130px;
+			top: 5px;
+			left: 5px;
+		}
+		.photo-pole3 {
+			position: absolute; top: 540px; left: 155px; width: 100px; height: 8px;
+		}
+		.portrait .photo-pole3 {
+			width: 42px;
+			left: 145px;
+			top: 375px;
+		}
+		.photo-pole4 {
+			position: absolute; top: 540px; left: 270px; width: 100px; height: 8px;
+		}
+		.portrait .photo-pole4 {
+			width: 42px;
+			left: 203px;
+			top: 375px;
+		}
+		.photo-pole5 {
+			position: absolute; top: 625px; left: 155px; width: 100px; height: 8px;
+		}
+		.portrait .photo-pole5 {
+			width: 42px;
+			left: 145px;
+			top: 445px;
+		}
+		.photo-pole6 {
+			position: absolute; top: 625px; left: 270px; width: 100px; height: 8px;
+		}
+		.portrait .photo-pole6 {
+			width: 42px;
+			left: 203px;
+			top: 445px;
+		}
+		.photo-answer1 {
+			position:absolute; width:215px; height: 79px; top: 505px; left: 10px;
+		}
+		.photo-answer2 {
+			position:absolute; width:215px; height: 79px; top: 590px; left: 10px;
+		}
+		.photo-answer3 {
+			position:absolute; width:215px; height: 79px; top: 505px; left: 300px;
+		}
+		.photo-answer4 {
+			position:absolute; width:215px; height: 79px; top: 590px; left: 300px;
+		}
+		.portrait .photo-answer1, .portrait .photo-answer2, .portrait .photo-answer3, .portrait .photo-answer4 {
+		    font-size: 10px;
+    		width: 156px;
+    		height: 57px;
+		}
+		.portrait .photo-answer1, .portrait .photo-answer3 {
+			top: 350px;
+		} 
+		.portrait .photo-answer2, .portrait .photo-answer4  {
+			top: 420px;
+		}
+		.portrait .photo-answer3, .portrait .photo-answer4 {
+			left: auto;
+    		right: 35px;
+		}
+		.portrait .photo-answer1 .answer-button, .portrait .photo-answer2 .answer-button, 
+				.portrait .photo-answer3 .answer-button, .portrait .photo-answer4 .answer-button {
+		    background-size: contain;
+    		height: 57px;
+		}
+		.photo-question-block {
+			position: absolute; top: 335px; left: 130px; width: 250px; height: 150px;
+		}
+		.portrait .photo-question-block {
+			left: 90px;
+			width: 200px;
+			height: 100px;
+			top: 230px;
+		}
+	</style>
+	<img class="photo-pole1" src="/images/pole1.png" />
+	<img class="photo-star" src="/questions/photo1/star.png" />
+	<img class="photo-pole2" src="/images/pole1.png" />
+	<img class="photo-back" src="/questions/photo1/back.png" />
+	<div class="rounded-red photo-red-box">
+		<img ng-if="question.person.portrait" src="{{question.person.portrait}}" 
+				class="photo-portrait" />
 	</div>
-	<img style="position: absolute; top: 540px; left: 205px; width: 100px; height: 8px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 540px; left: 320px; width: 100px; height: 8px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 625px; left: 205px; width: 100px; height: 8px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 625px; left: 320px; width: 100px; height: 8px;" src="/images/pole2.png" />
+	<img class="photo-pole3" src="/images/pole2.png" />
+	<img class="photo-pole4" src="/images/pole2.png" />
+	<img class="photo-pole5" src="/images/pole2.png" />
+	<img class="photo-pole6" src="/images/pole2.png" />
 	
 	<div answer-button="" incorrect="incorrectAnswers[0]" label="answerPeople[0].display.name" background="/images/button_red_oval.png" ng-click="guess1()" 
-		style="position:absolute; width:215px; height: 79px; top: 505px; left: 60px;">
+		class="photo-answer1">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[1]" label="answerPeople[1].display.name" background="/images/button_red_oval.png" ng-click="guess2()" 
-		style="position:absolute; width:215px; height: 79px; top: 590px; left: 60px;">
+		class="photo-answer2">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[2]" label="answerPeople[2].display.name" background="/images/button_red_oval.png" ng-click="guess3()" 
-		style="position:absolute; width:215px; height: 79px; top: 505px; left: 350px;">
+		class="photo-answer3">
 	</div>
 	<div answer-button="" incorrect="incorrectAnswers[3]" label="answerPeople[3].display.name" background="/images/button_red_oval.png" ng-click="guess4()" 
-		style="position:absolute; width:215px; height: 79px; top: 590px; left: 350px;">
+		class="photo-answer4">
 	</div>
 	
-	<div class="question-block" style="position: absolute; top: 335px; left: 180px; width: 250px; height: 150px;">
+	<div class="question-block photo-question-block">
 		{{questionText}}
 	</div>
 </div>

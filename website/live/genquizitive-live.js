@@ -174,7 +174,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.tree = {};
 	$scope.step = 1;
 	$scope.questions = 5;
-	$scope.difficulty = 3;
+	$scope.difficulty = 2;
 	$scope.showLiving = false;
 	$scope.mode = 'loading';
 	$scope.portrait = window.portrait;
@@ -204,8 +204,16 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		} else {
 			$location.path("/");
 		}
-	}, function() {
-		$location.path("/");
+	}, function(msg) {
+		var messageText = msg;
+		if (msg.errors && msg.errors[0] && msg.errors[0].message) {
+			messageText = msg.errors[0].message;
+		}
+		notificationService.showConfirmation({title: "Family Tree Error", 
+				message: messageText, showCancelButton: false, confirmButtonText: "Ok"})
+		.then(function() {
+			$location.path("/");
+		});
 	});
 
 	$scope.shortenName = function(name) {
@@ -583,6 +591,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 					backendService.getPlayers().then(function(players) {
 						if (!players[$scope.player.id]) {
 							backendService.addPlayer($scope.player);
+							$cookies.putObject('player', $scope.player);
 						}
 						backendService.watchGenQuizById($scope.genQuizRound.id);
 						if ($scope.genQuizRound.currentQuestionId) {

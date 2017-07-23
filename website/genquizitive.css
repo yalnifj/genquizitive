@@ -824,6 +824,58 @@ body {
 	margin-right: auto;
 }
 
+.timeline-pole {
+	position: absolute; left: 50px; top: 50px; width: 10px; z-index: 0;
+}
+
+.portrait .timeline-pole {
+	left: 40px;
+}
+
+.portrait .timeline-block {
+	width: 84%;
+	margin-left: 10px;
+	padding: 10px;
+}
+
+.portrait .timeline-fact {
+	min-width: auto;
+	min-height: 85px;
+}
+
+.portrait .timeline-fact .fact-circle {
+	width: 65px;
+    height: 67px;
+}
+
+.portrait .timeline-fact .fact-year {
+	font-size: 20px;
+}
+
+.portrait .timeline-fact .fact-details {
+	min-width: 295px;
+    min-height: 80px;
+    font-size: 14px;
+    position: absolute;
+    float: none;
+    left: 32px;
+    top: 5px;
+}
+
+.portrait .timeline-fact .fact-details .fact-age {
+	top: 16px;
+}
+
+.portrait .timeline-fact .fact-details .fact-place {
+	min-height: 80px;
+    width: 225px;
+    left: 70px;
+    top: 3px;
+}
+.portrait .timeline-fact .fact-details .fact-place .fact-type {
+	font-size: 20px;
+}
+
 /*-----*/
 .timeline-fact-small {
 	min-width: 240px;

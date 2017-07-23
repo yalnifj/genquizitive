@@ -1,36 +1,174 @@
-<div class="question-holder" ng-controller="multi2Controller" zoom-to-fit="" zoom-max-height="780">
-	<img style="position: absolute; top: 200px; left: 240px; width: 25px; height: 75%;" src="/images/pole1.png" />
-	<img style="position: absolute; top: 10px; left: 10px;" src="/questions/multi2/back.png" />
-	<img style="position: absolute; top: 540px; left: 25px; width: 220px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 500px; left: 260px; width: 210px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 645px; left: 25px; width: 220px; height: 10px;" src="/images/pole2.png" />
-	<img style="position: absolute; top: 605px; left: 260px; width: 210px; height: 10px;" src="/images/pole2.png" />
+<div class="question-holder" ng-controller="multi2Controller">
+	<style>
+		.mpole1 {
+			position: absolute; top: 200px; left: 240px; width: 25px; height: 75%;
+		}
+		.portrait .mpole1 {
+			height: 55%;
+			width: 20px;
+			left: 180px;
+		}
+		.mback {
+			position: absolute; top: 10px; left: 10px;
+		}
+		.portrait .mback {
+			width: 300px;
+			left: 50px
+		}
+		.m-q-block {
+			position: absolute; top: 240px; left: 90px; width: 330px; height:220px;
+		}
+		.portrait .m-q-block {
+			top: 150px;
+			left: 85px;
+			width: 215px;
+			height: 160px;
+			font-size: 18px;
+		}
+		.mpole2 {
+			position: absolute; top: 540px; left: 25px; width: 220px; height: 10px;
+		}
+		.portrait .mpole2 {
+			top: 350px;
+			left: 25px;
+			width: 157px;
+			height: 8px;
+		}
+		.mpole3 {
+			position: absolute; top: 500px; left: 260px; width: 210px; height: 10px;
+		}
+		.portrait .mpole3 {
+			top: 330px;
+			left: 200px;
+			width: 157px;
+			height: 8px;
+		}
+		.mpole4 {
+			position: absolute; top: 645px; left: 25px; width: 220px; height: 10px;
+		}
+		.portrait .mpole4 {
+			top: 465px;
+			left: 25px;
+			width: 157px;
+			height: 8px;
+		}
+		.mpole5 {
+			position: absolute; top: 605px; left: 260px; width: 210px; height: 10px;
+		}
+		.portrait .mpole5 {
+			top: 445px;
+			left: 200px;
+			width: 157px;
+			height: 8px;
+		}
+		.manswer1 {
+			position:absolute; width:215px; height: 97px; top: 540px; left: 0px;
+		}
+		.portrait .manswer1 {
+			top: 350px;
+			left: 0px;
+		}
+		.manswer1-badge {
+			position: absolute; left: -85px; top: 545px;
+		}
+		.portrait .manswer1-badge {
+		    left: 0px;
+    		top: 305px;
+			width: 70px;
+			height: 59px;
+		}
+		.manswer2 {
+			position:absolute; width:215px; height: 97px; top: 645px; left: 0px;
+		}
+		.portrait .manswer2 {
+			top: 465px;
+			left: 0px;
+		}
+		.portrait .manswer1, .portrait .manswer2, .portrait .manswer3, .portrait .manswer4 {
+			width: 170px;
+			height: 77px;
+			font-size: 11px;
+		}
+		.portrait .manswer1 .answer-button, .portrait .manswer2 .answer-button,
+				.portrait .manswer3 .answer-button, .portrait .manswer4 .answer-button {
+			background-size: contain;
+    		height: 77px;
+		}
+		.portrait .manswer1-badge img, .portrait .manswer2-badge img, .portrait .manswer3-badge img, .portrait .manswer4-badge img {
+			width: 48px;
+			height: 48px;
+			left: 10px;
+			top: 5px;
+		}
+		.manswer2-badge {
+			position: absolute; left: -85px; top: 650px;
+		}
+		.portrait .manswer2-badge {
+			top: 420px;
+			left: 0px;
+			width: 70px;
+			height: 59px;
+		}
+		.manswer3 {
+			position:absolute; width:215px; height: 97px; top: 500px; left: 290px;
+		}
+		.portrait .manswer3 {
+			top: 330px;
+			left: 210px;
+		}
+		.manswer3-badge {
+			position: absolute; left: 490px; top: 505px;
+		}
+		.portrait .manswer3-badge {
+			position: absolute;
+			left: 345px;
+			top: 290px;
+			width: 70px;
+			height: 59px;
+		}
+		.manswer4 {
+			position:absolute; width:215px; height: 97px; top: 605px; left: 290px;
+		}
+		.portrait .manswer4 {
+			top: 445px;
+			left: 210px;
+		}
+		.manswer4-badge {
+			position: absolute; left: 490px; top: 610px;
+		}
+		.portrait .manswer4-badge {
+			position: absolute;
+			left: 345px;
+			top: 410px;
+			width: 70px;
+			height: 59px;
+		}
+	</style>
+	<img class="mpole1" src="/images/pole1.png" />
+	<img class="mback" src="/questions/multi2/back.png" />
+	<img class="mpole2" src="/images/pole2.png" />
+	<img class="mpole3" src="/images/pole2.png" />
+	<img class="mpole4" src="/images/pole2.png" />
+	<img class="mpole5" src="/images/pole2.png" />
 	
-	<div answer-button="" incorrect="incorrectAnswers[0]" class="yellow_answer_button" label="answerPeople[0].display.name" background="/images/button_yellow_rect.png" ng-click="guess1()" 
-		style="position:absolute; width:215px; height: 97px; top: 540px; left: 0px;">
+	<div answer-button="" incorrect="incorrectAnswers[0]" class="yellow_answer_button manswer1" label="answerPeople[0].display.name" background="/images/button_yellow_rect.png" ng-click="guess1()">
 	</div>
-	<div avatar-badge ng-show="answerPeople[0].portrait" src="answerPeople[0].portrait" class="avatar ancestor-avatar" 
-		style="position: absolute; left: -85px; top: 545px;"></div>
+	<div avatar-badge ng-show="answerPeople[0].portrait && answerPeople[0].portrait!='/images/unknown_sil.png'" src="answerPeople[0].portrait" class="avatar ancestor-avatar manswer1-badge"></div>
 
-	<div answer-button="" incorrect="incorrectAnswers[1]" class="yellow_answer_button" label="answerPeople[1].display.name" background="/images/button_yellow_rect.png" ng-click="guess2()" 
-		style="position:absolute; width:215px; height: 97px; top: 645px; left: 0px;">
+	<div answer-button="" incorrect="incorrectAnswers[1]" class="yellow_answer_button manswer2" label="answerPeople[1].display.name" background="/images/button_yellow_rect.png" ng-click="guess2()">
 	</div>
-	<div avatar-badge ng-show="answerPeople[1].portrait" src="answerPeople[1].portrait" class="avatar ancestor-avatar" 
-		style="position: absolute; left: -85px; top: 650px;"></div>
+	<div avatar-badge ng-show="answerPeople[1].portrait && answerPeople[1].portrait!='/images/unknown_sil.png'" src="answerPeople[1].portrait" class="avatar ancestor-avatar manswer2-badge" 
+		></div>
 
-	<div answer-button="" incorrect="incorrectAnswers[2]" class="yellow_answer_button" label="answerPeople[2].display.name" background="/images/button_yellow_rect.png" ng-click="guess3()" 
-		style="position:absolute; width:215px; height: 97px; top: 500px; left: 290px;">
+	<div answer-button="" incorrect="incorrectAnswers[2]" class="yellow_answer_button manswer3" label="answerPeople[2].display.name" background="/images/button_yellow_rect.png" ng-click="guess3()">
 	</div>
-	<div avatar-badge ng-show="answerPeople[2].portrait" src="answerPeople[2].portrait" class="avatar ancestor-avatar" 
-		style="position: absolute; left: 490px; top: 505px;"></div>
+	<div avatar-badge ng-show="answerPeople[2].portrait && answerPeople[2].portrait!='/images/unknown_sil.png'" src="answerPeople[2].portrait" class="avatar ancestor-avatar manswer3-badge"></div>
 
-	<div answer-button="" incorrect="incorrectAnswers[3]" class="yellow_answer_button" label="answerPeople[3].display.name" background="/images/button_yellow_rect.png" ng-click="guess4()" 
-		style="position:absolute; width:215px; height: 97px; top: 605px; left: 290px;">
+	<div answer-button="" incorrect="incorrectAnswers[3]" class="yellow_answer_button manswer4" label="answerPeople[3].display.name" background="/images/button_yellow_rect.png" ng-click="guess4()">
 	</div>
-	<div avatar-badge ng-show="answerPeople[3].portrait" src="answerPeople[3].portrait" class="avatar ancestor-avatar" 
-		style="position: absolute; left: 490px; top: 610px;"></div>
+	<div avatar-badge ng-show="answerPeople[3].portrait && answerPeople[3].portrait!='/images/unknown_sil.png'" src="answerPeople[3].portrait" class="avatar ancestor-avatar manswer4-badge"></div>
 
-	<div class="question-block" style="position: absolute; top: 240px; left: 90px; width: 330px; height:220px;">
+	<div class="question-block m-q-block">
 		{{questionText}}
 	</div>
 </div>

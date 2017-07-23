@@ -225,9 +225,14 @@ angular.module('genquiz.live.backend', ['ngCookies','genquizitive-live'])
 	};
 
 	this.addPlayer = function(player) {
-		var newPlayerRef = firebase.database().ref('/players/'+this.currentGenQuiz.id).push();
-		player.id = newPlayerRef.key;
-		newPlayerRef.set(player);
+		if (!player.id) {
+			var newPlayerRef = firebase.database().ref('/players/'+this.currentGenQuiz.id).push();
+			player.id = newPlayerRef.key;
+			newPlayerRef.set(player);
+		}
+		else {
+			firebase.database().ref('/players/'+this.currentGenQuiz.id+'/'+player.id).set(player);
+		}
 	};
 
 	this.removePlayer = function(player) {

@@ -38,9 +38,21 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		$scope.title = options.title;
 		$scope.message = $sce.trustAsHtml(options.message);
 		$scope.options = options;
+		if (typeof $scope.options.confirmButtonText == "undefined") {
+			$scope.options.confirmButtonText = "Yes";
+		}
+		if (typeof $scope.options.showConfirmButton == "undefined") {
+			$scope.options.showConfirmButton = true;
+		}
+		if (typeof $scope.options.cancelButtonText == "undefined") {
+			$scope.options.cancelButtonText = "No";
+		}
+		if (typeof $scope.options.showCancelButton == "undefined") {
+			$scope.options.showCancelButton = true;
+		}
 		var template = '<div class="notification"><div class="title">{{title}}</div><div class="message">{{message}}</div>\
-			<div class="closebutton"><button ng-click="confirm()" class="btn btn-default">Yes</button>\
-			<button ng-click="cancel()" class="btn btn-default">No</button></div></div>';
+			<div class="closebutton"><button ng-show="options.showConfirmButton" ng-click="confirm()" class="btn btn-default">{{options.confirmButtonText}}</button>\
+			<button ng-show="options.showCancelButton" ng-click="cancel()" class="btn" btn-default">{{options.cancelButtonText}}</button></div></div>';
 		$scope.element = $compile(template)($scope);
 		$('body').append($scope.element);
 		
@@ -221,7 +233,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		link: function($scope, $element, $attr) {
 			$scope.updateStyle = function() {
 				$scope.answerStyle = {
-					background: "url('"+$scope.background+"')",
+					backgroundImage: "url('"+$scope.background+"')",
 					opacity: $scope.incorrect ? '0.7':'1.0'
 				};
 			};
