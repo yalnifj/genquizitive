@@ -745,7 +745,7 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		$scope.tries++;
 		console.log('trying question '+$scope.question.name+' setup again '+$scope.tries);
 		$scope.question.error = null;
-		$scope.question.setup($scope.difficulty, $scope.useLiving).then(function() {
+		$scope.question.setup($scope.difficulty, $scope.useLiving, familysearchService.fsUser).then(function() {
 			console.log('successfully setup question '+$scope.question.name);
 		}, function(error) {
 			familysearchService.clearUsed();

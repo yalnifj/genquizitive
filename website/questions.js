@@ -1369,19 +1369,21 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		if ($scope.question.people && $scope.question.people.length > 0) {
 			$scope.people = [];
 			var x = 49;
-			var y = 86;
+			var y = 110;
 			var count = 0;
 			var hash = {};
 			$scope.spots = {
-				4: {left: -15, top: 400},
-				5: {left: 115, top: 400},
-				6: {left: 305, top: 400},
-				7: {left: 435, top: 400},
-				2: {left: 50,  top: 530},
-				3: {left: 370, top: 530},
-				1: {left: 210, top: 600}
+				4: {left: -15, top: 370},
+				5: {left: 115, top: 370},
+				6: {left: 305, top: 370},
+				7: {left: 435, top: 370},
+				2: {left: 50,  top: 490},
+				3: {left: 370, top: 490},
+				1: {left: 210, top: 550}
 			};
 			if ($scope.portrait) {
+				x = 49;
+				y = 86;
 				$scope.spots = {
 					4: {left: -15, top: 286},
 					5: {left: 70, top: 286},
@@ -1431,16 +1433,21 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if ($scope.question.people[p].display.inPlace) {
 					if ($scope.spots[$scope.question.people[p].display.ascendancyNumber]) {
 						pos = $scope.spots[$scope.question.people[p].display.ascendancyNumber];
-						pos.left += 20;
+						if ($scope.portrait) pos.left += 20;
 						$scope.spots[$scope.question.people[p].display.ascendancyNumber].highlight = true;
 					}
 				}
 				$scope.people.push({person: $scope.question.people[p], position: pos});
-				x += 68;
+				if ($scope.portrait) {
+					x += 68;	
+				} else {
+					x += 105;
+				}
 				count++;
 				if (count>3) {
 					x = 49;
-					y += 72;
+					if ($scope.portrait) y += 72;
+					else y += 110;
 					count = 0;
 				}
 			}
@@ -1525,7 +1532,11 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.checkTimeline()) {
 				$scope.facts = QuestionService.shuffleArray($scope.facts);
 			}
-			$scope.poleStyle = {height: (($scope.facts.length - 1)*80)+'px'};
+			if ($scope.portrait) {
+				$scope.poleStyle = {height: (($scope.facts.length - 1)*80)+'px'};
+			} else {
+				$scope.poleStyle = {height: (($scope.facts.length - 1)*100)+'px'};
+			}
 		}
 	});
 	
