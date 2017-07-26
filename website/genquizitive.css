@@ -1432,6 +1432,7 @@ div.buttonspacer {
 }
 .portrait .neonbutton img {
 	max-width: 180px;
+	max-height: 45px;
 }
 
 .portrait .question-details {
