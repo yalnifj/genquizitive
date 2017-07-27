@@ -36,14 +36,9 @@ var fscheck = fs.oauthResponse(function(error, response){
 		fs.setAccessToken(response.data['access_token']);
 		//alert(response.data['access_token']);
 		//alert(document.cookie);
-		fs.get('/platform/tree/current-person', function(response){
-			if (response && response.body) {
-				//alert(response.body);
-				window.location = 'https://www.genquizitive.com/live/#/live-create-game';
-			} else {
-				window.location = 'https://www.genquizitive.com/live/';
-			}
-		});
+		window.setTimeout(function() {
+			window.location = 'https://www.genquizitive.com/live/#/live-create-game';
+		}, 500);
 	} else {
 		window.location = 'https://www.genquizitive.com/live/';
 	}

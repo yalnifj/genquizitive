@@ -396,6 +396,14 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		return tempId;
 	};
 
+	$scope.setQuestions = function(questions) {
+		$scope.questions = questions;
+	};
+
+	$scope.setDifficulty = function(difficulty) {
+		$scope.difficulty = difficulty;
+	};
+
 	$scope.createGenQuiz = function() {
 		if (!$scope.genQuizRound) {
 			$scope.genQuizRound = {};
@@ -628,7 +636,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			notificationService.showConfirmation({title: 'Leave GenQuiz?', message: 'You have already joined an active GenQuiz game.\
 				  Are you sure you want to leave?'}).then(function(result) {
 				if (result) {
-					backendService.removePlayer($scope.player.id);
+					backendService.removePlayer($scope.player);
 					$cookies.remove("genQuizId");
 					$location.path('/');
 				}
@@ -1101,9 +1109,6 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.$on('playerScores', function(event, playerScores) {
 		var updated = false;
 		angular.forEach(playerScores, function(score, playerId){
-			if (!$scope.players[playerId]) {
-				$scope.players[playerId] = {name: "unknown", id: playerId, score: 0};
-			}
 			if (!$scope.scoredPlayers[playerId]) {
 				updated = true;
 				$scope.scoredPlayers[playerId] = true;

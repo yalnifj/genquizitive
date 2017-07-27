@@ -243,10 +243,10 @@
 				<div class="form-group">
 					<label class="control-label">Number of questions?</label>
 					<div class="btn-group" role="group">
-						<button type="button" ng-click="questions=5" class="btn" ng-class="{'btn-primary': questions==5, 'btn-default': questions!=5}">5</button>
-						<button type="button" ng-click="questions=10" class="btn" ng-class="{'btn-primary': questions==10, 'btn-default': questions!=10}">10</button>
-						<button type="button" ng-click="questions=15" class="btn" ng-class="{'btn-primary': questions==15, 'btn-default': questions!=15}">15</button>
-						<button type="button" ng-click="questions=20" class="btn" ng-class="{'btn-primary': questions==20, 'btn-default': questions!=20}">20</button>
+						<button type="button" ng-click="setQuestions(5)" class="btn" ng-class="{'btn-primary': questions==5, 'btn-default': questions!=5}">5</button>
+						<button type="button" ng-click="setQuestions(10)" class="btn" ng-class="{'btn-primary': questions==10, 'btn-default': questions!=10}">10</button>
+						<button type="button" ng-click="setQuestions(15)" class="btn" ng-class="{'btn-primary': questions==15, 'btn-default': questions!=15}">15</button>
+						<button type="button" ng-click="setQuestions(20)" class="btn" ng-class="{'btn-primary': questions==20, 'btn-default': questions!=20}">20</button>
 						<!--
 						<button type="button" ng-click="questions=25" class="btn" ng-class="{'btn-primary': questions==25, 'btn-default': questions!=25}">25</button>
 						-->
@@ -255,9 +255,9 @@
 				<div class="form-group">
 					<label class="control-label">Difficulty Level</label>
 					<div class="btn-group" role="group">
-						<button type="button" ng-click="difficulty=2" class="btn" ng-class="{'btn-primary': difficulty==2, 'btn-default': difficulty!=2}">Easy</button>
-						<button type="button" ng-click="difficulty=3" class="btn" ng-class="{'btn-primary': difficulty==3, 'btn-default': difficulty!=3}">Medium</button>
-						<button type="button" ng-click="difficulty=5" class="btn" ng-class="{'btn-primary': difficulty==5, 'btn-default': difficulty!=5}">Hard</button>
+						<button type="button" ng-click="setDifficulty(2)" class="btn" ng-class="{'btn-primary': difficulty==2, 'btn-default': difficulty!=2}">Easy</button>
+						<button type="button" ng-click="setDifficulty(3)" class="btn" ng-class="{'btn-primary': difficulty==3, 'btn-default': difficulty!=3}">Medium</button>
+						<button type="button" ng-click="setDifficulty(5)" class="btn" ng-class="{'btn-primary': difficulty==5, 'btn-default': difficulty!=5}">Hard</button>
 					</div>
 				</div>
 				<div class="form-group">
