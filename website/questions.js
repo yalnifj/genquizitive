@@ -457,15 +457,18 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				var count = 0;
 				
 				var person = question.person;
-				while(count < 10 && (!question.person.facts || question.person.facts.length<1+question.difficulty)) {
+				var factCount = question.countFacts(question.person.facts);
+				while(count < 10 && (!question.person.facts || factCount<1+question.difficulty)) {
 					person = familysearchService.getRandomPerson(useLiving, this.difficulty);
-					if (person.facts && (!question.person.facts || person.facts.length > question.person.facts.length)) {
+					var newFactCount = question.countFacts(question.person.facts);
+					if (person.facts && (!question.person.facts || newFactCount > factCount)) {
 						question.person = person;
+						factCount = newFactCount;
 					}
 					count++;
 				}
 				if (count==10) {
-					console.log('unabled to find person with enough facts');
+					console.log('unable to find person with enough facts');
 					deferred.reject(question);
 				} else {
 					familysearchService.markUsed(question.person);
@@ -475,6 +478,23 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				}
 				
 				return deferred.promise;
+			},
+			countFacts: function(facts) {
+				var count = 0;
+				if (facts && facts.length >0) {
+					var badFacts = ["LifeSketch","Other","REFN","Residence"];
+					for(var f=0; f<facts.length; f++) {
+						var found = false;
+						for(var b=0; b<badFacts.length; b++) {
+							if (facts[f].type.indexOf(badFacts[b]) >= 0) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) count++;
+					}
+				}
+				return count;
 			},
 			checkAnswer: function(answer) {
 				if (answer.id == this.person.id) {
@@ -563,11 +583,15 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 										var entry = response.entries[0];
 										if (entry.content && entry.content.gedcomx && entry.content.gedcomx.places && entry.content.gedcomx.places.length>0) {
 											var placeAuthority = entry.content.gedcomx.places[0];
-											if (!uniquePlaces[placeAuthority.id] && placeAuthority.latitude) {
-												uniquePlaces[placeAuthority.id] = placeAuthority;
-												placeAuthority.fact = uniqueFacts[responsePlace];
-												placeAuthority.pos = [placeAuthority.latitude, placeAuthority.longitude];
-												question.places.push(placeAuthority);
+											if (placeAuthority.latitude) {
+												var latlongid = Math.floor(placeAuthority.latitude) + ' ' + Math.floor(placeAuthority.longitude);
+												if (!uniquePlaces[placeAuthority.id] && !uniquePlaces[latlongid]) {
+													uniquePlaces[placeAuthority.id] = placeAuthority;
+													uniquePlaces[latlongid] = placeAuthority;
+													placeAuthority.fact = uniqueFacts[responsePlace];
+													placeAuthority.pos = [placeAuthority.latitude, placeAuthority.longitude];
+													question.places.push(placeAuthority);
+												}
 											}
 										}
 									}
@@ -1504,7 +1528,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 
 	$scope.timelineClass = "timeline-fact";
 	
-	$scope.badFacts = ["LifeSketch","Other","REFN","Residence"]
+	$scope.badFacts = ["LifeSketch","Other","REFN","Residence"];
 	
 	$scope.$watch('question.person', function() {
 		if ($scope.question.person && $scope.question.person.facts) {

@@ -23,13 +23,18 @@
             </form>
         </div>
         <div ng-if="genQuizRound" class="tree text-center">
-            <div style="line-height: 70px; margin-bottom: 20px;">
+            <div style="line-height: 50px; margin-bottom: 20px;">
                 <div style="display: inline-block; margin: 10px;">
                     <strong>Successfully joined GenQuiz game for <br/>{{genQuizRound.person.display.name}}.</strong>
                     <div style="display: inline-block;" avatar-badge class="avatar ancestor-avatar avatar-small" src="genQuizRound.person.portrait" label="genQuizRound.person.display.name"></div>
                 </div>
             </div>
-            <h4>Waiting for next question...</h4>
+            <h4>Waiting for {{genQuizRound.creator}} to start the round...</h4>
+            <div>
+				<ul class="players">
+					<li ng-repeat="player in players">{{player.name}}</li>
+				</ul>
+			</div>
         </div>
         <div>
             <div class="clickable neonbutton" ng-click="leaveGame()">

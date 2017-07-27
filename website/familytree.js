@@ -762,7 +762,7 @@ angular.module('genquiz.familytree', [])
 			
 			temp.getPersonSpouses(personId).then(function(spouses) {
 			if (spouses) {
-				if (Object.keys(temp.people).length < 36) {
+				if (Object.keys(temp.people).length < generations * 4) {
 					angular.forEach(spouses, function(spouse) {
 						temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, generations, true); });
 					});

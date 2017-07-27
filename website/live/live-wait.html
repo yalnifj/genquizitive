@@ -14,7 +14,10 @@
             <table class="player-table">
                 <tr ng-repeat="player in playerArray | orderBy: '-score'">
                     <td>{{player.name}}</td>
-                    <td>{{player.score | number:0}}</td>
+                    <td>
+                        <span ng-show="scoredPlayers[player.id]">{{player.score | number:0}}</span>
+                        <img ng-show="!scoredPlayers[player.id]" src="/images/clock.png" />
+                    </td>
                 </tr>
             </table>
         </div>

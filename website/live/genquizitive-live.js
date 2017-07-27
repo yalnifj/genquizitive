@@ -450,6 +450,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 							} else {
 								$scope.genQuizRound.error = null;
 								$scope.genQuizRound.ready = true;
+								$scope.genQuizRound.creator = $scope.screenName;
+								$scope.genQuizRound.questionCount = $scope.questions;
+								$scope.genQuizRound.currentQuestionNum = 0;
+								$scope.genQuizRound.showLiving = $scope.showLiving;
+								$scope.genQuizRound.difficulty = $scope.difficulty;
 								backendService.writeGenQuiz($scope.genQuizRound);
 								backendService.currentGenQuiz = $scope.genQuizRound;
 								$scope.step = step;
@@ -600,6 +605,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						else {
 							//-- wait for game start signal
 							backendService.watchForQuestion($scope.genQuizRound.id);
+							backendService.watchPlayers();
 						}
 					});
 				}
@@ -646,6 +652,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.$on('$destroy', function() {
 		backendService.unWatchQuestion();
+		backendService.unWatchPlayers();
 	});
 
 	$scope.$on('questionAdded', function(event, question) {
@@ -667,6 +674,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		};
 		notif.show();
 	});
+
+	$scope.$on('playersChanged', function(event, players) {
+		$scope.players = players;
+		$scope.player = $cookies.getObject("player");
+		if (!$scope.player || !$scope.player.id) {
+			$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+			backendService.addPlayer($scope.player);
+			$cookies.putObject('player', $scope.player);
+		} else {
+			if (!$scope.players[$scope.player.id]) {
+				backendService.addPlayer($scope.player);
+				$cookies.putObject('player', $scope.player);
+			}
+		}
+		backendService.currentPlayer = $scope.player;
+	});
 })
 .controller('liveGenQuiz', function($scope, $location, $q, $interval, $timeout, notificationService, backendService, 
 			languageService, QuestionService, $log) {
@@ -683,7 +706,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.minute = 0;
 	$scope.second = 0;	
 	$scope.loadingTime = 0;
-	$scope.maxTime = 200 * 60 * 1000;
+	$scope.maxTime = 2 * 60 * 1000;
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 	$scope.blinkerStarted = false;
@@ -849,7 +872,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.minute = 0;
 	$scope.second = 0;	
 	$scope.loadingTime = 0;
-	$scope.maxTime = 200 * 60 * 1000;
+	$scope.maxTime = 2 * 60 * 1000;
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 	$scope.blinkerStarted = false;
@@ -1061,6 +1084,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	}
 
 	//-- watch for player scores
+	backendService.watchPlayerScores($scope.genQuizRound.currentQuestionId, $scope.genQuizRound.id);
 	backendService.watchPlayers();
 	//-- wait for game start signal
 	backendService.watchForQuestion($scope.genQuizRound.id);
@@ -1072,6 +1096,20 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$location.path('/');
 		});
 	};
+
+	$scope.scoredPlayers = {};
+	$scope.$on('playerScores', function(event, playerScores) {
+		var updated = false;
+		angular.forEach(playerScores, function(score, playerId){
+			if (!$scope.players[playerId]) {
+				$scope.players[playerId] = {name: "unknown", id: playerId, score: 0};
+			}
+			if (!$scope.scoredPlayers[playerId]) {
+				updated = true;
+				$scope.scoredPlayers[playerId] = true;
+			}
+		});
+	});
 
 	$scope.$on('playersChanged', function(event, players) {
 		$scope.players = players;
@@ -1108,6 +1146,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.$on('$destroy', function() {
 		backendService.unWatchPlayers();
+		backendService.unWatchPlayerScores();
 		backendService.unWatchQuestion();
 	});
 })
