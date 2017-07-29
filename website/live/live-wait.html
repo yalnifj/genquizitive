@@ -4,7 +4,7 @@
 		<img class="title-img" src="/live/waiting.png" />
 	</div>
     <div class="tree text-center">
-        <div style="line-height: 30px; margin-bottom: 20px;">
+        <div style="margin-bottom: 10px;">
             <div style="display: inline-block; margin: 10px;">
                 <strong ng-if="!allScored">Waiting for players to finish question...</strong>
                 <strong ng-if="allScored">Continue to view the next question...</strong>
@@ -13,6 +13,11 @@
         <div style="width: 300px; margin-left: auto; margin-right: auto;">
             <table class="player-table">
                 <tr ng-repeat="player in playerArray | orderBy: '-score'">
+                    <td>
+                        <img ng-if="$index==0" src="/images/gold_medal.png" class="score-medal" />
+                        <img ng-if="$index==1" src="/images/silver_medal.png" class="score-medal" />
+                        <img ng-if="$index==2" src="/images/bronze_medal.png" class="score-medal" />
+                    </td>
                     <td>{{player.name}}</td>
                     <td>
                         <span ng-show="scoredPlayers[player.id]">{{player.score | number:0}}</span>

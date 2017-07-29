@@ -694,7 +694,8 @@ angular.module('genquiz.familytree', [])
 	this.backgroundQueue = [];
 	
 	this.fs = new FamilySearch({
-	  environment: 'beta',
+	  environment: 'production',
+	  //environment: 'beta',
 	  //environment: 'integration',
 	  appKey: 'a02j000000JERmSAAX',
 	  redirectUri: FS_REDIRECT_URL,
@@ -710,6 +711,7 @@ angular.module('genquiz.familytree', [])
 			this.fs.setAccessToken(token);
 		} else {
 			var familysearchService = this;
+			/*
 			$.get('/fs-proxy.php?getToken=true', function(data){
 				if (data) {
 					token = data.trim();
@@ -717,37 +719,42 @@ angular.module('genquiz.familytree', [])
 					familysearchService.fs.setAccessToken(token);
 				}
 			});
+			*/
 		}
 	}
 	
 	this.fsLoginStatus = function() {
 		var deferred = $q.defer();
 		var temp = this;
-		this.fs.get('/platform/users/current', function(error, response) {
-			if (response && (response.statusCode==200 || response.statusCode == 307)) {
-				if (response.data && response.data.users) {
-					temp.currentUser = response.data.users[0];
-					temp.getPersonById(temp.currentUser.personId).then(function(person) {
-						temp.fsUser = person;
-						temp.startBackgroundQueue();
-						var token = $cookies.get(temp.fs.tokenCookie);
-						$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
-						deferred.resolve(temp.fsUser);
-					}, function(error) {
-						deferred.reject("Unable to read your main person data from your family tree.  Please try again later.");
-					});
+		if (!this.fs.getAccessToken()) {
+			deferred.reject("Not authenticated");
+		} else {
+			this.fs.get('/platform/users/current', function(error, response) {
+				if (response && (response.statusCode==200 || response.statusCode == 307)) {
+					if (response.data && response.data.users) {
+						temp.currentUser = response.data.users[0];
+						temp.getPersonById(temp.currentUser.personId).then(function(person) {
+							temp.fsUser = person;
+							temp.startBackgroundQueue();
+							var token = $cookies.get(temp.fs.tokenCookie);
+							$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': token});
+							deferred.resolve(temp.fsUser);
+						}, function(error) {
+							deferred.reject("Unable to read your main person data from your family tree.  Please try again later.");
+						});
+					} else {
+						deferred.reject(response.body);
+					}
+				} else if (response && response.statusCode==401) {
+					temp.fs.setAccessToken('');
+					deferred.reject(response.data);
+					return;
 				} else {
-					deferred.reject(response.body);
+					deferred.reject(response);
+					return;
 				}
-			} else if (response && response.statusCode==401) {
-				temp.fs.setAccessToken('');
-				deferred.reject(response.data);
-				return;
-			} else {
-				deferred.reject(response);
-				return;
-			}
-		});
+			});
+		}
 		return deferred.promise;
 	};
 	
@@ -785,7 +792,9 @@ angular.module('genquiz.familytree', [])
 	};
 	
 	this.fsLogout = function() {
-		this.fs.logout();
+		this.currentUser = null;
+		this.fsUser = null;
+		this.fs.deleteAccessToken();
 	};
 	
 	this.startBackgroundQueue = function() {

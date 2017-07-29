@@ -24,22 +24,27 @@ body {
 <body ng-app="genquizitive">
 	<script>
 var fs = new FamilySearch({
-	environment: 'beta',
+	environment: "production",
+	//environment: 'beta',
 	//environment: 'integration',
 	appKey: 'a02j000000JERmSAAX',
-	redirectUri: 'https://www.genquizitive.com/fs-live.php',
+	redirectUri: 'https://www.genquizitive.com/fs-login.html',
 	saveAccessToken: true,
 	tokenCookie: 'FS_AUTH_TOKEN',
 	maxThrottledRetries: 10
 });
 
+//-- expire old cookie in IE
+fs.deleteAccessToken();
+
 var fscheck = fs.oauthResponse(function(error, response){
-	if (response && response.data) {
-		$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': response.data['access_token']});
-		document.cookie = 'FS_AUTH_TOKEN='+response.data['access_token']+';path=/live';
+	if (response && response.data && response.data['access_token']) {
+		//$.post('/fs-proxy.php', {'FS_AUTH_TOKEN': response.data['access_token']});
+		document.cookie = 'FS_AUTH_TOKEN='+response.data['access_token']+'; path=/live;';
 		fs.setAccessToken(response.data['access_token']);
 		//alert(response.data['access_token']);
 		//alert(document.cookie);
+		//console.log(response.data['access_token']);
 		window.setTimeout(function() {
 			window.location = 'https://www.genquizitive.com/live/#/live-create-game';
 		}, 500);

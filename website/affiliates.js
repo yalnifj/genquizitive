@@ -41,7 +41,8 @@ angular.module('genquiz-affiliates', [])
 		modalScope.ad = this.getRandomLargeAd();
 
 		modalScope.adClicked = function() {
-			window.open(modalScope.ad.clickUrl, "_blank");
+            window.open(modalScope.ad.clickUrl, "_blank");
+            modalScope.close();
 		};
 
         modalwin = $uibModal.open(options);

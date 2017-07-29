@@ -1,4 +1,5 @@
 var FS_REDIRECT_URL = 'https://www.genquizitive.com/fs-login.html';
+Math.log2 = Math.log2 || function(x){return Math.log(x)*Math.LOG2E;};
 angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.bootstrap', 
 				'genquiz-components', 'genquiz.questions', 'genquiz.familytree',
 				'ngMap','genquiz.live.backend','genquiz-affiliates'])
@@ -116,7 +117,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		}
 	}
 })
-.controller('livestart', function($scope, $location, familysearchService, backendService, $log, $http) {
+.controller('livestart', function($scope, $location, familysearchService, backendService, $log, $http, $cookies) {
 	$scope.$emit('changeBackground', '/live/live_background.jpg');
 	$scope.loading = false;
 
@@ -155,6 +156,13 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.joinGame = function() {
 		$location.path("/live-join-game");
 	};
+
+	$scope.logout = function() {
+		$scope.fsLoggedIn = false;
+		$cookies.remove("FS_AUTH_TOKEN");
+		document.cookie = "FS_AUTH_TOKEN=; path=/live; expires=-1;";
+		familysearchService.fsLogout();
+	};
 })
 .controller('livefamilytree', function($scope, $location, familysearchService) {
 	$scope.loading = false;
@@ -187,14 +195,18 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			backendService.authenticate().then(function(firebaseUser) {
 				$log.error("succesfully authenticated with firebase");
 				backendService.getOwnerGenQuiz().then(function(genQuiz) {
-					$scope.genQuizRound = genQuiz;
-					backendService.currentGenQuiz = $scope.genQuizRound;
-					$scope.person = genQuiz.person;
-					$scope.step = 4;
-					var generations = $scope.genQuizRound.difficulty + 1;
-					familysearchService.clearCache();
-					familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
-					backendService.watchPlayers();
+					if (genQuiz.lastModified < (new Date()).getTime() - (24*60*60*1000)) {
+						backendService.removeGenQuiz(genQuiz);
+					} else {
+						$scope.genQuizRound = genQuiz;
+						backendService.currentGenQuiz = $scope.genQuizRound;
+						$scope.person = genQuiz.person;
+						$scope.step = 4;
+						var generations = $scope.genQuizRound.difficulty + 1;
+						familysearchService.clearCache();
+						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
+						backendService.watchPlayers();
+					}
 				}, function() {
 
 				});
@@ -404,6 +416,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$scope.difficulty = difficulty;
 	};
 
+	$scope.setShowLiving = function(living) {
+		if (living) {
+			notificationService.showConfirmation({title: 'Show Living?', 
+				message: 'This option will allow the game to use living people when generating \
+					questions. Other players who join your game may be able to see those living details\
+					in the question.  Are you sure you want to allow living people?'})
+			.then(function() {
+				$scope.showLiving = true;
+			}, function() {
+				$scope.showLiving = false;
+			});
+		} else {
+			$scope.showLiving = false;
+		}
+	};
+
 	$scope.createGenQuiz = function() {
 		if (!$scope.genQuizRound) {
 			$scope.genQuizRound = {};
@@ -436,49 +464,56 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	};
 	
 	$scope.showStep = function(step) {
-		if (step==1) {
-			$scope.step = step;
-		} else if (step==2 && $scope.person) {
-			$scope.step = step;
-		} else if (step==3 && $scope.person) {
-			$scope.createGenQuiz();
-			$scope.step = step;
-		} else if (step==4 && $scope.person && $scope.genQuizRound && !$scope.genQuizRound.error) {
-			$scope.checkId($scope.genQuizRound.id).then(function(exists){
-				if (exists) {
-					$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
-				} else {
-					if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
-						$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
+		if ($scope.step != 4) {
+			if (step==1) {
+				$scope.step = step;
+			} else if (step==2 && $scope.person) {
+				$scope.step = step;
+			} else if (step==3 && $scope.person) {
+				$scope.createGenQuiz();
+				$scope.step = step;
+			} else if (step==4 && $scope.person && $scope.genQuizRound && !$scope.genQuizRound.error) {
+				$scope.checkId($scope.genQuizRound.id).then(function(exists){
+					if (exists) {
+						$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
 					} else {
-						$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.genQuizRound.creator)).then(function(response){
-							$scope.genQuizRound.creator = response.data;
-							if ($scope.genQuizRound.creator.length < 3) {
-								$scope.nameError = 'Please include at least 3 characters in your name.';
-							} else {
-								$scope.genQuizRound.error = null;
-								$scope.genQuizRound.ready = true;
-								$scope.genQuizRound.creator = $scope.screenName;
-								$scope.genQuizRound.questionCount = $scope.questions;
-								$scope.genQuizRound.currentQuestionNum = 0;
-								$scope.genQuizRound.showLiving = $scope.showLiving;
-								$scope.genQuizRound.difficulty = $scope.difficulty;
-								backendService.writeGenQuiz($scope.genQuizRound);
-								backendService.currentGenQuiz = $scope.genQuizRound;
-								$scope.step = step;
-								$scope.player = {name: $scope.genQuizRound.creator, score: 0};
-								backendService.addPlayer($scope.player);
-								backendService.currentPlayer = $scope.player;
-								$cookies.putObject('player', $scope.player);
-								var generations = $scope.genQuizRound.difficulty + 1;
-								familysearchService.clearCache();
-								familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
-								backendService.watchPlayers();
-							}
-						});
+						if (!$scope.genQuizRound.creator || $scope.genQuizRound.creator.length < 3) {
+							$scope.genQuizRound.error = "Your name must be at least 3 characters long.";
+						} else {
+							$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.genQuizRound.creator)).then(function(response){
+								$scope.genQuizRound.creator = response.data;
+								if ($scope.genQuizRound.creator.length < 3) {
+									$scope.nameError = 'Please include at least 3 characters in your name.';
+								} else {
+									$scope.genQuizRound.error = null;
+									$scope.genQuizRound.ready = true;
+									$scope.genQuizRound.creator = $scope.screenName;
+									$scope.genQuizRound.questionCount = $scope.questions;
+									$scope.genQuizRound.currentQuestionNum = 0;
+									$scope.genQuizRound.showLiving = $scope.showLiving;
+									$scope.genQuizRound.difficulty = $scope.difficulty;
+									backendService.writeGenQuiz($scope.genQuizRound);
+									backendService.currentGenQuiz = $scope.genQuizRound;
+									$scope.step = step;
+									$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+									backendService.addPlayer($scope.player);
+									backendService.currentPlayer = $scope.player;
+									$cookies.putObject('player', $scope.player);
+									var generations = $scope.genQuizRound.difficulty + 1;
+									familysearchService.clearCache();
+									familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
+									backendService.watchPlayers();
+								}
+							});
+						}
 					}
-				}
-			});
+				});
+			}
+		} else {
+			var notif = notificationService.showNotification({title: "Game is Published", closable: true, message: "You're game is already published. \
+					You may not change the properties of a published game.  \
+					You may start over by pressing the Back button."});
+			notif.show();
 		}
 	};
 

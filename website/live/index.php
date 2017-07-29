@@ -30,7 +30,7 @@ session_start();
 <script src="/markerclusterer.js"></script>
 <script src="/jquery-ui.min.js"></script>
 <script src="/ui-bootstrap-tpls-2.5.0.min.js"></script>
-<script src="/FamilySearch.min.js"></script>
+<script src="/FamilySearch.js"></script>
 <script src="genquizitive-live.js"></script>
 <script src="backend.js"></script>
 <script src="/components.js"></script>
@@ -60,6 +60,11 @@ session_start();
 			} else {
 				window.portrait = false;
 				$('body').removeClass('portrait');
+			}
+			if (width < 400) {
+				$('body').addClass('portrait-small');
+			} else {
+				$('body').removeClass('portrait-small');
 			}
 		}
 	}

@@ -4,9 +4,12 @@
 		<img class="title-img" src="/live/genquiz_score.png" />
 	</div>
     <div class="text-center">
-        <div style="width: 400px; margin-left: auto; margin-right: auto;">
-			<div ng-repeat="player in playerArray | orderBy: '-score'">
+        <div style="max-width: 400px; margin-left: auto; margin-right: auto;">
+			<div class="player-score-row" ng-repeat="player in playerArray | orderBy: '-score'">
 				<div class="score-badge">
+					<img class="gold-crown" ng-if="$index==0" src="/images/crown.png" />
+					<img class="silver-crown" ng-if="$index==1" src="/images/crown_silver.png" />
+					<img class="bronze-crown" ng-if="$index==2" src="/images/crown_bronze.png" />
 					{{player.score | number:0}}
 				</div>
 				<div class="score-name">{{player.name}}</div>

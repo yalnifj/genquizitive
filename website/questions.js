@@ -172,7 +172,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 				for(var p=0; p<this.randomPeople.length; p++) {
@@ -180,7 +180,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					if (this.randomPeople[p].gender) {
 						p2.gender = this.randomPeople[p].gender;
 					}
-					if (this.randomPeople[p].portrait) {
+					if (this.randomPeople[p].portrait && this.randomPeople[p].portrait!='/images/unknown_sil.png') {
 						p2.portrait = this.randomPeople[p].portrait;
 					}
 					q.answers.push(p2);
@@ -331,7 +331,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 				for(var p=0; p<this.randomPeople.length; p++) {
@@ -339,7 +339,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					if (this.randomPeople[p].gender) {
 						p2.gender = this.randomPeople[p].gender;
 					}
-					if (this.randomPeople[p].portrait) {
+					if (this.randomPeople[p].portrait && this.randomPeople[p].portrait!='/images/unknown_sil.png') {
 						p2.portrait = this.randomPeople[p].portrait;
 					}
 					q.answers.push(p2);
@@ -423,7 +423,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 				for(var p=0; p<this.people.length; p++) {
@@ -431,7 +431,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					if (this.people[p].gender) {
 						p2.gender = this.people[p].gender;
 					}
-					if (this.people[p].portrait) {
+					if (this.people[p].portrait && this.people[p].portrait!='/images/unknown_sil.png') {
 						p2.portrait = this.people[p].portrait;
 					}
 					q.people.push(p2);
@@ -521,7 +521,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 				return q;
@@ -652,7 +652,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 				var pPlaces = [];
@@ -809,7 +809,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					if (place.person.gender) {
 						pp.person.gender = place.person.gender;
 					}
-					if (place.person.portrait) {
+					if (place.person.portrait && place.person.portrait!='/images/unknown_sil.png') {
 						pp.person.portrait = place.person.portrait;
 					}
 					pp.pos = place.pos;
@@ -924,10 +924,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				if (this.person.gender) {
 					q.person.gender = this.person.gender;
 				}
-				if (this.startPerson.portrait) {
+				if (this.startPerson.portrait && this.startPerson.portrait!='/images/unknown_sil.png') {
 					q.startPerson.portrait = this.startPerson.portrait;
 				}
-				if (this.person.portrait) {
+				if (this.person.portrait && this.person.portrait!='/images/unknown_sil.png') {
 					q.person.portrait = this.person.portrait;
 				}
 
@@ -937,7 +937,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					if (tp.gender) {
 						q.treePersons[key].gender = tp.gender;
 					}
-					if (tp.portrait) {
+					if (tp.portrait && tp.portrait!='/images/unknown_sil.png') {
 						q.treePersons[key].portrait = tp.portrait;
 					}
 				}
@@ -1092,6 +1092,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	
 	$scope.answerPeople = [];
 	$scope.incorrectAnswers = {};
+	$scope.complete = false;
 	
 	$scope.$watchCollection('question.randomPeople', function() {
 		if ($scope.question.randomPeople && $scope.question.randomPeople.length > 0) {
@@ -1105,73 +1106,85 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	});
 	
 	$scope.guess1 = function() {
-		console.log("guess 1 clicked");
-		if ($scope.answerPeople.length < 1) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[0])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[0]) {
-				$scope.incorrectAnswers[0] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 1 clicked");
+			if ($scope.answerPeople.length < 1) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[0])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[0]) {
+					$scope.incorrectAnswers[0] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess2 = function() {
-		console.log("guess 2 clicked");
-		if ($scope.answerPeople.length < 2) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[1])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[1]) {
-				$scope.incorrectAnswers[1] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 2 clicked");
+			if ($scope.answerPeople.length < 2) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[1])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[1]) {
+					$scope.incorrectAnswers[1] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess3 = function() {
-		console.log("guess 3 clicked");
-		if ($scope.answerPeople.length < 3) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[2])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[2]) {
-				$scope.incorrectAnswers[2] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 3 clicked");
+			if ($scope.answerPeople.length < 3) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[2])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[2]) {
+					$scope.incorrectAnswers[2] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess4 = function() {
-		console.log("guess 4 clicked");
-		if ($scope.answerPeople.length < 4) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[3])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[3]) {
-				$scope.incorrectAnswers[3] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 4 clicked");
+			if ($scope.answerPeople.length < 4) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[3])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[3]) {
+					$scope.incorrectAnswers[3] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
@@ -1199,6 +1212,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	
 	$scope.answerPeople = [];
 	$scope.incorrectAnswers = {};
+	$scope.complete = false;
 	
 	$scope.$watchCollection('question.randomPeople', function() {
 		if ($scope.question.randomPeople && $scope.question.randomPeople.length > 0) {
@@ -1214,73 +1228,85 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	});
 	
 	$scope.guess1 = function() {
-		console.log("guess 1 clicked");
-		if ($scope.answerPeople.length < 1) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[0])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[0]) {
-				$scope.incorrectAnswers[0] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+			if (!$scope.complete) {
+			console.log("guess 1 clicked");
+			if ($scope.answerPeople.length < 1) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[0])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[0]) {
+					$scope.incorrectAnswers[0] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess2 = function() {
-		console.log("guess 2 clicked");
-		if ($scope.answerPeople.length < 2) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[1])) {
-			console.log("Correct!");	
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[1]) {
-				$scope.incorrectAnswers[1] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 2 clicked");
+			if ($scope.answerPeople.length < 2) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[1])) {
+				console.log("Correct!");
+				$scope.complete = true;	
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[1]) {
+					$scope.incorrectAnswers[1] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess3 = function() {
-		console.log("guess 3 clicked");
-		if ($scope.answerPeople.length < 3) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[2])) {
-			console.log("Correct!");	
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[2]) {
-				$scope.incorrectAnswers[2] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 3 clicked");
+			if ($scope.answerPeople.length < 3) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[2])) {
+				console.log("Correct!");
+				$scope.complete = true;	
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[2]) {
+					$scope.incorrectAnswers[2] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
 	
 	$scope.guess4 = function() {
-		console.log("guess 4 clicked");
-		if ($scope.answerPeople.length < 4) {
-			console.log("Incorrect!");
-			return;
-		}
-		if ($scope.question.checkAnswer($scope.answerPeople[3])) {
-			console.log("Correct!");
-			$scope.$emit('questionCorrect', $scope.question);
-		} else {
-			console.log("Incorrect!");
-			if (!$scope.incorrectAnswers[3]) {
-				$scope.incorrectAnswers[3] = true;
-				$scope.$emit('questionIncorrect', $scope.question);
+		if (!$scope.complete) {
+			console.log("guess 4 clicked");
+			if ($scope.answerPeople.length < 4) {
+				console.log("Incorrect!");
+				return;
+			}
+			if ($scope.question.checkAnswer($scope.answerPeople[3])) {
+				console.log("Correct!");
+				$scope.complete = true;
+				$scope.$emit('questionCorrect', $scope.question);
+			} else {
+				console.log("Incorrect!");
+				if (!$scope.incorrectAnswers[3]) {
+					$scope.incorrectAnswers[3] = true;
+					$scope.$emit('questionIncorrect', $scope.question);
+				}
 			}
 		}
 	};
