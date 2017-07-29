@@ -794,6 +794,8 @@ angular.module('genquiz.familytree', [])
 	this.fsLogout = function() {
 		this.currentUser = null;
 		this.fsUser = null;
+		this.fs.get('/platform/logout', function(response) {
+		});
 		this.fs.deleteAccessToken();
 	};
 	

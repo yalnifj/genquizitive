@@ -22,6 +22,19 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		.otherwise({ redirectTo: '/' });
     }
 ])
+.factory('$exceptionHandler', ['$log', '$injector', function($log, $injector) {
+    return function myExceptionHandler(exception, cause) {
+		  var $http = $injector.get('$http');
+		  var errmessage = exception.toString();
+		  if ($http && errmessage.indexOf('[$rootScope:inprog]') < 0) {
+			$http.post("/live/errorlog.php", {
+				exception: exception.toString(),
+				cause: cause
+			});
+		  }
+      $log.error(exception, cause);
+    };
+}])
 .directive('liveLogo', function($timeout) {
 	return {
 		scope: {

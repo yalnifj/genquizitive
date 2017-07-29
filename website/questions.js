@@ -384,6 +384,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						question.people = [];
 						question.tryCount = 0;
 						var promises = [];
+						var hash = {};
 						for(var p=0; p<tree.persons.length; p++){
 							if (tree.persons[p].display.ascendancyNumber.indexOf("S")<0) {
 								hash[tree.persons[p].id] = tree.persons[p];
