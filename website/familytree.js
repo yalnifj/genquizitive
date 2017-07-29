@@ -1100,11 +1100,12 @@ angular.module('genquiz.familytree', [])
 				if (response.statusCode==200 || response.statusCode == 307) {
 					var src = response.headers.location;
 					if (temp.people[personId]) {
-						temp.people[personId].portrait = "/fs-proxy.php?url="+encodeURIComponent(src);
+						//temp.people[personId].portrait = "/fs-proxy.php?url="+encodeURIComponent(src);
+						temp.people[personId].portrait = src;
 						temp.portraitPeople[personId] = true;
 						deferred.resolve({id: personId, src: temp.people[personId].portrait});
 					} else {
-						deferred.resolve({id: personId, src: "/fs-proxy.php?url="+encodeURIComponent(src)});
+						deferred.resolve({id: personId, src: src});
 					}
 				} else {
 					deferred.reject(response.body);

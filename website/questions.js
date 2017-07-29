@@ -383,13 +383,24 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					} else {
 						question.people = [];
 						question.tryCount = 0;
+						var promises = [];
 						for(var p=0; p<tree.persons.length; p++){
 							if (tree.persons[p].display.ascendancyNumber.indexOf("S")<0) {
+								hash[tree.persons[p].id] = tree.persons[p];
 								question.people.push(tree.persons[p]);
+								var pro = familysearchService.getPersonPortrait(tree.persons[p].id).then(function(res) {
+									if (hash[res.id]) {
+										hash[res.id].portrait = res.src;
+									}
+								},function(error){
+								});
+								promises.push(pro);
 							}
 						}
-						question.isReady = true;
-						deferred.resolve(question);
+						$q.all(promises).then(function() {
+							question.isReady = true;
+							deferred.resolve(question);
+						});
 					}
 				}, function(error) {
 					console.log(error);
@@ -861,13 +872,17 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						familysearchService.markUsed(question.person);						
 						familysearchService.getAncestorTree(question.startPerson.id,path.length).then(function(tree) {
 							question.treePersons = {};
+							var promises = [];
 							for(var i=0; i<tree.persons.length; i++) {
 								var tp = tree.persons[i];
 								question.treePersons[tp.display.ascendancyNumber] = tp;
-								question.loadPortrait(tp);
+								var pro = question.loadPortrait(tp);
+								promises.push(pro);
 							}
-							question.isReady = true;
-							question.deferred.resolve(question);
+							$q.all(promises).then(function() {
+								question.isReady = true;
+								question.deferred.resolve(question);
+							});
 						}, function(error) {
 							console.log(error);
 							question.error = error;
@@ -887,7 +902,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				return question.deferred.promise;
 			},
 			loadPortrait: function(person) {
-				familysearchService.getPersonPortrait(person.id).then(function(res){
+				return familysearchService.getPersonPortrait(person.id).then(function(res){
 					person.portrait = res.src;
 				},function(error){
 					if (person.gender.type=="http://gedcomx.org/Female") {
@@ -1463,7 +1478,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			}
 			$scope.question.people = QuestionService.shuffleArray($scope.question.people);
 			for(var p=0; p<$scope.question.people.length; p++) {
-				hash[$scope.question.people[p].id] = $scope.question.people[p];
 				if (!$scope.question.people[p].gender) {
 					$scope.question.people[p].portrait = '/images/unknown_sil.png';
 				}
@@ -1472,13 +1486,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				} else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Male") {
 					$scope.question.people[p].portrait = '/images/male_sil.png';
 				}
-				familysearchService.getPersonPortrait($scope.question.people[p].id).then(function(res) {
-					if (hash[res.id]) {
-						hash[res.id].portrait = res.src;
-					}
-				},function(error){
-					
-				});
 				var pos = {left: x, top: y};
 				if ($scope.question.people[p].display.inPlace) {
 					if ($scope.spots[$scope.question.people[p].display.ascendancyNumber]) {

@@ -12,6 +12,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
         })
 		.when('/:page', {
 			templateUrl: function($routeParams) {
+				if (ga) {
+					ga('set', 'page', '/'+$routeParams.page +'.html');
+					ga('send', 'pageview');
+				}
 				return $routeParams.page +'.html';
 			}
         })
@@ -161,6 +165,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$scope.fsLoggedIn = false;
 		$cookies.remove("FS_AUTH_TOKEN");
 		document.cookie = "FS_AUTH_TOKEN=; path=/live; expires=-1;";
+		document.cookie = "FS_AUTH_TOKEN=; path=/; expires=-1;";
+		$http.get("/fs-proxy.php?logout=true");
 		familysearchService.fsLogout();
 	};
 })
