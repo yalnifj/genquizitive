@@ -361,7 +361,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				question.isReady = false;
 				this.difficulty = difficulty;
 				this.timeOffset = 0;
-				question.questionText = 'Complete the family tree.'
+				question.questionText = 'Drag your relatives onto the family tree.'
 				
 				question.person = familysearchService.getRandomPerson(useLiving, this.difficulty);
 				familysearchService.markUsed(question.person);
@@ -484,7 +484,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					deferred.reject(question);
 				} else {
 					familysearchService.markUsed(question.person);
-					question.questionText = 'Place the facts for '+question.person.display.name+' in the correct order on the timeline.';
+					question.questionText = 'Drag the facts for '+question.person.display.name+' into the correct order on the timeline.';
 					question.isReady = true;
 					deferred.resolve(question);
 				}
@@ -618,7 +618,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$q.all(promises).then(function() {
 						if (question.places.length >= 1+question.difficulty && question.places.length <= 2+2*question.difficulty) {
 							familysearchService.markUsed(question.person);
-							question.questionText = 'Move the facts for '+question.person.display.name+' to the correct place on the map.';
+							question.questionText = 'Drag the facts for '+question.person.display.name+' to the correct place on the map.';
 							question.isReady = true;
 							deferred.resolve(question);
 						} else {
@@ -699,7 +699,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				question.places = [];
 				question.placeCount = 0;
 				question.personQueue = [];
-				question.questionText = 'Move the people to their correct birth place on the map.';
+				question.questionText = 'Drag the people to their correct birth place on the map.';
 				
 				question.checkNextPerson(useLiving);
 				
@@ -868,7 +868,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					
 					familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
 						question.person = person1;
-						question.questionText = 'Follow the tree path from '+question.startPerson.display.name
+						question.questionText = 'Expand the tree path from '+question.startPerson.display.name
 							+ ' up to '+question.person.display.name;
 						familysearchService.markUsed(question.person);						
 						familysearchService.getAncestorTree(question.startPerson.id,path.length).then(function(tree) {

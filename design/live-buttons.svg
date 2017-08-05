@@ -446,14 +446,15 @@
    inkscape:pageshadow="2"
    inkscape:zoom="1.4142136"
    showgrid="false"
-   inkscape:cx="508.40557"
-   inkscape:cy="1144.2962"
+   inkscape:cx="439.25337"
+   inkscape:cy="491.65562"
    inkscape:window-width="1440"
    inkscape:window-height="804"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
    inkscape:current-layer="layer1" />
+
 
 
  HEAD
@@ -1238,11 +1239,13 @@
    x="346.77817" />
 
 
+
  HEAD
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)&quot;
        xml:space=&quot;preserve&quot;&gt;<tspan
    style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1"
    id="tspan6292" />
+
 
 
 =======
@@ -1409,6 +1412,92 @@
    y="-141.29176"
    rx="11.1585"
    ry="11.1585" />
+<text
+   id="text4313"
+   y="512.2937"
+   x="327.82806"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18095)"
+   xml:space="preserve"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_off.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998"
+   sodipodi:linespacing="0%"
+   transform="matrix(0.91250534,0,0,1.0040362,31.523333,-2.0073875)"><tspan
+     style="font-size:40px;line-height:1.25"
+     y="512.2937"
+     x="327.82806"
+     id="tspan4315"
+     sodipodi:role="line">PLAY AGAIN</tspan></text>
+<rect
+   ry="11.1585"
+   rx="11.1585"
+   y="220.21936"
+   x="259.64288"
+   height="44.999992"
+   width="179.28571"
+   id="rect4317"
+   style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18091)"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_off.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998"
+   transform="matrix(1.2656395,0,0,0.99520013,-112.44846,256.95463)" />
+<text
+   id="text4319"
+   y="71.504082"
+   x="347.49246"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+   xml:space="preserve"
+   transform="matrix(0.88155218,0,0,1.0135339,261.80941,442.88755)"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_on.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998"
+   sodipodi:linespacing="0%"><tspan
+     y="71.504082"
+     x="347.49246"
+     id="tspan4321"
+     sodipodi:role="line"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle">PLAY AGAIN</tspan></text>
+<rect
+   style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
+   id="rect4323"
+   width="179.28575"
+   height="45"
+   x="451.57184"
+   y="220.21935"
+   rx="11.1585"
+   ry="11.1585"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_on.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998"
+   transform="matrix(1.2698274,0,0,0.97937225,-119.27036,262.22493)" />
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.43031883px;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.42878985;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   x="597.56909"
+   y="488.93799"
+   id="text4325"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_on.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998"
+   sodipodi:linespacing="0%"
+   transform="scale(0.95037128,1.0522203)"><tspan
+     style="font-size:38.10106277px;line-height:1.25;stroke-width:1.42878985"
+     sodipodi:role="line"
+     id="tspan4327"
+     x="597.56909"
+     y="488.93799">PLAY AGAIN</tspan></text>
+<rect
+   style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.68733573;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="rect4329"
+   width="227.81267"
+   height="44.812656"
+   x="453.78687"
+   y="477.53122"
+   rx="14.178753"
+   ry="11.112046"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_on.png"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-ydpi="99.419998" />
 </g>
 <text
    inkscape:export-ydpi="99.419998"
@@ -1417,6 +1506,7 @@
    id="text3447"
    y="71.504082"
    x="347.49246" />
+
 
 
  HEAD

@@ -1264,6 +1264,12 @@ div.buttonspacer {
 	z-index: 2;
 	margin-left: 10px;
 }
+.player-score-row {
+	padding-left: 8px;
+}
+.player-score-row:first-child {
+	padding-left: 0px;
+}
 .player-score-row:first-child .score-badge {
 	width: 80px;
 	height: 80px;
@@ -1301,8 +1307,8 @@ div.buttonspacer {
 	color: white;
 	font-size: large;
 	width: 300px;
-	height: 70px;
-	line-height: 70px;
+	height: 65px;
+	line-height: 65px;
 	margin-bottom: 10px;
 	position: relative;
 	z-index: 1;
@@ -1311,6 +1317,7 @@ div.buttonspacer {
 }
 .player-score-row:first-child .score-name {
 	height: 75px;
+	line-height: 70px;
 	font-size: x-large;
 }
 
@@ -1467,7 +1474,7 @@ div.buttonspacer {
 	font-size: larger;
 }
 .portrait .neonbutton img {
-	max-width: 180px;
+	max-width: 170px;
 	max-height: 40px;
 }
 .portrait-small .neonbutton img {

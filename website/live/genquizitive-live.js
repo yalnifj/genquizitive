@@ -28,6 +28,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		  var errmessage = exception.toString();
 		  if ($http && errmessage.indexOf('[$rootScope:inprog]') < 0) {
 			$http.post("/live/errorlog.php", {
+				date: (new Date()).toString(),
 				exception: exception.toString(),
 				cause: cause
 			});
@@ -655,6 +656,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						backendService.watchGenQuizById($scope.genQuizRound.id);
 					}
 				} else {
+					$scope.player.name = $scope.data.playerName;
 					backendService.getPlayers().then(function(players) {
 						if (!players[$scope.player.id]) {
 							backendService.addPlayer($scope.player);
@@ -1209,7 +1211,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		backendService.unWatchQuestion();
 	});
 })
-.controller('liveScoreboard', function($scope, $location, backendService, $rootScope, affiliateService) {
+.controller('liveScoreboard', function($scope, $location, backendService, $rootScope, affiliateService, familysearchService) {
 	$scope.$emit('changeBackground', '/images/score_background.jpg');
 	$scope.genQuizRound = backendService.currentGenQuiz;
 
@@ -1219,6 +1221,18 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		}
 		$location.path('/');
 	};
+
+	$scope.playAgain = function() {
+		if ($scope.genQuizRound && $scope.genQuizRound.id) {
+			backendService.endGenQuiz($scope.genQuizRound);
+		}
+		$location.path("/live-create-game");
+	};
+
+	$scope.showPlayAgain = false;
+	if (familysearchService.fsUser) {
+		$scope.showPlayAgain = true;
+	}
 
 	affiliateService.showLargeAd();
 

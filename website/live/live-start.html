@@ -1,13 +1,32 @@
 <div class="text-center" ng-controller="livestart" delay="500">
-	<div class="live-logo" live-logo=""></div>
+	<div class="live-logo" live-logo=""
+		uib-popover="GenQuizitive Live! is an interactive, genealogy game where groups of players join together and play with each other 'Live' over 
+		the internet. One player logs into their online family tree and sets up a GenQuiz Live game. They invite other players to join their GenQuiz by 
+		sharing that game's unique GenQuiz ID. When the game starts each player will have 2 minutes to answer the same question. The faster you answer a 
+		question, the more points you receive.  Learn more by following the 'How to Play' link at the bottom of the page." 
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-placement="right" popover-append-to-body="true"
+				popover-class="live-popover" popover-is-open="false"></div>
 	<div class="clickable homebutton" ng-click="createGame()">
-		<img src="/live/create_button_off.png" neon-image="" delay="2000" />
+		<img src="/live/create_button_off.png" neon-image="" delay="2000" 
+				uib-popover="Use the 'Create' button to login to your family tree and start a new GenQuiz round to play.  Then invite your relatives to 'Join' in and play with you." 
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-placement="right" popover-append-to-body="true"
+				popover-class="live-popover" popover-is-open="false"/>
 	</div>
 	<div class="clickable homebutton" ng-click="joinGame()">
-		<img src="/live/join_button_off.png" neon-image="" delay="2000" />
+		<img src="/live/join_button_off.png" neon-image="" delay="2000" 
+				uib-popover="Use the 'Join' button to play a GenQuiz round that someone else created.  You will need the unique GenQuiz ID to join their game." 
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-placement="right" popover-append-to-body="true"
+				popover-class="live-popover" popover-is-open="false"/>
 	</div>
-	<div ng-if="fsLoggedIn" class="clickable homebutton" ng-click="logout()" style="margin-top: 40px;">
-		<img src="/live/logout_button_off.png" neon-image="" delay="1000" />
+	<div ng-if="fsLoggedIn" class="clickable homebutton" ng-click="logout()" style="margin-top: 30px;">
+		<img src="/live/logout_button_off.png" neon-image="" delay="1000" style="max-width: 100px;" 
+				uib-popover="Logout from your family tree." 
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-placement="right" popover-append-to-body="true"
+				popover-class="live-popover" popover-is-open="false"/>
 	</div>
 	<div ng-show="adblocker" class="showthelove">
 		<p>We have detected that you are using ad blocking tools.</p>

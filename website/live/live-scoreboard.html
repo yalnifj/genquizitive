@@ -4,7 +4,7 @@
 		<img class="title-img" src="/live/genquiz_score.png" />
 	</div>
     <div class="text-center">
-        <div style="max-width: 400px; margin-left: auto; margin-right: auto;">
+        <div style="max-width: 400px; margin-left: auto; margin-right: auto; margin-top: 20px;">
 			<div class="player-score-row" ng-repeat="player in playerArray | orderBy: '-score'">
 				<div class="score-badge">
 					<img class="gold-crown" ng-if="$index==0" src="/images/crown.png" />
@@ -19,6 +19,9 @@
     <div>
         <div class="clickable neonbutton" ng-click="leaveGame()">
 			<img src="/live/continue_button_off.png" neon-image="" delay="500" />
+		</div>
+		<div ng-if="showPlayAgain" class="clickable neonbutton" ng-click="playAgain()">
+			<img src="/live/playagain_button_off.png" neon-image="" delay="500" />
 		</div>
 	</div>
 </div>

@@ -426,7 +426,7 @@ angular.module('genquiz.familytree', [])
 			var temp = this;
 			
 			var promise;
-			if (relationshipType=='parents') {
+			if (relationshipType=='parents' || (relationshipType=='all' && path.length == 0)) {
 				promise = familysearchService.getPersonParents(personId, true);
 			} else if (relationshipType=='children') {
 				promise = familysearchService.getPersonChildrenRelationships(personId);
@@ -436,7 +436,7 @@ angular.module('genquiz.familytree', [])
 			promise.then(function(relationships) {
 				temp.processRelationships(deferred, relationships, personId, path, length, useLiving, relationshipType);
 			}, function(error) { 
-				familysearchService.getPersonParents(personId, true).then(function(relationships) {
+				familysearchService.getPersonRelationships(personId, true).then(function(relationships) {
 					temp.processRelationships(deferred, relationships, personId, path, length, useLiving, relationshipType);
 				}, function(error) {
 					deferred.reject(path);
