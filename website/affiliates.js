@@ -7,7 +7,8 @@ angular.module('genquiz-affiliates', [])
         {name: "ftdna", template: "/affiliates/ftdna-banner.html", clickUrl: "https://affiliate.familytreedna.com/idevaffiliate.php?id=1883_1_1_40"},
         {name: "fhfamazon", template: "/affiliates/fhf-banner.html", clickUrl: "https://www.amazon.com/gp/product/1542619351/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1542619351&linkCode=as2&tag=elloorkech-20&linkId=88f6bde10f60bd6b8e930b34f7057d7c"},
         {name: "fhfamazon2", template: "/affiliates/fhf-banner2.html", clickUrl: "https://www.amazon.com/gp/product/1547053518/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1547053518&linkCode=as2&tag=elloorkech-20&linkId=9a441e7f95066c577a9e82819aec4ebb"},
-        {name: "newspapers", template: "/affiliates/newspapers.html", clickUrl: "http://www.kqzyfj.com/click-8388174-11504315"}
+        {name: "newspapers", template: "/affiliates/newspapers.html", clickUrl: "http://www.kqzyfj.com/click-8388174-11504315"},
+        {name: "fold3", template: "/affiliates/fold3-banner.html", clickUrl: "http://www.anrdoezrs.net/click-8388174-10929639"}
         //{name: "macamazon", template: "/affiliates/mac-banner.html", clickUrl: ""}
     ];
 
@@ -20,7 +21,8 @@ angular.module('genquiz-affiliates', [])
         {name: "livingdna", template: "/affiliates/ldna-large.html", clickUrl: 'http://www.tkqlhce.com/click-8388174-12747562'},
         {name: "amazonmerch", template: "/affiliates/amerch.html", clickUrl: "https://www.amazon.com/dp/B072QN3717"},
         {name: "ftdna", template: "/affiliates/ftdna-large.html", clickUrl: "https://affiliate.familytreedna.com/idevaffiliate.php?id=1883_2_1_44"},
-        {name: "newslarge", template: "/affiliates/news-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-11504321"}
+        {name: "newslarge", template: "/affiliates/news-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-11504321"},
+        {name: "fold3large", template: "/affiliates/fold3-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-10929309"}
         //{name: "fhfamazon", template: "/affiliates/fhf-large.html", clickUrl: ""},
         //{name: "macamazon", template: "/affiliates/mac-large.html", clickUrl: ""}
     ];
@@ -78,7 +80,7 @@ angular.module('genquiz-affiliates', [])
             $scope.styleWidth = {"width": "400px;"};
             $scope.portrait = window.portrait;
             if (!window.portrait) {
-                if ($scope.banner1.name == "newspapers") {
+                if ($scope.banner1.name == "newspapers" || $scope.banner1.name == "fold3") {
                     $scope.styleWidth = {"width": "800px;"};
                 } else {
                     var count = 0;
