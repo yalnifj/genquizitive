@@ -227,9 +227,10 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 		scope: {
 			label: '=',
 			background: '@',
-			incorrect: '='
+			incorrect: '=',
+			showArrow: '='
 		},
-		template: '<div class="answer-button" ng-style="answerStyle">{{label}}</div>',
+		template: '<div arrowable="" show-arrow="showArrow" class="answer-button" ng-style="answerStyle">{{label}}</div>',
 		link: function($scope, $element, $attr) {
 			$scope.updateStyle = function() {
 				$scope.answerStyle = {
@@ -242,6 +243,48 @@ angular.module('genquiz-components', ['ngAnimate','ui.bootstrap'])
 			});
 			$scope.$watch('incorrect', function() {
 				$scope.updateStyle();
+			});
+			$scope.$watch('showArrow', function() {
+				$scope.updateStyle();
+			});
+		}
+	}
+}])
+.directive('arrowable', ['$uibPosition', function($uibPosition) {
+	return {
+		scope: {
+			showArrow: '='
+		},
+		link: function($scope, $element, $attr) {
+			$scope.$watch('showArrow', function() {
+				if ($scope.showArrow) {
+					$scope.arrow = $('<img class="correct-arrow" src="/images/arrow.gif" />');
+					var position = 'left';
+					var left = -150;
+					var offset = -150;
+					if ($element.offset().left < $('body').width() / 2) {
+						position = 'right';
+						left = $('body').width();
+						offset = 0;
+						$scope.arrow.addClass('flipped');
+					}
+					var pos = $uibPosition.positionElements($element, $scope.arrow, position, true);
+					$scope.arrow.css('left', (left)+'px').css('top', (pos.top-25)+'px');
+					window.setTimeout(function() {
+						$scope.arrow.css('left', (pos.left+offset)+'px');
+					}, 50);
+					$('body').append($scope.arrow);
+				} else {
+					if ($scope.arrow) {
+						$scope.arrow.remove();
+					}
+				}
+			});
+
+			$scope.$on('$destroy', function() {
+				if ($scope.arrow) {
+					$scope.arrow.remove();
+				}
 			});
 		}
 	}

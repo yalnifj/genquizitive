@@ -183,6 +183,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$http.get("/fs-proxy.php?logout=true");
 		familysearchService.fsLogout();
 	};
+
+	$scope.showTutorial = function() {
+		
+	};
 })
 .controller('livefamilytree', function($scope, $location, familysearchService) {
 	$scope.loading = false;
@@ -209,7 +213,12 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser) {
 			//TODO store screen name in firebase user
-			$scope.screenName = languageService.shortenName(fsUser.display.name);
+			$scope.player = $cookies.getObject("player");
+			if ($scope.player) {
+				$scope.screenName = $scope.player.name;
+			} else {
+				$scope.screenName = languageService.shortenName(fsUser.display.name);
+			}
 			$scope.getTree(familysearchService.fsUser.id, 4, 1);
 
 			backendService.authenticate().then(function(firebaseUser) {
@@ -224,7 +233,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						$scope.step = 4;
 						var generations = $scope.genQuizRound.difficulty + 1;
 						familysearchService.clearCache();
-						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
+						familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 3);
 						backendService.watchPlayers();
 					}
 				}, function() {
@@ -468,7 +477,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$scope.genQuizRound.difficulty = $scope.difficulty;
 			$scope.checkId($scope.genQuizRound.id).then(function(exists) {
 				if (exists) {
-					$scope.genQuizRound.id = $scope.getTempId();
+					$scope.genQuizRound.id = $scope.getRandomId();
 				}
 			});
 		}
@@ -507,7 +516,6 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 								} else {
 									$scope.genQuizRound.error = null;
 									$scope.genQuizRound.ready = true;
-									$scope.genQuizRound.creator = $scope.screenName;
 									$scope.genQuizRound.questionCount = $scope.questions;
 									$scope.genQuizRound.currentQuestionNum = 0;
 									$scope.genQuizRound.showLiving = $scope.showLiving;
@@ -515,14 +523,21 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 									backendService.writeGenQuiz($scope.genQuizRound);
 									backendService.currentGenQuiz = $scope.genQuizRound;
 									$scope.step = step;
-									$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+									if (!$scope.player) {
+										$scope.player = {name: $scope.genQuizRound.creator, score: 0};
+									} else {
+										$scope.player.name = $scope.genQuizRound.creator;
+										$scope.player.score = 0;
+									}
 									backendService.addPlayer($scope.player);
 									backendService.currentPlayer = $scope.player;
 									$cookies.putObject('player', $scope.player);
 									var generations = $scope.genQuizRound.difficulty + 1;
 									familysearchService.clearCache();
 									familysearchService.loadInitialData($scope.genQuizRound.person.id, generations, $scope.genQuizRound.difficulty - 2);
-									backendService.watchPlayers();
+									window.setTimeout(function() {
+										backendService.watchPlayers();
+									}, 500);
 								}
 							});
 						}
@@ -538,7 +553,17 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	};
 
 	$scope.startGame = function() {
-		$location.path("/live-genquiz");
+		if (!$scope.players || $scope.players.length==0) {
+			backendService.getPlayers().then(function(players) {
+				$scope.players = players;
+				$log.log($scope.players);
+				$location.path("/live-genquiz");
+			}, function(error) {
+				notificationService.showNotification({title: "Error", message: error}).show();
+			});
+		} else {
+			$location.path("/live-genquiz");
+		}
 	};
 
 	$scope.leaveGame = function() {
@@ -559,18 +584,20 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.$on('playersChanged', function(event, players) {
 		$scope.players = players;
-		$scope.player = $cookies.getObject("player");
-		if (!$scope.player || !$scope.player.id) {
-			$scope.player = {name: $scope.genQuizRound.creator, score: 0};
-			backendService.addPlayer($scope.player);
-			$cookies.putObject('player', $scope.player);
-		} else {
-			if (!$scope.players[$scope.player.id]) {
+		if ($scope.players) {
+			$scope.player = $cookies.getObject("player");
+			if (!$scope.player || !$scope.player.id) {
+				$scope.player = {name: $scope.genQuizRound.creator, score: 0};
 				backendService.addPlayer($scope.player);
 				$cookies.putObject('player', $scope.player);
+			} else {
+				if (!$scope.players[$scope.player.id]) {
+					backendService.addPlayer($scope.player);
+					$cookies.putObject('player', $scope.player);
+				}
 			}
+			backendService.currentPlayer = $scope.player;
 		}
-		backendService.currentPlayer = $scope.player;
 	});
 })
 .directive('genquizId', function(backendService, $http) {
@@ -643,7 +670,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			if (!genQuizRound.ended) {
 				$scope.genQuizRound = genQuizRound;
 				backendService.currentGenQuiz = $scope.genQuizRound;
-				if (!$scope.player) {
+				if (!$scope.player || !$scope.player.id) {
 					$scope.player = {name: $scope.data.playerName, score: 0};
 					backendService.addPlayer($scope.player);
 					$cookies.putObject('player', $scope.player);
@@ -669,7 +696,9 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						else {
 							//-- wait for game start signal
 							backendService.watchForQuestion($scope.genQuizRound.id);
-							backendService.watchPlayers();
+							window.setTimeout(function() {
+								backendService.watchPlayers();
+							}, 500);
 						}
 					});
 				}
@@ -741,18 +770,20 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.$on('playersChanged', function(event, players) {
 		$scope.players = players;
-		$scope.player = $cookies.getObject("player");
-		if (!$scope.player || !$scope.player.id) {
-			$scope.player = {name: $scope.genQuizRound.creator, score: 0};
-			backendService.addPlayer($scope.player);
-			$cookies.putObject('player', $scope.player);
-		} else {
-			if (!$scope.players[$scope.player.id]) {
+		if ($scope.players) {
+			$scope.player = $cookies.getObject("player");
+			if (!$scope.player || !$scope.player.id) {
+				$scope.player = {name: $scope.genQuizRound.creator, score: 0};
 				backendService.addPlayer($scope.player);
 				$cookies.putObject('player', $scope.player);
+			} else {
+				if (!$scope.players[$scope.player.id]) {
+					backendService.addPlayer($scope.player);
+					$cookies.putObject('player', $scope.player);
+				}
 			}
+			backendService.currentPlayer = $scope.player;
 		}
-		backendService.currentPlayer = $scope.player;
 	});
 })
 .controller('liveGenQuiz', function($scope, $location, $q, $interval, $timeout, notificationService, backendService, 
@@ -870,7 +901,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				//-- no more questions go to scoreboard
 				$location.path('/live-scoreboard');
 			}
-		}, 1500);
+		}, 3000);
 	}
 
 	$scope.$watch('question.isReady', function(newval, oldval) {
@@ -1037,7 +1068,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			} else {
 				$location.path('/live-scoreboard');
 			}
-		}, 1500);
+		}, 3000);
 	});
 	
 	$scope.$on('questionIncorrect', function(event, question) {

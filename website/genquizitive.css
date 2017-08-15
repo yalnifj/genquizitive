@@ -1227,6 +1227,7 @@ body {
 }
 
 .live-logo {
+	position: relative;
 	display: inline-block; 
 	width: 300px; 
 	height: 300px; 
@@ -1234,6 +1235,15 @@ body {
 	background-size: contain;
 	margin: 30px;
 }
+
+.tutorial-video {
+	position: absolute;
+	display: none;
+	top: 10px;
+	width: 560px;
+	height: 315px;
+}
+
 .neonbutton {
 	display: inline-block;
 }
@@ -1377,9 +1387,21 @@ div.buttonspacer {
 	min-width: 350px;
 }
 
+.flipped {
+	transform: scaleX(-1);
+	filter: FlipH;
+}
+
+.correct-arrow {
+	position: absolute;
+	width: 150px;
+	transition: 0.8s left;
+}
+
 .portrait {
 	/*border: solid red 3px;*/
 	background-position: center;
+	min-width: 320px;
 }
 .portrait .live-logo {
 	width: 66vw;

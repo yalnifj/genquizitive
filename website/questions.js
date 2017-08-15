@@ -98,7 +98,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				}
 				this.timeOffset = 0;
 				
-				var length = difficulty;
+				var length = difficulty + Math.floor(Math.random() * 2);
 				relationshipService.getRandomRelationshipPath(question.startPerson.id, length, useLiving).then(function(path) {
 					var lastRel = path[path.length-1];
 					if (!lastRel || !lastRel.person1 || !lastRel.person2) {
@@ -117,7 +117,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						}
 						question.person = pathInfo.person;
 						familysearchService.markUsed(question.person);						
-						familysearchService.getRandomPeopleNear(question.person, 3, useLiving).then(function(people) {
+						familysearchService.getRandomPeopleNear(question.person, 3, useLiving, question.difficulty < 4).then(function(people) {
 							question.randomPeople = people;
 							question.isReady = true;
 							deferred.resolve(question);
@@ -384,17 +384,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						question.people = [];
 						question.tryCount = 0;
 						var promises = [];
-						var hash = {};
 						for(var p=0; p<tree.persons.length; p++){
 							if (tree.persons[p].display.ascendancyNumber.indexOf("S")<0) {
-								hash[tree.persons[p].id] = tree.persons[p];
 								question.people.push(tree.persons[p]);
-								var pro = familysearchService.getPersonPortrait(tree.persons[p].id).then(function(res) {
-									if (hash[res.id]) {
-										hash[res.id].portrait = res.src;
-									}
-								},function(error){
-								});
+								var pro = question.loadPortrait(tree.persons[p]);
 								promises.push(pro);
 							}
 						}
@@ -408,6 +401,19 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					deferred.reject(error);
 				});
 				return deferred.promise;
+			},
+			loadPortrait: function(person) {
+				return familysearchService.getPersonPortrait(person.id).then(function(res){
+					person.portrait = res.src;
+				},function(error){
+					if (person.gender.type=="http://gedcomx.org/Female") {
+						person.portrait = '/images/female_sil.png';
+					} else if (person.gender.type=="http://gedcomx.org/Male") {
+						person.portrait = '/images/male_sil.png';
+					} else {
+						person.portrait = '/images/unknown_sil.png';
+					}
+				});
 			},
 			checkAnswer: function(answer) {
 				
@@ -484,7 +490,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					deferred.reject(question);
 				} else {
 					familysearchService.markUsed(question.person);
-					question.questionText = 'Drag the facts for '+question.person.display.name+' into the correct order on the timeline.';
+					question.questionText = 'Drag the facts for '+question.person.display.name+' into the correct order on the timeline with the earliest near the top.';
 					question.isReady = true;
 					deferred.resolve(question);
 				}
@@ -497,10 +503,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					var badFacts = ["LifeSketch","Other","REFN","Residence"];
 					for(var f=0; f<facts.length; f++) {
 						var found = false;
-						for(var b=0; b<badFacts.length; b++) {
-							if (facts[f].type.indexOf(badFacts[b]) >= 0) {
-								found = true;
-								break;
+						if (this.difficulty < 4 && !facts[f].date) {
+							//-- ignore facts that don't have dates
+							found = true;
+							break;
+						} else {
+							for(var b=0; b<badFacts.length; b++) {
+								if (facts[f].type.indexOf(badFacts[b]) >= 0) {
+									found = true;
+									break;
+								}
 							}
 						}
 						if (!found) count++;
@@ -868,7 +880,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					
 					familysearchService.getPersonById(rel.person1.resourceId).then(function(person1) {
 						question.person = person1;
-						question.questionText = 'Expand the tree path from '+question.startPerson.display.name
+						question.questionText = 'Click on the people to expand the tree path from '+question.startPerson.display.name
 							+ ' up to '+question.person.display.name;
 						familysearchService.markUsed(question.person);						
 						familysearchService.getAncestorTree(question.startPerson.id,path.length).then(function(tree) {
@@ -1108,6 +1120,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	
 	$scope.answerPeople = [];
 	$scope.incorrectAnswers = {};
+	$scope.correctAnswers = {};
 	$scope.complete = false;
 	
 	$scope.$watchCollection('question.randomPeople', function() {
@@ -1131,11 +1144,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[0])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.correctAnswers[0] = true;
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
 				if (!$scope.incorrectAnswers[0]) {
 					$scope.incorrectAnswers[0] = true;
+					$scope.correctAnswers[0] = false;
 					$scope.$emit('questionIncorrect', $scope.question);
 				}
 			}
@@ -1152,11 +1170,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[1])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
 				if (!$scope.incorrectAnswers[1]) {
 					$scope.incorrectAnswers[1] = true;
+					$scope.correctAnswers[1] = false;
 					$scope.$emit('questionIncorrect', $scope.question);
 				}
 			}
@@ -1173,11 +1196,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[2])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
 				if (!$scope.incorrectAnswers[2]) {
 					$scope.incorrectAnswers[2] = true;
+					$scope.correctAnswers[0] = false;
 					$scope.$emit('questionIncorrect', $scope.question);
 				}
 			}
@@ -1194,11 +1222,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[3])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
 				if (!$scope.incorrectAnswers[3]) {
 					$scope.incorrectAnswers[3] = true;
+					$scope.correctAnswers[3] = false;
 					$scope.$emit('questionIncorrect', $scope.question);
 				}
 			}
@@ -1228,6 +1261,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	
 	$scope.answerPeople = [];
 	$scope.incorrectAnswers = {};
+	$scope.correctAnswers = {};
 	$scope.complete = false;
 	
 	$scope.$watchCollection('question.randomPeople', function() {
@@ -1253,6 +1287,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[0])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.correctAnswers[0] = true;
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
@@ -1274,6 +1312,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[1])) {
 				console.log("Correct!");
 				$scope.complete = true;	
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
@@ -1295,6 +1337,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[2])) {
 				console.log("Correct!");
 				$scope.complete = true;	
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[2] = true;
+				$scope.incorrectAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
@@ -1316,6 +1362,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if ($scope.question.checkAnswer($scope.answerPeople[3])) {
 				console.log("Correct!");
 				$scope.complete = true;
+				$scope.incorrectAnswers[1] = true;
+				$scope.incorrectAnswers[2] = true;
+				$scope.incorrectAnswers[0] = true;
+				$scope.correctAnswers[3] = true;
 				$scope.$emit('questionCorrect', $scope.question);
 			} else {
 				console.log("Incorrect!");
@@ -1479,14 +1529,6 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			}
 			$scope.question.people = QuestionService.shuffleArray($scope.question.people);
 			for(var p=0; p<$scope.question.people.length; p++) {
-				if (!$scope.question.people[p].gender) {
-					$scope.question.people[p].portrait = '/images/unknown_sil.png';
-				}
-				else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Female") {
-					$scope.question.people[p].portrait = '/images/female_sil.png';
-				} else if ($scope.question.people[p].gender.type=="http://gedcomx.org/Male") {
-					$scope.question.people[p].portrait = '/images/male_sil.png';
-				}
 				var pos = {left: x, top: y};
 				if ($scope.question.people[p].display.inPlace) {
 					if ($scope.spots[$scope.question.people[p].display.ascendancyNumber]) {
@@ -1573,7 +1615,11 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			for(var f=0; f<$scope.sortedfacts.length; f++) {
 				var found = false;
 				for(var b=0; b<$scope.badFacts.length; b++) {
-					if ($scope.sortedfacts[f].type.indexOf($scope.badFacts[b]) >= 0) {
+					if ($scope.question.difficulty < 4 && !$scope.sortedfacts[f].date) {
+						found = true;
+						break;
+					}
+					else if ($scope.sortedfacts[f].type.indexOf($scope.badFacts[b]) >= 0) {
 						found = true;
 						break;
 					}
@@ -1697,7 +1743,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$scope.markerClusterer.clearMarkers();
 					$scope.markerClusterer.addMarkers($scope.dynMarkers);
 				} else {
-					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: '/images/map_cluster.png', gridSize: 200, width: 100, height: 58, textSize: 16}]}); 
+					$scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {styles: [{url: '/images/map_cluster.png', gridSize: 200, width: 70, height: 41, textSize: 16}]}); 
 				}
 				setTimeout(function() {
 					$scope.markerClusterer.fitMapToMarkers();

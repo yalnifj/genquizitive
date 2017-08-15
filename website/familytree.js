@@ -762,20 +762,20 @@ angular.module('genquiz.familytree', [])
 		var temp = this;
 		temp.getAncestorTree(personId, generations, true).then(function(data) {
 			angular.forEach(data.persons, function(person) {
-				if (descendants && person.display.ascendancyNumber <= 5 ) {
+				if (descendants > 0 && person.display.ascendancyNumber <= 5 ) {
 					temp.backgroundQueue.push(function(){ temp.getDescendancyTree(person.id, descendants, true); });
 				}
 			});
 			
 			temp.getPersonSpouses(personId).then(function(spouses) {
-			if (spouses) {
-				if (Object.keys(temp.people).length < generations * 4) {
-					angular.forEach(spouses, function(spouse) {
-						temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, generations, true); });
-					});
+				if (spouses) {
+					if (Object.keys(temp.people).length < generations * 4) {
+						angular.forEach(spouses, function(spouse) {
+							temp.backgroundQueue.push(function(){ temp.getAncestorTree(spouse.id, generations, true); });
+						});
+					}
 				}
-			}
-		});
+			});
 		});
 		temp.getPersonPortrait(personId);
 	};
@@ -1094,7 +1094,7 @@ angular.module('genquiz.familytree', [])
 	
 	this.getPersonPortrait = function(personId) {
 		var deferred = $q.defer();
-		if (this.people[personId] && this.people[personId].portrait) {
+		if (this.people[personId] && this.people[personId].portrait && this.people[personId].portrait.indexOf("http") == 0) {
 			deferred.resolve({id: personId, src: this.people[personId].portrait});
 		} else {		
 			var temp = this;
@@ -1239,7 +1239,7 @@ angular.module('genquiz.familytree', [])
 			while(loopCount < num-1) {
 				var rand = Math.floor(Math.random() * relatives.length);
 				var rPerson = relatives[rand];
-				if (rPerson.id != person.id && rPerson.gender && (ignoreGender || rPerson.gender.type == person.gender.type) && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
+				if (rPerson.id != person.id && (ignoreGender || rPerson.gender && rPerson.gender.type == person.gender.type) && !temp.arrayContainsPerson(persons, rPerson) && (useLiving || !rPerson.living)) {
 					persons.push(rPerson);
 					personCount++;
 				}
