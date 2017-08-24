@@ -502,26 +502,26 @@ angular.module('genquiz.familytree', [])
 				var person2 = familysearchService.people[pid2];
 				if (path[p].type=="http://gedcomx.org/ParentChild") {
 					if (isPerson1) {
-						if (person.gender.type=="http://gedcomx.org/Male") {
+						if (person.gender && person.gender.type=="http://gedcomx.org/Male") {
 							pathText += "father";
 						} else {
 							pathText += "mother";
 						}
 					} else {
-						if (person.gender.type=="http://gedcomx.org/Male") {
+						if (person.gender && person.gender.type=="http://gedcomx.org/Male") {
 							pathText += "son";
 						} else {
 							pathText += "daughter";
 						}
 					}
 				} else if (path[p].type=="http://gedcomx.org/Couple") {
-					if (person.gender.type=="http://gedcomx.org/Male") {
+					if (person.gender && person.gender.type=="http://gedcomx.org/Male") {
 						pathText += "husband";
 					} else {
 						pathText += "wife";
 					}
 				} else {
-					if (person.gender.type=="http://gedcomx.org/Male") {
+					if (person.gender && person.gender.type=="http://gedcomx.org/Male") {
 						pathText += "brother";
 					} else {
 						pathText += "sister";

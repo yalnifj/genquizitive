@@ -1919,7 +1919,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 		}
 	});
 })
-.controller('connectController', function($scope, QuestionService, languageService, familysearchService) {
+.controller('connectController', function($scope, QuestionService, languageService, familysearchService, relationshipService) {
 	$scope.questionText = '';
 	
 	$scope.$watch('question.treePersons', function() {
@@ -1951,8 +1951,19 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	$scope.selectLevel = function(level, parent, index) {
 		if (parent) {
 			if (parent.id == $scope.question.person.id) {
-				console.log('connect question complete');
+				$scope.complete = true;
+				$scope.relationshipText = "";
+				var rel = relationshipService.getRelationshipLabel(index, 0, $scope.question.person);
+				if (rel) {
+					$scope.relationshipText = $scope.question.person.display.name + " is the " 
+						+ rel + " of "+$scope.question.startPerson.display.name;
+				}
+				//console.log('connect question complete');
 				$scope.$emit('questionCorrect', $scope.question);
+				//-- trigger css animation
+				window.setTimeout(function() {
+					$('.connect-correct-block').addClass("grow");
+				}, 50);
 			} else {
 				if (index < $scope.levels.length) {
 					$scope.levels = $scope.levels.slice(index);
