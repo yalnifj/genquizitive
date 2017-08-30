@@ -210,6 +210,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.showLiving = false;
 	$scope.mode = 'loading';
 	$scope.portrait = window.portrait;
+	$scope.windowWidth = window.outerWidth;
 	familysearchService.fsLoginStatus().then(function(fsUser){
 		if (fsUser) {
 			//TODO store screen name in firebase user

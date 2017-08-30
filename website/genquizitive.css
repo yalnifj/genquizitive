@@ -1536,8 +1536,8 @@ div.buttonspacer {
 	max-height: 40px;
 }
 .portrait-small .neonbutton img {
-	max-width: 150px;
-	max-height: 35px;
+	max-width: 130px;
+	max-height: 32px;
 }
 
 .portrait .question-details {
@@ -1677,4 +1677,76 @@ div.buttonspacer {
 	.carousel-indicators {
 		bottom: 10px; 
 	}
-}	
+}
+
+@media (max-width: 375px) {
+	.portrait .stages .stage {
+		font-size: medium;
+		display: inline-block;
+		padding: 8px 20px;
+	}
+	.portrait .tree-inner {
+		width: 360px;
+		margin-left: -10px;
+	}
+	.portrait .tree {
+		font-size: medium;
+		padding: 10px 10px;
+	}
+	.portrait .arrow-div {
+		margin-left: 72px;
+		margin-right: 86px;
+	}
+}
+
+@media (max-width: 350px) {
+	.portrait .tree {
+		font-size: 13px;
+		padding: 10px 5px;
+	}
+	.portrait .stages .stage {
+		font-size: medium;
+	}
+	.ancestor-row {
+		min-height: 60px;
+	}
+	.portrait .live-title .title-img {
+		height: 40px;
+	}
+	.portrait .tree-inner {
+		width: 300px;
+		margin-left: 0px;
+	}
+	.portrait .avatar-small {
+		width: 54px;
+		height: 47px;
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+	.avatar-small img {
+		top: 3px;
+		width: 40px;
+		height: 40px;
+		left: 6px;
+	}
+	.portrait .avatar-small .avatar-label {
+		top: 37px;
+		width: 120%;
+		font-size: 8pt;
+		padding: 1px;
+		left: -7px;
+	}
+	.portrait .avatar.large-spacer {
+		margin-right: 20px;
+	}
+	.portrait .arrow-div {
+		margin-left: 64px;
+		margin-right: 55px;
+	}
+	.portrait .tree-row-holder {
+		height: 105px;
+	}
+	.arrow-div img {
+		width: 20px;
+	}
+}
