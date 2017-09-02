@@ -80,7 +80,7 @@
 							<img ng-click="arrowClicked(6+level.anum*2, 4)" src="/live/arrow.png" ng-if="showArrow(6+level.anum*2)" />
 						</div>
 					</div>
-					<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
+					<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;height: 30px; top: 5px;">
 						<div class="arrow-div">
 							<img ng-click="arrowClicked(level.anum, 1)" src="/live/arrow.png" ng-if="showArrow(level.anum)" />
 						</div>
@@ -128,7 +128,7 @@
 						label="shortenName(tree[n+level.anum*2].display.name)" ng-click="selectPerson(tree[n+level.anum*2])" ng-class-even="'spacer'"></div>
 					</div>
 					<div class="ancestor-row">
-						<svg ng-if="portrait" style="position: absolute;width: 380px;height: 160px; z-index:0;">
+						<svg ng-if="portrait && windowWidth > 350" style="position: absolute;width: 380px;height: 160px; z-index:0;">
 							<line x1="60" y1="30" x2="110" y2="30" style="stroke:#157376;stroke-width:3"></line>
 							<line x1="80" y1="30" x2="80" y2="90" style="stroke:#157376;stroke-width:3"></line>
 							<line x1="80" y1="90" x2="275" y2="90" style="stroke:#157376;stroke-width:3"></line>
@@ -138,6 +138,17 @@
 	
 							<line ng-if="level.line==1" x1="80" y1="90" x2="80" y2="170" style="stroke:#157376;stroke-width:3"></line>
 							<line ng-if="level.line==2" x1="275" y1="90" x2="275" y2="170" style="stroke:#157376;stroke-width:3"></line>
+						</svg>
+						<svg ng-if="portrait && windowWidth <= 350" style="position: absolute;width: 350px;height: 125px; z-index:0;">
+							<line x1="45" y1="23" x2="95" y2="23" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="65" y1="23" x2="65" y2="75" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="65" y1="75" x2="220" y2="75" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line x1="200" y1="23" x2="240" y2="23" style="stroke:#157376;stroke-width:3"></line>
+							<line x1="220" y1="23" x2="220" y2="75" style="stroke:#157376;stroke-width:3"></line>
+	
+							<line ng-if="level.line==1" x1="65" y1="75" x2="65" y2="125" style="stroke:#157376;stroke-width:3"></line>
+							<line ng-if="level.line==2" x1="220" y1="75" x2="220" y2="125" style="stroke:#157376;stroke-width:3"></line>
 						</svg>
 						<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="tree[level.anum].portrait" 
 							label="shortenName(tree[level.anum].display.name)" ng-click="selectPerson(tree[level.anum])"></div>
@@ -163,7 +174,7 @@
 						<img ng-click="arrowClicked(14, 4)" src="/live/arrow.png" ng-if="showArrow(14)" />
 					</div>
 				</div>
-				<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1;">
+				<div ng-if="portrait" class="text-left" style="position: relative; z-index: 1; top: 5px;">
 					<div class="arrow-div">
 						<img ng-click="arrowClicked(4, 1)" src="/live/arrow.png" ng-if="showArrow(4)" />
 					</div>
@@ -300,7 +311,7 @@
 						Enter your name:
 					</div>
 					<div>
-						<input type="text" ng-model="genQuizRound.creator" placeholder="Name" class="editable-id text-center" style="width: 300px;" />
+						<input type="text" ng-model="genQuizRound.creator" placeholder="Name" class="editable-id text-center" style="max-width: 300px;" />
 						<div ng-show="nameError" class="alert alert-danger">{{nameError}}</div>
 					</div>
 				</form>

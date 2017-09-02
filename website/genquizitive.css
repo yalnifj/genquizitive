@@ -1240,6 +1240,7 @@ body {
 }
 .players {
 	list-style: none;
+	padding-left: 0px;
 }
 
 .players li {
@@ -1748,5 +1749,37 @@ div.buttonspacer {
 	}
 	.arrow-div img {
 		width: 20px;
+	}
+	.portrait .notification {
+		width: 300px;
+		height: 185px;
+	}
+	.portrait .notification .title {
+		font-size: large;
+	}
+	.portrait .letter-skip-holder {
+		width: 85px;
+	}
+	.portrait .letter-skip-holder .neonbutton img {
+		width: 85px;
+	}
+	.portrait .guage {
+		margin: 0px 10px 20px 10px;
+	}
+	.portrait .timeline-fact {
+		min-height: 70px;
+	}
+	.portrait .timeline-fact .fact-circle {
+		width: 56px;
+		height: 57px;
+	}
+	.portrait .timeline-fact .fact-details {
+		min-width: 220px;
+		min-height: 66px;
+		font-size: 12px;
+	}
+
+	.portrait .wide-b {
+		width: 350px;
 	}
 }
