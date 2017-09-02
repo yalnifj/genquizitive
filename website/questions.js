@@ -1499,15 +1499,16 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			};
 			if ($scope.portrait) {
 				x = 49;
+				if ($(window).width() < 350) x = 25;
 				y = 86;
 				$scope.spots = {
-					4: {left: -15, top: 286},
-					5: {left: 70, top: 286},
-					6: {left: 198, top: 286},
-					7: {left: 283, top: 286},
-					2: {left: 33,  top: 370},
-					3: {left: 240, top: 370},
-					1: {left: 136, top: 416}
+					4: {left: -15, top: 255},
+					5: {left: 70, top: 255},
+					6: {right: 3, top: 255},
+					7: {right: 73, top: 255},
+					2: {left: 33,  top: 337},
+					3: {left: 37, top: 337},
+					1: {right: 136, top: 400}
 				};
 			}
 			for(var p=0; p<$scope.question.people.length; p++) {
@@ -1546,6 +1547,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 				count++;
 				if (count>3) {
 					x = 49;
+					if ($(window).width() < 350) x = 25;
 					if ($scope.portrait) y += 72;
 					else y += 110;
 					count = 0;
@@ -1959,7 +1961,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						+ rel + " of "+$scope.question.startPerson.display.name;
 				}
 				//console.log('connect question complete');
-				$scope.$emit('questionCorrect', $scope.question);
+				window.setTimeout(function() {
+					$scope.$emit('questionCorrect', $scope.question);
+				}, 1000);
 				//-- trigger css animation
 				window.setTimeout(function() {
 					$('.connect-correct-block').addClass("grow");

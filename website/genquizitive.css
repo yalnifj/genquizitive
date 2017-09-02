@@ -1112,16 +1112,19 @@ body {
 }
 .connect-center {
 	min-height: 80px;
+	z-index: 2;
 }
 .connect-left {
 	padding-left: 70px;
 	min-height: 80px;
+	z-index: 2;
 	transition: 0.3s padding;
 }
 
 .connect-right {
 	padding-right: 70px;
 	min-height: 80px;
+	z-index: 2;
 	transition: 0.3s padding;
 }
 
@@ -1136,7 +1139,8 @@ body {
 	border: solid #dad9d9 6px;
 	box-shadow: -3px 3px 3px #222;
 	color: white;
-	transition: 0.5s width, 0.5s height;
+	z-index: 100;
+	transition: 1.0s width, 1.0s height;
 }
 .connect-correct-block.grow {
 	width: 300px;
@@ -1701,6 +1705,10 @@ div.buttonspacer {
 }
 
 @media (max-width: 350px) {
+	.portrait .btn {
+		font-size: smaller;
+		padding: 4px 10px;
+	}
 	.portrait .tree {
 		font-size: 13px;
 		padding: 10px 5px;
@@ -1780,6 +1788,80 @@ div.buttonspacer {
 	}
 
 	.portrait .wide-b {
-		width: 350px;
+		width: 100%;
+	}
+
+	.portrait .map-fact-question {
+		font-size: 13px;
+	}
+
+	.map-fact {
+		position: relative;
+		display: inline-block;
+		background-color: #008080;
+		border-radius: 30% 5%;
+		box-shadow: -3px 2px 2px #222;
+		min-width: 85px;
+		min-height: 27px;
+		font-size: 10px;
+		margin: 3px;
+		color: white;
+		line-height: 12px;
+		padding: 2px;
+	}
+	.fact-map .custom-marker .fact-holder {
+		position: relative;
+		border: dashed #008080 1px;
+		border-radius: 30% 0%;
+		width: 87px;
+		height: 32px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.fact-map .custom-marker {
+		background-color: #ebe9d5;
+		border-radius: 5px;
+		border: solid black 1px;
+		box-shadow: -1px 1px 1px #222;
+		padding: 5px;
+		text-align: center;
+		font-size: 9px;
+		max-width: 135px;
+	}
+	.portrait .score-name {
+		width: 67%;
+		font-size: larger;
+		height: 55px;
+		line-height: 55px;
+	}
+	
+	.player-score-row:first-child .score-name {
+		height: 60px;
+		line-height: 60px;
+		font-size: large;
+	}
+	.score-badge {
+		width: 60px;
+		height: 60px;
+		line-height: 60px;
+		font-size: larger;
+	}
+	.player-score-row:first-child .score-badge {
+		width: 70px;
+		height: 70px;
+		font-size: large;
+		line-height: 70px;
+	}
+	.score-badge .gold-crown {
+		position: absolute;
+		left: -10px;
+		top: -25px;
+		width: 60px;
+	}
+	.score-badge .silver-crown {
+		position: absolute;
+		left: -8px;
+		top: -20px;
+		width: 50px;
 	}
 }

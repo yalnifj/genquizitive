@@ -77,11 +77,11 @@ angular.module('genquiz-affiliates', [])
         link: function($scope, $element, $attr) {
             $scope.banner1 = affiliateService.getRandomBanner();
             $scope.adTemplate1 = $scope.banner1.template;
-            $scope.styleWidth = {"width": "400px;"};
+            $scope.styleWidth = {"width": "400px"};
             $scope.portrait = window.portrait;
             if (!window.portrait) {
                 if ($scope.banner1.name == "newspapers" || $scope.banner1.name == "fold3") {
-                    $scope.styleWidth = {"width": "800px;"};
+                    $scope.styleWidth = {"width": "800px"};
                 } else {
                     var count = 0;
                     $scope.banner2 = affiliateService.getRandomBanner();
