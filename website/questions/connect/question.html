@@ -1,6 +1,13 @@
 <div class="question-holder" ng-controller="connectController">
-	
-	<div class="question-block" style="width: 95%; max-width: 500px; margin-left: auto; margin-right: auto;">
+	<style>
+		.connect-question-block {
+			width: 95%; max-width: 500px; margin-left: auto; margin-right: auto;
+		}
+		@media (max-width: 350px) {
+			font-size: medium;
+		}
+	</style>
+	<div class="question-block connect-question-block">
 		{{questionText}}
 	</div>
 	

@@ -1774,18 +1774,6 @@ div.buttonspacer {
 	.portrait .guage {
 		margin: 0px 10px 20px 10px;
 	}
-	.portrait .timeline-fact {
-		min-height: 70px;
-	}
-	.portrait .timeline-fact .fact-circle {
-		width: 56px;
-		height: 57px;
-	}
-	.portrait .timeline-fact .fact-details {
-		min-width: 220px;
-		min-height: 66px;
-		font-size: 12px;
-	}
 
 	.portrait .wide-b {
 		width: 100%;
@@ -1863,5 +1851,46 @@ div.buttonspacer {
 		left: -8px;
 		top: -20px;
 		width: 50px;
+	}.portrait .editable-id {
+		font-size: large;
+	}
+	.portrait .timeline-fact {
+		min-height: 70px;
+	}
+	.portrait .timeline-fact .fact-circle {
+		width: 56px;
+		height: 57px;
+		line-height: 16px;
+	}
+	.portrait .timeline-fact .fact-details {
+		min-width: 220px;
+		min-height: 66px;
+		font-size: 10px;
+	}
+	.portrait .timeline-fact .fact-details .fact-place .fact-type {
+		font-size: 15px;
+	}
+	.portrait .timeline-fact .fact-year {
+		font-size: 16px;
+	}
+	.timeline-fact .fact-month-day {
+		font-size: 12px;
+	}
+	.timeline-fact .fact-details .fact-age .age {
+		font-size: 16px;
+	}
+	.timeline-fact .fact-details .fact-age {
+		left: 24px;
+		width: 40px;
+		height: 40px;
+	}
+	.portrait .timeline-fact .fact-details .fact-place {
+		min-height: 60px;
+		width: 160px;
+		left: 60px;
+		top: 3px;
+	}
+	.portrait .timeline-pole {
+		left: 33px;
 	}
 }
