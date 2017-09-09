@@ -251,6 +251,13 @@
 						label="shortenName(tree[1].display.name)" ng-click="selectPerson(tree[1])"></div>
 				</div>
 			</div>
+			<div ng-show="relatives.length > 0" style="margin-top: 20px;">
+				<a href="javascript:void(0);" ng-click="chooseRelative()">Show a different relative's tree</a>
+			</div>
+		</div>
+		<div ng-show="mode=='choose'" class="tree text-center wide-tree">
+			<div avatar-badge ng-repeat="relative in relatives" class="avatar ancestor-avatar avatar-small clickable" src="relative.portrait" 
+				label="shortenName(relative.display.name)" ng-click="showTree(relative)"></div>
 		</div>
 		</div>
 	</div>

@@ -222,6 +222,25 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			}
 			$scope.getTree(familysearchService.fsUser.id, 4, 1);
 
+			familysearchService.getPersonRelatives(familysearchService.fsUser.id).then(function(relatives) {
+				if (relatives) {
+					$scope.relatives = relatives;
+					angular.forEach(relatives, function(person) {
+						familysearchService.getPersonPortrait(person.id).then(function(path) {
+							person.portrait = path.src;
+						},function(error){
+							if (person.gender.type=="http://gedcomx.org/Female") {
+								person.portrait = '/images/female_sil.png';
+							} else if (person.gender.type=="http://gedcomx.org/Male") {
+								person.portrait = '/images/male_sil.png';
+							} else {
+								person.portrait = '/images/unknown_sil.png';
+							}
+						});
+					});
+				}
+			}, function() {});
+
 			backendService.authenticate().then(function(firebaseUser) {
 				$log.error("succesfully authenticated with firebase");
 				backendService.getOwnerGenQuiz().then(function(genQuiz) {
@@ -308,6 +327,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.getAncestorTree(personId, generations, false).then(function(tree) {
 			$scope.mode = 'tree';
 			if (tree.persons) {
+				$scope.tree = {};
 				angular.forEach(tree.persons, function(person) {
 					if (person.display.ascendancyNumber.indexOf("S") < 0) {
 						var gen = Math.floor(Math.log2(person.display.ascendancyNumber));
@@ -335,6 +355,15 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				closable: true});
 			notif.show();
 		});
+	};
+
+	$scope.chooseRelative = function() {
+		$scope.mode = "choose";
+	};
+
+	$scope.showTree = function(person) {
+		$scope.mode = 'loading';
+		$scope.getTree(person.id, 4, 1);
 	};
 	
 	$scope.searchForPerson = function() {

@@ -1514,8 +1514,8 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$scope.spots = {
 						4: {left: -15, top: 255},
 						5: {left: 55, top: 255},
-						6: {right: 3, top: 255},
-						7: {right: 73, top: 255},
+						6: {right: 73, top: 255},
+						7: {right: 3, top: 255},
 						2: {left: 18,  top: 337},
 						3: {right: 37, top: 337},
 						1: {left: 136, top: 400}
@@ -1970,7 +1970,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			if (parent.id == $scope.question.person.id) {
 				$scope.complete = true;
 				$scope.relationshipText = "";
-				var rel = relationshipService.getRelationshipLabel(index, 0, $scope.question.person);
+				var rel = relationshipService.getRelationshipLabel($scope.levels.length, 0, $scope.question.person);
 				if (rel) {
 					$scope.relationshipText = $scope.question.person.display.name + " is the " 
 						+ rel + " of "+$scope.question.startPerson.display.name;

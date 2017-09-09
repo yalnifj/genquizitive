@@ -955,7 +955,7 @@ angular.module('genquiz.familytree', [])
 				var rels = [];
 				for(var r=0; r<response.data.relationships.length; r++) {
 					var rel = response.data.relationships[r];
-					//-- include include relationships where personId is a member
+					//-- include relationships where personId is a member
 					if (rel.person1.resourceId==personId || rel.person2.resourceId==personId) {
 						rels.push(rel);
 					}
