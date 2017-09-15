@@ -1,6 +1,6 @@
 <?php
-if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false) {
-    header('Location: http://genquizlive.com/live/');
+if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVER['HTTP_HOST'], "live.qenquizitive.com") !== false) {
+    header('Location: https://www.genquizitive.com/live/#/live-join-game?'.$_SERVER['QUERY_STRING']);
 }
 ?>
 <!DOCTYPE html>

@@ -446,14 +446,15 @@
    inkscape:pageshadow="2"
    inkscape:zoom="1.4142136"
    showgrid="false"
-   inkscape:cx="439.02588"
-   inkscape:cy="491.65562"
+   inkscape:cx="428.06573"
+   inkscape:cy="1113.9096"
    inkscape:window-width="1440"
    inkscape:window-height="804"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
    inkscape:current-layer="layer1" />
+
 
 
 
@@ -1242,11 +1243,13 @@
 
 
 
+
  HEAD
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)&quot;
        xml:space=&quot;preserve&quot;&gt;<tspan
    style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1"
    id="tspan6292" />
+
 
 
 
@@ -1600,6 +1603,90 @@
    y="220.21936"
    rx="11.1585"
    ry="11.1585" />
+<text
+   sodipodi:linespacing="0%"
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)"
+   x="348.89948"
+   y="-160.86845"
+   id="text4334"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_off.png"
+   inkscape:export-xdpi="90.455063"
+   inkscape:export-ydpi="90.455063"><tspan
+     sodipodi:role="line"
+     id="tspan4336"
+     x="348.89948"
+     y="-160.86845"
+     style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1">COPY</tspan></text>
+<rect
+   style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18099)"
+   id="rect4338"
+   width="179.28571"
+   height="44.999992"
+   x="259.97845"
+   y="-197.1532"
+   rx="11.1585"
+   ry="11.1585"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_off.png"
+   inkscape:export-xdpi="90.455063"
+   inkscape:export-ydpi="90.455063"
+   transform="matrix(0.79590012,0,0,1.0041506,67.822136,0.72492515)" />
+<text
+   sodipodi:linespacing="0%"
+   transform="matrix(0.97174085,0,0,1.0026042,203.15351,-231.80435)"
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+   x="347.49246"
+   y="71.504082"
+   id="text4340"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_on.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"><tspan
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.25px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     sodipodi:role="line"
+     id="tspan4343"
+     x="347.49246"
+     y="71.504082">COPY</tspan></text>
+<rect
+   ry="11.1585"
+   rx="11.1585"
+   y="-197.1532"
+   x="451.90741"
+   height="45"
+   width="179.28575"
+   id="rect4345"
+   style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_on.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   transform="matrix(0.79907377,0,0,1.0175463,105.98323,3.0645087)" />
+<text
+   sodipodi:linespacing="0%"
+   id="text4347"
+   y="-160.86845"
+   x="540.82849"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   xml:space="preserve"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_on.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"><tspan
+     y="-160.86845"
+     x="540.82849"
+     id="tspan4349"
+     sodipodi:role="line"
+     style="font-size:40px;line-height:1.25">COPY</tspan></text>
+<rect
+   ry="11.196443"
+   rx="8.967555"
+   y="-197.22971"
+   x="466.68018"
+   height="45.153008"
+   width="144.08337"
+   id="rect4351"
+   style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.34698427;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/copy_button_on.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90" />
 </g>
 <text
    inkscape:export-ydpi="99.419998"
@@ -1608,6 +1695,7 @@
    id="text3447"
    y="71.504082"
    x="347.49246" />
+
 
 
 

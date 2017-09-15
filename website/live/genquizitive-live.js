@@ -132,6 +132,14 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				}, $scope.timings[$scope.state].time);
 			};
 			$scope.runState();
+
+			$element.on('click', function() {
+				$scope.state = 0;
+				$element.attr('src', $scope.timings[$scope.state].src);
+				$timeout(function() {
+					$scope.runState();
+				}, 50);
+			});
 		}
 	}
 })
@@ -186,10 +194,6 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 
 	$scope.watchTutorial = function() {
 		window.open('https://www.youtube.com/watch?v=FcTZR_aYChc', '_blank');
-	};
-
-	$scope.showTutorial = function() {
-		
 	};
 })
 .controller('livefamilytree', function($scope, $location, familysearchService) {
@@ -586,6 +590,26 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		}
 	};
 
+	$scope.copyLink = function() {
+		var link = "http://genquizlive.com/?id="+$scope.genQuizRound.id;
+		var textField = document.createElement('textarea');
+		textField.innerText = link;
+		document.body.appendChild(textField);
+		textField.select();
+		document.execCommand('copy');
+		textField.remove();
+	}
+
+	$scope.copyId = function() {
+		var link = $scope.genQuizRound.id;
+		var textField = document.createElement('textarea');
+		textField.innerText = link;
+		document.body.appendChild(textField);
+		textField.select();
+		document.execCommand('copy');
+		textField.remove();
+	}
+
 	$scope.startGame = function() {
 		if (!$scope.players || $scope.players.length==0) {
 			backendService.getPlayers().then(function(players) {
@@ -775,6 +799,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		if ($scope.data.genQuizId) {
 			$scope.checkGenQuiz();
 		}
+	}
+
+	if ($location.search().id) {
+		$scope.data.genQuizId = $location.search().id;
 	}
 
 	$scope.$on('$destroy', function() {

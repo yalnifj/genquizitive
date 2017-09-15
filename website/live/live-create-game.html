@@ -333,7 +333,20 @@
 			<div style="margin-bottom: 10px;">
 				Your GenQuiz game id is:
 				<ul class="players">
-				<li><strong>{{genQuizRound.id}}</strong></li>
+				<li uib-popover="Copy GenQuiz game ID so that you can send it to your relatives."
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-append-to-body="true" ><strong>{{genQuizRound.id}}</strong>
+					<div class="clickable neonbutton pull-right" ng-click="copyId()">
+						<img src="/live/copy_button_off.png" neon-image="" delay="500" style="max-height: 20px;" />
+					</div></li>
+				<li uib-popover="Copy link to share with relatives so they can directly join this GenQuiz game."
+					popover-trigger="'mouseenter'" popover-popup-delay="1000"
+					popover-append-to-body="true" >
+					<strong>http://genquizlive.com/{{genQuizRound.id}}</strong>
+					<div class="clickable neonbutton pull-right" ng-click="copyLink()">
+						<img src="/live/copy_button_off.png" neon-image="" delay="500" style="max-height: 20px;" />
+					</div>
+				</li>
 				</ul>
 				<p>Share this GenQuiz id with others who wish to join your game.</p>
 			</div>
