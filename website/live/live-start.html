@@ -23,8 +23,15 @@
 				popover-class="live-popover" popover-is-open="false"/>
 	</div>
 	<div ng-if="fsLoggedIn" class="clickable homebutton" ng-click="logout()" style="margin-top: 30px;">
-		<img src="/live/logout_button_off.png" neon-image="" delay="1000" style="max-width: 100px;" 
+		<img src="/live/logout_button_off.png" neon-image="" delay="1000" style="max-width: 120px;" 
 				uib-popover="Logout from your family tree." 
+				popover-trigger="'mouseenter'" popover-popup-delay="1000"
+				popover-placement="right" popover-append-to-body="true"
+				popover-class="live-popover" popover-is-open="false"/>
+	</div>
+	<div class="clickable homebutton" ng-click="watchTutorial()" style="margin-top: 10px;">
+		<img src="/live/tutorial_button_off.png" neon-image="" delay="1000" style="max-width: 120px;" 
+				uib-popover="Watch a tutorial video to learn how to play GenQuizitive Live!." 
 				popover-trigger="'mouseenter'" popover-popup-delay="1000"
 				popover-placement="right" popover-append-to-body="true"
 				popover-class="live-popover" popover-is-open="false"/>

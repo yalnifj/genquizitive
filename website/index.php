@@ -1,3 +1,8 @@
+<?php
+if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false) {
+    header('Location: http://genquizlive.com/live/');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,7 +126,7 @@
 <nav id="navBar" class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="socialbuttons">
-			<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+			<a class="socialmedia" href="https://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
 			<a class="socialmedia" href="http://www.instagram.com/genquizitive" title="Visit Genquizitive on Instagram"><i class="fa fa-instagram"></i></a>
 		</div>
 		<div class="navbar-header">
@@ -155,7 +160,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-5 text-center top-logo-col">
-				<img src="logo-med300.png" class="img-responsive top-logo" />
+                <img src="logo-med300.png" class="img-responsive top-logo" />
+                <p><a href="/live/"><img src="play-online.png" /></a></p>
 			</div>
 			<div class="col-sm-5">
 				<div id="video">
@@ -251,7 +257,7 @@
 				<p>&nbsp;</p>
                 <button type="button" onclick="showContactForm(); return false;" class="btn btn-primary">Contact Us!</button>
 				<div class="fb-button">
-					<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+					<a class="socialmedia" href="https://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
 					<br/>Follow us on Facebook
 				</div>
             </div>

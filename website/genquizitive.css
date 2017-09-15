@@ -6,7 +6,7 @@ body {
 	background-position: left center;
 }
 .footer {
-	margin-top: 12%;
+	margin-top: 100px;
 	color: white;
 	max-width: 600px;
     margin-left: auto;
@@ -273,7 +273,7 @@ body {
 }
 .avatar-small {
 	width: 64px;
-    height: 57px;
+    height: 75px;
 }
 .avatar-small img {
     top: 4px;
@@ -1395,7 +1395,7 @@ div.buttonspacer {
 	height: 45%;
 	background-color: black;
 	color: white;
-	font-size: xx-large;
+	font-size: 30px;
 	left: 20%;
 	top: 340px;
 	border: solid #113388 2px;
@@ -1519,6 +1519,8 @@ div.buttonspacer {
 .portrait .tree-inner {
 	position: relative;
 	width: 380px;
+	margin-left: auto;
+	margin-right: auto;
 }
 .portrait .arrow-div {
 	margin-left: 80px;

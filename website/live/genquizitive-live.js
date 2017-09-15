@@ -184,6 +184,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.fsLogout();
 	};
 
+	$scope.watchTutorial = function() {
+		window.open('https://www.youtube.com/watch?v=FcTZR_aYChc', '_blank');
+	};
+
 	$scope.showTutorial = function() {
 		
 	};
@@ -327,7 +331,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		familysearchService.getAncestorTree(personId, generations, false).then(function(tree) {
 			$scope.mode = 'tree';
 			if (tree.persons) {
-				$scope.tree = {};
+				if (baseNum==1) $scope.tree = {};
 				angular.forEach(tree.persons, function(person) {
 					if (person.display.ascendancyNumber.indexOf("S") < 0) {
 						var gen = Math.floor(Math.log2(person.display.ascendancyNumber));

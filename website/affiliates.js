@@ -80,8 +80,9 @@ angular.module('genquiz-affiliates', [])
             $scope.styleWidth = {"width": "100%"};
             $scope.portrait = window.portrait;
             if (!window.portrait) {
+                $scope.styleWidth = {"width": "400px"};
                 if ($scope.banner1.name == "newspapers" || $scope.banner1.name == "fold3") {
-                    $scope.styleWidth = {"width": "800px"};
+                    $scope.styleWidth = {"width": "100%"};
                 } else {
                     var count = 0;
                     $scope.banner2 = affiliateService.getRandomBanner();

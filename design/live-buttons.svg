@@ -446,7 +446,7 @@
    inkscape:pageshadow="2"
    inkscape:zoom="1.4142136"
    showgrid="false"
-   inkscape:cx="439.25337"
+   inkscape:cx="439.02588"
    inkscape:cy="491.65562"
    inkscape:window-width="1440"
    inkscape:window-height="804"
@@ -454,6 +454,7 @@
    inkscape:window-y="0"
    inkscape:window-maximized="1"
    inkscape:current-layer="layer1" />
+
 
 
 
@@ -490,12 +491,12 @@
    id="layer1"><rect
    style="opacity:0.88800001;fill:#090900;fill-opacity:1;stroke:none;stroke-width:2.3342905;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="rect17312"
-   width="553.49066"
-   height="899.58905"
+   width="566.92572"
+   height="961.10736"
    x="170.9375"
    y="-228.33423"
-   rx="29.56094"
-   ry="134.48123" />
+   rx="30.278481"
+   ry="143.67772" />
 <g
    id="g9063">
   <text
@@ -1240,11 +1241,13 @@
 
 
 
+
  HEAD
        style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18103)&quot;
        xml:space=&quot;preserve&quot;&gt;<tspan
    style="font-size:40px;line-height:1.25;stroke:#009c4c;stroke-opacity:1"
    id="tspan6292" />
+
 
 
 
@@ -1498,6 +1501,105 @@
    inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/playagain_button_on.png"
    inkscape:export-xdpi="99.419998"
    inkscape:export-ydpi="99.419998" />
+<text
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_on.png"
+   transform="matrix(0.97174085,0,0,1.0026042,257.65207,596.57386)"
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17382)"
+   x="347.49246"
+   y="71.504082"
+   id="text4322"
+   sodipodi:linespacing="0%"><tspan
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.39353943px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     sodipodi:role="line"
+     id="tspan4324"
+     x="347.49246"
+     y="71.504082">WATCH</tspan><tspan
+     id="tspan4326"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.39353943px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     sodipodi:role="line"
+     x="347.49246"
+     y="109.496">TUTORIAL</tspan></text>
+<rect
+   transform="matrix(0.97075267,0,0,1.7179285,69.806108,260.39002)"
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_on.png"
+   ry="11.1585"
+   rx="11.1585"
+   y="220.21935"
+   x="451.57184"
+   height="45"
+   width="179.28575"
+   id="rect4328"
+   style="opacity:0.75;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter17330)" />
+<text
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_on.png"
+   id="text4330"
+   y="668.41846"
+   x="595.46979"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:none;fill-opacity:1;stroke:#00ff7c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   xml:space="preserve"
+   sodipodi:linespacing="0%"><tspan
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     y="668.41846"
+     x="595.46979"
+     id="tspan4332"
+     sodipodi:role="line">WATCH</tspan><tspan
+     id="tspan4334"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     y="705.91846"
+     x="595.46979"
+     sodipodi:role="line">TUTORIAL</tspan></text>
+<rect
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_on.png"
+   ry="19.361002"
+   rx="10.926965"
+   y="638.32477"
+   x="507.46414"
+   height="78.079041"
+   width="175.56558"
+   id="rect4336"
+   style="opacity:1;fill:none;fill-opacity:0;stroke:#00ff7c;stroke-width:1.9552356;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+<text
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_off.png"
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.8;fill:none;fill-opacity:1;stroke:#009c4c;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18095)"
+   x="344.08432"
+   y="687.75165"
+   id="text4338"
+   sodipodi:linespacing="0%"><tspan
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     sodipodi:role="line"
+     id="tspan4340"
+     x="344.08432"
+     y="687.75165">WATCH</tspan><tspan
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'.Helvetica LT MM';-inkscape-font-specification:'.Helvetica LT MM, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle"
+     id="tspan4342"
+     sodipodi:role="line"
+     x="344.08432"
+     y="725.25165">TUTORIAL</tspan></text>
+<rect
+   transform="matrix(0.96760654,0,0,1.7365118,6.1387297,273.25325)"
+   inkscape:export-ydpi="99.419998"
+   inkscape:export-xdpi="99.419998"
+   inkscape:export-filename="/Users/jfinlay/Code/genquizitive/website/live/tutorial_button_off.png"
+   style="opacity:0.8;fill:none;fill-opacity:0;stroke:#009c4c;stroke-width:1.03362942;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18091)"
+   id="rect4344"
+   width="179.28571"
+   height="44.999992"
+   x="259.64288"
+   y="220.21936"
+   rx="11.1585"
+   ry="11.1585" />
 </g>
 <text
    inkscape:export-ydpi="99.419998"
@@ -1506,6 +1608,7 @@
    id="text3447"
    y="71.504082"
    x="347.49246" />
+
 
 
 
