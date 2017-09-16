@@ -517,14 +517,16 @@ body {
 }
 
 .score-row {
-	height: 100px;
+	min-height: 75px;
 	background-color: rgba(0, 160, 160, 0.5);
     margin-bottom: 5px;
 	position: relative;
+	vertical-align: top;
+	text-align: left;
 }
 
 .score-row > div {
-	float: left;
+	vertical-align: top;
 	margin-top: 5px;
     margin-left: 10px;
 	margin-right: 10px;
@@ -579,15 +581,23 @@ body {
 }
 
 .search-row {
-	height: 90px; 
-	width: 350px; 
+	min-height: 75px; 
+	width: 450px; 
 	margin-left: auto;
 	margin-right: auto;
+}
+.portrait .search-row {
+	min-height: 75px; 
+	width: 350px;
 }
 .search-row:hover {
 	background-color: rgba(0, 160, 160, 1.0);
 }
 .search-row .search-details {
+	display: inline-block;
+	width: 310px;
+}
+.portrait .search-row .search-details {
 	display: inline-block;
 	width: 210px;
 }
@@ -1189,6 +1199,9 @@ body {
 	background-color: rgba(0, 60, 60, 0.5);
 	padding-top: 5px;
 }
+.tree .stages {
+	margin-bottom: 20px;
+}
 .stages .stage {
 	background-color: rgba(0, 70, 70, 1.0);
 	transform: skewX(15deg);
@@ -1199,6 +1212,9 @@ body {
 	font-weight: bold;
 	font-size: larger;
 	color: #559ad7;
+}
+.tree .stages .stage {
+	padding: 7px 20px;
 }
 .stages .stage:hover {
 	background-color: rgba(190, 240, 240, 1.0);
@@ -1212,7 +1228,7 @@ body {
 }
 .tree {
 	background-color: rgba(10,90,90,0.65);
-    padding: 25px;
+    padding: 10px 20px 20px 20px;
     width: 650px;
     display: inline-block;
     border-radius: 10px;

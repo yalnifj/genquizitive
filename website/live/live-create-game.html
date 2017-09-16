@@ -15,9 +15,13 @@
 				<img src="/images/loading1.png" />
 			</div>
 			<div ng-show="mode=='search'" class="tree text-center">
+				<div class="stages">
+					<a class="stage" href="javascript:void(0);" ng-click="showLoadedTree()">Tree</a>
+					<a class="stage" href="javascript:void(0);" ng-click="showFamous()">Famous</a>
+					<a class="stage active" href="javascript:void(0);" ng-click="showSearch()">Search</a>
+				</div>
 				<p>
-					Search for someone to be the central person for your GenQuiz Live game<br /> 
-					or <a href="#/live-create-game" ng-click="mode='tree'">select from your tree</a>.
+					Search for someone to be the central person for your GenQuiz Live game.
 				</p>
 				<!-- provide search feature -->
 				<form class="form-inline">
@@ -47,9 +51,6 @@
 						<div style="display: inline-block;">
 							<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="entry.content.gedcomx.persons[0].portrait"
 							></div>
-							<span style="font-size: 12px">
-							<br />{{entry.content.gedcomx.persons[0].display.gender}}
-							</span>
 						</div>
 						<div class="search-details">
 							<a href="#/live-create-game"><strong>{{entry.content.gedcomx.persons[0].display.name}}</strong></a>
@@ -61,9 +62,36 @@
 					</div>
 				</div>
 			</div>
+			<div ng-show="mode=='famous'" class="tree text-center">
+				<div class="stages">
+					<a class="stage" href="javascript:void(0);" ng-click="showLoadedTree()">Tree</a>
+					<a class="stage active" href="javascript:void(0);" ng-click="showFamous()">Famous</a>
+					<a class="stage" href="javascript:void(0);" ng-click="showSearch()">Search</a>
+				</div>
+				<p>Select from some famous people.</p>
+				<div ng-show="famousPeople.length>0">
+					<div class="score-row search-row clickable" ng-repeat="person in famousPeople" ng-click="selectPerson(person)">
+						<div style="display: inline-block;">
+							<div avatar-badge class="avatar ancestor-avatar avatar-small clickable" src="person.portrait"
+							></div>
+						</div>
+						<div class="search-details">
+							<a href="#/live-create-game"><strong>{{person.display.name}}</strong></a>
+							<div style="font-size: 12px;">
+							{{person.display.birthDate}}
+							<br />{{person.display.birthPlace}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div ng-show="mode=='tree'" class="tree text-center wide-tree">
-				<p>Select someone from your tree
-				or <a href="#/live-create-game" ng-click="mode='search'">search for someone</a> else.</p>
+				<div class="stages">
+					<a class="stage active" href="javascript:void(0);" ng-click="showLoadedTree()">Tree</a>
+					<a class="stage" class="" href="javascript:void(0);" ng-click="showFamous()">Famous</a>
+					<a class="stage" class="" href="javascript:void(0);" ng-click="showSearch()">Search</a>
+				</div>
+				<p>Select someone from your tree.</p>
 				<div class="tree-inner">
 				<div class="tree-row-holder" ng-repeat="(key,level) in arrowLevels">
 					<div ng-if="!portrait" class="text-left" style="position: relative; z-index: 1;height: 30px;">
@@ -345,6 +373,9 @@
 					<strong>http://genquizlive.com/{{genQuizRound.id}}</strong>
 					<div class="clickable neonbutton pull-right" ng-click="copyLink()">
 						<img src="/live/copy_button_off.png" neon-image="" delay="500" style="max-height: 20px;" />
+					</div>
+					<div ng-if="shareable" class="clickable neonbutton pull-right" ng-click="shareNative()">
+						<img src="/live/share_button_off.png" neon-image="" delay="500" style="max-height: 20px;" />
 					</div>
 				</li>
 				</ul>

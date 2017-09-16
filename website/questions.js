@@ -1028,7 +1028,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	    return deferred.promise;
 	};
 	
-	this.availableQuestions = [0,1,2,3,4,5,7];
+	this.availableQuestions = [0,1,2,3,4,7];
 	this.getRandomQuestion = function () {
 		var q = Math.floor (Math.random () * this.availableQuestions.length);
 		return angular.copy(this.questions[this.availableQuestions[q]]);

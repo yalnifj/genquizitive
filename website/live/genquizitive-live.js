@@ -125,9 +125,11 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 			$scope.runState = function() {
 				$timeout(function() {
 					$scope.state++;
-					$element.attr('src', $scope.timings[$scope.state].src);
-					if ($scope.timings[$scope.state].time > 0) {
-						$scope.runState();
+					if ($scope.timings[$scope.state]) {
+						$element.attr('src', $scope.timings[$scope.state].src);
+						if ($scope.timings[$scope.state].time > 0) {
+							$scope.runState();
+						}
 					}
 				}, $scope.timings[$scope.state].time);
 			};
@@ -217,6 +219,7 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.difficulty = 2;
 	$scope.showLiving = false;
 	$scope.mode = 'loading';
+	$scope.famousIds = 'KNDX-MKG,LZJW-C31,L7RV-G3V,LJJZ-84G,LRK2-TM1,L7GY-8LD,KJZ7-VRC,L44Y-TR1,LWY6-35J';
 	$scope.portrait = window.portrait;
 	$scope.windowWidth = window.outerWidth;
 	familysearchService.fsLoginStatus().then(function(fsUser){
@@ -369,9 +372,42 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$scope.mode = "choose";
 	};
 
+	$scope.showLoadedTree = function() {
+		$scope.mode = 'tree';
+	};
+
 	$scope.showTree = function(person) {
 		$scope.mode = 'loading';
 		$scope.getTree(person.id, 4, 1);
+	};
+
+	$scope.showSearch = function() {
+		$scope.mode = 'search';
+	};
+
+	$scope.showFamous = function() {
+		if (!$scope.famousPeople) {
+			$scope.mode = 'loading';
+			familysearchService.getPeopleById($scope.famousIds).then(function(people) {
+				$scope.mode = 'famous';
+				$scope.famousPeople = people;
+				angular.forEach($scope.famousPeople, function(person) {
+					familysearchService.getPersonPortrait(person.id).then(function(path) {
+						person.portrait = path.src;
+					},function(error){
+						if (person.gender.type=="http://gedcomx.org/Female") {
+							person.portrait = '/images/female_sil.png';
+						} else if (person.gender.type=="http://gedcomx.org/Male") {
+							person.portrait = '/images/male_sil.png';
+						} else {
+							person.portrait = '/images/unknown_sil.png';
+						}
+					});
+				});
+			}, function(err) {});
+		} else {
+			$scope.mode = 'famous';
+		}
 	};
 	
 	$scope.searchForPerson = function() {
@@ -402,7 +438,15 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 						var person = entry.content.gedcomx.persons[0];
 						familysearchService.getPersonPortrait(person.id).then(function(path) {
 							person.portrait = path.src;
-						}, function(error) { })
+						}, function(error) {
+							if (person.gender.type=="http://gedcomx.org/Female") {
+								person.portrait = '/images/female_sil.png';
+							} else if (person.gender.type=="http://gedcomx.org/Male") {
+								person.portrait = '/images/male_sil.png';
+							} else {
+								person.portrait = '/images/unknown_sil.png';
+							}
+						 });
 					});
 				} else {
 					$scope.search.error = "No results matched your search.";
@@ -608,7 +652,22 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		textField.select();
 		document.execCommand('copy');
 		textField.remove();
+	};
+
+	$scope.shareable = false;
+	if (navigator && navigator.share) {
+		$scope.shareable = true;
 	}
+	$scope.shareNative = function() {
+		var link = "http://genquizlive.com/?id="+$scope.genQuizRound.id;
+		navigator.share({
+			title: 'GenQuizitive Live!',
+			text: 'Your friend has invited you to join their GenQuiz Live! game for '+$scope.person.display.name,
+			url: link,
+		})
+		  .then(() => console.log('Successful share'))
+		  .catch((error) => console.log('Error sharing', error));
+	};
 
 	$scope.startGame = function() {
 		if (!$scope.players || $scope.players.length==0) {
@@ -664,30 +723,37 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		scope: {
 			genQuizRound: '='
 		},
-		template: '<div contenteditable="true" class="editable-id">{{genQuizRound.id}}</div>\
+		template: '<div contenteditable="true" class="editable-id"></div>\
 			<div class="alert alert-danger" ng-show="genQuizRound.error">{{genQuizRound.error}}</div>',
 		link: function($scope, $element, $attrs) {
-			var d = $element.children(".editable-id").on('blur keypress', function() {
+			var edit = $element.children(".editable-id");
+			edit.text($scope.genQuizRound.id);
+			var d = edit.on('blur', function(event) {
 				var text = $(this).text();
 				$scope.genQuizRound.id = text.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+				edit.text($scope.genQuizRound.id);
 				$scope.checkGameId();
 			});
 
 			$scope.checkGameId = function() {
 				$http.get('/badwordfilter.php?text='+encodeURIComponent($scope.genQuizRound.id)).then(function(response) {
 					$scope.genQuizRound.id = response.data;
+					edit.text($scope.genQuizRound.id);
 					if ($scope.genQuizRound.id.length < 4) {
 						$scope.genQuizRound.error = "The id must be at least 4 characters long.";
+						edit.select();
 						return;
 					}
 					if ($scope.genQuizRound.id.length > 31) {
 						$scope.genQuizRound.error = "The id must be less than 32 characters long.";
+						edit.select();
 						return;
 					}
 				
 					backendService.checkId($scope.genQuizRound.id).then(function(exists) {
 						if (exists) {
 							$scope.genQuizRound.error = "This id is unavailable.  Please enter another game id.";
+							edit.select();
 						} else {
 							$scope.genQuizRound.error = null;
 						}
