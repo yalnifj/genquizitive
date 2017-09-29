@@ -1688,6 +1688,16 @@ div.buttonspacer {
 	height: 120px;
 }
 
+.fhf-banner {
+	background-color: white; height: 100px;
+}
+.fhf-banner img {
+	height: 90px; float: left; margin: 5px 10px 5px 5px;
+}
+.fhf-banner .main-text {
+	display: inline-block; width: 210px;
+}
+
 @media (max-width: 767px) {
 	.center-logo {
 		margin-left: 100px;
@@ -1723,6 +1733,16 @@ div.buttonspacer {
 }
 
 @media (max-width: 350px) {
+	.portrait .fhf-banner {
+		height: 80px;
+		font-size: 12px;
+	}
+	.fhf-banner img {
+		height: 75px; float: left; margin: 2px 10px 2px 2px;
+	}
+	.fhf-banner .main-text {
+		width: 165px;
+	}
 	.portrait .btn {
 		font-size: smaller;
 		padding: 4px 10px;

@@ -7,8 +7,12 @@ angular.module('genquiz-affiliates', [])
         {name: "ftdna", template: "/affiliates/ftdna-banner.html", clickUrl: "https://affiliate.familytreedna.com/idevaffiliate.php?id=1883_1_1_40"},
         {name: "fhfamazon", template: "/affiliates/fhf-banner.html", clickUrl: "https://www.amazon.com/gp/product/1542619351/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1542619351&linkCode=as2&tag=elloorkech-20&linkId=88f6bde10f60bd6b8e930b34f7057d7c"},
         {name: "fhfamazon2", template: "/affiliates/fhf-banner2.html", clickUrl: "https://www.amazon.com/gp/product/1547053518/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1547053518&linkCode=as2&tag=elloorkech-20&linkId=9a441e7f95066c577a9e82819aec4ebb"},
+        {name: "amazon3", template: "/affiliates/mce-banner.html", clickUrl: "https://www.amazon.com/gp/product/1523266961/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1523266961&linkCode=as2&tag=elloorkech-20&linkId=9cc4152676954afe1ed547d6401d891c"},
+        {name: "amazon4", template: "/affiliates/mce-banner2.html", clickUrl: "https://www.amazon.com/gp/product/B014RXIPR0/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B014RXIPR0&linkCode=as2&tag=elloorkech-20&linkId=fc4509d06713b06f576b097dd877eb40"},
         {name: "newspapers", template: "/affiliates/newspapers.html", clickUrl: "http://www.kqzyfj.com/click-8388174-11504315"},
-        {name: "fold3", template: "/affiliates/fold3-banner.html", clickUrl: "http://www.anrdoezrs.net/click-8388174-10929639"}
+        {name: "fold3", template: "/affiliates/fold3-banner.html", clickUrl: "http://www.anrdoezrs.net/click-8388174-10929639"},
+        {name: "findmypast", template: "/affiliates/fmp-banner.html", clickUrl: "https://www.awin1.com/cread.php?s=266154&v=2114&q=127007&r=414197"},
+        {name: "findmypastlg", template: "/affiliates/fmp-large-banner.html", clickUrl: "https://www.awin1.com/cread.php?s=265539&v=2114&q=126750&r=414197"}
         //{name: "macamazon", template: "/affiliates/mac-banner.html", clickUrl: ""}
     ];
 
@@ -22,7 +26,9 @@ angular.module('genquiz-affiliates', [])
         {name: "amazonmerch", template: "/affiliates/amerch.html", clickUrl: "https://www.amazon.com/dp/B072QN3717"},
         {name: "ftdna", template: "/affiliates/ftdna-large.html", clickUrl: "https://affiliate.familytreedna.com/idevaffiliate.php?id=1883_2_1_44"},
         {name: "newslarge", template: "/affiliates/news-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-11504321"},
-        {name: "fold3large", template: "/affiliates/fold3-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-10929309"}
+        {name: "fold3large", template: "/affiliates/fold3-large.html", clickUrl: "http://www.tkqlhce.com/click-8388174-10929309"},
+        {name: "fmplarge", template: "/affiliates/fmp-large.html", clickUrl: "https://www.awin1.com/cread.php?s=649130&v=2114&q=312354&r=414197"},
+        {name: "fmplarge2", template: "/affiliates/fmp-large2.html", clickUrl: "https://www.awin1.com/cread.php?s=265552&v=2114&q=126764&r=414197"}
         //{name: "fhfamazon", template: "/affiliates/fhf-large.html", clickUrl: ""},
         //{name: "macamazon", template: "/affiliates/mac-large.html", clickUrl: ""}
     ];
@@ -79,14 +85,15 @@ angular.module('genquiz-affiliates', [])
             $scope.adTemplate1 = $scope.banner1.template;
             $scope.styleWidth = {"width": "100%"};
             $scope.portrait = window.portrait;
+            $scope.largeBanners = ["newspapers","fold3","findmypastlg"]
             if (!window.portrait) {
                 $scope.styleWidth = {"width": "400px"};
-                if ($scope.banner1.name == "newspapers" || $scope.banner1.name == "fold3") {
+                if ($scope.largeBanners.indexOf($scope.banner1.name) >= 0) {
                     $scope.styleWidth = {"width": "100%"};
                 } else {
                     var count = 0;
                     $scope.banner2 = affiliateService.getRandomBanner();
-                    while(count < 5 && $scope.banner1.name == $scope.banner2.name) {
+                    while(count < 5 && ($scope.banner1.name == $scope.banner2.name || $scope.largeBanners.indexOf($scope.banner2.name) >= 0)) {
                         count++;
                         $scope.banner2 = affiliateService.getRandomBanner();
                     }
