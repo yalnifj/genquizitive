@@ -3,49 +3,17 @@ if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVE
     header('Location: https://www.genquizitive.com/live/#/live-join-game?'.$_SERVER['QUERY_STRING']);
 }
 ?>
-<!DOCTYPE html>
 <html>
 <head>
 	<link rel="icon" type="image/png" sizes="16x16" href="logo_blue_square.png">
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="description" content="GenQuizitive is a fun genealogy quiz game that helps families learn more about their family history as they play together.">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<!--link rel="stylesheet" href="genquizitive.css"-->
 	<link rel="stylesheet" href="genquizitive-site.css">
 	<title>GenQuizitive</title>
 	<script type="text/javascript">
-		var tag = document.createElement('script');
-		tag.id = 'iframe-demo';
-		tag.src = 'https://www.youtube.com/iframe_api';
-		var firstScriptTag = document.getElementsByTagName('script')[0];
-		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-		var player;
-		function onYouTubeIframeAPIReady() {
-			player = new YT.Player('videoiframe', {
-				events: {
-				  'onReady': onPlayerReady,
-				  'onStateChange': onPlayerStateChange
-				}
-			});
-		}
-		function onPlayerReady(event) {
-			if (document.cookie.indexOf("videoPlayed") < 0) {
-				document.cookie = "videoPlayed=true;";
-				//player.playVideo();
-			}
-		}
-		function onPlayerStateChange(event) {
-			
-		}
-		function togglePlaying() {
-			if (player.getPlayerState()!=1) {
-				player.playVideo();
-			} else {
-				player.pauseVideo();
-			}
-		}
-		
 		
 	function showContactForm() {
 	    $('#contactFormModal').modal('show')
@@ -122,61 +90,52 @@ if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVE
 </head>
 	
 <body>
-<!-- Navigation Bar -->
-<nav id="navBar" class="navbar navbar-default navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="socialbuttons">
-			<a class="socialmedia" href="https://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
-			<a class="socialmedia" href="http://www.instagram.com/genquizitive" title="Visit Genquizitive on Instagram"><i class="fa fa-instagram"></i></a>
-		</div>
-		<div class="navbar-header">
-			<a class="navbar-brand page-scroll" href="#page-top">
-				<img class="icon" src="logo-small.png" border="0" height="45" />
-			</a>
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-left">
-				<li><a class="page-scroll" href="#page-top">Home</a></li>
-				<li><a class="page-scroll" href="#games">Games</a></li>
-				<li><a href="questiontypes.html">Question Types</a></li>
-				<li><a class="page-scroll" href="#about">About Us</a></li>
-				<li>
-                    <a class="page-scroll" target="_blank" href="https://yellowfork.threadless.com/collections/genquizitive/">Logo Shirts & More</a>
-                </li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-<!-- Top of the page -->
-
 <section id="page-top">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-5 text-center top-logo-col">
+			<div class="col-sm-6">
+				<div class="road-sign">
+                <span class="big-word">GenQuizitive</span> is a <span class="big-word">FUN</span> genealogy quiz game that helps families 
+                learn more about their family history as they <span class="big-word">PLAY</span> together.
+                </div>
+                <div class="socialbuttons">
+                    Follow us on social<br />
+                    <a class="socialmedia" href="https://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
+                    <a class="socialmedia" href="http://www.instagram.com/genquizitive" title="Visit Genquizitive on Instagram"><i class="fa fa-instagram"></i></a>
+                    <a class="socialmedia" href="http://www.twitter.com/genquizitive" title="Visit Genquizitive on Twitter"><i class="fa fa-twitter"></i></a>
+                </div>
+			</div>
+			<div class="col-sm-6 text-center top-logo-col">
                 <img src="logo-med300.png" class="img-responsive top-logo" />
                 <p><a href="/live/"><img src="play-online.png" /></a></p>
 			</div>
-			<div class="col-sm-5">
-				<div id="video">
-					<iframe id="videoiframe" src="https://www.youtube.com/embed/nSe72kCHhes?controls=0&enablejsapi=1" frameborder="0" allowfullscreen=""></iframe>
-					<img id="tv" src="old-tv.png" onclick="togglePlaying()" />
-					<a id="youtubelink" href="https://www.youtube.com/watch?v=nSe72kCHhes" title="Open video in YouTube"><i class="fa fa-youtube-square" aria-hidden="true"></i></a>
-				</div>
-				<div class="road-sign">
-					The FUN and EXCITING Genealogy Quiz Game for the Whole Family! Who will you challenge to a GenQuiz?
-				</div>
-			</div>
-			
 		</div>
 	</div>
 </section>
+<section id="fh-fun" class="bg-primary text-center" style="margin-top: -20px;">
+    <h2>Make Family History FUN!</h2>
+    <p>GenQuizitive Live! is an online, live family tree quiz game for parties and small groups.  
+        It's great for family reunions!</p>
+    <div class="fun-details">
+        <h4>PLAY!</h4>
+        <p>Play and compete head-to-head with your family to find out who knows the most about your relatives.
+        Even if you don't know much about your tree, it is still FUN to play.</p>
+    </div>
+    <div class="fun-details">
+        <h4>LIVE!</h4>
+        <p>Everyone can join ONLINE and play together LIVE from anywhere in the world on their own device.
+        All that is required is an internet connection and a modern browser.</p>
+    </div>
+    <div class="fun-details">
+        <h4>LEARN!</h4>
+        <p>As you play, you will learn more about your relatives and how you are connected to them.
+        You will gain a greater knowledge and appreciation of their lives.</p>
+    </div>
+    <div style="font-size: medium; margin-top: 30px;">
+        Learn more about <a href="howtoplay-live.html" style="color: #adf;">How to Play</a> GenQuizitive Live!
+    </div>
+</section>
+<!--
 <section id="games" class="bg-primary" style="margin-top: -20px;">
 	<div class="text-center" style="font-size: 110%; min-height: 750px; padding-top: 50px; padding-bottom: 50px;">
         <div class="text-left" style="max-width: 750px; padding: 10px; margin-left: auto; margin-right: auto; margin-bottom: 40px;">
@@ -212,7 +171,12 @@ if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVE
 		</div>
 	</div>
 </section>
-
+<div id="video">
+					<iframe id="videoiframe" src="https://www.youtube.com/embed/nSe72kCHhes?controls=0&enablejsapi=1" frameborder="0" allowfullscreen=""></iframe>
+					<img id="tv" src="old-tv.png" onclick="togglePlaying()" />
+					<a id="youtubelink" href="https://www.youtube.com/watch?v=nSe72kCHhes" title="Open video in YouTube"><i class="fa fa-youtube-square" aria-hidden="true"></i></a>
+				</div>
+                -->
 
 <!-- Partners
 <section class="bg-primary" id="partners">
@@ -251,15 +215,10 @@ if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVE
 -->
 <!-- About -->
 <section id="about">
-    <a href="#page-top" class="page-scroll to-top" title="back to top"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
         <div class="row">
             <div class="contact-section col-lg-3 col-lg-offset-2 col-sm-offset-1 col-sm-3 text-center">
 				<p>&nbsp;</p>
                 <button type="button" onclick="showContactForm(); return false;" class="btn btn-primary">Contact Us!</button>
-				<div class="fb-button">
-					<a class="socialmedia" href="https://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
-					<br/>Follow us on Facebook
-				</div>
             </div>
 			<div class="contact-section col-lg-3 col-sm-3 text-center">
                 <h3>Logo Shirts and More!</h3>
@@ -433,9 +392,6 @@ if (strpos($_SERVER['HTTP_HOST'], "genquizlive.com") !== false || strpos($_SERVE
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="jquery.easing.min.js"></script>
 
 </body>
 	

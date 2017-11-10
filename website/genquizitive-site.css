@@ -2,21 +2,49 @@
 body {
 	background-color: #f6f6f6;
 }
+.big-word {
+	font-size: larger;
+}
 .navbar-brand {
     line-height: 48px;
     padding-top: 0px;
 }
 #page-top {
-	margin-top: 50px;
+	margin-top: 0px;
 	background-image: url("/images/home_background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
+	padding-bottom: 30px;
 }
 #play-button {
 	width: 10vw;
 	position: absolute;
 	float: left;
+}
+#fh-fun {
+	padding: 20px 60px;
+	font-size: 22px;
+}
+#fh-fun h2 {
+	text-transform: uppercase;
+	font-size: 40px;
+	font-weight: 900;
+	text-shadow: -4px 4px 0 rgba(0,0,0,0.25)
+}
+.fun-details {
+	border-radius: 12px;
+	margin: 10px;
+	background-color: white;
+	display: inline-block;
+	width: 20%;
+	color: #236a97;
+	min-height: 200px;
+	padding: 20px;
+}
+.fun-details p {
+	font-size: 16px;
+	text-align: justify;
 }
 .navbar-toggle {
 	float: left;
@@ -32,8 +60,11 @@ body {
 	margin-top: 30px;
 	margin-left: auto;
 	margin-right: auto;
+	width: 250px;
+    margin-bottom: 20px;
 }
 .road-sign {
+	display: block;
 	background-image: url('/images/roadsign.png');
     background-repeat: no-repeat;
 	background-size: contain;
@@ -42,12 +73,14 @@ body {
     font-size: 21px;
 	width: 100%;
 	min-height: 230px;
-	margin-top: 20px;
-	padding-top: 30px;
-	padding-bottom: 15px;
-	margin-left: 45px;
-	padding-left: 10px;
-	padding-right: 10px;
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
 	max-width: 380px;
 	min-width: 300px;
 }
@@ -80,23 +113,19 @@ body {
 }
 .container {
 	margin-bottom: 20px;
-	margin-top: 20px;
+	margin-top: 0px;
 }
 .socialbuttons {
-    position: absolute;
-    right: 10px;
-    top: -5px;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.75);
+	padding: 10px;
+	border-radius: 10px;
 }
 
 .socialmedia {
-    font-size: 40px;
-}
-.mainNave .socialmedia {
-    margin-top: 0px;
-    margin-right: 10px;
-    margin-bottom: 0px;
-    font-size: 35px;
-    line-height: 40px;
+	font-size: 40px;
+	display: inline-block;
+	margin: 5px;
 }
 
 header {
@@ -106,7 +135,7 @@ header {
 	color: #DDDDDD;
 }
 header .header-content, section .container, section .container-fluid{
-	width: 85%;
+	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -196,8 +225,7 @@ header .header-content, section .container, section .container-fluid{
 }
 
 .bg-primary {
-	background-color: #dadfff;
-	color: black;
+	color: white;
 }
 
 #videoiframe {
@@ -206,44 +234,14 @@ header .header-content, section .container, section .container-fluid{
 }
 
 @media (max-width: 767px) {
-	#navBar .container-fluid {
-		padding: 0px;
-	}
-	.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
-		margin: 0px;
-	}
-	.socialbuttons {
-		right: 25px;
-	}
 	header .header-content, section .container, section .container-fluid{
 		width: 95%;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.top-logo-col {
-		display: none;
-	}
-	#video {
-		margin-top: 20px;
-		padding: 36px 0px 0px 48px;
-		height: 200px;
-	}
-	#videoiframe {
-		width: 216px;
-		height: 123px;
-	}
-	#tv {
-		width: 360px;
-	}
-	#youtubelink {
-		left: 313px;
-		top: 135px;
-		font-size: 32px;
-		width: 31px;
-	}
-	.road-sign {
-		margin-top: 10px;
-		margin-left: auto;
-		margin-right: auto;
+}
+@media (max-width: 500px) {
+	.fun-details {
+		width: 80%;
 	}
 }

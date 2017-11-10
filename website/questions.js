@@ -354,6 +354,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			difficulty: 2,
 			error: null,
 			tryCount: 0,
+			canReset: true,
 			hints: ['freeze','skip','rollback'],
 			setup: function(difficulty, useLiving, startPerson) {
 				var deferred = $q.defer();
@@ -417,6 +418,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			},
 			checkAnswer: function(answer) {
 				
+			},
+			reset: function() {
+
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
@@ -852,6 +856,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			background: '/questions/tree/background.jpg',
 			difficulty: 2,
 			error: null,
+			canReset: true,
 			hints: ['freeze','skip','rollback'],
 			setup: function(difficulty, useLiving, startPerson) {
 				var question = this;
@@ -926,6 +931,9 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						person.portrait = '/images/unknown_sil.png';
 					}
 				});
+			},
+			reset: function() {
+
 			},
 			setupFromPersistence: function(roundQuestion) {
 				this.questionText = roundQuestion.questionText;
@@ -1400,16 +1408,23 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			treePerson: '='
 		},
 		link: function($scope, $element, $attr) {
-			if (!$scope.treePerson.display.inPlace) {
-				$element.draggable({
-					revert: "invalid", 
-					zIndex: 101,
-					start: function(event, ui) {
-						$scope.treePerson.originalPosition = ui.position;
-					}
-				})
-				.data('person', $scope.treePerson);
+			$scope.setup = function() {
+				if (!$scope.treePerson.display.inPlace) {
+					$element.draggable({
+						revert: "invalid", 
+						zIndex: 101,
+						start: function(event, ui) {
+							$scope.treePerson.originalPosition = ui.position;
+						}
+					})
+					.data('person', $scope.treePerson);
+				}
 			}
+			$scope.setup();
+
+			$scope.$on('questionReset', function() {
+				$scope.setup();
+			});
 		}
 	};
 }])
@@ -1462,6 +1477,18 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 					$element.addClass('active-tree-spot');
 				}
 			});
+
+			$scope.$on('questionReset', function() {
+				var dropper = $element.data('dropper');
+				if (dropper) {
+					dropper.draggable("option", "disabled", false);
+					dropper.addClass("movable");
+				}
+				$element.removeClass('inactive-tree-spot');
+				$element.addClass('active-tree-spot');
+				$element.data('dropper', null);
+				$element.droppable( "option", "disabled", false );
+			});
 		}
 	};
 }])
@@ -1481,6 +1508,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 	$scope.questionText = '';
 	
 	$scope.$watch('question.people', function() {
+		$scope.setupTree();
+	});
+
+	$scope.setupTree = function() {
 		$scope.portrait = window.portrait;
 		if ($scope.question.people && $scope.question.people.length > 0) {
 			$scope.people = [];
@@ -1566,7 +1597,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			}
 			$scope.questionText = $scope.question.questionText;
 		}
-	});
+	};
 	
 	$scope.checkTree = function() {
 		var correct = true;
@@ -1581,6 +1612,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			$scope.$emit('questionCorrect', $scope.question);
 		}
 	}
+
+	$scope.$on('questionReset', function() {
+		$scope.setupTree();
+	});
 })
 .directive('sortableTimeline', [function() {
 	return {
@@ -1976,6 +2011,7 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						+ rel + " of "+$scope.question.startPerson.display.name;
 				}
 				//console.log('connect question complete');
+				$scope.$emit('pause');
 				window.setTimeout(function() {
 					$scope.$emit('questionCorrect', $scope.question);
 				}, 3000);
@@ -2002,5 +2038,17 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 			}
 		}
 	};
+
+	$scope.$on('questionReset', function() {
+		$scope.levels = [];	
+		var level = {
+			person: $scope.question.startPerson,
+			ascendancyNumber: 1,
+			css: 'connect-center'
+		};
+		$scope.question.startPerson.display.ascendancyNumber = 1;
+		$scope.fillLevel(level);
+		$scope.levels.push(level);
+	});
 })
 ;

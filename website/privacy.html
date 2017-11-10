@@ -37,40 +37,19 @@
 <!-- Navigation Bar -->
 <nav id="navBar" class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
-		<div class="socialbuttons">
-			<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
-		</div>
-		<div class="navbar-header">
-			<a class="navbar-brand page-scroll" href="#page-top">
-				<img class="icon" src="logo.png" border="0" height="45" />
-			</a>
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-left">
-				<li><a href="index.html">Home</a></li>
-				<!--<li><a class="page-scroll" href="#video">Video</a></li>-->
-				<li><a href="home.html">Play</a></li>
-				<li><a href="howtoplay.html#howto">How To Play</a></li>
-				<li><a href="questiontypes.html">Question Types</a></li>
-				<!--<li><a class="page-scroll" href="#partners">Partners</a></li>-->
-				<li><a href="index.html#about">About Us</a></li>
-				<!--<li><a class="page-scroll" href="news.html">News</a></li>-->
+				<li><a href="/">Home</a></li>
+				<li><a href="/live/">Play Online!</a></li>
 			</ul>
 		</div>
 	</div>
 </nav>
 
-
 <div class="content-start container text-center" id="error">
     <div class="row" style="margin-bottom: 15px; margin-top: 40px;">
         <div class="col-sm-2">
-            <a href="index.html">
+            <a href="/">
                 <img border="0" src="logo-med300.png" style="width: 100px;"/>
             </a>
         </div>
@@ -106,12 +85,6 @@
 				the game and will be deleted from servers and devices when it is no longer needed for game play. 
                 Family Tree data will not be transmitted to any third parties.</p>
 
-			<p>If you connect a GenQuizitive application to your social network, such as Facebook, we only store 
-			information as required to play the game such as who you have challenged to a round in the game. If we need
-			any personal information such as your name, or list of friends we will request it on demand from you're social network
-            and will not store it. Some social networks may track how you use our applications.  Refer to your social network's policies
-            to find what data they might collect.
-			</p>
             <p>We will only contact you if you explicitly give us permission to by opting into a
                 mailing or distribution list.</p>
             <p></p>
@@ -127,14 +100,11 @@
                 social media features. 
                 Information about your use of our site may be shared with these third-parties who may combine 
                 it with other information you’ve provided to them or they’ve collected from your use of their services.</p>
-            <p>Advertizing is provided through Google. Refer to <a href="https://www.google.com/intl/en/policies/privacy/partners/">
-            how Google uses data</a> for more details.</p>
             <p></p>
             <h4>Your Access to and Control Over Information&nbsp;</h4>
 
             <p>You may opt out of any future contacts from us at any time. You can do the following
                 at any time by contacting us via email:</p>
-
             <p></p>
 
             <p>&nbsp; &nbsp;&bull; See what data we have about you, if any.</p>
@@ -158,7 +128,6 @@
             <p>We take precautions to protect your information. When you submit sensitive
                 information via the website, your information is protected both online and
                 offline.</p>
-
             <p></p>
 
             <p>While we use encryption to protect sensitive information transmitted online, we also
@@ -192,21 +161,5 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<!-- Plugin JavaScript -->
-<script src="jquery.easing.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        // jQuery for page scrolling feature - requires jQuery Easing plugin
-        $('a.page-scroll').bind('click', function(event) {
-            var $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: ($($anchor.attr('href')).offset().top - 50)
-            }, 1250, 'easeInOutExpo');
-            event.preventDefault();
-        });
-    });
-
-</script>
 </body>
 </html>

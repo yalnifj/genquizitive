@@ -933,17 +933,19 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 	$scope.blinkerStarted = false;
+	$scope.paused = false;
+	$scope.audio = null;
 
 	$scope.interval = $interval(function() {
 		if ($scope.interval && $scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
-			if ($scope.question && $scope.question.isReady) {
+			if (!$scope.paused && $scope.question && $scope.question.isReady) {
 				var d = new Date();
 				var diff = $scope.maxTime - (d.getTime() - $scope.startTime.getTime() - ($scope.loadingTime*1000));
 				$scope.minute = Math.floor(diff / (1000*60));
 				$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
 				if (diff <= 10000 && !$scope.blinkerStarted) {
-						var audio = new Audio('/live/blinker.mp3');
-						audio.play();
+						$scope.audio = new Audio('/live/blinker.mp3');
+						$scope.audio.play();
 						$scope.blinkerStarted = true;
 					}
 				if (diff <= 0) {
@@ -1052,7 +1054,17 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		});
 	};
 
+	$scope.reset = function() {
+		if ($scope.question.canReset) {
+			$scope.question.reset();
+			$scope.$broadcast('questionReset');
+		}
+	};
+
 	$scope.$on('questionCorrect', function(event, question) {
+		if ($scope.audio) {
+			$scope.audio.pause();
+		}
 		var audio = new Audio('/live/car_horn3.mp3');
 		audio.play();
 		$scope.nextQuestion();
@@ -1062,6 +1074,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		$scope.missedQuestions++;
 		var audio = new Audio('/live/car_horn2.mp3');
 		audio.play();
+	});
+
+	$scope.$on('pause', function(event) {
+		$scope.paused = true;
 	});
 
 	$scope.$on('$destroy', function() {
@@ -1099,6 +1115,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 	$scope.missedQuestions = 0;
 	$scope.startTime = new Date();
 	$scope.blinkerStarted = false;
+	$scope.paused = false;
+	$scope.audio = null;
 
 	$scope.interval = $interval(function() {
 		if ($scope.interval && $scope.startTime && $scope.currentQuestion < $scope.maxQuestions) {
@@ -1109,8 +1127,8 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 					$scope.minute = Math.floor(diff / (1000*60));
 					$scope.second = Math.floor(diff / 1000) - ($scope.minute * 60);
 					if (diff <= 10000 && !$scope.blinkerStarted) {
-						var audio = new Audio('/live/blinker.mp3');
-						audio.play();
+						$scope.audio = new Audio('/live/blinker.mp3');
+						$scope.audio.play();
 						$scope.blinkerStarted = true;
 					}
 					if (diff <= 0) {
@@ -1181,7 +1199,17 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 		});
 	};
 
+	$scope.reset = function() {
+		if ($scope.question.canReset) {
+			$scope.question.reset();
+			$scope.$broadcast('questionReset');
+		}
+	};
+
 	$scope.$on('questionCorrect', function(event, question) {
+		if ($scope.audio) {
+			$scope.audio.pause();
+		}
 		// update score and go to wait screen
 		$scope.saveScore();
 		var audio = new Audio('/live/car_horn3.mp3');
@@ -1197,6 +1225,10 @@ angular.module('genquizitive-live', ['ngRoute','ngCookies','ngAnimate','ui.boots
 				$location.path('/live-scoreboard');
 			}
 		}, 3000);
+	});
+
+	$scope.$on('pause', function(event) {
+		$scope.paused = true;
 	});
 	
 	$scope.$on('questionIncorrect', function(event, question) {

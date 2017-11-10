@@ -38,28 +38,10 @@
 <!-- Navigation Bar -->
 <nav id="navBar" class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
-		<div class="socialbuttons">
-			<a class="socialmedia" href="http://www.facebook.com/Genquizitive" title="Visit Genquizitive on Facebook"><i class="fa fa-facebook-square"></i></a>
-			<a class="socialmedia" href="http://www.instagram.com/genquizitive" title="Visit Genquizitive on Instagram"><i class="fa fa-instagram"></i></a>
-		</div>
-		<div class="navbar-header">
-			<a class="navbar-brand page-scroll" href="index.html#page-top">
-				<img class="icon" src="logo-small.png" border="0" height="45" />
-			</a>
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-left">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="index.html#games">Games</a></li>
-				<li><a href="questiontypes.html">Question Types</a></li>
-				<li><a href="index.html#about">About Us</a></li>
-				<li><a class="page-scroll" target="_blank" href="https://yellowfork.threadless.com/collections/genquizitive/">Logo Shirts & More</a></li>
+				<li><a href="/">Home</a></li>
+				<li><a href="/live/">Play Online!</a></li>
 			</ul>
 		</div>
 	</div>
@@ -69,7 +51,7 @@
 <div class="content-start container text-center" id="error">
     <div class="row" style="margin-bottom: 15px; margin-top: 40px;">
         <div class="col-sm-2">
-            <a href="index.html">
+            <a href="/">
                 <img border="0" src="/live/live-logo.gif" style="width: 100px;"/>
             </a>
         </div>
@@ -226,21 +208,5 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<!-- Plugin JavaScript -->
-<script src="jquery.easing.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        // jQuery for page scrolling feature - requires jQuery Easing plugin
-        $('a.page-scroll').bind('click', function(event) {
-            var $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: ($($anchor.attr('href')).offset().top - 50)
-            }, 1250, 'easeInOutExpo');
-            event.preventDefault();
-        });
-    });
-
-</script>
 </body>
 </html>
