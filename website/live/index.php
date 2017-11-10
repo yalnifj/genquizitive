@@ -39,7 +39,13 @@ session_start();
 <script src="/familytree.js"></script>
 <script src="/affiliates.js"></script>
 <script>
+	function supported() {
+		return !!document.createElement('canvas').getContext;
+	}
 	$(document).ready(function() {
+		if (!supported()) {
+			$('.showthelove').show();
+		}
 		if (isMobile()) {
 			$.getScript("/jquery.ui.touch-punch.min.js");
 		}
@@ -111,6 +117,10 @@ body {
 	</script>
 	
 	<div ng-view></div>
+
+	<div class="showthelove" style="display: none">
+		<p>We are sorry, but this browser does not have the features required to play GenQuizitive.</p>
+	</div>
 
 </body>
 </html>
