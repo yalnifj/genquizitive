@@ -223,6 +223,10 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						var r = Math.floor(Math.random() * question.person.facts.length);
 						question.fact = question.person.facts[r];
 						var good = true;
+						if (question.difficulty < 3 && question.fact.type=='http://gedcomx.org/Residence') {
+							good = false;
+							count++;
+						}
 						if (question.fact.type=='http://gedcomx.org/Birth' || question.fact.type=='http://gedcomx.org/Death') {
 							if (!question.fact.date && !question.fact.place) {
 								good = false;
@@ -1450,9 +1454,11 @@ angular.module('genquiz.questions', ['genquiz.familytree', 'ui.bootstrap'])
 						ui.draggable.draggable("option", "disabled", true);
 						ui.draggable.removeClass("movable");
 						$element.addClass('active-tree-spot');
+						$element.removeClass('inactive-tree-spot');
 					} else {
 						person.display.inPlace = false;
 						$element.addClass('inactive-tree-spot');
+						$element.removeClass('active-tree-spot');
 					}
 					$element.data('dropper', ui.draggable);
 					$element.data('person', person);
